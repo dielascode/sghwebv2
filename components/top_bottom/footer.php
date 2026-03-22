@@ -12,20 +12,20 @@
         </div>
         <div class="footer2">
             <p class="judul-footer">Navigasi</p>
-            <a href="#" onclick="loadPage('/components/pages/main.html')">Beranda</a>
-            <a href="#" onclick="loadPage('/components/pages/tentang.html')">Tentang</a>
-            <a href="#" onclick="loadPage('components/pages/produk.html')">Produk</a>
-            <a href="#" onclick="loadPage('components/pages/mitra-daftar.html')">Mitra</a>
-            <a href="#" onclick="loadPage('components/pages/berita.html')">Berita</a>
-            <a href="#" onclick="loadPage('components/pages/galeri.html')">Galeri</a>
-            <a href="#" onclick="loadPage('components/pages/hubungi.html')">Hubungi Kami</a>
+            <a href="#" onclick="loadPage('/components/pages/main.php')">Beranda</a>
+            <a href="#" onclick="loadPage('/components/pages/tentang.php')">Tentang</a>
+            <a href="#" onclick="loadPage('components/pages/produk.php')">Produk</a>
+            <a href="#" onclick="loadPage('components/pages/mitra-daftar.php')">Mitra</a>
+            <a href="#" onclick="loadPage('components/pages/berita.php')">Berita</a>
+            <a href="#" onclick="loadPage('components/pages/galeri.php')">Galeri</a>
+            <a href="#" onclick="loadPage('components/pages/hubungi.php')">Hubungi Kami</a>
         </div>
         <div class="footer3">
             <p class="judul-footer">Layanan</p>
-            <a href="#" onclick="loadPage('/components/pages/layanan-magang.html')">Magang</a>
-            <a href="#" onclick="loadPage('/components/pages/layanan-praktik.html')">Praktik</a>
-            <a href="#" onclick="loadPage('/components/pages/layanan-penelitian.html')">Penelitian</a>
-            <a href="#" onclick="loadPage('/components/pages/layanan-studibanding.html')">Studi Banding</a>
+            <a href="#" onclick="loadPage('/components/pages/layanan-magang.php')">Magang</a>
+            <a href="#" onclick="loadPage('/components/pages/layanan-praktik.php')">Praktik</a>
+            <a href="#" onclick="loadPage('/components/pages/layanan-penelitian.php')">Penelitian</a>
+            <a href="#" onclick="loadPage('/components/pages/layanan-studibanding.php')">Studi Banding</a>
         </div>
         <div class="footer4">
             <p class="judul-footer">Hubungi</p>
