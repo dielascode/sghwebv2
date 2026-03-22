@@ -23,7 +23,7 @@
             <img src="images/galeri/delapan.png" alt="gambar1">
         </div>
         <div class="studibanding2-item">
-            <img src="/images/praktikum/Praktikum.png" alt="gambar2">
+            <img src="images/praktikum/Praktikum.png" alt="gambar2">
         </div>
         <div class="studibanding2-item">
             <img src="images/galeri/delapanbelas.jpeg" alt="gambar3">

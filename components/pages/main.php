@@ -19,11 +19,11 @@
 <section id="tentang-beranda">
     <div class="tentang-beranda-left">
         <div class="tentang-beranda-left-left">
-            <img class="image-satu d-none d-lg-block" src="/images/beranda/beranda2.png" alt="" srcset="">
-            <img class="image-dua d-none d-lg-block" src="/images/beranda/beranda3.png" alt="" srcset="">
+            <img class="image-satu d-none d-lg-block" src="images/beranda/beranda2.png" alt="" srcset="">
+            <img class="image-dua d-none d-lg-block" src="images/beranda/beranda3.png" alt="" srcset="">
         </div>
         <div class="tentang-beranda-left-right d-none d-lg-block">
-            <img src="/images/beranda/beranda1.png" alt="" srcset="">
+            <img src="images/beranda/beranda1.png" alt="" srcset="">
         </div>
     </div>
     <div class="tentang-beranda-right">
@@ -43,7 +43,7 @@
     </div>
     <div class="grid-layanan-beranda">
         <div class="layanan-child">
-            <img src="/images/magang/Magang.png" alt="" srcset="">
+            <img src="images/magang/Magang.png" alt="" srcset="">
             <div class="layanan-child-desc">
                 <h2 class="judul-layanan-child">Layanan Magang</h2>
                 <p>Program Magang di Smart Green House merupakan kesempatan 
@@ -66,10 +66,10 @@
                     di bidang pertanian cerdas berbasis Internet of Things (IoT).</p>
                 <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-penelitian.php')">Selengkapnya</a></button>
             </div>
-            <img src="/images/penelitian/Penelitian.png" alt="" srcset="">
+            <img src="images/penelitian/Penelitian.png" alt="" srcset="">
         </div>
         <div class="layanan-child">
-            <img src="/images/praktikum/Praktikum.png" alt="" srcset="">
+            <img src="images/praktikum/Praktikum.png" alt="" srcset="">
             <div class="layanan-child-desc">
                 <h2 class="judul-layanan-child">Layanan Praktikum</h2>
                 <p>Program Praktikum Smart Green House menawarkan kesempatan 
@@ -89,7 +89,7 @@
                     diimplementasikan.</p>
                 <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-studibanding.php')">Selengkapnya</a></button>
             </div>
-            <img src="/images/studibanding/kunjungan.jpg" alt="" srcset="">
+            <img src="images/studibanding/kunjungan.jpg" alt="" srcset="">
         </div>
     </div>
 </section>
@@ -216,3 +216,4 @@
         </div>
     </div>
 </section>
+

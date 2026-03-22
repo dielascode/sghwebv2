@@ -16,12 +16,12 @@
 
         <div class="circle-bg"></div>
         <div class="logo-circle">
-            <img src="/images/mitra/logo-ewindo.png" alt="Logo EWINDO">
+            <img src="images/mitra/logo-ewindo.png" alt="Logo EWINDO">
         </div>
 
         <div class="ewindo-right">
             <div class="ewindo-bg">
-                <img src="/images/mitra/bg1.jpg" alt="BG">
+                <img src="images/mitra/bg1.jpg" alt="BG">
                 <div class="bg-gradient"></div>
             </div>
 
@@ -48,19 +48,19 @@
 <section class="benefit-container">
         <div class="benefit-item">
             <p>Peningkatan Pendapat</p>
-            <img src="/images//mitra/profit.png" alt="=benefit1">
+            <img src="images//mitra/profit.png" alt="=benefit1">
         </div>
         <div class="benefit-item">
             <p>Efisiensi Biaya Operasional</p>
-            <img src="/images/mitra/benefit.png" alt="=benefit2">
+            <img src="images/mitra/benefit.png" alt="=benefit2">
         </div>
         <div class="benefit-item">
             <p>Kualitas Terbaik</p>
-            <img src="/images/mitra/kualitas.png" alt="=benefit3">
+            <img src="images/mitra/kualitas.png" alt="=benefit3">
         </div>
         <div class="benefit-item">
             <p>Pertumbuhan Berkelanjutan</p>
-            <img src="/images/mitra/pertumbuhan.png" alt="=benefit4">
+            <img src="images/mitra/pertumbuhan.png" alt="=benefit4">
         </div>
     </div>
 </section>
@@ -79,3 +79,4 @@
             class="cta-button btn-main-hijau" target="_blank" role="button">DAFTAR SEKARANG</a>
     </div>
 </section>
+

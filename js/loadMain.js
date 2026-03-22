@@ -1,4 +1,4 @@
-loadPage("/components/pages/main.php");
+loadPage("./components/pages/main.php");
 
 function loadPage(page) {
   fetch(page)

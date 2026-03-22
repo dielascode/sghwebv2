@@ -7,19 +7,19 @@
     <title>Smart Green House</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/style/navbarStyle.css">
-    <link rel="stylesheet" href="/style/mainStyles.css">
-    <link rel="stylesheet" href="/style/tentangStyles.css">
-    <link rel="stylesheet" href="/style/galeriStyles.css">
-    <link rel="stylesheet" href="/style/produkStyles.css">
-    <link rel="stylesheet" href="/style/hubungiStyles.css">
-    <link rel="stylesheet" href="/style/footerStyles.css">
-    <link rel="stylesheet" href="/style/layananMagangStyles.css">
-    <link rel="stylesheet" href="/style/layananPenelitianStyles.css">
-    <link rel="stylesheet" href="/style/layananPraktikStyles.css">
-    <link rel="stylesheet" href="/style/layananStudibandingStyle.css">
-    <link rel="stylesheet" href="/style/daftarMitraStyles.css">
-    <link rel="stylesheet" href="/style/beritaStyles.css">
+    <link rel="stylesheet" href="style/navbarStyle.css">
+    <link rel="stylesheet" href="style/mainStyles.css">
+    <link rel="stylesheet" href="style/tentangStyles.css">
+    <link rel="stylesheet" href="style/galeriStyles.css">
+    <link rel="stylesheet" href="style/produkStyles.css">
+    <link rel="stylesheet" href="style/hubungiStyles.css">
+    <link rel="stylesheet" href="style/footerStyles.css">
+    <link rel="stylesheet" href="style/layananMagangStyles.css">
+    <link rel="stylesheet" href="style/layananPenelitianStyles.css">
+    <link rel="stylesheet" href="style/layananPraktikStyles.css">
+    <link rel="stylesheet" href="style/layananStudibandingStyle.css">
+    <link rel="stylesheet" href="style/daftarMitraStyles.css">
+    <link rel="stylesheet" href="style/beritaStyles.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
     <!-- <link rel="stylesheet" href="/style/eventStyles.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,12 +35,12 @@
 
     <div id="footer"></div>
 
-    <script src="/js/loadNavbarFooter.js"></script>
-    <script src="/js/loadMain.js"></script>
-    <script src="/js/fetchData/testimoni.js"></script>
-    <script src="/js/fetchData/galeri.js"></script>
-    <script src="/js/fetchData/berita.js"></script>
-    <script src="/js/fetchData/produk.js"></script>
+    <script src="js/loadNavbarFooter.js"></script>
+    <script src="js/loadMain.js"></script>
+    <script src="js/fetchData/testimoni.js"></script>
+    <script src="js/fetchData/galeri.js"></script>
+    <script src="js/fetchData/berita.js"></script>
+    <script src="js/fetchData/produk.js"></script>
     <!-- <a href="https://wa.me/6281357026595" class="wa-floating" target="_blank">
     <i class="fa-brands fa-whatsapp"></i></a> -->
 </a>

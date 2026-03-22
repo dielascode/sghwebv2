@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="top-footer">
         <div class="footer1">
-            <img src="/images/navbar/logosghputih.png" alt="" srcset="">
+            <img src="images/navbar/logosghputih.png" alt="" srcset="">
             <p>Smart Green House (SGH) Polije adalah fasilitas inovatif berbasis teknologi IoT yang digunakan untuk
                 mengontrol iklim dan irigasi tanaman secara otomatis.</p>
             <div class="sosmed">
@@ -12,8 +12,8 @@
         </div>
         <div class="footer2">
             <p class="judul-footer">Navigasi</p>
-            <a href="#" onclick="loadPage('/components/pages/main.php')">Beranda</a>
-            <a href="#" onclick="loadPage('/components/pages/tentang.php')">Tentang</a>
+            <a href="#" onclick="loadPage('components/pages/main.php')">Beranda</a>
+            <a href="#" onclick="loadPage('components/pages/tentang.php')">Tentang</a>
             <a href="#" onclick="loadPage('components/pages/produk.php')">Produk</a>
             <a href="#" onclick="loadPage('components/pages/mitra-daftar.php')">Mitra</a>
             <a href="#" onclick="loadPage('components/pages/berita.php')">Berita</a>
@@ -22,10 +22,10 @@
         </div>
         <div class="footer3">
             <p class="judul-footer">Layanan</p>
-            <a href="#" onclick="loadPage('/components/pages/layanan-magang.php')">Magang</a>
-            <a href="#" onclick="loadPage('/components/pages/layanan-praktik.php')">Praktik</a>
-            <a href="#" onclick="loadPage('/components/pages/layanan-penelitian.php')">Penelitian</a>
-            <a href="#" onclick="loadPage('/components/pages/layanan-studibanding.php')">Studi Banding</a>
+            <a href="#" onclick="loadPage('components/pages/layanan-magang.php')">Magang</a>
+            <a href="#" onclick="loadPage('components/pages/layanan-praktik.php')">Praktik</a>
+            <a href="#" onclick="loadPage('components/pages/layanan-penelitian.php')">Penelitian</a>
+            <a href="#" onclick="loadPage('components/pages/layanan-studibanding.php')">Studi Banding</a>
         </div>
         <div class="footer4">
             <p class="judul-footer">Hubungi</p>
@@ -48,3 +48,4 @@
     <div class="bottom-footer"> <a href="https://www.instagram.com/cumlaude_5.1?igsh=MWZkbG45ZjZ2dDMycQ=="> &copy; 2025 Team Cumlaude 5.1. All rights reserved.</a>
     </div>
 </footer>
+
