@@ -2,7 +2,7 @@
     {
         "id": 1,
         "nama": "Melon Sweet Net",
-        "image": "/images/produk/produk1.png",
+        "image": "images/produk/produk1.png",
         "deskirpsi": "Melon Sweet Net adalah salah satu varietas melon premium yang dikenal karena kombinasi rasa manis yang tinggi dan teksturnya yang renyah (crunchy). Melon ini awalnya berasal dari Thailand dan Vietnam, namun kini banyak dibudidayakan di dalam negeri.",
         "harga": 30000,
         "stok": 20
@@ -10,7 +10,7 @@
     {
         "id": 2,
         "nama": "Melon Honey Globe",
-        "image": "/images/produk/produk2.png",
+        "image": "images/produk/produk2.png",
         "deskirpsi": "Melon Honey Globe adalah varietas melon hibrida premium (F1) yang dikembangkan oleh produsen benih terkenal. Melon ini dikenal karena karakteristiknya yang berbeda dari melon berjaring (net) dan termasuk dalam kelompok melon hijau atau Honeydew.",
         "harga": 30000,
         "stok": 50
@@ -18,7 +18,7 @@
     {
         "id": 3,
         "nama": "Melon Lavender",
-        "image": "/images/produk/produk3.png",
+        "image": "images/produk/produk3.png",
         "deskirpsi": "Melon Sweet Lavender adalah varietas melon hibrida premium (F1) yang sangat populer karena kombinasi rasa dan teksturnya yang unik. Melon ini sering dibudidayakan secara modern, termasuk dengan sistem hidroponik.",
         "harga": 30000,
         "stok": 30
@@ -26,7 +26,7 @@
     {
         "id": 4,
         "nama": "Melon D165",
-        "image": "/images/produk/produk4.png",
+        "image": "images/produk/produk4.png",
         "deskirpsi": "Melon Sweet D-165 adalah varietas melon hibrida premium yang benihnya umumnya diimpor, dikenal sebagai bagian dari Sweet Series. Melon ini banyak diminati dan dibudidayakan oleh petani milenial di Indonesia, seringkali menggunakan metode greenhouse atau hidroponik.",
         "harga": 30000,
         "stok": 30
@@ -34,7 +34,7 @@
     {
         "id": 5,
         "nama": "Melon Kirin",
-        "image": "/images/produk/produk5.png",
+        "image": "images/produk/produk5.png",
         "deskirpsi": "Melon Kirin adalah varietas melon hibrida F1 premium yang dikembangkan oleh sebuah perusahaan benih terkemuka. Melon ini sangat dikenal dan banyak dibudidayakan di Indonesia, seringkali menggunakan sistem modern seperti greenhouse atau polybag.",
         "harga": 30000,
         "stok": 30
@@ -42,7 +42,7 @@
     {
         "id": 6,
         "nama": "Melon Inthanon",
-        "image": "/images/produk/produk6.png",
+        "image": "images/produk/produk6.png",
         "deskirpsi": "Melon Inthanon adalah varietas melon premium yang dikenal luas di Indonesia. Melon ini sering disebut juga sebagai Melon Golden Emerald atau Gladial Honeydew Melon. Nama Inthanon sendiri diambil dari Gunung Inthanon, puncak tertinggi di Thailand, yang menunjukkan asal-usul varietas ini.",
         "harga": 30000,
         "stok": 30

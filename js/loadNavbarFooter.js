@@ -28,7 +28,7 @@ fetch("./components/top_bottom/navbar.php")
     });
   });
 
-fetch("/components/top_bottom/footer.php")
+fetch("./components/top_bottom/footer.php")
   .then((res) => res.text())
   .then((data) => {
     document.getElementById("footer").innerHTML = data;
