@@ -5,10 +5,10 @@ function getProduk($conn){;
     $query = "SELECT 
             buah.nama_buah,
             varietas.nama_varietas,
-            produk.harga
-          FROM produk
-          JOIN buah ON produk.id_buah = buah.id
-          JOIN varietas ON produk.id_varietas = varietas.id";
+        produk.harga
+        FROM produk
+        JOIN buah ON produk.id_buah = buah.id
+        JOIN varietas ON produk.id_varietas = varietas.id";
     $result = mysqli_query($conn, $query);
 
     $data = [];
