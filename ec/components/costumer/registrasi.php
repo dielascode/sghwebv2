@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <button type="submit">Daftar Sekarang</button>
 
-            <p>Sudah punya akun? <a href="#">Log In</a></p>
+            <p>Sudah punya akun? <a href="login.php">Log In</a></p>
         </form>
     </div>
 
