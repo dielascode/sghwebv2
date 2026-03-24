@@ -27,15 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="logo">SGHPOLIJE</div>
-    <div class="menu">
-        <a href="#">Beranda</a>
-        <a href="#">Produk</a>
-    </div>
-    <div class="user">👤 Aril Ganteng</div>
-</div>
 
 <!-- CONTENT -->
 <div class="container">
