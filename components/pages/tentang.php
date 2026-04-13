@@ -10,10 +10,10 @@
             <p>Smart Green House adalah fasilitas pertanian cerdas yang dikembangkan oleh Politeknik Negeri Jember. 
                 Sistem ini memanfaatkan teknologi otomatisasi seperti sensor suhu, kelembapan, serta penyiraman otomatis untuk memantau 
                 dan mengontrol pertumbuhan tanaman secara real time. </p>
-            <img src="/images/sect-tentang/tentang4.png" alt="" srcset="">
+            <img src="images/sect-tentang/tentang4.png" alt="" srcset="">
         </div>
         <div class="profil-container-right">
-            <img src="/images/galeri/dua.png" alt="" srcset="">
+            <img src="images/galeri/dua.png" alt="" srcset="">
             <p>Tujuan utama kami adalah mengembangkan inovasi pertanian modern, mendukung penelitian mahasiswa, 
                 serta menjadi pusat pembelajaran teknologi pertanian digital di Indonesia. 
                 Kami percaya bahwa penerapan teknologi dalam pertanian dapat meningkatkan efisiensi, 
@@ -60,7 +60,7 @@
                 <p>Struktur Organisasi ini menunjukkan tim inti yang berdedikasi dalam mengelola dan mengembangkan Unit Smart Green House. Unit ini menjadi pusat inovasi terdepan di POLIJE, bertanggung jawab atas implementasi teknologi Internet of Things (IoT) untuk pertanian dan peternakan terpadu yang efisien dan berkelanjutan.</p>
             </div>
             
-            <img src="/images/sect-tentang/strukturfiks.jpeg">
+            <img src="images/sect-tentang/strukturfiks.jpeg">
         </div>
     </div>
 </section>

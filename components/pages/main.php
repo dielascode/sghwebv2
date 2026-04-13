@@ -12,25 +12,25 @@
         </div>
         <div class="btn-main">
             <button class="btn-main-hijau"><a href="#tentang-beranda">Selengkapnya</a></button>
-            <button class="btn-main-hijau2"><a href="#" onclick="loadPage('components/pages/hubungi.html')">Hubungi Kami</a></button>
+            <button class="btn-main-hijau2"><a href="#" onclick="loadPage('components/pages/hubungi.php')">Hubungi Kami</a></button>
         </div>
     </div>
 </section>
 <section id="tentang-beranda">
     <div class="tentang-beranda-left">
         <div class="tentang-beranda-left-left">
-            <img class="image-satu d-none d-lg-block" src="/images/beranda/beranda2.png" alt="" srcset="">
-            <img class="image-dua d-none d-lg-block" src="/images/beranda/beranda3.png" alt="" srcset="">
+            <img class="image-satu d-none d-lg-block" src="images/beranda/beranda2.png" alt="" srcset="">
+            <img class="image-dua d-none d-lg-block" src="images/beranda/beranda3.png" alt="" srcset="">
         </div>
         <div class="tentang-beranda-left-right d-none d-lg-block">
-            <img src="/images/beranda/beranda1.png" alt="" srcset="">
+            <img src="images/beranda/beranda1.png" alt="" srcset="">
         </div>
     </div>
     <div class="tentang-beranda-right">
         <h1>Tentang Kami</h1>
         <p>Smart Green House adalah fasilitas pertanian cerdas yang dikembangkan oleh Politeknik Negeri Jember. Sistem ini memanfaatkan teknologi otomatisasi seperti sensor suhu, kelembapan, serta penyiraman otomatis untuk memantau dan mengontrol pertumbuhan tanaman secara real time..</p>
 
-        <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/tentang.html')">Selengkapnya</a></button>
+        <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/tentang.php')">Selengkapnya</a></button>
     </div>
 </section>
 <section class="layanan-beranda">
@@ -43,7 +43,7 @@
     </div>
     <div class="grid-layanan-beranda">
         <div class="layanan-child">
-            <img src="/images/magang/Magang.png" alt="" srcset="">
+            <img src="images/magang/Magang.png" alt="" srcset="">
             <div class="layanan-child-desc">
                 <h2 class="judul-layanan-child">Layanan Magang</h2>
                 <p>Program Magang di Smart Green House merupakan kesempatan 
@@ -53,7 +53,7 @@
                     akan belajar bagaimana sistem otomatisasi digunakan untuk 
                     memantau kondisi lingkungan, mengatur penyiraman tanaman, 
                     serta mengoptimalkan pertumbuhan tanaman secara berkelanjutan.</p>
-                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-magang.html')">Selengkapnya</a></button>
+                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-magang.php')">Selengkapnya</a></button>
             </div>
 
         </div>
@@ -64,19 +64,19 @@
                     berharga bagi mahasiswa untuk memperoleh pengalaman langsung 
                     dalam menjalankan metodologi riset dan eksperimen terapan 
                     di bidang pertanian cerdas berbasis Internet of Things (IoT).</p>
-                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-penelitian.html')">Selengkapnya</a></button>
+                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-penelitian.php')">Selengkapnya</a></button>
             </div>
-            <img src="/images/penelitian/Penelitian.png" alt="" srcset="">
+            <img src="images/penelitian/Penelitian.png" alt="" srcset="">
         </div>
         <div class="layanan-child">
-            <img src="/images/praktikum/Praktikum.png" alt="" srcset="">
+            <img src="images/praktikum/Praktikum.png" alt="" srcset="">
             <div class="layanan-child-desc">
                 <h2 class="judul-layanan-child">Layanan Praktikum</h2>
                 <p>Program Praktikum Smart Green House menawarkan kesempatan 
                     hands-on bagi mahasiswa untuk menerapkan dan memverifikasi 
                     secara langsung konsep teknologi pertanian modern berbasis 
                     Internet of Things (IoT) yang telah dipelajari di kelas.</p>
-                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-praktik.html')">Selengkapnya</a></button>
+                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-praktik.php')">Selengkapnya</a></button>
             </div>
         </div>
         <div class="layanan-child">
@@ -87,9 +87,9 @@
                     langsung, membandingkan, dan mendokumentasikan penerapan teknologi 
                     pertanian modern berbasis Internet of Things (IoT) yang telah berhasil 
                     diimplementasikan.</p>
-                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-studibanding.html')">Selengkapnya</a></button>
+                <button class="btn-main-hijau"><a href="#" onclick="loadPage('components/pages/layanan-studibanding.php')">Selengkapnya</a></button>
             </div>
-            <img src="/images/studibanding/kunjungan.jpg" alt="" srcset="">
+            <img src="images/studibanding/kunjungan.jpg" alt="" srcset="">
         </div>
     </div>
 </section>
@@ -216,3 +216,4 @@
         </div>
     </div>
 </section>
+

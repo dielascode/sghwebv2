@@ -5,7 +5,7 @@
 </section>
 <section class="hubungi-container">
     <div class="hubungi-left">
-        <img src="/images/navbar/logosgh.png" alt="">
+        <img src="images/navbar/logosgh.png" alt="">
         <p>Smart Green House Politeknik Negeri Jember adalah pusat penelitian, pengembangan, dan praktik terapan yang fokus pada implementasi teknologi pertanian presisi dan sistem Internet of Things (IoT) dalam lingkungan terkontrol.
         </p>
         <iframe

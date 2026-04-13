@@ -15,7 +15,7 @@
             <p>Produk Green House Polije dibudidayakan menggunakan sistem pertanian modern. Setiap proses dilakukan
                 secara terkontrol, mulai dari penyemaian, perawatan, hingga panen, sehingga menghasilkan buah yang lebih
                 segar, sehat, dan aman dikonsumsi setiap hari.</p>
-            <img src="/images/galeri/satu.png" alt="" srcset="">
+            <img src="images/galeri/satu.png" alt="" srcset="">
         </div>
     </div>
     <div class="desc-promo-produk">

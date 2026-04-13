@@ -1,92 +1,92 @@
 [
     {
         "id":1,
-        "image": "/images/galeri/satu.png",
+        "image": "images/galeri/satu.png",
         "caption": "Memetik Melon"
     },
     {
         "id":2,
-        "image": "/images/galeri/dua.png",
+        "image": "images/galeri/dua.png",
         "caption": "Bangunan SGH"
     },
     {
         "id":3,
-        "image": "/images/galeri/tiga.png",
+        "image": "images/galeri/tiga.png",
         "caption": "Penelitian Oleh Mahasiswa"
     },
     {
         "id":4,
-        "image": "/images/galeri/empat.png",
+        "image": "images/galeri/empat.png",
         "caption": "Buah Melon"
     },
     {
         "id":5,
-        "image": "/images/galeri/lima.png",
+        "image": "images/galeri/lima.png",
         "caption": "Kegiatan Pembibitan Tanaman"
     },
     {
         "id":6,
-        "image": "/images/galeri/enam.png",
+        "image": "images/galeri/enam.png",
         "caption": "Pemeriksaan Tanaman"
     },
     {
         "id":7,
-        "image": "/images/galeri/tujuh.png",
+        "image": "images/galeri/tujuh.png",
         "caption": "Observasi Bibit Tanaman"
     },
     {
         "id":8,
-        "image": "/images/galeri/delapan.png",
+        "image": "images/galeri/delapan.png",
         "caption": "Kunjungan KEMDIKTISAINTEK"
     },
     {
         "id":9,
-        "image": "/images/galeri/sembilan.png",
+        "image": "images/galeri/sembilan.png",
         "caption": "Observasi Tanaman"
     },
     {
         "id":10,
-        "image": "/images/galeri/sepuluh.jpeg",
+        "image": "images/galeri/sepuluh.jpeg",
         "caption": "Gelar tanam pertama benih melon bersama PT Ewindo"
     },
     {
         "id":11,
-        "image": "/images/galeri/sebelas.jpeg",
+        "image": "images/galeri/sebelas.jpeg",
         "caption": "Kunjungan Kerja Dirjen Diksi Kemdikbudristek RI di Kampus Vokasi Unggulan Politeknik Negeri Jember"
     },
     {
         "id":12,
-        "image": "/images/galeri/duabelas.jpeg",
+        "image": "images/galeri/duabelas.jpeg",
         "caption": "Tanaman Melon SGH"
     },
     {
         "id":13,
-        "image": "/images/galeri/tigabelas.jpeg",
+        "image": "images/galeri/tigabelas.jpeg",
         "caption": "Pengecekan Buah Melon Oleh Tim Peneliti"
     },
     {
         "id":14,
-        "image": "/images/galeri/empatbelas.jpeg",
+        "image": "images/galeri/empatbelas.jpeg",
         "caption": "Berbagai Jenis Tanaman Melon"
     },
     {
         "id":15,
-        "image": "/images/galeri/limabelas.jpeg",
+        "image": "images/galeri/limabelas.jpeg",
         "caption": "Pengecekan Rasa Buah Melon Oleh Tim Peneliti"
     },
     {
         "id":16,
-        "image": "/images/galeri/enambelas.jpeg",
+        "image": "images/galeri/enambelas.jpeg",
         "caption": "Pembedahan Buah Melon Oleh Tim Peneliti"
     },
     {
         "id":17,
-        "image": "/images/galeri/tujuhbelas.jpeg",
+        "image": "images/galeri/tujuhbelas.jpeg",
         "caption": "Tim Peneliti Sedang Berdiskusi Mengenai Tanaman Melon"
     },
     {
         "id":18,
-        "image": "/images/galeri/delapanbelas.jpeg",
+        "image": "images/galeri/delapanbelas.jpeg",
         "caption": "Studi Banding Ke Smart green House Polije"
     }
     

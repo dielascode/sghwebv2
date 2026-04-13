@@ -3,31 +3,31 @@ let currentPageProduk = 1;
 const itemsPerPageProduk = 6;
 
 function loadProduk() {
-    fetch('/data/produk.json')
-        .then(res => res.json())
-        .then(data => {
-            produkData = data;
-            currentPageProduk = 1;
-            renderProduk();
-            renderPaginationProduk();
-            initPopupProduk(data);
-        })
-        .catch(err => console.error("Error loading produk:", err));
+  fetch("data/produk.json")
+    .then((res) => res.json())
+    .then((data) => {
+      produkData = data;
+      currentPageProduk = 1;
+      renderProduk();
+      renderPaginationProduk();
+      initPopupProduk(data);
+    })
+    .catch((err) => console.error("Error loading produk:", err));
 }
 
 function renderProduk() {
-    const container = document.getElementById('produkContainer');
-    if (!container) return;
+  const container = document.getElementById("produkContainer");
+  if (!container) return;
 
-    container.innerHTML = "";
+  container.innerHTML = "";
 
-    const start = (currentPageProduk - 1) * itemsPerPageProduk;
-    const end = start + itemsPerPageProduk;
+  const start = (currentPageProduk - 1) * itemsPerPageProduk;
+  const end = start + itemsPerPageProduk;
 
-    const pageItems = produkData.slice(start, end);
+  const pageItems = produkData.slice(start, end);
 
-    pageItems.forEach(item => {
-        container.innerHTML += `
+  pageItems.forEach((item) => {
+    container.innerHTML += `
         <div class="produk-child">
             <img src="${item.image}" alt="" srcset="">
             <div class="produk-child-desc d-flex" style="justify-content: space-between; align-items: center;">
@@ -42,67 +42,64 @@ function renderProduk() {
             
         </div>
         `;
-    });
+  });
 }
 
 function renderPaginationProduk() {
-    const pag = document.getElementById("paginationProduk");
-    if (!pag) return;
+  const pag = document.getElementById("paginationProduk");
+  if (!pag) return;
 
-    pag.innerHTML = "";
+  pag.innerHTML = "";
 
-    const totalPages = Math.ceil(produkData.length / itemsPerPageProduk);
+  const totalPages = Math.ceil(produkData.length / itemsPerPageProduk);
 
-    pag.innerHTML += `
+  pag.innerHTML += `
         <button class="page-btn" ${currentPageProduk === 1 ? "disabled" : ""} onclick="goToPageProduk(${currentPageProduk - 1})">Prev</button>
     `;
 
-    for (let i = 1; i <= totalPages; i++) {
-        pag.innerHTML += `
+  for (let i = 1; i <= totalPages; i++) {
+    pag.innerHTML += `
             <button class="page-number ${currentPageProduk === i ? "active" : ""}" onclick="goToPageProduk(${i})">${i}</button>
         `;
-    }
+  }
 
-    pag.innerHTML += `
+  pag.innerHTML += `
         <button class="page-btn" ${currentPageProduk === totalPages ? "disabled" : ""} onclick="goToPageProduk(${currentPageProduk + 1})">Next</button>
     `;
 }
 
 function goToPageProduk(page) {
-    currentPageProduk = page;
-    renderProduk();
-    renderPaginationProduk();
+  currentPageProduk = page;
+  renderProduk();
+  renderPaginationProduk();
 }
 
 function initPopupProduk(data) {
-    const buttons = document.querySelectorAll('.detail-produk'); // FIX
+  const buttons = document.querySelectorAll(".detail-produk"); // FIX
 
-    const popup = document.getElementById('popup-produk');
-    const popupImg = document.getElementById('popup-img-produk');
-    const popupNama = document.getElementById('popup-nama-produk');
-    const popupDesc = document.getElementById('popup-desc-produk');
-    const popupHarga = document.getElementById('popup-harga-produk');
+  const popup = document.getElementById("popup-produk");
+  const popupImg = document.getElementById("popup-img-produk");
+  const popupNama = document.getElementById("popup-nama-produk");
+  const popupDesc = document.getElementById("popup-desc-produk");
+  const popupHarga = document.getElementById("popup-harga-produk");
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
 
-            const id = this.getAttribute('data-id');
-            const item = data.find(x => x.id == id);
+      const id = this.getAttribute("data-id");
+      const item = data.find((x) => x.id == id);
 
-            popupImg.src = item.image;
-            popupNama.innerText = item.nama;
-            popupDesc.innerHTML = item.deskirpsi;
-            popupHarga.innerHTML = item.harga;
+      popupImg.src = item.image;
+      popupNama.innerText = item.nama;
+      popupDesc.innerHTML = item.deskirpsi;
+      popupHarga.innerHTML = item.harga;
 
-            popup.style.display = "flex";
-        });
+      popup.style.display = "flex";
     });
+  });
 }
-
 
 function tutupPopup() {
-    document.getElementById('popup-produk').style.display = "none";
+  document.getElementById("popup-produk").style.display = "none";
 }
-
-
