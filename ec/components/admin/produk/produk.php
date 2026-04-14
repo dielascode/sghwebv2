@@ -1,7 +1,7 @@
 <!-- Halaman Percobaan -->
 
 <?php
-include __DIR__ . "../../../logic/admin/produkController.php";
+include __DIR__ . "/../../../logic/admin/produkController.php";
 
 $produk = getProduk($conn);
 ?>
