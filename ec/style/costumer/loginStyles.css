@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    font-family: arial, sans-serif;
+    background: #21543C;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* KIRI (HIJAU + TEKS) */
+.left {
+    width: 50%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.left h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* KANAN (FORM) */
+.right {
+    width: 50%;
+    background: #fff;
+    padding: 40px;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+
+.right h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 80px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input {
+    padding: 7px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+
+.forgot {
+    font-size: 12px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: #ccc;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #aaa;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.signup {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.signup a {
+    color: #4aa3df;
+    text-decoration: none;
+}

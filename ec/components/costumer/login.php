@@ -1,28 +1,10 @@
-<?php
-session_start();
-
-$error = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-
-    // Contoh validasi sederhana (bisa diganti database)
-    if ($email == "admin@gmail.com" && $password == "12345") {
-        $_SESSION["user"] = $email;
-        echo "<script>alert('Login berhasil!');</script>";
-    } else {
-        $error = "Email atau password salah!";
-    }
-}
-?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../../style/costumer/loginStyles.css">
 </head>
 <body>
 
@@ -47,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <p class="forgot">Lupa Password?</p>
 
-            <span class="error"><?= $error ?></span>
+            <span class="error"></span>
 
             <button type="submit">Masuk Sekarang</button>
 

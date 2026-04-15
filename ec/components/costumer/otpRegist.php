@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Autentikasi OTP</title>
-    <link rel="stylesheet" href="otpRegistStyles.css">
+    <link rel="stylesheet" href="../../style/costumer/otpRegistStyles.css">
 </head>
 <body>
 

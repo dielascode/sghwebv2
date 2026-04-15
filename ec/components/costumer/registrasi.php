@@ -1,26 +1,10 @@
-<?php
-$emailErr = "";
-$email = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-
-// Validasi email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $emailErr = "Format email tidak valid!";
-    } else {
-        echo "<script>alert('Pendaftaran berhasil!');</script>";
-    }
-}
-?>
-
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="regist.css">
+    <link rel="stylesheet" href="../../style/costumer/registrasiStyles.css">
 </head>
 <body>
 
@@ -33,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="nama" required>
 
             <label>Email :</label>
-            <input type="text" name="email" value="<?= $email ?>" required>
-            <span class="error"><?= $emailErr ?></span>
+            <input type="text" name="email"
+            <span class="error">
 
             <label>No Hp :</label>
             <input type="text" name="hp" required>

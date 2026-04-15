@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <title>Registrasi Berhasil</title>
-    <link rel="stylesheet" href="dummyRegistStyles.css">
+    <link rel="stylesheet" href="../../style/costumer/dummyRegistStyles.css">
 </head>
 <body>
 
