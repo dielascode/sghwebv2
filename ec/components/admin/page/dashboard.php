@@ -1,0 +1,164 @@
+            <div class="container-fluid p-4 p-lg-5">
+                <!-- Page Header -->
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+                    <div>
+                        <h1 class="h3 mb-0">Dashboard</h1>
+                        <p class="text-muted mb-0">Welcome back! Here's what's happening.</p>
+                    </div>
+                    <div class="d-flex gap-2 flex-shrink-0">
+                    </div>
+                </div>
+
+                <!-- Stats Cards with Alpine.js -->
+                <div class="row g-3 g-lg-4 mb-4">
+                    <div class="col-sm-6 col-xl-3" x-data="statsCounter(12426, 5)">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-0 text-muted">Total Users</h6>
+                                        <h3 class="mb-0" x-text="value.toLocaleString()" data-stat-value>12,426</h3>
+                                        <small class="text-success">
+                                            <i class="bi bi-arrow-up"></i> +12.5%
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="stats-icon bg-success bg-opacity-10 text-success">
+                                            <i class="bi bi-graph-up"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-0 text-muted">Revenue</h6>
+                                        <h3 class="mb-0">$54,320</h3>
+                                        <small class="text-success">
+                                            <i class="bi bi-arrow-up"></i> +8.2%
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="stats-icon bg-warning bg-opacity-10 text-warning">
+                                            <i class="bi bi-bag-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-0 text-muted">Orders</h6>
+                                        <h3 class="mb-0">1,852</h3>
+                                        <small class="text-danger">
+                                            <i class="bi bi-arrow-down"></i> -2.1%
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="stats-icon bg-info bg-opacity-10 text-info">
+                                            <i class="bi bi-clock-history"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-0 text-muted">Avg. Response</h6>
+                                        <h3 class="mb-0">2.3s</h3>
+                                        <small class="text-success">
+                                            <i class="bi bi-arrow-up"></i> +5.4%
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="row g-4 mb-4">
+                    <div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">User Growth (Last 7 Days)</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="userGrowthChart" height="300"></canvas>
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+
+
+                </div>
+
+                <!-- New Widgets Row -->
+                <div class="row g-4 mb-4">
+                    <!-- Recent Orders -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Recent Orders</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Customer</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recent-orders-table">
+                                            <!-- Orders will be injected here by dashboard.js -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Storage Status -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Revenue Overview</h5>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline-primary active" data-chart-period="7d">7D</button>
+                                    <button type="button" class="btn btn-outline-primary" data-chart-period="30d">30D</button>
+                                    <button type="button" class="btn btn-outline-primary" data-chart-period="90d">90D</button>
+                                    <button type="button" class="btn btn-outline-primary" data-chart-period="1y">1Y</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="revenueChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
