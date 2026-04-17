@@ -32,6 +32,13 @@
     <meta name="theme-color" content="#21543C">
 
     <!-- PWA Manifest -->
+     <script>
+    // Override ApexCharts SEBELUM chart dirender
+    window.Apex = {
+        colors: ['#21543C', '#10b981', '#f59e0b', '#ef4444', '#2d7a56', '#06b6d4']
+    };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
     <script type="module" crossorigin src="./assets/vendor-bootstrap-C9iorZI5.js"></script>
     <script type="module" crossorigin src="./assets/vendor-charts-DGwYAWel.js"></script>
@@ -84,7 +91,7 @@
     <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 11">
         <div id="toast-container"></div>
     </div>
-
+    
 </body>
 
 </html>
