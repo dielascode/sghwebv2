@@ -189,12 +189,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Revenue Overview</h5>
-                    <div class="btn-group btn-group-sm" role="group">
-                        <button type="button" class="btn btn-outline-primary active" data-chart-period="7d">7D</button>
-                        <button type="button" class="btn btn-outline-primary" data-chart-period="30d">30D</button>
-                        <button type="button" class="btn btn-outline-primary" data-chart-period="90d">90D</button>
-                        <button type="button" class="btn btn-outline-primary" data-chart-period="1y">1Y</button>
-                    </div>
                 </div>
                 <div class="card-body">
                     <canvas id="revenueChart" height="250"></canvas>
