@@ -14,7 +14,7 @@
 
     <style>
         .navbar-custom {
-            background-color: #fff;
+            background-color: #114029;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             padding: 12px 30px;
         }
@@ -22,14 +22,14 @@
         .navbar-nav .nav-link {
             font-weight: 500;
             font-size: 20px;
-            color: #000000;
+            color: #ffffff;
             margin: 0 15px;
         }
 
         .navbar-nav .nav-link.active {
             font-weight: 500;
             font-size: 20px;
-            color: #000000;
+            color: #ffffff;
             margin: 0 15px;
         }
 
