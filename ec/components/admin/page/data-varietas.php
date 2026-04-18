@@ -72,9 +72,7 @@ $buah = getBuah($conn);
                             <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('unpublish')">
                                 <i class="bi bi-eye-slash me-1"></i>Unpublish
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" @click="bulkAction('delete')">
-                                <i class="bi bi-trash me-1"></i>Delete
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -122,7 +120,11 @@ $buah = getBuah($conn);
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
-                                                <li><a class="dropdown-item text-danger" href="#" @click="deleteProduct(product)"> <i class="bi bi-trash me-2"></i>Delete </a></li>
+                                                <li>
+                                                    <a href="#" class="dropdown-item btn-outline-danger" onclick="deleteVarietas(<?= $v['id']; ?>)">
+                                                        <i class="bi bi-trash me-1"></i>Delete
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -201,33 +203,62 @@ $buah = getBuah($conn);
 </div>
 
 <script>
-document.getElementById('formVarietas').addEventListener('submit', async function(e){
-    e.preventDefault();
+    document.getElementById('formVarietas').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-    const formData = new FormData(this);
+        const formData = new FormData(this);
 
-    try {
-        const response = await fetch('/sghwebv2/ec/components/admin/crud/tambahVarietas.php', {
-            method: 'POST',
-            body: formData
-        });
+        try {
+            const response = await fetch('/sghwebv2/ec/components/admin/crud/tambahVarietas.php', {
+                method: 'POST',
+                body: formData
+            });
 
-        const result = await response.json();
+            const result = await response.json();
 
-        if(result.success){
-            alert('Berhasil ditambahkan!');
+            if (result.success) {
+                alert('Berhasil ditambahkan!');
 
-            this.reset();
+                this.reset();
 
-            location.reload();
+                location.reload();
 
-        } else {
-            alert('Gagal!');
+            } else {
+                alert('Gagal!');
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert('Error server!');
         }
+    });
+    
+    async function deleteVarietas(id) {
+        if (!confirm('Yakin mau hapus data ini?')) return;
 
-    } catch (error) {
-        console.error(error);
-        alert('Error server!');
+        try {
+            const response = await fetch('/sghwebv2/ec/components/admin/crud/deleteVarietas.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Berhasil dihapus!');
+                location.reload();
+            } else {
+                alert('Gagal hapus!');
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert('Error server!');
+        }
     }
-});
 </script>

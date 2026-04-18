@@ -41,4 +41,9 @@ function tambahVarietas($conn, $nama_varietas, $id_buah){
     return mysqli_query($conn, $query);
 }
 
+function deleteVarietas($conn,$id){
+    $query = "DELETE FROM varietas WHERE id='$id'";
+    return mysqli_query($conn,$query);
+}
+
 ?>
