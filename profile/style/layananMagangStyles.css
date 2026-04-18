@@ -2,7 +2,7 @@
 .banner-magang {
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-        url('/images/bannerfiks.jpg');
+        url('../images/bannerfiks.jpg');
     background-size: cover;
     background-position: center;
     padding: 100px 0;
