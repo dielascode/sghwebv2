@@ -41,6 +41,7 @@
     </div>
 
     <div class="right">
+        <img src="https://fileorganizer.net/sitepad-data/uploads/2023/03/Add-files-amico.png" alt="SignUp Image">
         <h2>Bergabung Bersama Kami</h2>
         <p>Lengkapi formulir pendaftaran untuk mulai menggunakan layanan dan mengelola aktivitas Anda dengan mudah.</p>
     </div>
