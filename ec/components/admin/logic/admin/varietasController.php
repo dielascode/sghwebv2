@@ -15,11 +15,12 @@ function getBuah($conn){
 
 function getVarietas($conn){
     $query = "SELECT 
-                varietas.id,
-                varietas.nama_varietas,
-                buah.nama_buah
-              FROM varietas
-              JOIN buah ON varietas.id_buah = buah.id";
+            varietas.id,
+            varietas.nama_varietas,
+            varietas.id_buah,
+            buah.nama_buah
+          FROM varietas
+          JOIN buah ON varietas.id_buah = buah.id";
 
     $result = mysqli_query($conn, $query);
 
@@ -44,6 +45,16 @@ function tambahVarietas($conn, $nama_varietas, $id_buah){
 function deleteVarietas($conn,$id){
     $query = "DELETE FROM varietas WHERE id='$id'";
     return mysqli_query($conn,$query);
+}
+
+function updateVarietas($conn, $id, $nama, $id_buah){
+    $nama = mysqli_real_escape_string($conn, $nama);
+
+    $query = "UPDATE varietas 
+              SET nama_varietas='$nama', id_buah='$id_buah'
+              WHERE id=$id";
+
+    return mysqli_query($conn, $query);
 }
 
 ?>

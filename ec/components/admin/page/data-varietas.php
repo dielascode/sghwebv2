@@ -1,9 +1,7 @@
 <?php
 include __DIR__ . "/../logic/admin/varietasController.php";
-$varietas = getVarietas($conn);
+$varietas = getVarietas($conn); //ini ni tampilnya, apa ws getnya ituch
 $buah = getBuah($conn);
-
-
 ?>
 <div class="container-fluid p-4 p-lg-5">
 
@@ -21,10 +19,10 @@ $buah = getBuah($conn);
     </div>
 
     <!-- Product Management Container -->
-    <div x-data="productTable" x-init="init()">
+    <div>
 
         <!-- Products Table -->
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">
                     <div class="col">
@@ -32,18 +30,14 @@ $buah = getBuah($conn);
                     </div>
                     <div class="col-auto">
                         <div class="d-flex gap-2">
-                            <!-- Search -->
                             <div class="position-relative">
                                 <input type="search"
                                     class="form-control form-control-sm"
                                     placeholder="Search products..."
-                                    x-model="searchQuery"
-                                    @input="filterProducts()"
                                     style="width: 200px;">
                                 <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
                             </div>
 
-                            <!-- Category Filter -->
                             <select class="form-select form-select-sm"
                                 x-model="categoryFilter"
                                 @change="filterProducts()"
@@ -59,33 +53,15 @@ $buah = getBuah($conn);
                 </div>
             </div>
             <div class="card-body p-0">
-                <!-- Bulk Actions Bar -->
-                <div class="bulk-actions-bar p-3 bg-light border-bottom" x-show="selectedProducts.length > 0" x-transition>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted">
-                            <span x-text="selectedProducts.length"></span> product(s) selected
-                        </span>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('publish')">
-                                <i class="bi bi-eye me-1"></i>Publish
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('unpublish')">
-                                <i class="bi bi-eye-slash me-1"></i>Unpublish
-                            </button>
 
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Table -->
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
                                 <th>Nama Varietas</th>
-                                <th @click="sortBy('buah')" class="sortable">Buah</th>
-                                <th @click="sortBy('created')" class="sortable">Created</th>
+                                <th class="sortable">Buah</th>
+                                <th class="sortable">Created</th>
                                 <th style="width: 120px;">Actions</th>
                             </tr>
                         </thead>
@@ -116,7 +92,13 @@ $buah = getBuah($conn);
                                     <td>
                                         <div class="dropdown"> <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"> <i class="bi bi-three-dots"></i> </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#" @click="editProduct(product)"> <i class="bi bi-pencil me-2"></i>Edit </a></li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="dropdown-item"
+                                                        onclick="openEditModal(<?= $v['id']; ?>, '<?= $v['nama_varietas']; ?>', <?= $v['id_buah']; ?>)">
+                                                        <i class="bi bi-pencil me-2"></i>Edit
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
@@ -134,29 +116,58 @@ $buah = getBuah($conn);
                     </table>
                 </div>
 
-                <!-- Pagination -->
-                <!-- <div class="d-flex justify-content-between align-items-center p-3">
-                    <div class="text-muted">
-                        Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to
-                        <span x-text="Math.min(currentPage * itemsPerPage, filteredProducts.length)"></span> of
-                        <span x-text="filteredProducts.length"></span> results
-                    </div>
-                    <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-                            </li>
-                            <template x-for="(page, index) in visiblePages" :key="`page-${index}`">
-                                <li class="page-item" :class="{ 'active': page === currentPage }">
-                                    <a class="page-link" href="#" @click.prevent="page !== '...' && goToPage(page)" x-text="page"></a>
-                                </li>
-                            </template>
-                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> -->
+            </div>
+        </div> -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Tabel Varietas</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Varietas</th>
+                                <th>Buah</th>
+                                <th style="width: 120px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            <?php foreach ($varietas as $v): ?>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+
+                                    <td><?= $v['nama_varietas']; ?></td>
+
+                                    <td>
+                                        <span class="badge bg-success">
+                                            <?= $v['nama_buah']; ?>
+                                        </span>
+                                    </td>
+
+                                    <td style="display: flex; gap: 10px;">
+                                        <!-- tombol edit -->
+                                        <button
+                                            class="btn btn-sm btn-warning"
+                                            onclick="openEditModal(<?= $v['id']; ?>, '<?= $v['nama_varietas']; ?>', <?= $v['id_buah']; ?>)">
+                                            Edit
+                                        </button>
+
+                                        <!-- tombol delete -->
+                                        <button
+                                            class="btn btn-sm btn-danger"
+                                            onclick="deleteVarietas(<?= $v['id']; ?>)">
+                                            Hapus
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -202,14 +213,63 @@ $buah = getBuah($conn);
     </div>
 </div>
 
+<!-- EDIT MODAL -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Edit Varietas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formEdit">
+                    <input type="hidden" id="edit_id">
+
+                    <div class="mb-3">
+                        <label>Nama Varietas</label>
+                        <input type="text" id="edit_nama" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Jenis Buah</label>
+                        <select id="edit_buah" class="form-select">
+                            <?php foreach ($buah as $b): ?>
+                                <option value="<?= $b['id']; ?>">
+                                    <?= $b['nama_buah']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ini buat nampilin modal edit yh -->
 <script>
+    function openEditModal(id, nama, id_buah) {
+        console.log(id, id_buah, nama); //mmastikan
+        document.getElementById('edit_id').value = id;
+        document.getElementById('edit_nama').value = nama;
+        document.getElementById('edit_buah').value = id_buah;
+
+        const modal = new bootstrap.Modal(document.getElementById('editModal'));
+        modal.show();
+    }
+</script>
+<!-- bagian dibawah ini proses crudnya yh, kcali read nya -->
+<script>
+    //ini buat ngirim data dari form ke itu dh pokoknya
     document.getElementById('formVarietas').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/tambahVarietas.php', {
+            const response = await fetch('/sghwebv2/ec/components/admin/crud/tambahVarietas.php', { //yg ini lho
                 method: 'POST',
                 body: formData
             });
@@ -232,7 +292,42 @@ $buah = getBuah($conn);
             alert('Error server!');
         }
     });
-    
+
+    // yg ini ngedit yhh
+    document.getElementById('formEdit').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const data = {
+            id: document.getElementById('edit_id').value,
+            nama: document.getElementById('edit_nama').value,
+            id_buah: document.getElementById('edit_buah').value
+        };
+
+        try {
+            const response = await fetch('/sghwebv2/ec/components/admin/crud/editVarietas.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Berhasil diupdate!');
+                location.reload();
+            } else {
+                alert('Gagal update!');
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert('Error server!');
+        }
+    });
+
+    //ini ngedelet
     async function deleteVarietas(id) {
         if (!confirm('Yakin mau hapus data ini?')) return;
 
