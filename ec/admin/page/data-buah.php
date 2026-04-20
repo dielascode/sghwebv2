@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../logic/admin/buahController.php";
+include __DIR__ . "/../../logic/admin/buahController.php";
 $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
 ?>
 <div class="container-fluid p-4 p-lg-5">
@@ -138,7 +138,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
         const form = this;
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/buahApi.php?action=tambah', {
+            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=tambah', {
                 method: 'POST',
                 body: new FormData(form)
             })
@@ -173,7 +173,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
         };
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/buahApi.php?action=edit', {
+            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=edit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -204,7 +204,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
         if (!confirm('Yakin mau hapus data ini?')) return;
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/buahApi.php?action=delete', {
+            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=delete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
