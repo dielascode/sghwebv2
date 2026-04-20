@@ -1,5 +1,5 @@
 <!-- NAVBAR -->
-<header class="bg-white shadow-sm text-gray-700  w-full fixed top-0 left-0 right-0 z-50">
+<header class="bg-[#1C2B10] shadow-sm text-[#C8D8A8] w-full fixed top-0 left-0 right-0 z-50">
   <div class="w-full px-4 md:px-8">
     <div class="flex h-16 items-center justify-between">
 
@@ -15,22 +15,22 @@
           <ul class="flex items-center gap-6 text-sm h-full">
 
             <li>
-              <a class="flex items-center h-full text-gray-900 font-medium text-base !no-underline
+              <a class="flex items-center h-full text-[#C8D8A8] font-medium text-base !no-underline
        relative after:absolute after:bottom-0 after:left-0 after:h-[2px]
-       after:w-0 after:bg-gray-900 after:transition-all after:duration-300
+       after:w-0 after:bg-[#C8D8A8] after:transition-all after:duration-300
        hover:after:w-full"href="#">Beranda</a>
             </li>
 
             <li>
-              <a class="flex items-center h-full text-gray-900 font-medium text-base !no-underline
+              <a class="flex items-center h-full text-[#C8D8A8] font-medium text-base !no-underline
        relative after:absolute after:bottom-0 after:left-0 after:h-[2px]
-       after:w-0 after:bg-gray-900 after:transition-all after:duration-300
+       after:w-0 after:bg-[#C8D8A8] after:transition-all after:duration-300
        hover:after:w-full"href="#"  onclick="loadPage('components/costumer/page/katalog.php')">Produk</a>
             </li>
 
             <!-- CART -->
             <li>
-              <a class="flex items-center gap-2 no-underline text-gray-900
+              <a class="flex items-center gap-2 no-underline text-[#C8D8A8]
        opacity-70 hover:opacity-100 transition-opacity duration-200" href="#">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
