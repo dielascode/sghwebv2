@@ -18,7 +18,7 @@
 
     <div class="main-container" style="display: flex;">
         <?php include('../elemen/sidebar_profil.php'); ?>
-     
+    
         <main class="content">
             <div class="header-content">
                 <h1>Profil saya</h1>
