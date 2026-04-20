@@ -14,12 +14,12 @@
 <body class="m-0">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <?php 
-        include "components/costumer/elemen/navbar.php"
+        include "costumer/elemen/navbar.php"
     ?>
     <main class="main">
         <div id="conten">
             <?php 
-                include "components/costumer/page/katalog.php"
+                include "costumer/page/katalog.php"
             ?>
         </div>
     </main>
