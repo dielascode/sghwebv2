@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../logic/admin/varietasController.php";
+include __DIR__ . "/../../logic/admin/varietasController.php";
 $varietas = getVarietas($conn); //ini ni tampilnya, apa ws getnya ituch
 $buah = getBuah($conn);
 ?>
@@ -269,7 +269,7 @@ $buah = getBuah($conn);
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/tambahVarietas.php', { //yg ini lho
+            const response = await fetch('/sghwebv2/ec/admin/crud/tambahVarietas.php', { //yg ini lho
                 method: 'POST',
                 body: formData
             });
@@ -304,7 +304,7 @@ $buah = getBuah($conn);
         };
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/editVarietas.php', {
+            const response = await fetch('/sghwebv2/ec/admin/crud/editVarietas.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -332,7 +332,7 @@ $buah = getBuah($conn);
         if (!confirm('Yakin mau hapus data ini?')) return;
 
         try {
-            const response = await fetch('/sghwebv2/ec/components/admin/crud/deleteVarietas.php', {
+            const response = await fetch('/sghwebv2/ec/admin/crud/deleteVarietas.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

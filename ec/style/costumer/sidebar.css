@@ -1,0 +1,49 @@
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 70px); /* biar ga full nutup */
+  position: fixed;
+  left: 0;
+  top: 50px; /* geser ke bawah navbar */
+  background: #ffffff;
+  border-right: 1px solid #ddd;
+}
+.menu-custom {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+}
+
+.menu-custom li {
+  margin-bottom: 10px;
+}
+
+.menu-custom li a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+/* ICON */
+.menu-custom li a i {
+  font-size: 16px;
+  width: 22px;
+  text-align: center;
+}
+
+/* HOVER */
+.menu-custom li a:hover {
+  background: #e8f0e6;
+  color: #2e7d32;
+}
+
+/* ACTIVE (kalau mau ditandain) */
+.menu-custom li.active a {
+  background: #3b6d11;
+  color: white;
+}

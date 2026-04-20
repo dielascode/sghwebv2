@@ -1,6 +1,6 @@
 <?php
-include __DIR__ . "/../logic/admin/buahController.php";
-include __DIR__ . "/../logic/connection.php";
+include __DIR__ . "/../../logic/admin/buahController.php";
+include __DIR__ . "/../../logic/connection.php";
 
 header('Content-Type: application/json');
 
