@@ -17,8 +17,8 @@
                     <!-- CARD 1 -->
                     <div class="oh-card">
                         <div class="card-status-bar">
-                            <span class="status-dot"></span>
-                            <span class="status-label">Menunggu Konfirmasi Admin</span>
+                            <span class="status-dot process"></span>
+                            <span class="status-label process">Sedang Diproses</span>
                         </div>
 
                         <div class="card-inner">
@@ -57,8 +57,8 @@
                     <!-- CARD 2 -->
                     <div class="oh-card">
                         <div class="card-status-bar">
-                            <span class="status-dot ship"></span>
-                            <span class="status-label ship">Sedang Dikirim</span>
+                            <span class="status-dot process"></span>
+                            <span class="status-label process">Sedang Diproses</span>
                         </div>
 
                         <div class="card-inner">
@@ -94,45 +94,6 @@
                         </div>
                     </div>
 
-                    <!-- CARD 3 -->
-                    <div class="oh-card">
-                        <div class="card-status-bar">
-                            <span class="status-dot done"></span>
-                            <span class="status-label done">Pesanan Selesai</span>
-                        </div>
-
-                        <div class="card-inner">
-                            <div class="product-box">
-                                <div class="melon-thumb" >
-                                    <img src="/sghwebv2/ec/images/produk6.png" class="thumb-img">
-                                </div>
-
-                                <div class="product-info">
-                                    <div class="product-name">Melon Golden Langkawi</div>
-
-                                    <div class="product-meta">
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">Total Harga</span>
-                                            <span class="meta-val green">Rp 35.000</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">QTY</span>
-                                            <span class="meta-val">1 kg</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">No. Pesanan</span>
-                                            <span class="meta-val muted">ORD-003</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="btn-box">
-                                <button class="btn-detail">Order Detail</button>
-                                <button class="btn-struk">Cetak Struk</button>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
