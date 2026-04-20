@@ -4,8 +4,8 @@
                 <div class="container-fluid">
                     <!-- Logo/Brand - Now first on the left -->
                     <a class="navbar-brand d-flex align-items-center" href="./index.html">
-                        <img src="./assets/images/logo.svg" alt="Logo" height="32" class="d-inline-block align-text-top me-2">
-                        <h1 class="h4 mb-0 fw-bold ">Metis</h1>
+                        <img src="./assets/images/logo.png" alt="Logo" height="32" class="d-inline-block align-text-top me-2">
+                        <h1 class="h4 mb-0 fw-bold ">AgriNexa</h1>
                     </a>
 
                     <!-- Sidebar Toggle -->

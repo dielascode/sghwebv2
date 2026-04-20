@@ -1,35 +1,23 @@
-/* ============================================
-   THEME OVERRIDE - Metis Admin
-   Ganti warna primary dari biru (#6366f1)
-   ke hijau (#21543C)
-   ============================================ */
-
 :root,
 [data-bs-theme=light] {
 
-    /* === WARNA PRIMARY UTAMA === */
     --bs-primary:              #21543C;
     --bs-primary-rgb:          33, 84, 60;
 
-    /* Warna indigo diganti ke hijau juga */
     --bs-indigo:               #21543C;
 
-    /* Subtle (background & border ringan) - dipakai hover sidebar dll */
     --bs-primary-bg-subtle:    #d4e8de;
     --bs-primary-border-subtle:#a8d1bc;
     --bs-primary-text-emphasis:#163a2a;
 
-    /* Link */
     --bs-link-color:           #21543C;
     --bs-link-color-rgb:       33, 84, 60;
     --bs-link-hover-color:     #163a2a;
     --bs-link-hover-color-rgb: 22, 58, 42;
 
-    /* Focus ring */
     --bs-focus-ring-color:     rgba(33, 84, 60, 0.25);
 }
 
-/* === Dark mode === */
 [data-bs-theme=dark] {
     --bs-primary:              #2d7a56;
     --bs-primary-rgb:          45, 122, 86;
@@ -41,11 +29,6 @@
     --bs-focus-ring-color:     rgba(45, 122, 86, 0.25);
 }
 
-/* ============================================
-   SEMUA ELEMEN YANG HARDCODE #6366f1
-   ============================================ */
-
-/* Checkbox, radio checked */
 .form-check-input:checked {
     background-color: #21543C !important;
     border-color:     #21543C !important;
@@ -54,14 +37,12 @@
     box-shadow: 0 0 0 .25rem rgba(33, 84, 60, 0.25) !important;
 }
 
-/* Form control focus */
 .form-control:focus,
 .form-select:focus {
     border-color: #21543C !important;
     box-shadow:   0 0 0 .25rem rgba(33, 84, 60, 0.25) !important;
 }
 
-/* Button primary */
 .btn-primary {
     --bs-btn-bg:                #21543C;
     --bs-btn-border-color:      #21543C;
@@ -73,7 +54,6 @@
     --bs-btn-disabled-border-color:#21543C;
 }
 
-/* Button outline primary */
 .btn-outline-primary {
     --bs-btn-color:              #21543C;
     --bs-btn-border-color:       #21543C;
@@ -85,13 +65,11 @@
     --bs-btn-disabled-border-color:#21543C;
 }
 
-/* Dropdown active item */
 .dropdown-item.active,
 .dropdown-item:active {
     background-color: #21543C;
 }
 
-/* Nav pills active */
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
     background-color: #21543C;
@@ -100,7 +78,6 @@
     --bs-nav-pills-link-active-bg: #21543C;
 }
 
-/* Pagination active */
 .page-item.active .page-link {
     background-color: #21543C;
     border-color:     #21543C;
@@ -110,24 +87,20 @@
     --bs-pagination-active-border-color: #21543C;
 }
 
-/* Progress bar */
 .progress-bar {
     background-color: #21543C;
 }
 
-/* List group active */
 .list-group-item.active {
     background-color: #21543C;
     border-color:     #21543C;
 }
 
-/* Badge primary */
 .badge.bg-primary,
 .badge.text-bg-primary {
     background-color: #21543C !important;
 }
 
-/* Background & border utility */
 .bg-primary {
     background-color: #21543C !important;
     border-color:     #21543C !important;
@@ -142,13 +115,11 @@
     background-color: #d4e8de !important;
 }
 
-/* Shadow glow card (hardcode di template) */
 .card,
 [class*="card"] {
     box-shadow: 0 8px 25px rgba(33, 84, 60, 0.08) !important;
 }
 
-/* Sidebar nav - item aktif */
 .sidebar-nav .nav .nav-link.active,
 .sidebar-nav .nav .nav-link.active:hover {
     background-color: #21543C !important;
@@ -167,7 +138,6 @@
     color: #21543C !important;
 }
 
-/* Gradient card (ada di line 31111 template) */
 [class*="gradient"],
 .bg-gradient-primary {
     background: linear-gradient(135deg, #21543C, #163a2a) !important;

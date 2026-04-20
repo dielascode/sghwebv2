@@ -30,10 +30,26 @@
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#21543C">
+    <style>
+    .table thead {
+        background-color: #21543C;
+        color: white;
+    }
+
+    .badge.bg-success {
+        background-color: #21543C !important;
+    }
+</style>
 
     <!-- PWA Manifest -->
+     <script>
+    // Override ApexCharts SEBELUM chart dirender
+    window.Apex = {
+        colors: ['#21543C', '#10b981', '#f59e0b', '#ef4444', '#2d7a56', '#06b6d4']
+    };
+</script>
     <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
-    <script type="module" crossorigin src="./assets/vendor-bootstrap-C9iorZI5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" crossorigin src="./assets/vendor-charts-DGwYAWel.js"></script>
     <script type="module" crossorigin src="./assets/vendor-ui-CflGdlft.js"></script>
     <script type="module" crossorigin src="./assets/main-B24LRf0x.js"></script>
@@ -84,7 +100,7 @@
     <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 11">
         <div id="toast-container"></div>
     </div>
-
+    
 </body>
 
 </html>
