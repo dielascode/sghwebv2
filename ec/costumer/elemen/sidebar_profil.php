@@ -72,7 +72,7 @@
                 <li class="active">
                     <a href="#"><i class="fa-solid fa-user"></i> Akun Saya</a>
                     <ul class="sub-menu">
-                        <li class="active-sub"><a href="#">Profil</a></li>
+                        <li class="active-sub"><a href="profile.php">Profil</a></li>
                         <li><a href="alamatcustomer.php">Alamat</a></li>
                         <li><a href="ubahpassword.php">Ubah Password</a></li>
                     </ul>

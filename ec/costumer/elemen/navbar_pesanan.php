@@ -60,7 +60,7 @@
 
             <!-- Logo -->
             <a class="navbar-brand" href="#">
-                <img src="http://localhost/semester%202/proyek%20SGH/sghwebv2/ec/images/navbar/logosgh.png" alt="Logo SGH" style="height:50px;">
+                <img src="../../images/navbar/logosgh.png" alt="Logo SGH" style="height:50px;">
             </a>
 
             <!-- Toggle Mobile -->

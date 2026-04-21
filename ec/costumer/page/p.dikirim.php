@@ -15,7 +15,6 @@
                 <div class="oh-cards">
 
                     
-                   
 
                     <!-- CARD 2 -->
                     <div class="oh-card">
