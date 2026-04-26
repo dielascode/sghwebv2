@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keranjang Saya - Agro Smart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../../style/costumer/keranjangStyles.css">
-</head>
-<body>
 
-    <?php include('../elemen/navbar.php'); ?>
 
     <main class="cart-wrapper">
         <div class="container">
-            <h1 class="page-title">Keranjang Saya</h1>
+            <h1 class="page-title1">Keranjang Saya</h1>
             <p class="product-count">4 Produk</p>
 
             <div class="cart-grid">
@@ -36,9 +22,9 @@
                             <span class="checkmark"></span>
                         </label>
                         <div class="product-img">
-                            <img src="../../../images/melon1.jpg" alt="Melon Honey Globe">
-                        </div>
-                        <div class="product-info">
+                                <img src="/sghwebv2/ec/images/produk6.png" alt="Melon Honey Globe">
+                            </div>
+                            <div class="product-info">
                             <h3>Melon</h3>
                             <p class="sub-name">Honey Globe</p>
                             <div class="action-row">
@@ -61,7 +47,7 @@
                             <span class="checkmark"></span>
                         </label>
                         <div class="product-img">
-                            <img src="../../../images/melon1.jpg" alt="Melon0">
+                            <img src="/sghwebv2/ec/images/produk3.png" alt="Melon0">
                         </div>
                         <div class="product-info">
                             <h3>Melon</h3>
@@ -86,7 +72,7 @@
                             <span class="checkmark"></span>
                         </label>
                         <div class="product-img">
-                            <img src="../../../images/melon1.jpg" alt="Melon1">
+                            <img src="/sghwebv2/ec/images/produk2.png" alt="Melon1">
                         </div>
                         <div class="product-info">
                             <h3>Melon</h3>
@@ -111,7 +97,7 @@
                             <span class="checkmark"></span>
                         </label>
                         <div class="product-img">
-                            <img src="../../../images/melon1.jpg" alt="Melon2">
+                            <img src="/sghwebv2/ec/images/produk5.png" alt="Melon2">
                         </div>
                         <div class="product-info">
                             <h3>Melon</h3>
@@ -146,13 +132,11 @@
                                 <span class="total-price">Rp. 205.000</span>
                             </div>
                         </div>
-                        <button class="btn-next">Selanjutnya</button>
+                        <button class="btn-next" href="#" onclick="loadPage('costumer/page/pemesanan.php')">Selanjutnya</button>
                     </div>
                 </aside>
             </div>
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    

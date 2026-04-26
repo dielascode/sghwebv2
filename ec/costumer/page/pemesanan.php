@@ -1,144 +1,136 @@
 
 
-    
-    <!-- WRAPPER BAWAH -->
-    <div class="container-pesanan d-flex">
-        <!-- SIDEBAR -->
-        <?php include "../elemen/sidebar_pesanan.php"; ?>
+<div class="container py-5">
 
-        <!-- KONTEN (kalau ada nanti) -->
-        <div class="konten flex-grow-1 p-3">
-            <div class="oh-wrap">
-                <div class="oh-title">Order History</div>
-                <div class="oh-count">3 orders</div>
+    <!-- STEP -->
+    <div class="d-flex justify-content-center mb-5">
+        <div class="step">
+            <div class="circle"><i class="bi bi-check"></i></div>
+            <span>Detail orders</span>
+        </div>
 
-                <div class="oh-cards">
+        <div class="line mx-3"></div>
 
-                    <!-- CARD 1 -->
-                    <div class="oh-card">
-                        <div class="card-status-bar">
-                            <span class="status-dot"></span>
-                            <span class="status-label">Menunggu Konfirmasi Admin</span>
-                        </div>
+        <div class="step">
+            <div class="circle"><i class="bi bi-check"></i></div>
+            <span>Pembayaran</span>
+        </div>
 
-                        <div class="card-inner">
-                            <div class="product-box">
-                                <div class="melon-thumb" >
-                                    <img src="/sghwebv2/ec/images/produk2.png" class="thumb-img">
-                                </div>
+        <div class="line mx-3"></div>
 
-                                <div class="product-info">
-                                    <div class="product-name">Melon Honey Globe</div>
+        <div class="step inactive">
+            <div class="circle"><i class="bi bi-check"></i></div>
+            <span>Succes</span>
+        </div>
+    </div>
 
-                                    <div class="product-meta">
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">Total Harga</span>
-                                            <span class="meta-val green">Rp 60.000</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">QTY</span>
-                                            <span class="meta-val">2 kg</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">No. Pesanan</span>
-                                            <span class="meta-val muted">ORD-001</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="row g-4">
 
-                            <div class="btn-box">
-                                <button class="btn-detail">Order Detail</button>
-                                <button class="btn-struk">Cetak Struk</button>
-                            </div>
+        <!-- LEFT -->
+        <div class="col-lg-8">
+
+            <h4 class=" judul-pesanan mb-3">Detail Pesanan</h4>
+
+            <!-- PRODUK -->
+            <div class="card card-custom mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center">
+                        <img src="/sghwebv2/ec/images/produk2.png" class="img-fluid">
+                    </div>
+                    <div class="col-md-8">
+                        <h4>Melon Honey Globe</h4>
+                        <h5 class="fw-bold">Rp 30.000 /Kg</h5>
+                        <p>Melon segar berkualitas tinggi hasil budidaya terkontrol dengan standar pertanian modern.</p>
+
+                        <p class="mb-1"><b>Kuantitas :</b></p>
+                        <div class="d-flex justify-content-between">
+                            <span>Rp 30.000 /Kg</span>
+                            <span>x3</span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card card-custom mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center">
+                        <img src="/sghwebv2/ec/images/produk2.png" class="img-fluid">
+                    </div>
+                    <div class="col-md-8">
+                        <h4>Melon Honey Globe</h4>
+                        <h5 class="fw-bold">Rp 30.000 /Kg</h5>
+                        <p>Melon segar berkualitas tinggi hasil budidaya terkontrol dengan standar pertanian modern.</p>
 
-                    <!-- CARD 2 -->
-                    <div class="oh-card">
-                        <div class="card-status-bar">
-                            <span class="status-dot ship"></span>
-                            <span class="status-label ship">Sedang Dikirim</span>
-                        </div>
-
-                        <div class="card-inner">
-                            <div class="product-box">
-                                <div class="melon-thumb" >
-                                    <img src="/sghwebv2/ec/images/produk4.png" class="thumb-img">
-                                </div>
-
-                                <div class="product-info">
-                                    <div class="product-name">Melon Sky Rocket</div>
-
-                                    <div class="product-meta">
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">Total Harga</span>
-                                            <span class="meta-val green">Rp 84.000</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">QTY</span>
-                                            <span class="meta-val">3 kg</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">No. Pesanan</span>
-                                            <span class="meta-val muted">ORD-002</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="btn-box">
-                                <button class="btn-detail">Order Detail</button>
-                                <button class="btn-struk">Cetak Struk</button>
-                            </div>
+                        <p class="mb-1"><b>Kuantitas :</b></p>
+                        <div class="d-flex justify-content-between">
+                            <span>Rp 30.000 /Kg</span>
+                            <span>x3</span>
                         </div>
                     </div>
-
-                    <!-- CARD 3 -->
-                    <div class="oh-card">
-                        <div class="card-status-bar">
-                            <span class="status-dot done"></span>
-                            <span class="status-label done">Pesanan Selesai</span>
-                        </div>
-
-                        <div class="card-inner">
-                            <div class="product-box">
-                                <div class="melon-thumb" >
-                                    <img src="/sghwebv2/ec/images/produk6.png" class="thumb-img">
-                                </div>
-
-                                <div class="product-info">
-                                    <div class="product-name">Melon Golden Langkawi</div>
-
-                                    <div class="product-meta">
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">Total Harga</span>
-                                            <span class="meta-val green">Rp 35.000</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">QTY</span>
-                                            <span class="meta-val">1 kg</span>
-                                        </div>
-                                        <div class="meta-row">
-                                            <span class="meta-lbl">No. Pesanan</span>
-                                            <span class="meta-val muted">ORD-003</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="btn-box">
-                                <button class="btn-detail">Order Detail</button>
-                                <button class="btn-struk">Cetak Struk</button>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
-        </div>
-    </div>
-</body>
+            <!-- ALAMAT -->
+            <div class="card card-custom">
+                <h5><i class="bi bi-geo-alt-fill text-success"></i> Alamat Pengiriman</h5>
 
-</html>
+                
+                <textarea class="form-control" rows="3" placeholder="Masukkan alamat lengkap Anda..."></textarea>
+            </div>
+
+            <small class="text-muted d-block mt-3">
+                *Pastikan informasi diatas sudah benar sebelum anda melanjutkan ke proses selanjutnya
+            </small>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col-lg-4"><br><br>
+
+            <div class="card card-custom">
+                <h5 class="mb-3">Rincian Pembayaran</h5>
+
+                <div class="mb-2 d-flex justify-content-between">
+                    <span>Nama :</span>
+                    <span>alexxx bhizer</span>
+                </div>
+
+                <div class="mb-2 d-flex justify-content-between">
+                    <span>Tanggal Pemesanan :</span>
+                    <span>22-01-2026 02:00</span>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-between">
+                    <span>Perkiraan waktu tiba :</span>
+                    <span>22-01-2026</span>
+                </div>
+
+                <div class="summary-box">
+                    <div class="d-flex justify-content-between">
+                        <span>Melon honey globe</span>
+                        <span>3 Kg</span>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <span>30.000 /Kg</span>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total Bayar</span>
+                        <span>30.000</span>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-green"  href="#" onclick="loadPage('costumer/page/pembayaran.php')">Selanjutnya</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

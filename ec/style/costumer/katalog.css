@@ -1,9 +1,11 @@
+
+
 .carousel-item img{
     border-radius: 10px;
     
 }
 .carousel{
-   padding: 85px 40px 20px; 
+   padding: 15px 30px 20px; 
 
 }
 .container1-katalog {
@@ -11,11 +13,11 @@
     justify-content: space-between; /* ini kuncinya */
     align-items: center;
     padding: 0 70px;
-    margin-top: 5px;
+    
 }
 .judul-flex {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
     color: #1a2e0a;
 }
 
@@ -32,9 +34,9 @@
     color: white;
     border: none;
     padding: 8px 18px;
-    border-radius: 15px;
+    border-radius: 16px;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -44,9 +46,9 @@
     color: white;
     border: none;
     padding: 8px 18px;
-    border-radius: 15px;
+    border-radius: 16px;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -105,17 +107,17 @@
   box-shadow: 0 16px 40px rgba(0,0,0,0.08);
 }
 /* IMAGE AREA */
-
-
-.product-img {
-    height: 200px; /* tambah dikit */
-    width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  object-fit: cover;
- 
+.img1-area {
   
+  height: 180px;
+  overflow: hidden;
+}
+
+.product1-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* penting */
 }
 /* BODY */
 .card-body {

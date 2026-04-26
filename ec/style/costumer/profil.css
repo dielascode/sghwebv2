@@ -18,107 +18,23 @@ body {
     color: #333;
 }
 
-.navbar {
-    background-color: #114029;
-    color: white;
-    padding: 10px 40px;
-    border-bottom: 4px solid #6c5ce7; 
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo img { height: 35px; }
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.user-info {
-    background: white;
-    color: #333;
-    padding: 5px 15px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.profile-icon { font-size: 1.2rem; }
-
-.main-container {
-    display: flex;
-    max-width: 1300px;
-    margin: 30px auto;
-    gap: 20px;
-}
-
-.sidebar {
-    width: 250px;
+.content-profil { 
+    flex: 1; 
+    margin-left: 250px;
     padding: 20px;
+    margin-right: 100px;
 }
 
-.sidebar-user {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 30px;
+.header-content h1 { 
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px; 
 }
 
-.sidebar-user img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
+.header-content p { 
+    color: var(--text-muted); 
+    margin-bottom: 25px; 
 }
-
-.username { font-weight: 600; font-size: 14px; }
-.edit-link { font-size: 12px; color: var(--text-muted); text-decoration: none; }
-
-.menu-list { list-style: none; }
-.menu-list li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-    padding: 10px 0;
-    font-weight: 500;
-}
-
-.sub-menu {
-    list-style: none;
-    padding-left: 25px;
-}
-
-.sub-menu li a {
-    font-weight: 400;
-    font-size: 13px;
-    color: #555;
-}
-
-.active-sub a { color: var(--primary-green); font-weight: 600; }
-
-.content { flex: 1; }
-
-.header-content h1 { font-size: 28px; margin-bottom: 5px; }
-.header-content p { color: var(--text-muted); margin-bottom: 25px; }
 
 .profile-grid {
     display: grid;
@@ -152,7 +68,11 @@ body {
     object-fit: cover;
 }
 
-.display-name { font-weight: 600; font-size: 20px; margin-bottom: 20px; }
+.display-name { 
+    font-weight: 600; 
+    font-size: 20px; 
+    margin-bottom: 20px; 
+}
 
 .btn-photo {
     background-color: var(--primary-green);
@@ -163,7 +83,10 @@ body {
     display: inline-block;
 }
 
-.info-card h2 { margin-bottom: 30px; font-size: 24px; }
+.info-card h2 { 
+    margin-bottom: 30px; 
+    font-size: 24px; 
+}
 
 .input-group {
     display: flex;
@@ -205,4 +128,6 @@ body {
     transition: 0.3s;
 }
 
-.btn-save:hover { background-color: #368a62; }
+.btn-save:hover { 
+    background-color: #368a62; 
+}

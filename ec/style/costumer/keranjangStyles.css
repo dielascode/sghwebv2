@@ -1,11 +1,12 @@
 :root {
-  --bg-color: #f4f7f6;
+  --bg-color: #FAFDF8;
   --primary-green: #2d7a4d;
   --dark-text: #1a1a1a;
   --gray-text: #757575;
 }
 
 body {
+  padding-top: 70px;
   font-family: "Inter", sans-serif;
   background-color: var(--bg-color);
   margin: 0;
@@ -18,10 +19,10 @@ body {
   padding: 40px 20px;
 }
 
-.page-title {
+.page-title1 {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 5px;
+  
 }
 
 .product-count {
