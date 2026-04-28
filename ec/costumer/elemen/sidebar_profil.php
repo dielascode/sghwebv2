@@ -1,46 +1,34 @@
-<style>
-    .sidebar {
-        width: 250px;
-        padding: 20px;
-    }
+ <aside class="sidebar-profil">
+ 
+    <div class="sidebar-profil__header">
+      <img class="sidebar-profil__avatar" src="/sghwebv2/ec/images/profil.jpg" alt="Avatar" />
+      <div class="sidebar-profil__info">
+        <p class="sidebar-profil__name">Faiq Imup</p>
+        <p class="sidebar-profil__sub">Jember, East Java</p>
+      </div>
+    </div>
+ 
+    <div class="sidebar-menu-profil">
+    <p class="menu-title-profil">AKUN SAYA</p>
 
-    .sidebar-user {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 30px;
-    }
+    <a href="#" onclick="loadPage('costumer/page/profile.php')" class="menu-item-profil ">
+        <i class="fa-solid fa-user"></i>
+        <span>Profil</span>
+    </a>
 
-    .sidebar-user img {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+    <a href="#" onclick="loadPage('costumer/page/alamatcustomer.php')" class="menu-item-profil">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Alamat</span>
+    </a>
 
-    .username { 
-        font-weight: 600; 
-        font-size: 14px; 
-    }
-    
-    .edit-link { 
-        font-size: 12px; 
-        color: var(--text-muted); 
-        text-decoration: none; 
-    }
+    <a href="#" onclick="loadPage('costumer/page/ubahPassword.php')" class="menu-item-profil">
+        <i class="fa-solid fa-lock"></i>
+        <span>Ubah Password</span>
+    </a>
 
-    .menu-list { 
-        list-style: none; 
-    }
-    
-    .menu-list li a {
-        text-decoration: none;
-        color: #333;
-        display: block;
-        padding: 10px 0;
-        font-weight: 500;
-    }
+    <div class="divider-profil"></div>
 
+<<<<<<< HEAD
     .sub-menu {
         list-style: none;
         padding-left: 25px;
@@ -80,3 +68,9 @@
                 <li><a href="#"><i class="fa-regular fa-file-lines"></i> Pesanan Saya</a></li>
             </ul>
         </aside>
+=======
+   
+</div>
+  </aside>
+ 
+>>>>>>> d89d7c808a2ee5b98322610ee048370820f6c5c3

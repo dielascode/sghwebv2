@@ -1,45 +1,44 @@
-<?php include('../elemen/navbar_pesanan.php'); ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubah Password - SGH POLIJE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../../style\costumer/ubahpassword.css">
-</head>
+
 <body>
-    <div class="main-container" style="display: flex;">
-        <?php include('../elemen/sidebar_profil.php'); ?>
-
+    
+    <div class="container-pesanan d-flex">
+        <!-- SIDEBAR -->
+        <?php include "../elemen/sidebar_profil.php"; ?>   
         <main class="content">
-            <div class="pw-card">
-                <h2>Ubah Password</h2>
-                <hr class="divider">
+    <div class="pw-card">
+        
+        <div class="pw-header">
+            <h2>Ubah Password</h2>
+            <p>Pastikan password Anda kuat dan aman</p>
+        </div>
 
-                <form action="proses_update_pw.php" method="POST">
-                    <div class="form-group-pw">
-                        <label>Password Lama</label>
-                        <input type="password" name="old_password" required>
-                    </div>
+        <form action="proses_update_pw.php" method="POST">
 
-                    <div class="form-group-pw">
-                        <label>Password Baru</label>
-                        <input type="password" name="new_password" required>
-                    </div>
-
-                    <div class="form-group-pw">
-                        <label>Konfirmasi Password Baru</label>
-                        <input type="password" name="confirm_password" required>
-                    </div>
-
-                    <div class="btn-container-center">
-                        <button type="submit" class="btn-ubah">Ubah</button>
-                    </div>
-                </form>
+            <div class="form-group-pw">
+                <label>Password Lama</label>
+                <input type="password" name="old_password" placeholder="Masukkan password lama" required>
             </div>
-        </main>
+
+            <div class="form-group-pw">
+                <label>Password Baru</label>
+                <input type="password" name="new_password" placeholder="Masukkan password baru" required>
+                <small class="hint">Minimal 8 karakter, kombinasi huruf & angka</small>
+            </div>
+
+            <div class="form-group-pw">
+                <label>Konfirmasi Password Baru</label>
+                <input type="password" name="confirm_password" placeholder="Konfirmasi password baru" required>
+            </div>
+
+            <div class="btn-container-center">
+                <button type="submit" class="btn-ubah">
+                    Simpan Password
+                </button>
+            </div>
+
+        </form>
+    </div>
+</main>
     </div>
 
 </body>
