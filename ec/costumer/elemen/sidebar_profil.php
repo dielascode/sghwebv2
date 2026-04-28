@@ -11,12 +11,12 @@
     <div class="sidebar-menu-profil">
     <p class="menu-title-profil">AKUN SAYA</p>
 
-    <a href="#" class="menu-item-profil active-profil">
+    <a href="#" onclick="loadPage('costumer/page/profile.php')" class="menu-item-profil ">
         <i class="fa-solid fa-user"></i>
         <span>Profil</span>
     </a>
 
-    <a href="#" onclick="loadPage('costumer/page/.php')" class="menu-item-profil">
+    <a href="#" onclick="loadPage('costumer/page/alamatcustomer.php')" class="menu-item-profil">
         <i class="fa-solid fa-location-dot"></i>
         <span>Alamat</span>
     </a>

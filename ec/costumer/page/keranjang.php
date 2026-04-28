@@ -1,7 +1,7 @@
 
 
     <main class="cart-wrapper">
-        <div class="container">
+        <div class="container-keranjang">
             <h1 class="page-title1">Keranjang Saya</h1>
             <p class="product-count">4 Produk</p>
 

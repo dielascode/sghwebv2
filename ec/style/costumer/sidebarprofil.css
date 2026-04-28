@@ -79,17 +79,25 @@
     font-size: 16px;
 }
 
+/*/* Default link */
+
+
+/* Visited (biar ga jadi ungu/biru) */
+
+
 /* Hover */
 .menu-item-profil:hover {
     background: #f3f6f5;
+    color: #45a778; /* ijo lebih terang */
 }
 
-/* Active */
-.active-profil {
-    background: linear-gradient(90deg, #e8f5ee, #f6fbf8);
-    color: #2e7d5b;
-    font-weight: 600;
+/* Active klik */
+.menu-item-profil:active {
+    color: #1b5e44;
 }
+
+/* Hover untuk yang active */
+
 
 .active-profil::before {
     content: "";

@@ -7,7 +7,7 @@
         <?php include "../elemen/sidebar_profil.php"; ?>
         <main class="content-profil">
             <div class="header-content">
-                <h1>Profil saya</h1>
+                <h1>Informasi Akun</h1>
                 <p>Kelola Informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun</p>
             </div>
 
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="card info-card">
-                    <h2>Informasi Akun</h2>
+                    <h2>Profil Saya</h2>
                     
                     <div class="input-group">
                         <label><i class="fa-solid fa-user"></i> Username</label>

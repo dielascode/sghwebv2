@@ -1,109 +1,251 @@
-/* Warna Utama SGH POLIJE */
+/* ================= ROOT ================= */
 :root {
     --sgh-green: #45a778;
-    --sgh-dark: #114029;
+    --sgh-dark: #2d6a4f;
+    --bg-soft: #f5f7f6;
 }
 
-.bg-sgh-primary {
-    background-color: var(--sgh-green) !important;
+/* ================= LAYOUT ================= */
+.content-area {
+    flex: 1;
+    padding: 85px 20px;
+    margin-left: 250px;
+    background: var(--bg-soft);
 }
 
+/* ================= CARD UTAMA ================= */
+.address-card {
+    background: #fff;
+    border-radius: 20px !important;
+    padding: 35px !important;
+    max-width: 950px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: none !important;
+}
+
+/* ================= HEADER ================= */
+
+
+.address-card p {
+    color: #777;
+}
+
+/* BUTTON TAMBAH */
 .btn-sgh-primary {
-    background-color: var(--sgh-green);
-    color: white;
     border: none;
+    border-radius: 30px !important;
+    padding: 13px 18px;
     transition: 0.3s;
+    background: linear-gradient(135deg, #2d6a4f, #52b788);
+    color: white;
+    font-size: 14px;
 }
 
 .btn-sgh-primary:hover {
-    background-color: #368a62;
-    color: white;
-}
-
-/* Penyesuaian Layout */
-.main-container {
-    background-color: #f5f5f5;
-    min-height: 100vh;
-}
-
-.address-card {
-    min-height: 600px;
-    width: 100%;
-}
-
-.address-box {
-    background-color: #fff;
-    font-size: 16px;
-    color: #333;
-}
-
-/* Sidebar fix agar tidak menciut */
-aside {
-    width: 280px;
-    flex-shrink: 0;
-}
-
-/* Memastikan konten mengisi sisa layar */
-.content-area {
-    flex: 1;
-}
-/* Custom Modal Style SGH */
-.modal-content {
-    border-radius: 0; /* Figma terlihat kotak tajam */
-    border: 2px solid #007bff; /* Garis biru highlight sesuai pilihan di Figma */
-}
-
-.form-floating-custom {
-    position: relative;
-    margin-top: 20px; /* Memberi ruang untuk label yang menempel di atas */
-}
-
-.label-floating {
-    position: absolute;
-    top: -12px; /* Mengatur posisi label agar tepat di tengah garis border */
-    left: 15px;
-    background-color: white; /* Memberi background putih agar garis di bawah teks hilang */
-    padding: 0 10px;
-    font-size: 13px;
-    color: #666;
-    z-index: 2;
-    white-space: nowrap; /* Agar label tidak turun ke bawah */
-}
-
-.custom-input {
-    border: 1px solid #333 !important; /* Border hitam tipis */
-    border-radius: 0px !important;    /* Sudut kotak tajam sesuai desain */
-    padding: 12px 15px !important;
-    height: 50px;
-    appearance: none; /* Menghilangkan arrow bawaan browser jika ingin custom */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 16px 12px;
-}
-
-/* Tombol Modal */
-.btn-nanti {
-    background-color: #45a778;
-    color: white;
-    border-radius: 20px;
-    transition: 0.3s;
-}
-
-.btn-ok {
-    background: linear-gradient(to right, #114029, #45a778);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    transition: 0.3s;
-}
-
-.btn-nanti:hover, .btn-ok:hover {
+    transform: translateY(-2px);
     opacity: 0.9;
     color: white;
 }
 
-.map-container img {
-    height: 150px;
-    object-fit: cover;
+/* ================= ITEM ================= */
+.address-item {
+    padding: 20px 0;
+    border-radius: 15px;
+}
+
+/* kasih efek card ke tiap item */
+.address-item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    transition: 0.25s;
+}
+
+.address-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* ITEM PERTAMA (UTAMA) */
+.address-item:first-of-type {
+    border: 1px solid var(--sgh-green);
+    background: #f6fbf8;
+}
+
+/* ================= TEXT ================= */
+.contact-info {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+
+/* ADDRESS BOX DIHILANGIN FEEL BORDER KASAR */
+.address-box {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* ================= BADGE ================= */
+.badge.bg-sgh-primary {
+    background: var(--sgh-green) !important;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+/* ================= ACTION ================= */
+.action-links a {
+    color: var(--sgh-dark) !important;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.action-links a:hover {
+    color: var(--sgh-green) !important;
+}
+
+/* ================= BUTTON KANAN ================= */
+.address-right .btn {
+    border-radius: 20px !important;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+/* ================= HR ================= */
+hr {
+    opacity: 0.1;
+}
+
+/* ================= FIX FLEX ================= */
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.address-left {
+    flex: 1;
+}
+
+.address-right {
+    min-width: 180px;
+}
+/* WRAPPER */
+.address-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 35px;
+    max-width: 950px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* ITEM */
+.alamat-item {
+    border: 1px solid #eee;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    background: white;
+}
+
+.alamat-item:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+/* UTAMA */
+.alamat-item.utama {
+    border: 1px solid #45a778;
+    background: #f6fbf8;
+}
+
+/* TOP */
+.alamat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nama {
+    font-weight: 600;
+}
+
+.phone {
+    color: #777;
+}
+
+/* ICON */
+.icon {
+    color: #45a778;
+}
+
+/* AKSI */
+.aksi a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #2d6a4f;
+    font-size: 14px;
+}
+
+.aksi .hapus {
+    color: #d9534f;
+}
+
+/* MIDDLE */
+.alamat-middle {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    color: #444;
+}
+
+/* BOTTOM */
+.alamat-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* BADGE */
+.badge-utama {
+    background: #2d6a4f;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+/* BUTTON */
+.btn-outline {
+    border: 1px solid #45a778;
+    color: #45a778;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    background: linear-gradient(135deg, #45a778, #2d6a4f);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(69, 167, 120, 0.3);
+}
+
+/* HR */
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
 }

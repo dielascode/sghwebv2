@@ -1,4 +1,4 @@
-<div class="container-pembayaran py-5">
+<div class="container-pembayaran ">
     <div class="d-flex justify-content-center mb-5">
         <div class="step">
             <div class="circle"><i class="bi bi-check"></i></div>
