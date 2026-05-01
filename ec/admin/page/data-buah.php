@@ -1,6 +1,20 @@
 <?php
-include __DIR__ . "/../../logic/admin/buahController.php";
-$buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
+// include __DIR__ . "/../../logic/admin/buahController.php";
+// $buah = getBuah($conn); 
+?>
+<?php
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/buahApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$buah = new Buah($conn);
+
+$result = $buah->getBuah();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
 ?>
 <div class="container-fluid p-4 p-lg-5">
 
@@ -38,7 +52,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
-                            <?php foreach ($buah as $b): ?>
+                            <?php foreach ($result as $b): ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
 
@@ -79,7 +93,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formBuah">
+                <form id="formTambahBuah">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label">Nama Buah</label>
@@ -132,35 +146,33 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
 </script>
 <script>
     //ini buat ngirim data dari form ke itu dh pokoknya
-    document.getElementById('formBuah').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    document.getElementById('formTambahBuah').addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop form biar ga refresh halaman
 
-        const form = this;
+        const formData = new FormData(this);
 
-        try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=tambah', {
+        // Kirim data ke controller lewat jalur belakang (AJAX)
+        fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=tambah', {
                 method: 'POST',
-                body: new FormData(form)
+                body: formData
             })
-
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert('Berhasil ditambahkan!');
-
-                this.reset();
-
-                location.reload();
-
-            } else {
-                alert('Gagal!');
-            }
-
-        } catch (error) {
-            console.error(error);
-            alert('Error server!');
-        }
+            .then(response => response.text()) // Ambil sebagai teks dulu
+            .then(text => {
+                console.log("Respon Mentah dari PHP:", text); // LIHAT DI CONSOLE ISINYA APA
+                try {
+                    const data = JSON.parse(text);
+                    if (data.status) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert("Gagal: " + data.message);
+                    }
+                } catch (err) {
+                    console.error("Gagal Parse JSON. Teks yang diterima:", text);
+                    alert("Server tidak mengirim JSON. Cek console!");
+                }
+            })
+            .catch(error => console.error('Error:', error));
     });
 
     // yg ini ngedit yhh
