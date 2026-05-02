@@ -1,15 +1,21 @@
 <?php
-include __DIR__ . "/../connection.php"; //pake dir aja biar enak
 
-function getCostumer($conn){
-    $query = "SELECT * FROM user
-WHERE role = 'customer'";
-    $result = mysqli_query($conn, $query);
 
-    $customer = [];
-    while($row = mysqli_fetch_assoc($result)){
-        $customer[] = $row;
+class Costumer
+{
+    private $conn;
+    private $table = "users";
+
+    public function __construct($db)
+    {
+        $this->conn = $db;
     }
-
-    return $customer;
+    public function getCustomers()
+    {
+        $role = 'costumer'; 
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE role = ?");
+        $stmt->bind_param("s", $role);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
 }

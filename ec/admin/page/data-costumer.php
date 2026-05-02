@@ -1,6 +1,16 @@
 <?php
+include __DIR__ . "/../../config/connection.php";
 include __DIR__ . "/../../logic/admin/costumerApi.php";
-$customer = getCostumer($conn); //ini ni tampilnya, apa ws getnya ituch
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$costumer = new Costumer($conn);
+
+$result = $costumer->getCustomers();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
 ?>
 
 <div class="container-fluid p-4 p-lg-5">
@@ -123,7 +133,7 @@ $customer = getCostumer($conn); //ini ni tampilnya, apa ws getnya ituch
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
-                            <?php foreach ($customer as $c): ?>
+                            <?php foreach ($result as $c): ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
 
