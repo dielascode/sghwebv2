@@ -13,7 +13,7 @@ class Auth{
         $email = trim($email);
         $password = trim($password);
 
-        $stmt = $this->conn->prepare("SELECT * FROM user WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
@@ -21,7 +21,7 @@ class Auth{
         if($result && $result->num_rows > 0){
             $user = $result->fetch_assoc();
 
-            if ($user && password_verify($password, $user['password'])) {
+            if ($user && $password == $user['password']) {
                 session_regenerate_id(true);
                 $_SESSION['user'] = $user;
                 return true;
