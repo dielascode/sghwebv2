@@ -13,65 +13,53 @@ class Buah
 
     public function getBuah()
     {
-        // $query = "select * from buah";
-        // $result = mysqli_query($conn, $query);
-
-        // $buah = [];
-        // while ($row = mysqli_fetch_assoc($result)) {
-        //     $buah[] = $row;
-        // }
-
-        // return $buah;
         return $this->conn->query("SELECT * FROM $this->table");
     }
 
-    // Di dalam buahApi.php pada function store
-public function store($data) {
-    $stmt = $this->conn->prepare("INSERT INTO $this->table(nama_buah) VALUES (?)");
-    $stmt->bind_param("s", $data['nama_buah']);
-    
-    if ($stmt->execute()) {
-        return [
-            'status' => true,
-            'message' => 'Buah berhasil disimpan ke AgriNexa!'
-        ];
-    } else {
-        return [
-            'status' => false,
-            'message' => 'Gagal simpan: ' . $this->conn->error
-        ];
-    }
-}
-
-    public function update($id, $data)
+    public function store($data)
     {
-        // $nama_buah = mysqli_real_escape_string($conn, $nama_buah);
+        $stmt = $this->conn->prepare("INSERT INTO $this->table(nama_buah) VALUES (?)");
+        $stmt->bind_param("s", $data['nama_buah']);
 
-        // $query = "UPDATE buah 
-        //       SET nama_buah='$nama_buah'
-        //       WHERE id=$id";
-
-        // return mysqli_query($conn, $query);
-        $stmt = $this->conn->prepare("UPDATE $this->table SET nama_buah=? WHERE id=?");
-        $stmt->bind_param("si", $data['nama_buah'], $id);
-        return $stmt->execute();
-    }
-
-    public function delete($id)
-    {
-        $query = "DELETE FROM buah WHERE id='$id'";
-        $stmt = $this->conn->prepare($query);
-
-        if ($stmt->execute([$id])) {
+        if ($stmt->execute()) {
             return [
                 'status' => true,
-                'message' => 'Data berhasil dihapus'
+                'message' => 'Buah berhasil disimpan ke AgriNexa!'
             ];
         } else {
             return [
                 'status' => false,
-                'message' => 'Gagal menghapus data'
+                'message' => 'Gagal simpan: ' . $this->conn->error
             ];
+        }
+    }
+
+    public function update($id, $data)
+    {
+        $stmt = $this->conn->prepare("UPDATE $this->table SET nama_buah=? WHERE id=?");
+        $stmt->bind_param("si", $data['nama_buah'], $id);
+        if ($stmt->execute()) {
+            return [
+                'status' => true,
+                'message' => 'Data buah berhasil diperbarui!'
+            ];
+        } else {
+            return [
+                'status' => false,
+                'message' => 'Gagal update: ' . $this->conn->error
+            ];
+        }
+    }
+
+    public function delete($id)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM $this->table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute()) {
+            return ['status' => true, 'message' => 'Data buah berhasil dihapus!'];
+        } else {
+            return ['status' => false, 'message' => 'Gagal menghapus: ' . $this->conn->error];
         }
     }
     public function getBuahById($id)

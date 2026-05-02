@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 
 include __DIR__ . "/../../config/connection.php";
-include __DIR__ . "/../../logic/admin/buahApi.php";
+include __DIR__ . "/../../logic/admin/varietasApi.php";
 
 $db = new Database();
 $conn = $db->getConnection();

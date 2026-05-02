@@ -69,7 +69,7 @@ if (!$result) {
                                         <!-- tombol delete -->
                                         <button
                                             class="btn btn-sm btn-danger"
-                                            onclick="deleteVarietas(<?= $b['id']; ?>)">
+                                            onclick="deleteBuah(<?= $b['id']; ?>)">
                                             Hapus
                                         </button>
                                     </td>
@@ -119,12 +119,12 @@ if (!$result) {
             </div>
 
             <div class="modal-body">
-                <form id="formEdit">
-                    <input type="hidden" id="edit_id">
+                <form id="formEditBuah">
+                    <input type="hidden" name="id" id="edit_id">
 
                     <div class="mb-3">
                         <label>Nama Buah</label>
-                        <input type="text" id="edit_nama" class="form-control">
+                        <input type="text" name="nama_buah" id="edit_nama" class="form-control">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -147,18 +147,17 @@ if (!$result) {
 <script>
     //ini buat ngirim data dari form ke itu dh pokoknya
     document.getElementById('formTambahBuah').addEventListener('submit', function(e) {
-        e.preventDefault(); // Stop form biar ga refresh halaman
+        e.preventDefault();
 
         const formData = new FormData(this);
 
-        // Kirim data ke controller lewat jalur belakang (AJAX)
         fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=tambah', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text()) // Ambil sebagai teks dulu
+            .then(response => response.text())
             .then(text => {
-                console.log("Respon Mentah dari PHP:", text); // LIHAT DI CONSOLE ISINYA APA
+                console.log("respon:", text);
                 try {
                     const data = JSON.parse(text);
                     if (data.status) {
@@ -176,68 +175,63 @@ if (!$result) {
     });
 
     // yg ini ngedit yhh
-    document.getElementById('formEdit').addEventListener('submit', async function(e) {
+    document.getElementById('formEditBuah').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const data = {
-            id: document.getElementById('edit_id').value,
-            nama: document.getElementById('edit_nama').value,
-        };
+        const formData = new FormData(this);
 
         try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=edit', {
+            const response = await fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=update', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: data.id,
-                    nama_buah: data.nama
-                })
+                body: formData
             });
 
-            const result = await response.json();
+            const text = await response.text();
+            console.log("respon:", text);
 
-            if (result.success) {
-                alert('Berhasil diupdate!');
+            const data = JSON.parse(text);
+
+            if (data.status) {
+                alert(data.message);
                 location.reload();
             } else {
-                alert('Gagal update!');
+                alert('Gagal: ' + data.message);
             }
 
         } catch (err) {
-            console.error(err);
-            alert('Error server!');
+            console.error("Error Detail:", err);
+            alert('Terjadi kesalahan sistem!');
         }
     });
 
     //ini ngedelet
-    async function deleteVarietas(id) {
-        if (!confirm('Yakin mau hapus data ini?')) return;
+    async function deleteBuah(id) {
+        if (!confirm('Yakin mau hapus data buah ini?')) return;
 
         try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=delete', {
+            const formData = new FormData();
+            formData.append('id', id);
+
+            const response = await fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=delete', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
+                body: formData
             });
 
-            const result = await response.json();
+            const text = await response.text();
+            console.log("Respon Hapus:", text);
 
-            if (result.success) {
-                alert('Berhasil dihapus!');
+            const data = JSON.parse(text);
+
+            if (data.status) {
+                alert(data.message);
                 location.reload();
             } else {
-                alert('Gagal hapus!');
+                alert('Gagal: ' + data.message);
             }
 
         } catch (error) {
-            console.error(error);
-            alert('Error server!');
+            console.error("Error Detail:", error);
+            alert('Terjadi kesalahan pada server!');
         }
     }
 </script>
