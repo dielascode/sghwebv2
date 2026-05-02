@@ -1,17 +1,30 @@
+<?php
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/produkApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$produk = new Produk($conn);
+
+$result = $produk->getProduk();
+$buah = $produk->getBuah();
+$varietas = $produk->getVarietas();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
+?>
 <div class="container-fluid p-4 p-lg-5">
 
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 mb-lg-5">
         <div>
-            <h1 class="h3 mb-0">Product Management</h1>
-            <p class="text-muted mb-0">Manage your product catalog and inventory</p>
+            <h1 class="h3 mb-0">Manajemen Produk</h1>
+            <p class="text-muted mb-0">Kelola manajemen produk dan inventoris</p>
         </div>
         <div class="d-flex gap-2">
             <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
                 <i class="bi bi-download me-2"></i>Export
-            </button>
-            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#importModal">
-                <i class="bi bi-upload me-2"></i>Import
             </button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
                 <i class="bi bi-plus-lg me-2"></i>Add Product
@@ -20,7 +33,7 @@
     </div>
 
     <!-- Product Management Container -->
-    <div x-data="productTable" x-init="init()">
+    <div>
 
         <!-- Product Stats Widgets -->
         <div class="row g-4 g-lg-5 mb-5">
@@ -101,187 +114,53 @@
         <!-- Products Table -->
         <div class="card">
             <div class="card-header">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5 class="card-title mb-0">Product Catalog</h5>
-                    </div>
-                    <div class="col-auto">
-                        <div class="d-flex gap-2">
-                            <!-- Search -->
-                            <div class="position-relative">
-                                <input type="search"
-                                    class="form-control form-control-sm"
-                                    placeholder="Search products..."
-                                    x-model="searchQuery"
-                                    @input="filterProducts()"
-                                    style="width: 200px;">
-                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
-                            </div>
-
-                            <!-- Category Filter -->
-                            <select class="form-select form-select-sm"
-                                x-model="categoryFilter"
-                                @change="filterProducts()"
-                                style="width: 150px;">
-                                <option value="">All Categories</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="books">Books</option>
-                                <option value="home">Home & Garden</option>
-                            </select>
-
-                            <!-- Stock Filter -->
-                            <select class="form-select form-select-sm"
-                                x-model="stockFilter"
-                                @change="filterProducts()"
-                                style="width: 150px;">
-                                <option value="">All Stock</option>
-                                <option value="in-stock">In Stock</option>
-                                <option value="low-stock">Low Stock</option>
-                                <option value="out-of-stock">Out of Stock</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <h5 class="mb-0">Tabel Buah</h5>
             </div>
-            <div class="card-body p-0">
-                <!-- Bulk Actions Bar -->
-                <div class="bulk-actions-bar p-3 bg-light border-bottom" x-show="selectedProducts.length > 0" x-transition>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted">
-                            <span x-text="selectedProducts.length"></span> product(s) selected
-                        </span>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('publish')">
-                                <i class="bi bi-eye me-1"></i>Publish
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('unpublish')">
-                                <i class="bi bi-eye-slash me-1"></i>Unpublish
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger" @click="bulkAction('delete')">
-                                <i class="bi bi-trash me-1"></i>Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Table -->
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-striped table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox"
-                                        class="form-check-input"
-                                        @change="toggleAll($event.target.checked)"
-                                        :checked="selectedProducts.length === filteredProducts.length && filteredProducts.length > 0">
-                                </th>
-                                <th>Product</th>
-                                <th @click="sortBy('category')" class="sortable">Category</th>
-                                <th @click="sortBy('price')" class="sortable">Price</th>
-                                <th @click="sortBy('stock')" class="sortable">Stock</th>
-                                <th>Status</th>
-                                <th @click="sortBy('created')" class="sortable">Created</th>
-                                <th style="width: 120px;">Actions</th>
+                                <th>No</th>
+                                <th>Nama Produk</th>
+                                <th>Tipe Produk</th>
+                                <th>Deskripsi</th>
+                                <th>Stok</th>
+                                <th>Harga</th>
+                                <th style="width: 120px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <template x-for="product in paginatedProducts" :key="product.id">
+                            <?php $no = 1; ?>
+                            <?php foreach ($result as $b): ?>
                                 <tr>
-                                    <td>
-                                        <input type="checkbox"
-                                            class="form-check-input"
-                                            :value="product.id"
-                                            x-model="selectedProducts">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img :src="product.image"
-                                                class="product-image me-3"
-                                                :alt="product.name">
-                                            <div>
-                                                <div class="fw-medium" x-text="product.name"></div>
-                                                <small class="text-muted" x-text="'SKU: ' + product.sku"></small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light text-dark" x-text="product.category"></span>
-                                    </td>
-                                    <td x-text="`$${product.price}`"></td>
-                                    <td>
-                                        <span class="badge stock-badge"
-                                            :class="{
-                                                                  'in-stock': product.stock > 20,
-                                                                  'low-stock': product.stock > 0 && product.stock <= 20,
-                                                                  'out-of-stock': product.stock === 0
-                                                              }"
-                                            x-text="product.stock + ' units'"></span>
-                                    </td>
-                                    <td>
-                                        <span class="badge"
-                                            :class="{
-                                                                  'bg-success': product.status === 'published',
-                                                                  'bg-secondary': product.status === 'draft',
-                                                                  'bg-warning': product.status === 'pending'
-                                                              }"
-                                            x-text="product.status"></span>
-                                    </td>
-                                    <td x-text="product.created"></td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#" @click="editProduct(product)">
-                                                        <i class="bi bi-pencil me-2"></i>Edit
-                                                    </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="viewProduct(product)">
-                                                        <i class="bi bi-eye me-2"></i>View Details
-                                                    </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="duplicateProduct(product)">
-                                                        <i class="bi bi-copy me-2"></i>Duplicate
-                                                    </a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><a class="dropdown-item text-danger" href="#" @click="deleteProduct(product)">
-                                                        <i class="bi bi-trash me-2"></i>Delete
-                                                    </a></li>
-                                            </ul>
-                                        </div>
+                                    <td><?= $no++; ?></td>
+
+                                    <td><?= $b['nama_produk']; ?></td>
+                                    <td><?= $b['tipe']; ?></td>
+                                    <td><?= $b['deskripsi']; ?></td>
+                                    <td><?= $b['stok']; ?></td>
+                                    <td><?= $b['harga']; ?></td>
+
+                                    <td style="display: flex; gap: 10px;">
+                                        
+                                        <button
+                                            class="btn btn-sm btn-warning"
+                                            onclick="openEditModal(<?= $b['id']; ?>, '<?= $b['nama_buah']; ?>')">
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-danger"
+                                            onclick="deleteBuah(<?= $b['id']; ?>)">
+                                            Hapus
+                                        </button>
                                     </td>
                                 </tr>
-                            </template>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="d-flex justify-content-between align-items-center p-3">
-                    <div class="text-muted">
-                        Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to
-                        <span x-text="Math.min(currentPage * itemsPerPage, filteredProducts.length)"></span> of
-                        <span x-text="filteredProducts.length"></span> results
-                    </div>
-                    <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-                            </li>
-                            <template x-for="(page, index) in visiblePages" :key="`page-${index}`">
-                                <li class="page-item" :class="{ 'active': page === currentPage }">
-                                    <a class="page-link" href="#" @click.prevent="page !== '...' && goToPage(page)" x-text="page"></a>
-                                </li>
-                            </template>
-                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -294,51 +173,61 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add New Product</h5>
+                <h5 class="modal-title">Tambah Produk Baru</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form x-data="productForm">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label class="form-label">Product Name</label>
-                            <input type="text" class="form-control" x-model="form.name" required>
+                            <label class="form-label">Nama Produk</label>
+                            <input type="text" class="form-control" name="nama_produk" id="nama_produk" required>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">SKU</label>
-                            <input type="text" class="form-control" x-model="form.sku" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Category</label>
-                            <select class="form-select" x-model="form.category" required>
-                                <option value="">Select Category</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="books">Books</option>
-                                <option value="home">Home & Garden</option>
+                        <div class="col-md-12">
+                            <label class="form-label">Tipe Produk</label>
+                            <select class="form-select" name="tipe" id="tipe" required>
+                                <option value="">Pilih Tipe Produk</option>
+                                <option value="satuan">Satuan</option>
+                                <option value="bundling">Bundling</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Price</label>
-                            <input type="number" class="form-control" x-model="form.price" step="0.01" required>
+                            <label class="form-label">Buah</label>
+                            <select class="form-select" name="id_buah" id="id_buah" required>
+                                <option value="">Pilih jenis buah</option>
+
+                                <?php foreach ($buah as $b): ?>
+                                    <option value="<?= $b['id']; ?>">
+                                        <?= $b['nama_buah']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Stock Quantity</label>
-                            <input type="number" class="form-control" x-model="form.stock" required>
+                            <label class="form-label">Varietas</label>
+                            <select class="form-select" name="id_varietas" id="id_buah" required>
+                                <option value="">Pilih Varietas</option>
+
+                                <?php foreach ($varietas as $b): ?>
+                                    <option value="<?= $b['id']; ?>">
+                                        <?= $b['nama_varietas']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Harga</label>
+                            <input type="number" class="form-control" name="harga" id="harga" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Stok</label>
+                            <input type="number" class="form-control" name="stok" id="stok" x-model="form.stock" required>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" x-model="form.description" rows="3"></textarea>
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" rows="3" name="deskripsi" id="deskripsi"></textarea>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" x-model="form.status" required>
-                                <option value="">Select Status</option>
-                                <option value="published">Published</option>
-                                <option value="draft">Draft</option>
-                                <option value="pending">Pending Review</option>
-                            </select>
-                        </div>
+                        
                         <div class="col-12">
                             <label class="form-label">Product Image</label>
                             <input type="file" class="form-control" accept="image/*">
