@@ -1,60 +1,76 @@
 <?php
-include __DIR__ . "/../connection.php"; //pake dir aja biar enak
 
-function getBuah($conn){
-    $query = "select * from buah";
-    $result = mysqli_query($conn, $query);
+class Varietas
+{
+    private $conn;
+    private $table = "varietas";
+    private $table_buah = "buah";
 
-    $buah = [];
-    while($row = mysqli_fetch_assoc($result)){
-        $buah[] = $row;
+    public function __construct($db)
+    {
+        $this->conn = $db;
     }
 
-    return $buah;
-}
-
-function getVarietas($conn){
-    $query = "SELECT 
-            varietas.id,
-            varietas.nama_varietas,
-            varietas.id_buah,
-            buah.nama_buah
-          FROM varietas
-          JOIN buah ON varietas.id_buah = buah.id";
-
-    $result = mysqli_query($conn, $query);
-
-    $data = [];
-    while($row = mysqli_fetch_assoc($result)){
-        $data[] = $row;
+    public function getBuah()
+    {
+        return $this->conn->query("SELECT * FROM $this->table_buah");
     }
 
-    return $data;
+    public function getVarietas()
+    {
+        $query = "SELECT 
+                    v.id,
+                    v.nama_varietas,
+                    v.id_buah,
+                    b.nama_buah
+                  FROM $this->table v
+                  JOIN buah b ON v.id_buah = b.id";
+        
+        return $this->conn->query($query);
+    }
+
+    public function store($data)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO $this->table (id_buah, nama_varietas) VALUES (?, ?)");
+        $stmt->bind_param("is", $data['id_buah'], $data['nama_varietas']);
+        
+        if ($stmt->execute()) {
+            return ['status' => true, 'message' => 'Varietas berhasil ditambahkan!'];
+        } else {
+            return ['status' => false, 'message' => 'Gagal menambah varietas: ' . $this->conn->error];
+        }
+    }
+
+    public function update($id, $data)
+    {
+        $stmt = $this->conn->prepare("UPDATE $this->table SET nama_varietas = ?, id_buah = ? WHERE id = ?");
+        $stmt->bind_param("sii", $data['nama_varietas'], $data['id_buah'], $id);
+        
+        if ($stmt->execute()) {
+            return ['status' => true, 'message' => 'Varietas berhasil diupdate!'];
+        } else {
+            return ['status' => false, 'message' => 'Gagal update varietas: ' . $this->conn->error];
+        }
+    }
+
+    public function delete($id)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM $this->table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        
+        if ($stmt->execute()) {
+            return ['status' => true, 'message' => 'Varietas berhasil dihapus!'];
+        } else {
+            return ['status' => false, 'message' => 'Gagal menghapus varietas'];
+        }
+    }
+
+    public function getVarietasById($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 }
-
-function tambahVarietas($conn, $nama_varietas, $id_buah){
-    $nama_varietas = mysqli_real_escape_string($conn, $nama_varietas);
-    $id_buah = (int)$id_buah;
-
-    $query = "INSERT INTO varietas (id_buah, nama_varietas) 
-              VALUES ('$id_buah','$nama_varietas')";
-
-    return mysqli_query($conn, $query);
-}
-
-function deleteVarietas($conn,$id){
-    $query = "DELETE FROM varietas WHERE id='$id'";
-    return mysqli_query($conn,$query);
-}
-
-function updateVarietas($conn, $id, $nama, $id_buah){
-    $nama = mysqli_real_escape_string($conn, $nama);
-
-    $query = "UPDATE varietas 
-              SET nama_varietas='$nama', id_buah='$id_buah'
-              WHERE id=$id";
-
-    return mysqli_query($conn, $query);
-}
-
-?>

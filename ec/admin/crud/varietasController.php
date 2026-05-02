@@ -7,23 +7,23 @@ include __DIR__ . "/../../logic/admin/varietasApi.php";
 
 $db = new Database();
 $conn = $db->getConnection();
-$buah = new Buah($conn);
+$varietas = new Varietas($conn);
 
 $action = $_GET['action'] ?? 'tidak ada action';
 
 if ($action === 'tambah') {
-    if (isset($_POST['nama_buah'])) {
-        $result = $buah->store($_POST);
+    if (isset($_POST['id_buah'], $_POST['nama_varietas'])) {
+        $result = $varietas->store($_POST);
         echo json_encode($result);
     } else {
-        echo json_encode(['status' => false, 'message' => 'Input nama_buah kosong']);
+        echo json_encode(['status' => false, 'message' => 'Input id_buah kosong']);
     }
 } else if ($action === 'update') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'] ?? null;
         
         if ($id) {
-            $result = $buah->update($id, $_POST);
+            $result = $varietas->update($id, $_POST);
             echo json_encode($result);
         } else {
             echo json_encode(['status' => false, 'message' => 'ID tidak ditemukan']);
@@ -35,7 +35,7 @@ if ($action === 'tambah') {
         $id = $_POST['id'] ?? null;
         
         if ($id) {
-            $result = $buah->delete($id); 
+            $result = $varietas->delete($id); 
             echo json_encode($result);
         } else {
             echo json_encode(['status' => false, 'message' => 'ID tidak ditemukan untuk dihapus']);
