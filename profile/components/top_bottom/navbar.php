@@ -61,17 +61,31 @@
                 </li>
             </ul>
 
-            <a class="navbar-brand d-none d-lg-block" href="#">
-                <img src="images/navbar/logo-polije.png" alt="Logo Polije" style="height: 50px;">
-            </a>
-            <a class="navbar-brand d-none d-lg-block" href="#">
-                <img src="images/navbar/logo-blu.png" alt="Logo Polije" style="height: 50px;">
-            </a>
-            <a class="navbar-brand d-none d-lg-block" href="#">
-                <img src="images/navbar/dikti.png" alt="Logo Polije" style="height: 50px;">
-            </a>
         </div>
+ <!-- Hapus 3 logo kanan yang lama, ganti dengan ini -->
+<div class="d-none d-lg-flex align-items-center gap-3 ms-3">
+    
+    <!-- Logo kecil saja tanpa brand wrapper -->
+    <img src="images/navbar/logo-polije.png" style="height: 35px; opacity: 0.85;">
+    <img src="images/navbar/logo-blu.png"    style="height: 35px; opacity: 0.85;">
+    <img src="images/navbar/dikti.png"       style="height: 35px; opacity: 0.85;">
+
+    <!-- Garis pemisah -->
+    <div style="width: 1px; height: 30px; background: #ccc;"></div>
+
+    <!-- Button minimalis -->
+    <!-- Login -->
+<a href="../../../sghwebv2/ec/login.php" 
+    style="color: #2d6a4f; font-weight: 600; font-size: 0.88rem; text-decoration: none;">
+        Login
+</a>
+
+<!-- Daftar -->
+<a href="../../../sghwebv2/ec/registrasi.php"   
+    style="background: #2d6a4f; color: #fff; font-weight: 600; font-size: 0.88rem;
+            padding: 6px 18px; border-radius: 20px; text-decoration: none;">
+        Daftar
+</a>
 
     </div>
 </nav>
-
