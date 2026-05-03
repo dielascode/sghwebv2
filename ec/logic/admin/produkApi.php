@@ -1,38 +1,81 @@
 <?php
-include __DIR__ . "/../connection.php"; //pake dir aja biar enak
 
-function getProduk($conn){;
-    $query = "SELECT 
-            buah.nama_buah,
-            varietas.nama_varietas,
-        produk.harga
-        FROM produk
-        JOIN buah ON produk.id_buah = buah.id
-        JOIN varietas ON produk.id_varietas = varietas.id";
-    $result = mysqli_query($conn, $query);
+class Produk
+{
+    private $conn;
+    private $table = "produk";
+    private $table2 = "buah";
+    private $table3 = "varietas";
 
-    $data = [];
-    while($row = mysqli_fetch_assoc($result)){
-        $data[] = $row;
+    public function __construct($db)
+    {
+        $this->conn = $db;
     }
 
-    return $data;
+    public function getBuah()
+    {
+        return $this->conn->query("SELECT * FROM $this->table2");
+    }
+
+    public function getVarietas()
+    {
+        $query = "SELECT 
+                    v.id,
+                    v.nama_varietas,
+                    v.id_buah,
+                    b.nama_buah
+                  FROM $this->table3 v
+                  JOIN buah b ON v.id_buah = b.id";
+        
+        return $this->conn->query($query);
+    }
+
+    public function getProduk()
+    {
+        $query = "SELECT 
+            p.id,           -- p merujuk ke produk
+            p.nama_produk,
+            p.stok,
+            p.harga,
+            b.nama_buah,    -- b merujuk ke buah
+            v.nama_varietas -- v merujuk ke varietas
+          FROM $this->table p
+          LEFT JOIN detail_produk dp ON p.id = dp.id_produk
+          LEFT JOIN buah b ON dp.id_buah = b.id
+          LEFT JOIN varietas v ON dp.id_varietas = v.id";
+
+        return $this->conn->query($query);
+    }
+
+    // public function store($data) {
+    //     $stmt = $this->conn->prepare("INSERT INTO $this->table (id, nama_produk, tipe, id_buah, id_varietas, deskripsi, stok, harga) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+    //     $stmt->bind_param("sssiisid", 
+    //         $data['id'], 
+    //         $data['nama_produk'], 
+    //         $data['tipe'], 
+    //         $data['id_buah'], 
+    //         $data['id_varietas'], 
+    //         $data['deskripsi'], 
+    //         $data['stok'], 
+    //         $data['harga']
+    //     );
+
+    //     if ($stmt->execute()) {
+    //         return ['status' => true, 'message' => 'Produk berhasil ditambahkan!'];
+    //     } else {
+    //         return ['status' => false, 'message' => 'Gagal menambah produk: ' . $this->conn->error];
+    //     }
+    // }
+
+    // public function delete($id) {
+    //     $stmt = $this->conn->prepare("DELETE FROM $this->table WHERE id = ?");
+    //     $stmt->bind_param("s", $id);
+
+    //     if ($stmt->execute()) {
+    //         return ['status' => true, 'message' => 'Produk berhasil dihapus!'];
+    //     } else {
+    //         return ['status' => false, 'message' => 'Gagal menghapus produk'];
+    //     }
+    // }
 }
-
-// function tambahProduk($conn,$nama,$harga){
-//     $query = "INSERT INTO produk (nama_produk, harga) 
-//               VALUES ('$nama','$harga')";
-//     return mysqli_query($conn,$query);
-// }
-
-// function updateProduk($conn,$id,$nama,$harga){
-//     $query = "UPDATE produk 
-//               SET nama_produk='$nama', harga='$harga'
-//               WHERE id_produk='$id'";
-//     return mysqli_query($conn,$query);
-// }
-
-// function deleteProduk($conn,$id){
-//     $query = "DELETE FROM produk WHERE id_produk='$id'";
-//     return mysqli_query($conn,$query);
-// }

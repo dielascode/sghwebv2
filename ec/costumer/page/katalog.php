@@ -46,224 +46,66 @@
 </section>
 
 <section class="bg-[#FAFDF8]">
+  <?php
+  require_once __DIR__ . "/../../config/connection.php"; // Menghubungkan ke database
+  require_once __DIR__ . "/../../logic/costumer/produkApi.php";
+
+  // bikin object database
+  $db = new Database();
+
+  // ambil koneksi
+  $conn = $db->getConnection();
+
+  // ambil data
+  $produk = getProduk($conn);
+  ?>
+
   <div class="grid">
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk2.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk6.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk5.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk5.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk5.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card">
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk5.png" alt="Melon" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="product-card cursor-pointer" onclick='openModal({
-    title: "Melon Honey Globe",
-    desc: "Melon manis segar dengan kualitas premium, cocok untuk konsumsi harian.",
-    price: "30.000",
-    stock: "48 kg",
-    img: "/sghwebv2/ec/images/produk5.png"
-  })'>
-
-      <div class="img1-area">
-        <img src="/sghwebv2/ec/images/produk5.png" class="product1-img">
-      </div>
-
-      <div class="card-body">
-        <p class="variety-label">Varietas</p>
-        <h2 class="product-name">Melon Honey Globe</h2>
-
-        <div class="price-row">
-          <span class="price">Rp 30.000</span>
-          <span class="per-unit">/ kg</span>
-        </div>
-
-        <div class="stock-row">
-          <span class="stock-dot"></span>
-          <span class="stock-text">Stok: <span class="stock-num">48 kg</span></span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn-buy">Beli Sekarang</button>
-          <button class="btn-cart">+ Keranjang</button>
-        </div>
-      </div>
-
-    </div>
   </div>
-  </div>
+  
+    <div class="product-grid">
+      <?php foreach ($produk as $p): ?>
+        <div class="product-card">
+
+          <div class="img1-area">
+            <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
+          </div>
+
+          <div class="card-body">
+            <p class="variety-label"><?= $p['nama_varietas'] ?></p>
+            <h2 class="product-name"><?= $p['nama_produk'] ?></h2>
+
+            <div class="price-row">
+              <span class="price">Rp <?= number_format($p['harga'], 0, ',', '.') ?></span>
+              <span class="per-unit">/ kg</span>
+            </div>
+
+            <div class="stock-row">
+              <span class="stock-dot"></span>
+              <span class="stock-text">
+                Stok: <span class="stock-num"><?= $p['stok'] ?? 0 ?></span>
+              </span>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn-buy" onclick="openModal({
+    title: '<?= $p['nama_produk'] ?>',
+    desc: '<?= $p['deskripsi'] ?>',
+    price: '<?= $p['harga'] ?>',
+    stock: '<?= $p['stok'] ?? 0 ?>',
+    img: '/sghwebv2/ec/images/produk5.png'
+  })">Beli Sekarang</button>
+              <button class="btn-cart">+ Keranjang</button>
+            </div>
+          </div>
+
+        </div>
+      <?php endforeach; ?>
+
+    </div>
+
+    </div>
+    </div>
 </section>
 
 <!-- <section class="bg-[#FAFDF8]">
@@ -323,27 +165,27 @@
 
 </div>
 <script>
-function openModal(data) {
-  document.getElementById("modal").classList.remove("hidden");
+  function openModal(data) {
+    document.getElementById("modal").classList.remove("hidden");
 
-  document.getElementById("modalTitle").innerText = data.title;
-  document.getElementById("modalDesc").innerText = data.desc;
-  document.getElementById("modalPrice").innerText = "Rp " + data.price;
-  document.getElementById("modalStock").innerText = "Stok: " + data.stock;
-  document.getElementById("modalImg").src = data.img;
-}
-
-function closeModal() {
-  document.getElementById("modal").classList.add("hidden");
-}
-
-// klik luar = close
-window.onclick = function(e) {
-  const modal = document.getElementById("modal");
-  if (e.target === modal) {
-    modal.classList.add("hidden");
+    document.getElementById("modalTitle").innerText = data.title;
+    document.getElementById("modalDesc").innerText = data.desc;
+    document.getElementById("modalPrice").innerText = "Rp " + data.price;
+    document.getElementById("modalStock").innerText = "Stok: " + data.stock;
+    document.getElementById("modalImg").src = data.img;
   }
-}
+
+  function closeModal() {
+    document.getElementById("modal").classList.add("hidden");
+  }
+
+  // klik luar = close
+  window.onclick = function (e) {
+    const modal = document.getElementById("modal");
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+    }
+  }
 </script>
 </body>
 

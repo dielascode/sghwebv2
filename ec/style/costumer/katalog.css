@@ -90,7 +90,15 @@
   margin: 0 auto;
   padding: 30px 20px; /* tambah padding vertikal */
 
+}
 
+.product-grid {
+  display: grid;
+  max-width: 1200px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 30px 20px;
+  margin: 0 auto;
 }
 
 /* CARD */
@@ -239,8 +247,7 @@
 .container2-katalog {
     
     padding : 30px 40px;
-    display: flex;
-    justify-content: center;
+    display: block;
 }
 .img-katalog {
     width: 100%;

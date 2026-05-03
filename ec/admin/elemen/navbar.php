@@ -46,16 +46,6 @@
 
             <!-- Right Side Icons -->
             <div class="navbar-nav flex-row">
-
-                <!-- Fullscreen Toggle (hidden on phones) -->
-                <button class=""
-                    type="button">
-                    <a class="nav-link" href="../../../sghwebv2/ec/logoutAdmin.php" role="button">
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-                </button>
-
-
                 <!-- User Menu -->
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary d-flex align-items-center"
@@ -67,16 +57,23 @@
                             width="24"
                             height="24"
                             class="rounded-circle me-2">
-                        <span class="d-none d-md-inline">John Doe</span>
+
+                        <!-- Nama User Dinamis -->
+                        <span class="d-none d-md-inline">
+                           <?= htmlspecialchars($_SESSION['nama'] ?? 'Guest'); ?>
+                        </span>
+
                         <i class="bi bi-chevron-down ms-1"></i>
                     </button>
+
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i>Settings</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        <!-- Arahkan ke file logout yang menghapus session -->
+                        <li><a class="dropdown-item text-danger" href="../../../sghwebv2/ec/logoutAdmin.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>

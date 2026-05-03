@@ -17,8 +17,8 @@
             <input type="text" name="nama" required>
 
             <label>Email :</label>
-            <input type="text" name="email"
-            <span class="error">
+            <input type="text" name="email" required>
+            <span class="error"></span>
 
             <label>No Hp :</label>
             <input type="text" name="hp" required>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="right">
-        <img src="https://fileorganizer.net/sitepad-data/uploads/2023/03/Add-files-amico.png" alt="SignUp Image">
+        <img src="images/Add-files-amico.png" alt="SignUp Image">
         <h2>Bergabung Bersama Kami</h2>
         <p>Lengkapi formulir pendaftaran untuk mulai menggunakan layanan dan mengelola aktivitas Anda dengan mudah.</p>
     </div>
