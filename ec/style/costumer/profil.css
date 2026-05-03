@@ -42,11 +42,12 @@ body {
     gap: 25px;
 }
 
-.card {
+.card-profil {
     background: white;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    min-height: 450px;
 }
 
 .photo-card {
@@ -134,4 +135,282 @@ body {
 
 .btn-save:hover { 
     background: linear-gradient(135deg, #368a62, #114029); 
+}
+.ps-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 32px 32px;
+ 
+  min-width: 600px;
+}
+
+/* =====================
+   HEADER
+   ===================== */
+.ps-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ps-title {
+  font-size: 18px;
+  font-weight: 700;
+  
+}
+
+.ps-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: #2d8c62;
+  color: #fff;
+  transition: background 0.12s;
+}
+
+.ps-edit-btn:hover {
+  background: #236e4d;
+}
+
+.ps-edit-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.ps-edit-btn.cancel {
+  background: #f4f4f2;
+  color: #666;
+  border: 0.5px solid #e0e0e0;
+}
+
+.ps-edit-btn.cancel:hover {
+  color: #1a1a1a;
+}
+
+.ps-divider {
+  height: 0.5px;
+  background: #f0f0f0;
+  margin-bottom: 4px;
+}
+
+/* =====================
+   VIEW MODE
+   ===================== */
+.ps-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Setiap baris: label kiri, value kanan */
+.ps-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  gap: 30px;
+}
+
+.ps-row + .ps-row {
+  border-top: 0.5px solid #f0f0f0;
+}
+
+.ps-row__label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 16px;
+  font-weight: 500;
+  
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.ps-row__label svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  
+}
+
+.ps-row__value {
+  font-size: 16px;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+/* Gender pill */
+.ps-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 11px;
+  border-radius: 99px;
+  font-size: 12.5px;
+  font-weight: 500;
+  background: #f4f4f2;
+  color: #555;
+  width: fit-content;
+}
+
+.ps-pill svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* =====================
+   EDIT MODE
+   ===================== */
+.ps-edit-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  gap: 16px;
+}
+
+.ps-edit-row + .ps-edit-row {
+  border-top: 0.5px solid #f0f0f0;
+}
+
+.ps-edit-row__label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.ps-edit-row__label svg {
+  width: 13px;
+  height: 13px;
+  color: #bbb;
+}
+
+.ps-input {
+  flex: 1;
+  padding: 8px 11px;
+  border-radius: 8px;
+  border: 0.5px solid #e0e0e0;
+  background: #fafafa;
+  font-size: 13.5px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.ps-input:focus {
+  border-color: #3a9e6f;
+  background: #fff;
+}
+
+.ps-input::placeholder {
+  color: #ccc;
+}
+
+/* Gender radio */
+.ps-gender-wrap {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.ps-radio {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  border: 0.5px solid #e0e0e0;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: #888;
+  background: #fafafa;
+  transition: all 0.12s;
+  user-select: none;
+}
+
+.ps-radio.checked {
+  border-color: #3a9e6f;
+  background: #f0f7f4;
+  color: #2d8c62;
+  font-weight: 500;
+}
+
+.ps-radio__dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid #d0d0d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+
+.ps-radio.checked .ps-radio__dot {
+  border-color: #3a9e6f;
+  background: #3a9e6f;
+}
+
+.ps-radio.checked .ps-radio__dot::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* =====================
+   ACTIONS
+   ===================== */
+.ps-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 0.5px solid #f0f0f0;
+  margin-top: 4px;
+}
+
+.ps-btn {
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s;
+}
+
+.ps-btn--ghost {
+  background: #f4f4f2;
+  color: #888;
+  border: 0.5px solid #e0e0e0;
+}
+
+.ps-btn--ghost:hover {
+  background: #ebebeb;
+  color: #444;
+}
+
+.ps-btn--primary {
+  background: #2d8c62;
+  color: #fff;
+}
+
+.ps-btn--primary:hover {
+  background: #236e4d;
 }

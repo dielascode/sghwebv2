@@ -146,64 +146,93 @@
 
 /* Ringkasan Pesanan (Sidebar) */
 .summary-card {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: 0.3s ease;
+  min-width: 380px;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
 }
 
 .summary-card h2 {
-  font-size: 20px;
-  margin-top: 0;
-  margin-bottom: 25px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+  letter-spacing: 0.3px;
 }
 
+/* Box isi */
 .summary-details {
-  background: #e9f2ee;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
+  background: linear-gradient(145deg, #eef7f2, #f8fcfa);
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(0,0,0,0.05);
 }
 
+/* Line item */
 .summary-line {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  align-items: center;
+  margin-bottom: 14px;
   font-size: 14px;
+  color: #555;
 }
 
+/* Divider */
 .divider {
-  border: 0;
-  border-top: 1px solid #c2d6cc;
-  margin: 15px 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d6e4dc, transparent);
+  margin: 16px 0;
 }
 
+/* Total */
 .total {
-  font-weight: 700;
-  color: var(--dark-text);
-  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: #222;
 }
 
 .total-price {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2f7a5f;
+  letter-spacing: 0.5px;
 }
 
+/* Button */
 .btn-next {
   width: 100%;
-  padding: 15px;
-  background: linear-gradient(to right, #2d6a4f, #52b788);
-  color: white;
+  padding: 14px;
+  border-radius: 999px;
   border: none;
-  border-radius: 50px;
   font-size: 16px;
   font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #2f7a5f, #4fb286);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(79, 178, 134, 0.3);
 }
 
 .btn-next:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(79, 178, 134, 0.4);
 }
+
+.btn-next:active {
+  transform: scale(0.98);
+}
+
 
 /* Custom Checkbox Styling */
 .checkbox-container {
