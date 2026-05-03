@@ -57,12 +57,15 @@ if (!isset($_SESSION['login'])) {
     };
 </script>
     <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" crossorigin src="./assets/vendor-charts-DGwYAWel.js"></script>
     <script type="module" crossorigin src="./assets/vendor-ui-CflGdlft.js"></script>
     <script type="module" crossorigin src="./assets/main-B24LRf0x.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/main-BQhM7myw.css">
     <link rel="stylesheet" href="./assets/theme-override.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body data-page="dashboard" class="admin-layout">

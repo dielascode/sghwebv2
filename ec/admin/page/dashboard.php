@@ -3,7 +3,7 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
             <h1 class="h3 mb-0">Dashboard</h1>
-            <p class="text-muted mb-0">Selamat Datang (Nama User)!</p>
+            <p class="text-muted mb-0">Selamat Datang <?= htmlspecialchars($_SESSION['nama'] ?? 'Guest'); ?>!</p>
         </div>
         <div class="d-flex gap-2 flex-shrink-0">
             <div class="text-end">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-0 text-muted">Total Users</h6>
-                            <h3 class="mb-0" x-text="value.toLocaleString()" data-stat-value>12,426</h3>
+                            <h3 class="mb-0" data-stat-value>12,426</h3>
                             <small class="text-success">
                                 <i class="bi bi-arrow-up"></i> +12.5%
                             </small>
