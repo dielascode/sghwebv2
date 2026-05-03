@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("Location: ../loginAdmin.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 
@@ -24,6 +31,7 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Title -->
     <title>Dashboard - Modern Bootstrap Admin</title>
@@ -49,12 +57,15 @@
     };
 </script>
     <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" crossorigin src="./assets/vendor-charts-DGwYAWel.js"></script>
     <script type="module" crossorigin src="./assets/vendor-ui-CflGdlft.js"></script>
     <script type="module" crossorigin src="./assets/main-B24LRf0x.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/main-BQhM7myw.css">
     <link rel="stylesheet" href="./assets/theme-override.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body data-page="dashboard" class="admin-layout">

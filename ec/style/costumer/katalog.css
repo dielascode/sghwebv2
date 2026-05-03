@@ -90,8 +90,8 @@
   margin: 0 auto;
   padding: 30px 20px; /* tambah padding vertikal */
 
-
 }
+
 
 /* CARD */
 .product-card {
@@ -239,8 +239,7 @@
 .container2-katalog {
     
     padding : 30px 40px;
-    display: flex;
-    justify-content: center;
+    display: block;
 }
 .img-katalog {
     width: 100%;

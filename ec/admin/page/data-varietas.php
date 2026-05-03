@@ -1,7 +1,17 @@
 <?php
-include __DIR__ . "/../../logic/admin/varietasController.php";
-$varietas = getVarietas($conn); //ini ni tampilnya, apa ws getnya ituch
-$buah = getBuah($conn);
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/varietasApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$varietas = new Varietas($conn);
+
+$result = $varietas->getVarietas();
+$buah_result = $varietas->getBuah();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
 ?>
 <div class="container-fluid p-4 p-lg-5">
 
@@ -20,104 +30,6 @@ $buah = getBuah($conn);
 
     <!-- Product Management Container -->
     <div>
-
-        <!-- Products Table -->
-        <!-- <div class="card">
-            <div class="card-header">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5 class="card-title mb-0">Tabel Varietas</h5>
-                    </div>
-                    <div class="col-auto">
-                        <div class="d-flex gap-2">
-                            <div class="position-relative">
-                                <input type="search"
-                                    class="form-control form-control-sm"
-                                    placeholder="Search products..."
-                                    style="width: 200px;">
-                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
-                            </div>
-
-                            <select class="form-select form-select-sm"
-                                x-model="categoryFilter"
-                                @change="filterProducts()"
-                                style="width: 150px;">
-                                <option value="">Semua Buah</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="books">Books</option>
-                                <option value="home">Home & Garden</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body p-0">
-
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Varietas</th>
-                                <th class="sortable">Buah</th>
-                                <th class="sortable">Created</th>
-                                <th style="width: 120px;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($varietas as $v): ?>
-                                <tr>
-                                    <td>
-                                        <div class="fw-medium">
-                                            <?= $v['id']; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-medium">
-                                            <?= $v['nama_varietas']; ?>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <span class="badge bg-light text-dark">
-                                            <?= $v['nama_buah']; ?>
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <?= date('Y-m-d'); ?>
-                                    </td>
-
-                                    <td>
-                                        <div class="dropdown"> <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"> <i class="bi bi-three-dots"></i> </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="#"
-                                                        class="dropdown-item"
-                                                        onclick="openEditModal(<?= $v['id']; ?>, '<?= $v['nama_varietas']; ?>', <?= $v['id_buah']; ?>)">
-                                                        <i class="bi bi-pencil me-2"></i>Edit
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="dropdown-item btn-outline-danger" onclick="deleteVarietas(<?= $v['id']; ?>)">
-                                                        <i class="bi bi-trash me-1"></i>Delete
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div> -->
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">Tabel Varietas</h5>
@@ -136,7 +48,7 @@ $buah = getBuah($conn);
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
-                            <?php foreach ($varietas as $v): ?>
+                            <?php foreach ($result as $v): ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
 
@@ -183,7 +95,7 @@ $buah = getBuah($conn);
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formVarietas">
+                <form id="formTambahVarietas">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label">Nama Varietas</label>
@@ -194,7 +106,7 @@ $buah = getBuah($conn);
                             <select class="form-select" name="id_buah" id="id_buah" required>
                                 <option value="">Pilih jenis buah</option>
 
-                                <?php foreach ($buah as $b): ?>
+                                <?php foreach ($buah_result as $b): ?>
                                     <option value="<?= $b['id']; ?>">
                                         <?= $b['nama_buah']; ?>
                                     </option>
@@ -223,18 +135,18 @@ $buah = getBuah($conn);
             </div>
 
             <div class="modal-body">
-                <form id="formEdit">
-                    <input type="hidden" id="edit_id">
+                <form id="formEditVarietas">
+                    <input type="hidden" id="edit_id" name="id">
 
                     <div class="mb-3">
                         <label>Nama Varietas</label>
-                        <input type="text" id="edit_nama" class="form-control">
+                        <input type="text" id="edit_nama" name="nama_varietas" class="form-control">
                     </div>
 
                     <div class="mb-3">
                         <label>Jenis Buah</label>
-                        <select id="edit_buah" class="form-select">
-                            <?php foreach ($buah as $b): ?>
+                        <select id="edit_buah" name="id_buah" class="form-select">
+                            <?php foreach ($buah_result as $b): ?>
                                 <option value="<?= $b['id']; ?>">
                                     <?= $b['nama_buah']; ?>
                                 </option>
@@ -263,97 +175,92 @@ $buah = getBuah($conn);
 <!-- bagian dibawah ini proses crudnya yh, kcali read nya -->
 <script>
     //ini buat ngirim data dari form ke itu dh pokoknya
-    document.getElementById('formVarietas').addEventListener('submit', async function(e) {
+    document.getElementById('formTambahVarietas').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('../../../../sghwebv2/ec/admin/crud/varietasController.php?action=tambah', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                console.log("respon:", text);
+                try {
+                    const data = JSON.parse(text);
+                    if (data.status) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert("Gagal: " + data.message);
+                    }
+                } catch (err) {
+                    console.error("Gagal Parse JSON. Teks yang diterima:", text);
+                    alert("Server tidak mengirim JSON. Cek console!");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // yg ini ngedit yhh
+    document.getElementById('formEditVarietas').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/tambahVarietas.php', { //yg ini lho
+            const response = await fetch('../../../../sghwebv2/ec/admin/crud/varietasController.php?action=update', {
                 method: 'POST',
                 body: formData
             });
 
-            const result = await response.json();
+            const text = await response.text();
+            console.log("respon:", text);
 
-            if (result.success) {
-                alert('Berhasil ditambahkan!');
+            const data = JSON.parse(text);
 
-                this.reset();
-
-                location.reload();
-
-            } else {
-                alert('Gagal!');
-            }
-
-        } catch (error) {
-            console.error(error);
-            alert('Error server!');
-        }
-    });
-
-    // yg ini ngedit yhh
-    document.getElementById('formEdit').addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const data = {
-            id: document.getElementById('edit_id').value,
-            nama: document.getElementById('edit_nama').value,
-            id_buah: document.getElementById('edit_buah').value
-        };
-
-        try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/editVarietas.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert('Berhasil diupdate!');
+            if (data.status) {
+                alert(data.message);
                 location.reload();
             } else {
-                alert('Gagal update!');
+                alert('Gagal: ' + data.message);
             }
 
         } catch (err) {
-            console.error(err);
-            alert('Error server!');
+            console.error("Error Detail:", err);
+            alert('Terjadi kesalahan sistem!');
         }
     });
 
     //ini ngedelet
     async function deleteVarietas(id) {
-        if (!confirm('Yakin mau hapus data ini?')) return;
+        if (!confirm('Yakin mau hapus data buah ini?')) return;
 
         try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/deleteVarietas.php', {
+            const formData = new FormData();
+            formData.append('id', id);
+
+            const response = await fetch('../../../../sghwebv2/ec/admin/crud/varietasController.php?action=delete', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
+                body: formData
             });
 
-            const result = await response.json();
+            const text = await response.text();
+            console.log("Respon Hapus:", text);
 
-            if (result.success) {
-                alert('Berhasil dihapus!');
+            const data = JSON.parse(text);
+
+            if (data.status) {
+                alert(data.message);
                 location.reload();
             } else {
-                alert('Gagal hapus!');
+                alert('Gagal: ' + data.message);
             }
 
         } catch (error) {
-            console.error(error);
-            alert('Error server!');
+            console.error("Error Detail:", error);
+            alert('Terjadi kesalahan pada server!');
         }
     }
 </script>

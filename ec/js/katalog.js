@@ -76,4 +76,19 @@ function handleCart(id) {
   showToast('Ditambahkan ke keranjang!');
 }
 
+
+function openModal(el) {
+  document.getElementById("modal").style.display = "block";
+
+  document.getElementById("modal-title").innerText = el.dataset.title;
+  document.getElementById("modal-desc").innerText = el.dataset.desc;
+  document.getElementById("modal-price").innerText = "Rp " + el.dataset.price;
+  document.getElementById("modal-stock").innerText = "Stok: " + el.dataset.stock + " kg";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+
 renderGrid();

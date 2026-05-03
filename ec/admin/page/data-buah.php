@@ -1,6 +1,20 @@
 <?php
-include __DIR__ . "/../../logic/admin/buahController.php";
-$buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
+// include __DIR__ . "/../../logic/admin/buahController.php";
+// $buah = getBuah($conn); 
+?>
+<?php
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/buahApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$buah = new Buah($conn);
+
+$result = $buah->getBuah();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
 ?>
 <div class="container-fluid p-4 p-lg-5">
 
@@ -38,7 +52,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
-                            <?php foreach ($buah as $b): ?>
+                            <?php foreach ($result as $b): ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
 
@@ -55,7 +69,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
                                         <!-- tombol delete -->
                                         <button
                                             class="btn btn-sm btn-danger"
-                                            onclick="deleteVarietas(<?= $b['id']; ?>)">
+                                            onclick="deleteBuah(<?= $b['id']; ?>)">
                                             Hapus
                                         </button>
                                     </td>
@@ -79,7 +93,7 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formBuah">
+                <form id="formTambahBuah">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label">Nama Buah</label>
@@ -105,12 +119,12 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
             </div>
 
             <div class="modal-body">
-                <form id="formEdit">
-                    <input type="hidden" id="edit_id">
+                <form id="formEditBuah">
+                    <input type="hidden" name="id" id="edit_id">
 
                     <div class="mb-3">
                         <label>Nama Buah</label>
-                        <input type="text" id="edit_nama" class="form-control">
+                        <input type="text" name="nama_buah" id="edit_nama" class="form-control">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -132,100 +146,92 @@ $buah = getBuah($conn); //ini ni tampilnya, apa ws getnya ituch
 </script>
 <script>
     //ini buat ngirim data dari form ke itu dh pokoknya
-    document.getElementById('formBuah').addEventListener('submit', async function(e) {
+    document.getElementById('formTambahBuah').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const form = this;
+        const formData = new FormData(this);
 
-        try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=tambah', {
+        fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=tambah', {
                 method: 'POST',
-                body: new FormData(form)
+                body: formData
             })
-
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert('Berhasil ditambahkan!');
-
-                this.reset();
-
-                location.reload();
-
-            } else {
-                alert('Gagal!');
-            }
-
-        } catch (error) {
-            console.error(error);
-            alert('Error server!');
-        }
+            .then(response => response.text())
+            .then(text => {
+                console.log("respon:", text);
+                try {
+                    const data = JSON.parse(text);
+                    if (data.status) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert("Gagal: " + data.message);
+                    }
+                } catch (err) {
+                    console.error("Gagal Parse JSON. Teks yang diterima:", text);
+                    alert("Server tidak mengirim JSON. Cek console!");
+                }
+            })
+            .catch(error => console.error('Error:', error));
     });
 
     // yg ini ngedit yhh
-    document.getElementById('formEdit').addEventListener('submit', async function(e) {
+    document.getElementById('formEditBuah').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const data = {
-            id: document.getElementById('edit_id').value,
-            nama: document.getElementById('edit_nama').value,
-        };
+        const formData = new FormData(this);
 
         try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=edit', {
+            const response = await fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=update', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: data.id,
-                    nama_buah: data.nama
-                })
+                body: formData
             });
 
-            const result = await response.json();
+            const text = await response.text();
+            console.log("respon:", text);
 
-            if (result.success) {
-                alert('Berhasil diupdate!');
+            const data = JSON.parse(text);
+
+            if (data.status) {
+                alert(data.message);
                 location.reload();
             } else {
-                alert('Gagal update!');
+                alert('Gagal: ' + data.message);
             }
 
         } catch (err) {
-            console.error(err);
-            alert('Error server!');
+            console.error("Error Detail:", err);
+            alert('Terjadi kesalahan sistem!');
         }
     });
 
     //ini ngedelet
-    async function deleteVarietas(id) {
-        if (!confirm('Yakin mau hapus data ini?')) return;
+    async function deleteBuah(id) {
+        if (!confirm('Yakin mau hapus data buah ini?')) return;
 
         try {
-            const response = await fetch('/sghwebv2/ec/admin/crud/buahApi.php?action=delete', {
+            const formData = new FormData();
+            formData.append('id', id);
+
+            const response = await fetch('../../../../sghwebv2/ec/admin/crud/buahController.php?action=delete', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
+                body: formData
             });
 
-            const result = await response.json();
+            const text = await response.text();
+            console.log("Respon Hapus:", text);
 
-            if (result.success) {
-                alert('Berhasil dihapus!');
+            const data = JSON.parse(text);
+
+            if (data.status) {
+                alert(data.message);
                 location.reload();
             } else {
-                alert('Gagal hapus!');
+                alert('Gagal: ' + data.message);
             }
 
         } catch (error) {
-            console.error(error);
-            alert('Error server!');
+            console.error("Error Detail:", error);
+            alert('Terjadi kesalahan pada server!');
         }
     }
 </script>
