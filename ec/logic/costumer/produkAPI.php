@@ -1,15 +1,24 @@
 <?php
-include __DIR__ . "/../connection.php"; // Menghubungkan ke database
-include __DIR__ . '/../admin/produkController.php'; // file yg ada getProduk()
-function getProduk($conn){
+
+
+function getProduk($conn, $tipe = 'all'){
     $query = "SELECT 
-        buah.nama_buah,
-        varietas.nama_varietas,
+        produk.id,
+        produk.nama_produk,
+        produk.deskripsi,
+        produk.tipe,
         produk.harga,
-        produk.stok
+        produk.stok,
+        buah.nama_buah,
+        varietas.nama_varietas
     FROM produk
-    JOIN buah ON produk.id_buah = buah.id
-    JOIN varietas ON produk.id_varietas = varietas.id";
+    JOIN detail_produk ON produk.id = detail_produk.id_produk
+    JOIN buah ON detail_produk.id_buah = buah.id
+    JOIN varietas ON detail_produk.id_varietas = varietas.id";
+
+    if($tipe != 'all'){
+        $query .= " WHERE produk.tipe = '$tipe'";
+    }
 
     $result = mysqli_query($conn, $query);
 
@@ -20,4 +29,3 @@ function getProduk($conn){
 
     return $data;
 }
-?>
