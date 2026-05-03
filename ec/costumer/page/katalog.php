@@ -45,68 +45,7 @@
   </div>
 </section>
 
-<section class="bg-[#FAFDF8]">
-  <?php
-  require_once __DIR__ . "/../../config/connection.php"; // Menghubungkan ke database
-  require_once __DIR__ . "/../../logic/costumer/produkApi.php";
 
-  // bikin object database
-  $db = new Database();
-
-  // ambil koneksi
-  $conn = $db->getConnection();
-
-  // ambil data
-  $produk = getProduk($conn);
-  ?>
-
-  <div class="grid">
-  </div>
-  
-    <div class="product-grid">
-      <?php foreach ($produk as $p): ?>
-        <div class="product-card">
-
-          <div class="img1-area">
-            <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
-          </div>
-
-          <div class="card-body">
-            <p class="variety-label"><?= $p['nama_varietas'] ?></p>
-            <h2 class="product-name"><?= $p['nama_produk'] ?></h2>
-
-            <div class="price-row">
-              <span class="price">Rp <?= number_format($p['harga'], 0, ',', '.') ?></span>
-              <span class="per-unit">/ kg</span>
-            </div>
-
-            <div class="stock-row">
-              <span class="stock-dot"></span>
-              <span class="stock-text">
-                Stok: <span class="stock-num"><?= $p['stok'] ?? 0 ?></span>
-              </span>
-            </div>
-
-            <div class="btn-row">
-              <button class="btn-buy" onclick="openModal({
-    title: '<?= $p['nama_produk'] ?>',
-    desc: '<?= $p['deskripsi'] ?>',
-    price: '<?= $p['harga'] ?>',
-    stock: '<?= $p['stok'] ?? 0 ?>',
-    img: '/sghwebv2/ec/images/produk5.png'
-  })">Beli Sekarang</button>
-              <button class="btn-cart">+ Keranjang</button>
-            </div>
-          </div>
-
-        </div>
-      <?php endforeach; ?>
-
-    </div>
-
-    </div>
-    </div>
-</section>
 
 <!-- <section class="bg-[#FAFDF8]">
     <div class="container2-katalog">

@@ -92,14 +92,6 @@
 
 }
 
-.product-grid {
-  display: grid;
-  max-width: 1200px;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  padding: 30px 20px;
-  margin: 0 auto;
-}
 
 /* CARD */
 .product-card {
