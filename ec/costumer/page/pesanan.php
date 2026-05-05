@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="btn-box">
-                                <button class="btn-detail">Order Detail</button>
+                                <button href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/detailorder.php')" class="btn-detail">Order Detail</button>
                                 <button class="btn-struk">Cetak Struk</button>
                             </div>
                         </div>

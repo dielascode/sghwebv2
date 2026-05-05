@@ -60,51 +60,51 @@
   $produk = getProduk($conn);
   ?>
 
-  
-  
-    <div class="grid">
-      <?php foreach ($produk as $p): ?>
-        <div class="product-card">
 
-          <div class="img1-area">
-            <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
+
+  <div class="grid">
+    <?php foreach ($produk as $p): ?>
+      <div class="product-card">
+
+        <div class="img1-area">
+          <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
+        </div>
+
+        <div class="card-body">
+          <p class="variety-label"><?= $p['nama_varietas'] ?></p>
+          <h2 class="product-name"><?= $p['nama_produk'] ?></h2>
+
+          <div class="price-row">
+            <span class="price">Rp <?= number_format($p['harga'], 0, ',', '.') ?></span>
+            <span class="per-unit">/ kg</span>
           </div>
 
-          <div class="card-body">
-            <p class="variety-label"><?= $p['nama_varietas'] ?></p>
-            <h2 class="product-name"><?= $p['nama_produk'] ?></h2>
+          <div class="stock-row">
+            <span class="stock-dot"></span>
+            <span class="stock-text">
+              Stok: <span class="stock-num"><?= $p['stok'] ?? 0 ?> kg</span>
+            </span>
+          </div>
 
-            <div class="price-row">
-              <span class="price">Rp <?= number_format($p['harga'], 0, ',', '.') ?></span>
-              <span class="per-unit">/ kg</span>
-            </div>
-
-            <div class="stock-row">
-              <span class="stock-dot"></span>
-              <span class="stock-text">
-                Stok: <span class="stock-num"><?= $p['stok'] ?? 0 ?> kg</span>
-              </span>
-            </div>
-
-            <div class="btn-row">
-              <button class="btn-buy" onclick="openModal({
+          <div class="btn-row">
+            <button class="btn-buy" onclick="openModal({
     title: '<?= $p['nama_produk'] ?>',
     desc: '<?= $p['deskripsi'] ?>',
     price: '<?= number_format($p['harga'], 0, ',', '.') ?>',
     stock: '<?= $p['stok'] ?? 0 ?>',
     img: '/sghwebv2/ec/images/produk5.png'
   })">Beli Sekarang</button>
-              <button class="btn-cart">+ Keranjang</button>
-            </div>
+            <button class="btn-cart">+ Keranjang</button>
           </div>
-
         </div>
-      <?php endforeach; ?>
 
-    </div>
+      </div>
+    <?php endforeach; ?>
 
-    </div>
-    </div>
+  </div>
+
+  </div>
+  </div>
 </section>
 
 <!-- <section class="bg-[#FAFDF8]">

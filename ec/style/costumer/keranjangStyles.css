@@ -145,142 +145,174 @@
 }
 
 /* Ringkasan Pesanan (Sidebar) */
-.summary-card {
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+/* =====================
+   ASIDE WRAPPER
+   ===================== */
+.cart-summary-keranjang {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* =====================
+   CARD
+   ===================== */
+.summary-card-keranjang {
   background: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid #ebebeb;
   padding: 20px;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0,0,0,0.04);
-  transition: 0.3s ease;
-  min-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 280px;
 }
 
-.summary-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
-}
-
-.summary-card h2 {
-  font-size: 22px;
+/* =====================
+   TITLE
+   ===================== */
+.summary-title-keranjang {
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 24px;
   color: #1a1a1a;
-  letter-spacing: 0.3px;
 }
 
-/* Box isi */
-.summary-details {
-  background: linear-gradient(145deg, #eef7f2, #f8fcfa);
-  padding: 22px;
-  border-radius: 16px;
-  margin-bottom: 28px;
-  border: 1px solid rgba(0,0,0,0.05);
+/* =====================
+   DIVIDER
+   ===================== */
+.summary-divider-keranjang {
+  height: 0.5px;
+  background: #f0f0f0;
 }
 
-/* Line item */
-.summary-line {
+/* =====================
+   DETAILS BOX
+   ===================== */
+.summary-details-keranjang {
+  background: #f9f9f7;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 0.5px solid #ebebeb;
+}
+
+.summary-line-keranjang {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
-  font-size: 14px;
-  color: #555;
+  font-size: 13px;
+  color: #999;
 }
 
-/* Divider */
-.divider {
-  border: none;
-  height: 1px;
-  background: linear-gradient(to right, transparent, #d6e4dc, transparent);
-  margin: 16px 0;
+.summary-line-keranjang span:last-child {
+  font-weight: 500;
+  color: #1a1a1a;
 }
 
-/* Total */
-.total {
+/* =====================
+   TOTAL
+   ===================== */
+.summary-total-keranjang {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-total-label-keranjang {
+  font-size: 13.5px;
   font-weight: 600;
+  color: #1a1a1a;
+}
+
+.summary-total-price-keranjang {
   font-size: 15px;
-  color: #222;
-}
-
-.total-price {
-  font-size: 20px;
-  font-weight: 700;
-  color: #2f7a5f;
-  letter-spacing: 0.5px;
-}
-
-/* Button */
-.btn-next {
-  width: 100%;
-  padding: 14px;
-  border-radius: 999px;
-  border: none;
-  font-size: 16px;
   font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, #2f7a5f, #4fb286);
+  color: #2d8c62;
+}
+
+/* =====================
+   BUTTON
+   ===================== */
+.btn-next-keranjang {
+  width: 100%;
+  padding: 11px;
+  border-radius: 8px;
+  background: #2d8c62;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 15px rgba(79, 178, 134, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background 0.15s;
 }
 
-.btn-next:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(79, 178, 134, 0.4);
+.btn-next-keranjang:hover {
+  background: #236e4d;
 }
 
-.btn-next:active {
+.btn-next-keranjang:active {
   transform: scale(0.98);
 }
 
-
-/* Custom Checkbox Styling */
-.checkbox-container {
+/* =====================
+   CUSTOM CHECKBOX
+   ===================== */
+.checkbox-container-keranjang {
   display: block;
   position: relative;
-  padding-left: 30px;
+  padding-left: 28px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13.5px;
+  font-family: 'DM Sans', sans-serif;
+  color: #555;
   user-select: none;
 }
 
-.checkbox-container input {
+.checkbox-container-keranjang input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.checkmark {
+.checkmark-keranjang {
   position: absolute;
   top: 0;
   left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: white;
-  border: 2px solid #ddd;
-  border-radius: 4px;
+  height: 18px;
+  width: 18px;
+  background-color: #fafafa;
+  border: 0.5px solid #d0d0d0;
+  border-radius: 5px;
+  transition: all 0.12s;
 }
 
-.checkbox-container input:checked ~ .checkmark {
-  background-color: #2d7a4d;
-  border-color: #2d7a4d;
+.checkbox-container-keranjang input:checked ~ .checkmark-keranjang {
+  background-color: #2d8c62;
+  border-color: #2d8c62;
 }
 
-.checkmark:after {
+.checkmark-keranjang::after {
   content: "";
   position: absolute;
   display: none;
 }
 
-.checkbox-container input:checked ~ .checkmark:after {
+.checkbox-container-keranjang input:checked ~ .checkmark-keranjang::after {
   display: block;
 }
 
-.checkbox-container .checkmark:after {
-  left: 6px;
+.checkbox-container-keranjang .checkmark-keranjang::after {
+  left: 5px;
   top: 2px;
   width: 5px;
-  height: 10px;
+  height: 9px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
