@@ -1,51 +1,30 @@
+<link rel="stylesheet" href="style/costumer/loginRegist.css">
+<div class="container right-panel-active" id="container">
+	<div class="form-container sign-up-container">
+		<form action="proses_register.php" method="POST">
+			<h1>Sign Up</h1>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="style/costumer/registrasiStyles.css">
-</head>
-<body>
+			<input type="text" name="nama" placeholder="Name" required />
+			<input type="email" name="email" placeholder="Email" required />
+            <input type="text" name="hp" placeholder="Phone Number" required />
+			<input type="password" name="password" placeholder="Password" required />
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required />
 
-<div class="container">
-    <div class="left">
-        <h2>SIGN UP</h2>
+			<button type="submit">Buat Akun</button>
+		</form>
+	</div>
 
-        <form method="POST" action="">
-            <label>Nama Lengkap :</label>
-            <input type="text" name="nama" required>
-
-            <label>Email :</label>
-            <input type="text" name="email" required>
-            <span class="error"></span>
-
-            <label>No Hp :</label>
-            <input type="text" name="hp" required>
-
-            <label>Password :</label>
-            <input type="password" name="password" required>
-
-            <label>Konfirmasi Password :</label>
-            <input type="password" name="konfirmasi" required>
-
-            <div class="checkbox">
-                <input type="checkbox" required>
-                <span>Saya setuju dengan Syarat & Ketentuan</span>
-            </div>
-
-            <button type="submit">Daftar Sekarang</button>
-
-            <p>Sudah punya akun? <a href="login.php">Log In</a></p>
-        </form>
-    </div>
-
-    <div class="right">
-        <img src="images/Add-files-amico.png" alt="SignUp Image">
-        <h2>Bergabung Bersama Kami</h2>
-        <p>Lengkapi formulir pendaftaran untuk mulai menggunakan layanan dan mengelola aktivitas Anda dengan mudah.</p>
-    </div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Bergabung Bersama Kami</h1>
+				<p>Lengkapi formulir pendaftaran untuk mulai menggunakan layanan dan mengelola aktivitas Anda dengan mudah. Jika sudah memilki akun maka lanjutkan ke halaman Login dibawah.</p>
+                <button class="ghost switch-btn" data-target="login.php" data-mode="sign-in">
+                    Login
+                </button>
+			</div>
+		</div>
+	</div>
 </div>
 
-</body>
-</html>
+<script src="js/loginRegist.js"></script>
