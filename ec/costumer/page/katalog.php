@@ -67,7 +67,7 @@
       <div class="product-card">
 
         <div class="img1-area">
-          <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
+          <img src="<?= $row['foto_utama'] ?>" width="200" alt="Melon" class="product1-img">
         </div>
 
         <div class="card-body">
@@ -92,9 +92,9 @@
     desc: '<?= $p['deskripsi'] ?>',
     price: '<?= number_format($p['harga'], 0, ',', '.') ?>',
     stock: '<?= $p['stok'] ?? 0 ?>',
-    img: '/sghwebv2/ec/images/produk5.png'
+    img: '<?= !empty($p['gambar']) ? $p['gambar'] : '/sghwebv2/ec/images/produk5.png' ?>'
   })">Beli Sekarang</button>
-            <button class="btn-cart">+ Keranjang</button>
+  
           </div>
         </div>
 
