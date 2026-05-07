@@ -46,5 +46,6 @@
         </div>
     </main>
     <script src="/sghwebv2/ec/js/loadnavbar.js"></script>
+    <script src="/sghwebv2/ec/js/nilai-produk.js"></script>
 </body>
 </html>
