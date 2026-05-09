@@ -67,7 +67,7 @@
       <div class="product-card">
 
         <div class="img1-area">
-          <img src="/sghwebv2/ec/images/produk1.png" alt="Melon" class="product1-img">
+          <img src="<?= $row['foto_utama'] ?>" width="200" alt="Melon" class="product1-img">
         </div>
 
         <div class="card-body">

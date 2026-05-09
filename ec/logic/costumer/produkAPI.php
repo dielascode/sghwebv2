@@ -18,6 +18,7 @@ JOIN varietas ON detail_produk.id_varietas = varietas.id";
     if($tipe != 'all'){
         $query .= " WHERE produk.tipe = '$tipe'";
     }
+    $query .= " GROUP BY produk.id";
 
     $result = mysqli_query($conn, $query);
 
