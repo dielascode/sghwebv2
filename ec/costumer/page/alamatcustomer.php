@@ -20,7 +20,7 @@
 
                 
 
-                <div class="alamat-item utama">
+                <div class="alamat-item ">
                     <div class="alamat-top">
                         <div class="user-info">
                             <i class="fa-regular fa-user icon"></i>

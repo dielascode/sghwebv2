@@ -1,118 +1,121 @@
+<?php
+
+
+session_start();
+
+$cart = $_SESSION['cart'] ?? [];
+
+// jumlah jenis produk
+$totalQty = count($cart);
+
+// total harga
+$subtotal = 0;
+
+foreach ($cart as $item) {
+    $subtotal += $item['harga'] * $item['qty'];
+}
+
+?>
+
 <main class="cart-wrapper">
     <div class="container-keranjang">
         <h1 class="page-title1">Keranjang Saya</h1>
-        <p class="product-count">4 Produk</p>
+        <p class="product-count"><?= $totalQty ?> Produk</p>
 
         <div class="cart-grid">
             <section class="cart-items-section">
-                <div class="select-all-bar">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                        Pilih Semua
-                    </label>
-                    <button class="btn-delete-selected">Hapus Dipilih</button>
-                </div>
+              <?php if (empty($cart)): ?>
+                 <div class="empty-cart">
 
-                <div class="cart-card">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="product-img">
-                        <img src="/sghwebv2/ec/images/produk6.png" alt="Melon Honey Globe">
-                    </div>
-                    <div class="product-info">
-                        <h3>Melon</h3>
-                        <p class="sub-name">Honey Globe</p>
-                        <div class="action-row">
-                            <div class="qty-picker">
-                                <button>-</button>
-                                <input type="text" value="1">
-                                <button>+</button>
-                            </div>
-                            <span class="badge-stock">Stok Tersedia</span>
-                        </div>
-                    </div>
-                    <div class="product-price">
-                        Rp 30.000
-                    </div>
-                </div>
+        <div class="empty-cart-icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
 
-                <div class="cart-card">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="product-img">
-                        <img src="/sghwebv2/ec/images/produk3.png" alt="Melon0">
-                    </div>
-                    <div class="product-info">
-                        <h3>Melon</h3>
-                        <p class="sub-name">Premium Quality</p>
-                        <div class="action-row">
-                            <div class="qty-picker">
-                                <button>-</button>
-                                <input type="text" value="2">
-                                <button>+</button>
-                            </div>
-                            <span class="badge-stock">Stok Tersedia</span>
-                        </div>
-                    </div>
-                    <div class="product-price">
-                        Rp 45.000
-                    </div>
-                </div>
+        <h2>Keranjang Masih Kosong</h2>
 
-                <div class="cart-card">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="product-img">
-                        <img src="/sghwebv2/ec/images/produk2.png" alt="Melon1">
-                    </div>
-                    <div class="product-info">
-                        <h3>Melon</h3>
-                        <p class="sub-name">Manis & Segar</p>
-                        <div class="action-row">
-                            <div class="qty-picker">
-                                <button>-</button>
-                                <input type="text" value="1">
-                                <button>+</button>
-                            </div>
-                            <span class="badge-stock">Stok Tersedia</span>
-                        </div>
-                    </div>
-                    <div class="product-price">
-                        Rp 25.000
-                    </div>
-                </div>
+        <p>
+            Yuk tambahkan produk favorit kamu ke keranjang
+            dan mulai belanja sekarang.
+        </p>
 
-                <div class="cart-card">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="product-img">
-                        <img src="/sghwebv2/ec/images/produk5.png" alt="Melon2">
+        <button class="btn-shop" onclick="loadPage('costumer/page/katalog.php')">
+            Belanja Sekarang
+        </button>
+
+    </div>
+
+    <!-- EMPTY CART -->
+
+<?php else: ?>
+
+    <div class="select-all-bar">
+        <label class="checkbox-container-keranjang">
+            <input type="checkbox" id="check-all">
+            <span class="checkmark-keranjang"></span>
+            Pilih Semua
+        </label>
+
+        <button type="button"
+            class="btn-delete-selected"
+            onclick="deleteSelected()">
+            Hapus Dipilih
+        </button>
+    </div>
+
+    <?php foreach ($cart as $id => $item): ?>
+
+        <div class="cart-card">
+
+            <label class="checkbox-container-keranjang">
+                <input type="checkbox"
+                    class="product-check"
+                    value="<?= $item['id_detail'] ?>">
+
+                <span class="checkmark-keranjang"></span>
+            </label>
+
+            <div class="product-img">
+                <img src="/sghwebv2/ec/images/produk1.png">
+            </div>
+
+            <div class="product-info">
+                <h3><?= $item['nama'] ?></h3>
+                <p class="sub-name">Produk Pilihan</p>
+
+                <div class="action-row">
+
+                    <div class="qty-picker">
+                        <button type="button"
+                            onclick="updateQty(<?= $item['id_detail'] ?>, -1, event)">
+                            -
+                        </button>
+
+                        <input type="text"
+                            value="<?= $item['qty'] ?>"
+                            readonly>
+
+                        <button type="button"
+                            onclick="updateQty(<?= $item['id_detail'] ?>, 1, event)">
+                            +
+                        </button>
                     </div>
-                    <div class="product-info">
-                        <h3>Melon</h3>
-                        <p class="sub-name">Pilihan Utama</p>
-                        <div class="action-row">
-                            <div class="qty-picker">
-                                <button>-</button>
-                                <input type="text" value="3">
-                                <button>+</button>
-                            </div>
-                            <span class="badge-stock">Stok Tersedia</span>
-                        </div>
-                    </div>
-                    <div class="product-price">
-                        Rp 20.000
-                    </div>
+
+                    <span class="badge-stock">
+                        Stok Tersedia
+                    </span>
+
                 </div>
+            </div>
+
+            <div class="product-price">
+                Rp <?= number_format($item['harga'] * $item['qty'], 0, ',', '.') ?>
+            </div>
+
+        </div>
+
+    <?php endforeach; ?>
+
+<?php endif; ?>
 
             </section>
 
@@ -124,8 +127,8 @@
 
                     <div class="summary-details-keranjang">
                         <div class="summary-line-keranjang">
-                            <span>Subtotal (7 Item)</span>
-                            <span>Rp 205.000</span>
+                            <span>Subtotal (<?= $totalQty ?> Item)</span>
+                            <span>Rp <?= number_format($subtotal, 0, ',', '.') ?></span>
                         </div>
                     </div>
 
@@ -133,7 +136,9 @@
 
                     <div class="summary-total-keranjang">
                         <span class="summary-total-label-keranjang">Total Pembayaran</span>
-                        <span class="summary-total-price-keranjang">Rp 205.000</span>
+                        <span class="summary-total-price-keranjang">
+                            Rp <?= number_format($subtotal, 0, ',', '.') ?>
+                        </span>
                     </div>
 
                     <button class="btn-next-keranjang" onclick="loadPage('costumer/page/pemesanan.php')">

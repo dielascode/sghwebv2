@@ -88,13 +88,16 @@
 
           <div class="btn-row">
             <button class="btn-buy" onclick="openModal({
-    title: '<?= $p['nama_produk'] ?>',
-    desc: '<?= $p['deskripsi'] ?>',
-    price: '<?= number_format($p['harga'], 0, ',', '.') ?>',
-    stock: '<?= $p['stok'] ?? 0 ?>',
-    img: '/sghwebv2/ec/images/produk5.png'
-  })">Beli Sekarang</button>
-            <button class="btn-cart">+ Keranjang</button>
+  id: '<?= $p['id_detail'] ?>',
+  title: '<?= $p['nama_produk'] ?>',
+  desc: '<?= $p['deskripsi'] ?>',
+  price: '<?= number_format($p['harga'], 0, ',', '.') ?>',
+  stock: '<?= $p['stok'] ?? 0 ?>',
+  img: '/sghwebv2/ec/images/produk5.png'
+})">
+              Beli Sekarang
+            </button>
+
           </div>
         </div>
 
@@ -214,7 +217,7 @@
               <button class="modal-qty-btn" onclick="changeQty(1)">+</button>
             </div>
             <button class="modal-btn-buy">Beli Sekarang</button>
-            <button class="modal-btn-cart">+ Keranjang</button>
+            <button class="modal-btn-cart" onclick="addToCart()">+ Keranjang</button>
           </div>
 
         </div>
@@ -222,7 +225,7 @@
 
       <!-- ULASAN -->
       <div class="modal-reviews">
-        <p class="modal-reviews-title">Ulasan pembeli</p>
+        <!-- <p class="modal-reviews-title">Ulasan pembeli</p> -->
         <div class="modal-reviews-grid">
           <div class="modal-review-card">
             <div class="modal-review-stars">
@@ -313,9 +316,18 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
+    // =========================
+    // GLOBAL STATE
+    // =========================
     let modalQty = 1;
+    let selectedProductId = null;
 
+    // =========================
+    // OPEN MODAL
+    // =========================
     window.openModal = function (data) {
+      selectedProductId = data.id;
+
       const modal = document.getElementById("modal");
       modal.classList.remove("hidden");
 
@@ -325,42 +337,125 @@
       document.getElementById("modalStock").innerText = data.stock;
       document.getElementById("modalImg").src = data.img;
 
+      // thumbnail
       for (let i = 0; i < 4; i++) {
         const t = document.getElementById("thumb" + i);
         if (t) t.src = data.img;
       }
 
+      // reset qty
       modalQty = 1;
-      document.getElementById("modalQty").textContent = 1;
+      document.getElementById("modalQty").textContent = modalQty;
 
+      // aktifkan thumbnail pertama
       document.querySelectorAll(".modal-thumb").forEach((t, i) => {
         t.classList.toggle("active", i === 0);
       });
-    }
+    };
 
+    // =========================
+    // CLOSE MODAL
+    // =========================
     window.closeModal = function () {
       document.getElementById("modal").classList.add("hidden");
-    }
+    };
 
-    window.changeQty = function (d) {
-      modalQty = Math.max(1, modalQty + d);
+    // =========================
+    // CHANGE QTY
+    // =========================
+    window.changeQty = function (delta) {
+      modalQty = Math.max(1, modalQty + delta);
       document.getElementById("modalQty").textContent = modalQty;
-    }
+    };
 
-    document.querySelectorAll(".modal-thumb").forEach((t) => {
-      t.addEventListener("click", () => {
-        document.querySelectorAll(".modal-thumb").forEach(x => x.classList.remove("active"));
-        t.classList.add("active");
-        document.getElementById("modalImg").src = t.querySelector("img").src;
+    // =========================
+    // THUMB CLICK
+    // =========================
+    document.querySelectorAll(".modal-thumb").forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        document.querySelectorAll(".modal-thumb")
+          .forEach(t => t.classList.remove("active"));
+
+        thumb.classList.add("active");
+
+        const img = thumb.querySelector("img").src;
+        document.getElementById("modalImg").src = img;
       });
     });
 
+    // =========================
+    // CLICK OUTSIDE MODAL
+    // =========================
     window.addEventListener("click", function (e) {
       const modal = document.getElementById("modal");
       if (e.target === modal) {
         modal.classList.add("hidden");
       }
     });
+
+    // =========================
+    // ADD TO CART
+    // =========================
+    window.addToCart = function () {
+
+      console.log("ID:", selectedProductId);
+      console.log("QTY:", modalQty);
+
+      fetch('/sghwebv2/ec/logic/costumer/addcart.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `id_detail=${selectedProductId}&qty=${modalQty}`
+      })
+        .then(res => res.text())
+        .then(res => {
+
+          console.log("RESP:", res);
+
+          if (res.includes('success')) {
+
+            updateCartBadge();
+
+            showToast('Produk berhasil ditambahkan ke keranjang');
+
+          } else {
+
+            showToast('Gagal menambahkan produk');
+
+          }
+
+        });
+
+    };
+    function showToast(message) {
+
+      let toast = document.createElement('div');
+
+      toast.classList.add('custom-toast');
+
+      toast.innerHTML = `
+        <i class="fa-solid fa-circle-check"></i>
+        <span>${message}</span>
+    `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 100);
+
+      setTimeout(() => {
+
+        toast.classList.remove('show');
+
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+
+      }, 2500);
+
+    }
 
   });
 </script>

@@ -13,8 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
    
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,15 +23,17 @@
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/katalog.css?v=26">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/sidebar.css?v=9">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pesanan.css?v=4">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pembayaran.css?v=6">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pemesanan.css?v=8">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pembayaran.css?v=7">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pemesanan.css?v=9">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/ubahpassword.css?v=6">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/alamatcustomer.css?v=7">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/keranjangStyles.css?v=22">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/alamatcustomer.css?v=8">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/keranjangStyles.css?v=25">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/profil.css?v=26">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/sidebarprofil.css?v=23">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/popupproduk.css?v=23">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/popupproduk.css?v=24">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/detailorder.css?v=22">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pengaduanStyles.css?v=23">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/dummysukses.css?v=24">
 </head>
 <body class="m-0">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -46,5 +48,7 @@
         </div>
     </main>
     <script src="/sghwebv2/ec/js/loadnavbar.js"></script>
+    <script src="/sghwebv2/ec/js/keranjang.js"></script>
+    <script src="/sghwebv2/ec/js/profile.js"></script>
 </body>
 </html>

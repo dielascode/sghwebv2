@@ -3,24 +3,24 @@
 
 <div class="container-pemesanan">
 
-  <!-- STEP PROGRESS -->
+  <!-- step-pemesanan PROGRESS -->
   <div class="d-flex justify-content-center mb-5">
-        <div class="step">
-            <div class="circle"><i class="bi bi-check"></i></div>
+        <div class="step-pemesanan">
+            <div class="circle-pemesanan"><i class="bi bi-check"></i></div>
             <span>Detail orders</span>
         </div>
 
         <div class="line mx-3"></div>
 
-        <div class="step">
-            <div class="circle"><i class="bi bi-check"></i></div>
+        <div class="step-pemesanan inactive">
+            <div class="circle-pemesanan inactive"><i class="bi bi-check"></i></div>
             <span>Pembayaran</span>
         </div>
 
         <div class="line mx-3"></div>
 
-        <div class="step inactive">
-            <div class="circle"><i class="bi bi-check"></i></div>
+        <div class="step-pemesanan inactive">
+            <div class="circle-pemesanan inactive"><i class="bi bi-check"></i></div>
             <span>Succes</span>
         </div>
     </div>
@@ -64,7 +64,7 @@
       <div class="alamat-card-pemesanan">
         <div class="alamat-head-pemesanan">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15" style="color:#2d8c62;flex-shrink:0;">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle-pemesanan cx="12" cy="10" r="3"/>
           </svg>
           <span>Alamat Pengiriman</span>
         </div>
@@ -108,6 +108,18 @@
             <span>Rp 30.000 /Kg</span>
           </div>
         </div>
+        <div class="summary-product-pemesanan">
+          <p class="summary-product-name-pemesanan">Melon Honey Globe</p>
+          <div class="summary-product-row-pemesanan">
+            <span>Kuantitas</span>
+            <span>3 Kg</span>
+          </div>
+          <div class="summary-product-row-pemesanan">
+            <span>Harga satuan</span>
+            <span>Rp 30.000 /Kg</span>
+          </div>
+        </div>
+        
 
         <div class="summary-divider-pemesanan"></div>
 
