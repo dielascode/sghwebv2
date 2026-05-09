@@ -46,11 +46,11 @@ if (isset($_POST['verify'])) {
         $query = "INSERT INTO users 
         (id, nama, email, username, password, nomor_telepon, role) 
         VALUES 
-        ('$id', '{$data['nama']}', '{$data['email']}', '{$data['email']}', '{$data['password']}', '{$data['nomor_telepon']}', 'customer')";
+        ('$id', '{$data['nama']}', '{$data['email']}', '{$data['email']}', '{$data['password']}', '{$data['nomor_telepon']}', 'costumer')";
 
         if (mysqli_query($conn, $query)) {
             session_destroy();
-            header("Location: login.php");
+            header("Location: dummyRegist.php");
             exit;
         } else {
             echo "Error DB: " . mysqli_error($conn);

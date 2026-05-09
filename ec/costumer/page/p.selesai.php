@@ -61,8 +61,6 @@
 
 <!-- ===================================================== -->
 <!--  MODAL NILAI PRODUK                                    -->
-<!--  position:fixed bekerja karena index.php render        -->
-<!--  file ini langsung di dalam <body>                     -->
 <!-- ===================================================== -->
 <div class="overlay-nilai" id="overlay-nilai" onclick="handleNilaiOverlay(event)">
     <div class="modal-nilai">
