@@ -139,8 +139,9 @@ if (isset($_SESSION['cart'])) {
               </a>
 
               <!-- LOGOUT -->
-              <a href="#" onclick="closeDropdown();"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
+              
+              <a href="../../sghwebv2/ec/logoutCostumer.php"  onclick="closeDropdown();"class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
+                
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
                     d="M17 16l4-4m0 0l-4-4m4 4H7" />
