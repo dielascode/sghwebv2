@@ -12,6 +12,40 @@ if (isset($_SESSION['cart'])) {
 
 }
 
+
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../../config/connection.php';
+
+$db = new Database();
+$conn = $db->getConnection();
+
+
+$id_user = $_SESSION['id_user'];
+
+echo "ID USER : " . $id_user;
+
+// ambil data profile
+$query = mysqli_query($conn, "
+    SELECT 
+        users.*,
+        costumer.jenis_kelamin,
+        costumer.foto_profil
+    FROM users
+    LEFT JOIN costumer 
+        ON users.id = costumer.id_costumer
+    WHERE users.id = '$id_user'
+");
+
+$data = mysqli_fetch_assoc($query);
+
+
+if (!$data) {
+    die("Data user tidak ditemukan");
+}
 ?>
 <!-- NAVBAR -->
 <header class="bg-[#1C2B10] shadow-sm text-[#C8D8A8] w-full fixed top-0 left-0 right-0 z-50">
@@ -83,11 +117,11 @@ if (isset($_SESSION['cart'])) {
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="/sghwebv2/ec/images/profil.jpg" class="w-full h-full object-cover">
+                <img src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">
-                <?= $_SESSION['user']['name'] ?? 'Faiq imup'; ?>
+                <?= $data['username']; ?>
               </span>
             </div>
 
