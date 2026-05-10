@@ -139,15 +139,22 @@ if (!$result) {
 
                                     <td><?= $b['nama_produk']; ?></td>
                                     <td><?= $b['tipe']; ?></td>
-                                    <td><?= $b['deskripsi']; ?></td>
+                                    <td><?= strlen($b['deskripsi']) > 30
+                                            ? substr($b['deskripsi'], 0, 30) . '...'
+                                            : $b['deskripsi']; ?></td>
                                     <td><?= $b['stok']; ?></td>
                                     <td><?= $b['harga']; ?></td>
 
                                     <td style="display: flex; gap: 10px;">
-                                        
+
+                                        <button
+                                            class="btn btn-sm btn-primary"
+                                            onclick="openDetail('<?= $b['id']; ?>')">
+                                            Detail
+                                        </button>
                                         <button
                                             class="btn btn-sm btn-warning"
-                                            onclick="openEditModal(<?= $b['id']; ?>, '<?= $b['nama_buah']; ?>')">
+                                            onclick="openEditModal('<?= $b['id']; ?>', '<?= $b['nama_produk']; ?>')">
                                             Edit
                                         </button>
 
@@ -177,65 +184,96 @@ if (!$result) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form x-data="productForm">
+                <!-- Alpine.js Logic -->
+                <form x-data="productForm()">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label">Nama Produk</label>
-                            <input type="text" class="form-control" name="nama_produk" id="nama_produk" required>
+                            <input type="text" class="form-control" x-model="formData.nama_produk" required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Tipe Produk</label>
-                            <select class="form-select" name="tipe" id="tipe" required>
-                                <option value="">Pilih Tipe Produk</option>
+                            <!-- Saat tipe berubah, kita reset list buahnya -->
+                            <select class="form-select" x-model="formData.tipe" @change="resetItems()" required>
                                 <option value="satuan">Satuan</option>
                                 <option value="bundling">Bundling</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Buah</label>
-                            <select class="form-select" name="id_buah" id="id_buah" required>
-                                <option value="">Pilih jenis buah</option>
 
-                                <?php foreach ($buah as $b): ?>
-                                    <option value="<?= $b['id']; ?>">
-                                        <?= $b['nama_buah']; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Varietas</label>
-                            <select class="form-select" name="id_varietas" id="id_buah" required>
-                                <option value="">Pilih Varietas</option>
+                        <!-- Bagian Dinamis: Buah & Varietas -->
+                        <div class="col-12">
+                            <label class="form-label d-flex justify-content-between">
+                                Komposisi Produk
+                                <template x-if="formData.tipe === 'bundling'">
+                                    <button type="button" class="btn btn-sm btn-success" @click="addItem()">+ Tambah Buah</button>
+                                </template>
+                            </label>
 
-                                <?php foreach ($varietas as $b): ?>
-                                    <option value="<?= $b['id']; ?>">
-                                        <?= $b['nama_varietas']; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <template x-for="(item, index) in items" :key="index">
+                                <div class="row g-2 mb-2 align-items-end">
+                                    <div class="col-md-5">
+                                        <label class="small text-muted">Buah</label>
+                                        <select class="form-select" x-model="item.id_buah" required>
+                                            <option value="">Pilih Buah</option>
+                                            <?php foreach ($buah as $b): ?>
+                                                <option value="<?= $b['id']; ?>"><?= $b['nama_buah']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="small text-muted">Varietas</label>
+                                        <select class="form-select" x-model="item.id_varietas" required>
+                                            <option value="">Pilih Varietas</option>
+                                            <?php foreach ($varietas as $v): ?>
+                                                <option value="<?= $v['id']; ?>"><?= $v['nama_varietas']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" x-show="formData.tipe === 'bundling' && items.length > 1">
+                                        <button type="button" class="btn btn-outline-danger w-100" @click="removeItem(index)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label">Harga</label>
-                            <input type="number" class="form-control" name="harga" id="harga" required>
+                            <input type="number" class="form-control" x-model="formData.harga" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Stok</label>
-                            <input type="number" class="form-control" name="stok" id="stok" x-model="form.stock" required>
+                            <input type="number" class="form-control" x-model="formData.stok" required>
                         </div>
                         <div class="col-12">
                             <label class="form-label">Deskripsi</label>
-                            <textarea class="form-control" rows="3" name="deskripsi" id="deskripsi"></textarea>
+                            <textarea class="form-control" rows="3" x-model="formData.deskripsi"></textarea>
                         </div>
-                        
+
+                        <!-- Multiple Images -->
                         <div class="col-12">
-                            <label class="form-label">Product Image</label>
-                            <input type="file" class="form-control" accept="image/*">
+                            <label class="form-label">Product Images (Bisa pilih banyak)</label>
+                            <input type="file" class="form-control" @change="handleFiles" accept="image/*" multiple>
+                            <div class="mt-2 d-flex gap-2 flex-wrap">
+                                <template x-for="(img, index) in imagePreviews" :key="index">
+                                    <div class="position-relative">
+                                        <img :src="img" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;">
+                                        <!-- Tombol Hapus -->
+                                        <button type="button"
+                                            class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0"
+                                            style="width: 20px; height: 20px; line-height: 1;"
+                                            @click="removeImage(index)">
+                                            &times;
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer px-0 pb-0 mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" @click="saveProduct()">Save Product</button>
+                        <button type="button" class="btn btn-primary" @click="saveProduct">Save Product</button>
                     </div>
                 </form>
             </div>
@@ -243,30 +281,214 @@ if (!$result) {
     </div>
 </div>
 
-<!-- Import Modal -->
-<div class="modal fade" id="importModal" tabindex="-1">
-    <div class="modal-dialog">
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title">Import Products</h5>
+                <h5 class="modal-title">
+                    Detail Produk: <span id="detailNama"></span>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
             <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Upload CSV File</label>
-                    <input type="file" class="form-control" accept=".csv">
-                    <div class="form-text">Upload a CSV file with columns: name, sku, category, price, stock, status</div>
-                </div>
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    <strong>CSV Format:</strong> name, sku, category, price, stock, status<br>
-                    <small>Example: iPhone 14, IPHONE14-128, electronics, 799.99, 50, published</small>
+                <div class="row">
+
+                    <div class="col-md-5">
+                        <div class="border rounded p-2 mb-2 text-center">
+                            <img id="detailMainImage" class="img-fluid rounded shadow-sm">
+                        </div>
+
+                        <div id="detailThumbnails" class="d-flex gap-2 flex-wrap"></div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <th width="120">Tipe</th>
+                                <td>: <span class="badge bg-info" id="detailTipe"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Harga</th>
+                                <td>:
+                                    <strong class="text-success">
+                                        Rp <span id="detailHarga"></span>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Stok</th>
+                                <td>: <span id="detailStok"></span> pcs</td>
+                            </tr>
+                        </table>
+
+                        <h6>Komposisi Buah:</h6>
+                        <ul id="detailKomposisi" class="list-group list-group-flush mb-3"></ul>
+
+                        <h6>Deskripsi:</h6>
+                        <p id="detailDeskripsi" class="text-muted small" style="
+                            max-height: 120px;
+                            overflow-y: auto;
+                            word-break: break-all;
+                        ">
+                        </p>
+                    </div>
+
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Import Products</button>
-            </div>
+
         </div>
     </div>
 </div>
+
+<script>
+    function productForm() {
+        return {
+            formData: {
+                nama_produk: '',
+                tipe: 'satuan',
+                harga: '',
+                stok: '',
+                deskripsi: ''
+            },
+            items: [{
+                id_buah: '',
+                id_varietas: ''
+            }], 
+            images: [],
+            imagePreviews: [],
+
+            addItem() {
+                this.items.push({
+                    id_buah: '',
+                    id_varietas: ''
+                });
+            },
+
+            removeImage(index) {
+                this.images.splice(index, 1);
+                this.imagePreviews.splice(index, 1);
+            },
+
+            resetItems() {
+                this.items = [{
+                    id_buah: '',
+                    id_varietas: ''
+                }];
+            },
+
+            handleFiles(event) {
+                const newFiles = Array.from(event.target.files);
+
+                this.images = [...this.images, ...newFiles];
+
+                const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+                this.imagePreviews = [...this.imagePreviews, ...newPreviews];
+            },
+
+            async saveProduct() {
+                let data = new FormData();
+
+                for (let key in this.formData) {
+                    data.append(key, this.formData[key]);
+                }
+
+                data.append('komposisi', JSON.stringify(this.items));
+
+                this.images.forEach((file, index) => {
+                    data.append(`images[${index}]`, file);
+                });
+
+                try {
+                    const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+
+                    let response = await fetch(`${baseUrl}?action=tambah`, {
+                        method: 'POST',
+                        body: data
+                    });
+                    let result = await response.json();
+
+                    if (result.status) {
+                        alert('Berhasil simpan!');
+                        location.reload();
+                    } else {
+                        alert('Gagal: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+    }
+</script>
+<script>
+    async function openDetail(id) {
+        try {
+            const response = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+            const data = await response.json();
+
+            document.getElementById('detailNama').innerText = data.nama_produk;
+            document.getElementById('detailTipe').innerText = data.tipe;
+            document.getElementById('detailHarga').innerText = data.harga ?
+                parseInt(data.harga).toLocaleString() :
+                0;
+            document.getElementById('detailStok').innerText = data.stok;
+            document.getElementById('detailDeskripsi').innerText = data.deskripsi || 'Tidak ada deskripsi';
+
+            let mainImage = document.getElementById('detailMainImage');
+            let thumbnails = document.getElementById('detailThumbnails');
+
+            thumbnails.innerHTML = '';
+
+            if (data.images && data.images.length > 0) {
+                mainImage.src = '../admin/assets/images/produk/' + data.images[0].gambar;
+
+                data.images.forEach(img => {
+                    let el = document.createElement('img');
+                    el.src = '../admin/assets/images/produk/' + img.gambar;
+                    el.className = 'img-thumbnail';
+                    el.style.width = '60px';
+                    el.style.height = '60px';
+                    el.style.objectFit = 'cover';
+
+                    el.onclick = () => {
+                        mainImage.src = el.src;
+                    };
+
+                    thumbnails.appendChild(el);
+                });
+
+            } else {
+                mainImage.src = '';
+            }
+
+            let komposisi = document.getElementById('detailKomposisi');
+            komposisi.innerHTML = '';
+
+            if (data.komposisi && data.komposisi.length > 0) {
+                data.komposisi.forEach(item => {
+                    let li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center p-1';
+
+                    li.innerHTML = `
+                    <span>${item.nama_buah}</span>
+                    <span class="badge bg-secondary rounded-pill">${item.nama_varietas}</span>
+                `;
+
+                    komposisi.appendChild(li);
+                });
+            } else {
+                komposisi.innerHTML = '<li class="list-group-item">Tidak ada komposisi</li>';
+            }
+
+            let modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+
+        } catch (error) {
+            console.error("Gagal ambil detail:", error);
+            alert("Gagal mengambil data produk");
+        }
+    }
+</script>
