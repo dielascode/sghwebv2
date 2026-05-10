@@ -73,6 +73,19 @@ if ($action === 'tambah') {
 
     echo json_encode($result);
 } else if ($action === 'delete') {
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        echo json_encode([
+            "status" => false,
+            "message" => "ID tidak ditemukan"
+        ]);
+        exit;
+    }
+
+    $result = $produk->deleteProduk($id);
+
+    echo json_encode($result);
 } else if ($action === 'get_detail') {
     $id = $_GET['id'] ?? null;
 

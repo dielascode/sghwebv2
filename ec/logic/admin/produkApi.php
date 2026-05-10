@@ -178,16 +178,33 @@ class Produk
         ];
     }
 
+    public function deleteProduk($id)
+    {
+        $query = "SELECT gambar FROM gambar_produk WHERE id_produk=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+
+        $images = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        foreach ($images as $img) {
+            $path = __DIR__ . "/../../assets/images/produk/" . $img['gambar'];
+
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        $this->conn->query("DELETE FROM detail_produk WHERE id_produk='$id'");
+        $this->conn->query("DELETE FROM gambar_produk WHERE id_produk='$id'");
+
+        $this->conn->query("DELETE FROM $this->table WHERE id='$id'");
+
+        return [
+            "status" => true,
+            "message" => "Produk berhasil dihapus"
+        ];
+    }
 
 
-    // public function delete($id) {
-    //     $stmt = $this->conn->prepare("DELETE FROM $this->table WHERE id = ?");
-    //     $stmt->bind_param("s", $id);
-
-    //     if ($stmt->execute()) {
-    //         return ['status' => true, 'message' => 'Produk berhasil dihapus!'];
-    //     } else {
-    //         return ['status' => false, 'message' => 'Gagal menghapus produk'];
-    //     }
-    // }
 }

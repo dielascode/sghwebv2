@@ -2,7 +2,6 @@
 include __DIR__ . "/../../config/connection.php";
 include __DIR__ . "/../../logic/admin/produkApi.php";
 
-
 $db = new Database();
 $conn = $db->getConnection();
 $produk = new Produk($conn);
@@ -26,9 +25,12 @@ if (!$result) {
             <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
                 <i class="bi bi-download me-2"></i>Export
             </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
-                <i class="bi bi-plus-lg me-2"></i>Add Product
-            </button>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                    <i class="bi bi-plus-lg me-2"></i>Add Product
+                </button>
+            <?php endif; ?>
+
         </div>
     </div>
 
@@ -128,7 +130,9 @@ if (!$result) {
                                 <th>Deskripsi</th>
                                 <th>Stok</th>
                                 <th>Harga</th>
-                                <th style="width: 120px;">Aksi</th>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                    <th style="width: 120px;">Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,26 +148,27 @@ if (!$result) {
                                             : $b['deskripsi']; ?></td>
                                     <td><?= $b['stok']; ?></td>
                                     <td><?= $b['harga']; ?></td>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                        <td style="display: flex; gap: 10px;">
 
-                                    <td style="display: flex; gap: 10px;">
+                                            <button
+                                                class="btn btn-sm btn-primary"
+                                                onclick="openDetail('<?= $b['id']; ?>')">
+                                                Detail
+                                            </button>
+                                            <button
+                                                class="btn btn-sm btn-warning"
+                                                onclick="openEdit('<?= $b['id']; ?>')">
+                                                <i class="bi bi-pencil mr-0"></i>
+                                            </button>
 
-                                        <button
-                                            class="btn btn-sm btn-primary"
-                                            onclick="openDetail('<?= $b['id']; ?>')">
-                                            Detail
-                                        </button>
-                                        <button
-                                            class="btn btn-sm btn-warning"
-                                            onclick="openEdit('<?= $b['id']; ?>')">
-                                            <i class="bi bi-pencil mr-0"></i>
-                                        </button>
-
-                                        <button
-                                            class="btn btn-sm btn-danger"
-                                            onclick="deleteBuah(<?= $b['id']; ?>)">
-                                            <i class="bi bi-trash mr-0"></i>
-                                        </button>
-                                    </td>
+                                            <button
+                                                class="btn btn-sm btn-danger"
+                                                onclick="deleteProduk('<?= $b['id']; ?>')">
+                                                <i class="bi bi-trash mr-0"></i>
+                                            </button>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -179,11 +184,12 @@ if (!$result) {
 <div class="modal fade" id="productModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Produk Baru</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
+
 
             <div class="modal-body">
                 <form id="productForm">
@@ -327,6 +333,32 @@ if (!$result) {
     let images = [];
     let oldImages = [];
     let editId = null;
+
+    async function deleteProduk(id) {
+
+        if (!confirm("Yakin mau hapus produk ini?")) return;
+
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+
+            let res = await fetch(`${baseUrl}?action=delete&id=${id}`, {
+                method: 'GET'
+            });
+
+            let result = await res.json();
+
+            if (result.status) {
+                alert("Berhasil dihapus!");
+                location.reload();
+            } else {
+                alert("Gagal: " + result.message);
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Terjadi error");
+        }
+    }
 
     async function openEdit(id) {
         try {
