@@ -326,6 +326,7 @@
     // OPEN MODAL
     // =========================
     window.openModal = function (data) {
+
       selectedProductId = data.id;
 
       const modal = document.getElementById("modal");
@@ -339,8 +340,13 @@
 
       // thumbnail
       for (let i = 0; i < 4; i++) {
+
         const t = document.getElementById("thumb" + i);
-        if (t) t.src = data.img;
+
+        if (t) {
+          t.src = data.img;
+        }
+
       }
 
       // reset qty
@@ -351,47 +357,94 @@
       document.querySelectorAll(".modal-thumb").forEach((t, i) => {
         t.classList.toggle("active", i === 0);
       });
+
     };
 
     // =========================
     // CLOSE MODAL
     // =========================
     window.closeModal = function () {
+
       document.getElementById("modal").classList.add("hidden");
+
     };
 
     // =========================
     // CHANGE QTY
     // =========================
     window.changeQty = function (delta) {
+
       modalQty = Math.max(1, modalQty + delta);
+
       document.getElementById("modalQty").textContent = modalQty;
+
     };
 
     // =========================
     // THUMB CLICK
     // =========================
     document.querySelectorAll(".modal-thumb").forEach((thumb) => {
+
       thumb.addEventListener("click", () => {
+
         document.querySelectorAll(".modal-thumb")
           .forEach(t => t.classList.remove("active"));
 
         thumb.classList.add("active");
 
         const img = thumb.querySelector("img").src;
+
         document.getElementById("modalImg").src = img;
+
       });
+
     });
 
     // =========================
     // CLICK OUTSIDE MODAL
     // =========================
     window.addEventListener("click", function (e) {
+
       const modal = document.getElementById("modal");
+
       if (e.target === modal) {
+
         modal.classList.add("hidden");
+
       }
+
     });
+
+    // =========================
+    // UPDATE CART BADGE
+    // =========================
+    function updateCartBadge() {
+
+      fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+
+        body: 'action=get_total'
+
+      })
+        .then(res => res.text())
+        .then(total => {
+
+          const badge = document.getElementById("cart-badge");
+
+          if (badge) {
+
+            badge.innerText = total;
+
+          }
+
+        });
+
+    }
 
     // =========================
     // ADD TO CART
@@ -401,15 +454,22 @@
       console.log("ID:", selectedProductId);
       console.log("QTY:", modalQty);
 
-      fetch('/sghwebv2/ec/logic/costumer/addcart.php', {
+      fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+
         method: 'POST',
+
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `id_detail=${selectedProductId}&qty=${modalQty}`
+
+        body: `action=add&id_detail=${selectedProductId}&qty=${modalQty}`
+
       })
         .then(res => res.text())
-        .then(res => {
+.then(res => {
+
+    console.log(res);
+    alert(res);
 
           console.log("RESP:", res);
 
@@ -423,11 +483,24 @@
 
             showToast('Gagal menambahkan produk');
 
+            console.log(res);
+
           }
+
+        })
+        .catch(err => {
+
+          console.log(err);
+
+          showToast('Terjadi error');
 
         });
 
     };
+
+    // =========================
+    // TOAST
+    // =========================
     function showToast(message) {
 
       let toast = document.createElement('div');
@@ -437,12 +510,14 @@
       toast.innerHTML = `
         <i class="fa-solid fa-circle-check"></i>
         <span>${message}</span>
-    `;
+      `;
 
       document.body.appendChild(toast);
 
       setTimeout(() => {
+
         toast.classList.add('show');
+
       }, 100);
 
       setTimeout(() => {
@@ -450,7 +525,9 @@
         toast.classList.remove('show');
 
         setTimeout(() => {
+
           toast.remove();
+
         }, 300);
 
       }, 2500);

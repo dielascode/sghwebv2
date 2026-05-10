@@ -105,7 +105,7 @@ if (isset($_SESSION['cart'])) {
 
               <!-- PROFIL -->
               <!-- PROFIL -->
-              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/profile.php')"
+              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/profile.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="8" r="4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
@@ -116,7 +116,7 @@ if (isset($_SESSION['cart'])) {
               </a>
 
               <!-- PESANAN -->
-              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
+              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -129,7 +129,7 @@ if (isset($_SESSION['cart'])) {
               </a>
 
               <!-- PENGADUAN -->
-              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
+              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -139,7 +139,8 @@ if (isset($_SESSION['cart'])) {
               </a>
 
               <!-- LOGOUT -->
-              <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
+              <a href="#" onclick="closeDropdown();"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
                     d="M17 16l4-4m0 0l-4-4m4 4H7" />
@@ -231,4 +232,14 @@ header a {
       menu.classList.add("hidden");
     }
   });
+
+  function closeDropdown(){
+
+    const menu = document.getElementById("dropdownMenu");
+
+    if(menu){
+        menu.classList.add("hidden");
+    }
+
+}
 </script>
