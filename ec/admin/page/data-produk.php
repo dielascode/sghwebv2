@@ -139,7 +139,9 @@ if (!$result) {
 
                                     <td><?= $b['nama_produk']; ?></td>
                                     <td><?= $b['tipe']; ?></td>
-                                    <td><?= $b['deskripsi']; ?></td>
+                                    <td><?= strlen($b['deskripsi']) > 30
+                                            ? substr($b['deskripsi'], 0, 30) . '...'
+                                            : $b['deskripsi']; ?></td>
                                     <td><?= $b['stok']; ?></td>
                                     <td><?= $b['harga']; ?></td>
 
@@ -147,14 +149,12 @@ if (!$result) {
 
                                         <button
                                             class="btn btn-sm btn-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#detailModal"
-                                            @click="$dispatch('open-detail', { id: '<?= $b['id']; ?>' })">
+                                            onclick="openDetail('<?= $b['id']; ?>')">
                                             Detail
                                         </button>
                                         <button
                                             class="btn btn-sm btn-warning"
-                                            onclick="openEditModal(<?= $b['id']; ?>, '<?= $b['nama_buah']; ?>')">
+                                            onclick="openEditModal('<?= $b['id']; ?>', '<?= $b['nama_produk']; ?>')">
                                             Edit
                                         </button>
 
@@ -284,59 +284,61 @@ if (!$result) {
 <!-- Modal Detail -->
 <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content" x-data="detailProduct" @open-detail.window="loadDetail($event.detail.id)">
+        <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title">Detail Produk: <span x-text="data.nama_produk"></span></h5>
+                <h5 class="modal-title">
+                    Detail Produk: <span id="detailNama"></span>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
             <div class="modal-body">
                 <div class="row">
-                    <!-- Galeri Gambar -->
+
                     <div class="col-md-5">
-                        <div class="border rounded p-2 mb-2">
-                            <template x-if="data.images && data.images.length > 0">
-                                <img :src="'../assets/images/produk/' + data.images[0].gambar" class="img-fluid rounded shadow-sm">
-                            </template>
+                        <div class="border rounded p-2 mb-2 text-center">
+                            <img id="detailMainImage" class="img-fluid rounded shadow-sm">
                         </div>
-                        <div class="d-flex gap-2 flex-wrap">
-                            <template x-for="img in data.images">
-                                <img :src="'../assets/images/produk/' + img.gambar" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
-                            </template>
-                        </div>
+
+                        <div id="detailThumbnails" class="d-flex gap-2 flex-wrap"></div>
                     </div>
 
-                    <!-- Info Produk -->
                     <div class="col-md-7">
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th width="120">Tipe</th>
-                                <td>: <span class="badge bg-info" x-text="data.tipe"></span></td>
+                                <td>: <span class="badge bg-info" id="detailTipe"></span></td>
                             </tr>
                             <tr>
                                 <th>Harga</th>
-                                <td>: <strong class="text-success">Rp <span x-text="parseInt(data.harga).toLocaleString()"></span></strong></td>
+                                <td>:
+                                    <strong class="text-success">
+                                        Rp <span id="detailHarga"></span>
+                                    </strong>
+                                </td>
                             </tr>
                             <tr>
                                 <th>Stok</th>
-                                <td>: <span x-text="data.stok"></span> pcs</td>
+                                <td>: <span id="detailStok"></span> pcs</td>
                             </tr>
                         </table>
 
                         <h6>Komposisi Buah:</h6>
-                        <ul class="list-group list-group-flush mb-3">
-                            <template x-for="item in data.komposisi">
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-1">
-                                    <span x-text="item.nama_buah"></span>
-                                    <span class="badge bg-secondary rounded-pill" x-text="item.nama_varietas"></span>
-                                </li>
-                            </template>
-                        </ul>
+                        <ul id="detailKomposisi" class="list-group list-group-flush mb-3"></ul>
 
                         <h6>Deskripsi:</h6>
-                        <p class="text-muted small" x-text="data.deskripsi || 'Tidak ada deskripsi'"></p>
+                        <p id="detailDeskripsi" class="text-muted small" style="
+                            max-height: 120px;
+                            overflow-y: auto;
+                            word-break: break-all;
+                        ">
+                        </p>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -354,7 +356,7 @@ if (!$result) {
             items: [{
                 id_buah: '',
                 id_varietas: ''
-            }], // List komposisi buah
+            }], 
             images: [],
             imagePreviews: [],
 
@@ -380,34 +382,26 @@ if (!$result) {
             handleFiles(event) {
                 const newFiles = Array.from(event.target.files);
 
-                // Gunakan spread operator (...) untuk menggabungkan file lama dan baru
                 this.images = [...this.images, ...newFiles];
 
-                // Update preview juga agar tidak ter-replace
                 const newPreviews = newFiles.map(file => URL.createObjectURL(file));
                 this.imagePreviews = [...this.imagePreviews, ...newPreviews];
             },
 
             async saveProduct() {
-                // Kita pakai FormData supaya bisa kirim File/Gambar
                 let data = new FormData();
 
-                // Masukkan data umum
                 for (let key in this.formData) {
                     data.append(key, this.formData[key]);
                 }
 
-                // Masukkan list komposisi (buah & varietas) sebagai JSON string
                 data.append('komposisi', JSON.stringify(this.items));
 
-                // Masukkan file gambar
                 this.images.forEach((file, index) => {
-                    data.append(`images[${index}]`, file); // Memakai index agar jadi array
+                    data.append(`images[${index}]`, file);
                 });
 
-                // Kirim ke API menggunakan fetch
                 try {
-                    // Gunakan path lengkap agar tidak bingung
                     const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
                     let response = await fetch(`${baseUrl}?action=tambah`, {
@@ -428,18 +422,73 @@ if (!$result) {
             }
         }
     }
+</script>
+<script>
+    async function openDetail(id) {
+        try {
+            const response = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+            const data = await response.json();
 
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('detailProduct', () => ({
-            data: {},
-            async loadDetail(id) {
-                try {
-                    let response = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
-                    this.data = await response.json();
-                } catch (error) {
-                    console.error("Gagal ambil detail:", error);
-                }
+            document.getElementById('detailNama').innerText = data.nama_produk;
+            document.getElementById('detailTipe').innerText = data.tipe;
+            document.getElementById('detailHarga').innerText = data.harga ?
+                parseInt(data.harga).toLocaleString() :
+                0;
+            document.getElementById('detailStok').innerText = data.stok;
+            document.getElementById('detailDeskripsi').innerText = data.deskripsi || 'Tidak ada deskripsi';
+
+            let mainImage = document.getElementById('detailMainImage');
+            let thumbnails = document.getElementById('detailThumbnails');
+
+            thumbnails.innerHTML = '';
+
+            if (data.images && data.images.length > 0) {
+                mainImage.src = '../admin/assets/images/produk/' + data.images[0].gambar;
+
+                data.images.forEach(img => {
+                    let el = document.createElement('img');
+                    el.src = '../admin/assets/images/produk/' + img.gambar;
+                    el.className = 'img-thumbnail';
+                    el.style.width = '60px';
+                    el.style.height = '60px';
+                    el.style.objectFit = 'cover';
+
+                    el.onclick = () => {
+                        mainImage.src = el.src;
+                    };
+
+                    thumbnails.appendChild(el);
+                });
+
+            } else {
+                mainImage.src = '';
             }
-        }));
-    });
+
+            let komposisi = document.getElementById('detailKomposisi');
+            komposisi.innerHTML = '';
+
+            if (data.komposisi && data.komposisi.length > 0) {
+                data.komposisi.forEach(item => {
+                    let li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center p-1';
+
+                    li.innerHTML = `
+                    <span>${item.nama_buah}</span>
+                    <span class="badge bg-secondary rounded-pill">${item.nama_varietas}</span>
+                `;
+
+                    komposisi.appendChild(li);
+                });
+            } else {
+                komposisi.innerHTML = '<li class="list-group-item">Tidak ada komposisi</li>';
+            }
+
+            let modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+
+        } catch (error) {
+            console.error("Gagal ambil detail:", error);
+            alert("Gagal mengambil data produk");
+        }
+    }
 </script>

@@ -6,6 +6,7 @@ class Produk
     private $table = "produk";
     private $table2 = "buah";
     private $table3 = "varietas";
+    private $table4 = "detail_produk";
 
     public function __construct($db)
     {
@@ -32,51 +33,39 @@ class Produk
 
     public function getProduk()
     {
-        $query = "SELECT 
-            p.id,           -- p merujuk ke produk
-            p.nama_produk,
-            p.stok,
-            p.tipe,
-            p.deskripsi,
-            p.harga,
-            b.nama_buah,    -- b merujuk ke buah
-            v.nama_varietas -- v merujuk ke varietas
-          FROM $this->table p
-          LEFT JOIN detail_produk dp ON p.id = dp.id_produk
-          LEFT JOIN buah b ON dp.id_buah = b.id
-          LEFT JOIN varietas v ON dp.id_varietas = v.id";
-
+        $query = "SELECT * FROM $this->table";
         return $this->conn->query($query);
-    }
+   }
 
-    public function getProdukDetail($id) {
-    // 1. Ambil data produk utama
-    $query = "SELECT * FROM $this->table WHERE id = ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $produk = $stmt->get_result()->fetch_assoc();
+    public function getProdukDetail($id)
+    {
+        // 1. Ambil data produk utama
+        $query = "SELECT * FROM $this->table WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $produk = $stmt->get_result()->fetch_assoc();
 
-    // 2. Ambil komposisi buah & varietas
-    $queryDetail = "SELECT b.nama_buah, v.nama_varietas 
+        // 2. Ambil komposisi buah & varietas
+        $queryDetail = "SELECT b.nama_buah, v.nama_varietas 
                     FROM detail_produk dp
                     JOIN buah b ON dp.id_buah = b.id
                     JOIN varietas v ON dp.id_varietas = v.id
                     WHERE dp.id_produk = ?";
-    $stmtDetail = $this->conn->prepare($queryDetail);
-    $stmtDetail->bind_param("s", $id);
-    $stmtDetail->execute();
-    $produk['komposisi'] = $stmtDetail->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmtDetail = $this->conn->prepare($queryDetail);
+        $stmtDetail->bind_param("s", $id);
+        $stmtDetail->execute();
+        $produk['komposisi'] = $stmtDetail->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    // 3. Ambil galeri gambar
-    $queryImg = "SELECT gambar FROM gambar_produk WHERE id_produk = ?";
-    $stmtImg = $this->conn->prepare($queryImg);
-    $stmtImg->bind_param("s", $id);
-    $stmtImg->execute();
-    $produk['images'] = $stmtImg->get_result()->fetch_all(MYSQLI_ASSOC);
+        // 3. Ambil galeri gambar
+        $queryImg = "SELECT gambar FROM gambar_produk WHERE id_produk = ?";
+        $stmtImg = $this->conn->prepare($queryImg);
+        $stmtImg->bind_param("s", $id);
+        $stmtImg->execute();
+        $produk['images'] = $stmtImg->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    return $produk;
-}
+        return $produk;
+    }
 
     public function storeComplex($data, $komposisi, $images)
     {
