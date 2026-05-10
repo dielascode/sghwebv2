@@ -154,14 +154,14 @@ if (!$result) {
                                         </button>
                                         <button
                                             class="btn btn-sm btn-warning"
-                                            onclick="openEditModal('<?= $b['id']; ?>', '<?= $b['nama_produk']; ?>')">
-                                            Edit
+                                            onclick="openEdit('<?= $b['id']; ?>')">
+                                            <i class="bi bi-pencil mr-0"></i>
                                         </button>
 
                                         <button
                                             class="btn btn-sm btn-danger"
                                             onclick="deleteBuah(<?= $b['id']; ?>)">
-                                            Hapus
+                                            <i class="bi bi-trash mr-0"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -179,104 +179,80 @@ if (!$result) {
 <div class="modal fade" id="productModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Produk Baru</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
             <div class="modal-body">
-                <!-- Alpine.js Logic -->
-                <form x-data="productForm()">
+                <form id="productForm">
+
                     <div class="row g-3">
+
                         <div class="col-12">
                             <label class="form-label">Nama Produk</label>
-                            <input type="text" class="form-control" x-model="formData.nama_produk" required>
+                            <input type="text" id="nama_produk" class="form-control" required>
                         </div>
-                        <div class="col-md-12">
+
+                        <div class="col-12">
                             <label class="form-label">Tipe Produk</label>
-                            <!-- Saat tipe berubah, kita reset list buahnya -->
-                            <select class="form-select" x-model="formData.tipe" @change="resetItems()" required>
+                            <select id="tipe" class="form-select" onchange="resetItems()">
                                 <option value="satuan">Satuan</option>
                                 <option value="bundling">Bundling</option>
                             </select>
                         </div>
 
-                        <!-- Bagian Dinamis: Buah & Varietas -->
                         <div class="col-12">
                             <label class="form-label d-flex justify-content-between">
                                 Komposisi Produk
-                                <template x-if="formData.tipe === 'bundling'">
-                                    <button type="button" class="btn btn-sm btn-success" @click="addItem()">+ Tambah Buah</button>
-                                </template>
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-success"
+                                    onclick="addItem()"
+                                    id="btnAddItem">
+                                    + Tambah
+                                </button>
                             </label>
 
-                            <template x-for="(item, index) in items" :key="index">
-                                <div class="row g-2 mb-2 align-items-end">
-                                    <div class="col-md-5">
-                                        <label class="small text-muted">Buah</label>
-                                        <select class="form-select" x-model="item.id_buah" required>
-                                            <option value="">Pilih Buah</option>
-                                            <?php foreach ($buah as $b): ?>
-                                                <option value="<?= $b['id']; ?>"><?= $b['nama_buah']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <label class="small text-muted">Varietas</label>
-                                        <select class="form-select" x-model="item.id_varietas" required>
-                                            <option value="">Pilih Varietas</option>
-                                            <?php foreach ($varietas as $v): ?>
-                                                <option value="<?= $v['id']; ?>"><?= $v['nama_varietas']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2" x-show="formData.tipe === 'bundling' && items.length > 1">
-                                        <button type="button" class="btn btn-outline-danger w-100" @click="removeItem(index)">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </template>
+                            <div id="itemsContainer"></div>
                         </div>
 
+                        <!-- Harga -->
                         <div class="col-md-6">
                             <label class="form-label">Harga</label>
-                            <input type="number" class="form-control" x-model="formData.harga" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Stok</label>
-                            <input type="number" class="form-control" x-model="formData.stok" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Deskripsi</label>
-                            <textarea class="form-control" rows="3" x-model="formData.deskripsi"></textarea>
+                            <input type="number" id="harga" class="form-control" required>
                         </div>
 
-                        <!-- Multiple Images -->
-                        <div class="col-12">
-                            <label class="form-label">Product Images (Bisa pilih banyak)</label>
-                            <input type="file" class="form-control" @change="handleFiles" accept="image/*" multiple>
-                            <div class="mt-2 d-flex gap-2 flex-wrap">
-                                <template x-for="(img, index) in imagePreviews" :key="index">
-                                    <div class="position-relative">
-                                        <img :src="img" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;">
-                                        <!-- Tombol Hapus -->
-                                        <button type="button"
-                                            class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0"
-                                            style="width: 20px; height: 20px; line-height: 1;"
-                                            @click="removeImage(index)">
-                                            &times;
-                                        </button>
-                                    </div>
-                                </template>
-                            </div>
+                        <!-- Stok -->
+                        <div class="col-md-6">
+                            <label class="form-label">Stok</label>
+                            <input type="number" id="stok" class="form-control" required>
                         </div>
+
+                        <!-- Deskripsi -->
+                        <div class="col-12">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea id="deskripsi" class="form-control"></textarea>
+                        </div>
+
+                        <!-- Upload -->
+                        <div class="col-12">
+                            <label class="form-label">Gambar Produk</label>
+                            <input type="file" class="form-control" multiple onchange="handleFiles(event)">
+                            <div id="previewContainer" class="mt-2 d-flex gap-2 flex-wrap"></div>
+                        </div>
+
                     </div>
-                    <div class="modal-footer px-0 pb-0 mt-3">
+
+                    <div class="modal-footer mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" @click="saveProduct">Save Product</button>
+                        <button type="button" class="btn btn-primary" onclick="saveProduct()">Save</button>
                     </div>
+
                 </form>
             </div>
+
         </div>
     </div>
 </div>
@@ -344,84 +320,269 @@ if (!$result) {
 </div>
 
 <script>
-    function productForm() {
-        return {
-            formData: {
-                nama_produk: '',
-                tipe: 'satuan',
-                harga: '',
-                stok: '',
-                deskripsi: ''
-            },
-            items: [{
+    let items = [{
+        id_buah: '',
+        id_varietas: ''
+    }];
+    let images = [];
+    let oldImages = [];
+    let editId = null;
+
+    async function openEdit(id) {
+        try {
+            editId = id;
+
+            const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+            const data = await res.json();
+
+            document.getElementById('nama_produk').value = data.nama_produk;
+            document.getElementById('tipe').value = data.tipe;
+            document.getElementById('harga').value = data.harga;
+            document.getElementById('stok').value = data.stok;
+            document.getElementById('deskripsi').value = data.deskripsi;
+
+            items = data.komposisi.map(item => ({
+                id_buah: item.id_buah,
+                id_varietas: item.id_varietas
+            }));
+
+            renderItems();
+
+            oldImages = data.images || [];
+            images = [];
+
+            renderImages();
+
+            new bootstrap.Modal(document.getElementById('productModal')).show();
+
+        } catch (err) {
+            console.error(err);
+            alert("Gagal ambil data");
+        }
+    }
+
+    function renderItems() {
+        const container = document.getElementById('itemsContainer');
+        const tipe = document.getElementById('tipe').value;
+        container.innerHTML = '';
+
+        items.forEach((item, index) => {
+            container.innerHTML += `
+            <div class="row g-2 mb-2">
+
+                <div class="col-md-5">
+                    <select class="form-select" onchange="updateItem(${index}, 'buah', this.value)">
+                        <option value="">Pilih Buah</option>
+                        <?php foreach ($buah as $b): ?>
+                            <option value="<?= $b['id']; ?>" ${item.id_buah == "<?= $b['id']; ?>" ? 'selected' : ''}>
+                                <?= $b['nama_buah']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <select class="form-select" onchange="updateItem(${index}, 'varietas', this.value)">
+                        <option value="">Pilih Varietas</option>
+                        <?php foreach ($varietas as $v): ?>
+                            <option value="<?= $v['id']; ?>" ${item.id_varietas == "<?= $v['id']; ?>" ? 'selected' : ''}>
+                                <?= $v['nama_varietas']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    ${(items.length > 1 && tipe === 'bundling') 
+                    ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
+                    : ''}
+                </div>
+
+            </div>
+        `;
+        });
+    }
+
+    function addItem() {
+        const tipe = document.getElementById('tipe').value;
+
+        if (tipe === 'satuan') {
+            alert('Produk satuan hanya boleh 1 komposisi');
+            return;
+        }
+
+        items.push({
+            id_buah: '',
+            id_varietas: ''
+        });
+        renderItems();
+    }
+
+    function removeItem(index) {
+        items.splice(index, 1);
+        renderItems();
+    }
+
+    function updateItem(index, type, value) {
+        if (type === 'buah') items[index].id_buah = value;
+        if (type === 'varietas') items[index].id_varietas = value;
+    }
+
+    function resetItems() {
+        const tipe = document.getElementById('tipe').value;
+
+        if (tipe === 'satuan') {
+            items = [{
                 id_buah: '',
                 id_varietas: ''
-            }], 
-            images: [],
-            imagePreviews: [],
-
-            addItem() {
-                this.items.push({
-                    id_buah: '',
-                    id_varietas: ''
-                });
-            },
-
-            removeImage(index) {
-                this.images.splice(index, 1);
-                this.imagePreviews.splice(index, 1);
-            },
-
-            resetItems() {
-                this.items = [{
+            }];
+        } else {
+            if (items.length === 0) {
+                items = [{
                     id_buah: '',
                     id_varietas: ''
                 }];
-            },
-
-            handleFiles(event) {
-                const newFiles = Array.from(event.target.files);
-
-                this.images = [...this.images, ...newFiles];
-
-                const newPreviews = newFiles.map(file => URL.createObjectURL(file));
-                this.imagePreviews = [...this.imagePreviews, ...newPreviews];
-            },
-
-            async saveProduct() {
-                let data = new FormData();
-
-                for (let key in this.formData) {
-                    data.append(key, this.formData[key]);
-                }
-
-                data.append('komposisi', JSON.stringify(this.items));
-
-                this.images.forEach((file, index) => {
-                    data.append(`images[${index}]`, file);
-                });
-
-                try {
-                    const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
-
-                    let response = await fetch(`${baseUrl}?action=tambah`, {
-                        method: 'POST',
-                        body: data
-                    });
-                    let result = await response.json();
-
-                    if (result.status) {
-                        alert('Berhasil simpan!');
-                        location.reload();
-                    } else {
-                        alert('Gagal: ' + result.message);
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
             }
         }
+
+        renderItems();
+        toggleAddButton();
     }
+
+    function toggleAddButton() {
+        const tipe = document.getElementById('tipe').value;
+        const btn = document.getElementById('btnAddItem');
+
+        if (tipe === 'satuan') {
+            btn.style.display = 'none';
+        } else {
+            btn.style.display = 'inline-block';
+        }
+    }
+
+    function handleFiles(event) {
+        const newFiles = Array.from(event.target.files);
+        images = [...images, ...newFiles];
+
+        renderImages();
+    }
+
+    function renderImages() {
+        const preview = document.getElementById('previewContainer');
+        preview.innerHTML = '';
+
+        oldImages.forEach((img, index) => {
+            preview.innerHTML += `
+            <div class="position-relative">
+                <img src="../admin/assets/images/produk/${img.gambar}" 
+                    class="img-thumbnail" 
+                    style="width:80px;height:80px;object-fit:cover;">
+
+                <button type="button"
+                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onclick="removeOldImage(${index})">
+                    <i class="bi bi-trash mr-0"></i>
+                </button>
+            </div>
+        `;
+        });
+
+        images.forEach((file, index) => {
+            const url = URL.createObjectURL(file);
+
+            preview.innerHTML += `
+            <div class="position-relative">
+                <img src="${url}" 
+                    class="img-thumbnail" 
+                    style="width:80px;height:80px;object-fit:cover;">
+
+                <button type="button"
+                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onclick="removeImage(${index})">
+                    <i class="bi bi-trash mr-0"></i>
+                </button>
+            </div>
+        `;
+        });
+    }
+
+    function removeOldImage(index) {
+        oldImages.splice(index, 1);
+        renderImages();
+    }
+
+    function removeImage(index) {
+        images.splice(index, 1);
+        renderImages();
+    }
+
+    async function saveProduct() {
+        let data = new FormData();
+
+        data.append('nama_produk', document.getElementById('nama_produk').value);
+        data.append('tipe', document.getElementById('tipe').value);
+        data.append('harga', document.getElementById('harga').value);
+        data.append('stok', document.getElementById('stok').value);
+        data.append('deskripsi', document.getElementById('deskripsi').value);
+
+        data.append('komposisi', JSON.stringify(items));
+
+        images.forEach((file, index) => {
+            data.append(`images[${index}]`, file);
+        });
+
+        data.append('oldImages', JSON.stringify(oldImages));
+
+        let action = editId ? 'update' : 'tambah';
+
+        if (editId) {
+            data.append('id', editId);
+        }
+
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+
+            let res = await fetch(`${baseUrl}?action=${action}`, {
+                method: 'POST',
+                body: data
+            });
+
+            let result = await res.json();
+
+            if (result.status) {
+                alert(editId ? 'Berhasil update!' : 'Berhasil tambah!');
+                location.reload();
+            } else {
+                alert('Gagal: ' + result.message);
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    document.getElementById('productModal')
+        .addEventListener('hidden.bs.modal', () => {
+
+            editId = null;
+
+            document.getElementById('productForm').reset();
+
+            items = [{
+                id_buah: '',
+                id_varietas: ''
+            }];
+            images = [];
+            oldImages = [];
+
+            renderItems();
+            renderImages();
+        });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderItems();
+        toggleAddButton();
+    });
 </script>
 <script>
     async function openDetail(id) {
