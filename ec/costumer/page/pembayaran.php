@@ -1,21 +1,21 @@
 <div class="container-pembayaran ">
     <div class="d-flex justify-content-center mb-5">
-        <div class="step">
-            <div class="circle"><i class="bi bi-check"></i></div>
+        <div class="step-pembayaran">
+            <div class="circle-pembayaran"><i class="bi bi-check"></i></div>
             <span>Detail orders</span>
         </div>
 
         <div class="line mx-3"></div>
 
-        <div class="step">
-            <div class="circle"><i class="bi bi-check"></i></div>
+        <div class="step-pembayaran">
+            <div class="circle-pembayaran"><i class="bi bi-check"></i></div>
             <span>Pembayaran</span>
         </div>
 
         <div class="line mx-3"></div>
 
-        <div class="step inactive">
-            <div class="circle"><i class="bi bi-check"></i></div>
+        <div class="step-pembayaran inactive">
+            <div class="circle-pembayaran"><i class="bi bi-check"></i></div>
             <span>Succes</span>
         </div>
     </div>
@@ -29,7 +29,7 @@
 
         <!-- LANGKAH 1 -->
         <div class="card1">
-            <div class="step-pill"> Langkah 1</div>
+            <div class="step-pembayaran-pill"> Langkah 1</div>
             <p class="card-title">Bayar via QRIS</p>
             <p class="card-desc">Silakan pindai kode QR di bawah ini menggunakan aplikasi pembayaran pilihan Anda
                 (Gopay, OVO, Dana, atau Mobile Banking).</p>
@@ -44,7 +44,7 @@
                         <span class="qr-label">SCAN QR CODE</span>
                     </div>
 
-                    <div class="steps-col">
+                    <div class="step-pembayarans-col">
                         <div class="s-row">
                             <div class="s-num">1</div>
                             <p class="s-text"><strong>Scan QR Code</strong> — Buka aplikasi e-wallet atau bank kamu.</p>
@@ -78,7 +78,7 @@
 
         <!-- LANGKAH 2 -->
         <div class="card2">
-            <div class="step-pill"> Langkah 2</div>
+            <div class="step-pembayaran-pill"> Langkah 2</div>
             <p class="card-title">Upload bukti pembayaran</p>
             <p class="card-desc">Unggah screenshot atau struk pembayaran setelah transaksi berhasil dilakukan.</p>
 

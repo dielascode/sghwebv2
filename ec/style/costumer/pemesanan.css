@@ -1,105 +1,360 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--green-pale);
+  min-height: 100vh;
+  
+}
+
+/* =====================
+   CONTAINER
+   ===================== */
 .container-pemesanan {
-  background-color: #FAFDF8;
-  padding-top: 100px;
-  
-}
-.card-custom {
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  border: none;
-  background: #ffffff;
-  
-}
-.row {
- 
-  
-   margin: 0px 40px; 
+  font-family: 'Plus Jakarta Sans', sans-serif;
+    
+    min-height: 100vh;
+   background: var(--green-pale);
+    color: var(--text-primary);
+    padding-top: 100px; /* Sesuaikan dengan tinggi navbar Anda */
+   padding-bottom: 40px;
+    
+   
+   
 }
 
-/* ================== STEP PROGRESS ================== */
-.step {
+/* =====================
+   STEP PROGRESS
+   ===================== */
+.step-pemesanan {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
-  color: #2e7d59;
+  color: #2d8c62;
 }
 
-.step.inactive {
-  color: #aaa;
+.step-pemesanan.inactive {
+  color: #bbb;
 }
 
-.step .circle {
-  width: 34px;
-  height: 34px;
+.step-pemesanan .circle-pemesanan {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1d5c3c, #4cc38a);
+  background: #2d8c62;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.step.inactive .circle {
-  background: #d0d0d0;
-  color: #666;
+.step-pemesanan.inactive .circle-pemesanan {
+  background: #e0e0e0;
+  color: #aaa;
 }
 
-/* garis antar step */
 .line {
-  width: 70px;
-  height: 2px;
-  background: #4cc38a;
+  width: 60px;
+  height: 1px;
+  background: #c8e6d8;
   margin-top: 16px;
 }
 
-/* ================== BUTTON ================== */
-.btn-green {
-  background: linear-gradient(135deg, #1d5c3c, #4cc38a);
-  color: #fff;
-  border-radius: 30px;
-  padding: 10px 28px;
-  border: none;
-  font-weight: 500;
-  transition: all 0.25s ease;
+/* =====================
+   BODY LAYOUT
+   ===================== */
+.body-pemesanan {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin: 0px 80px;
+  
+  
 }
 
-.btn-green:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+/* =====================
+   LEFT
+   ===================== */
+.left-pemesanan {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 800px;
 }
 
-/* ================== SUMMARY BOX ================== */
-.summary-box {
-  background: #f1f6f3;
-  border-radius: 14px;
-  padding: 15px;
-  font-size: 14px;
-}
-
-/* ================== PRODUK ================== */
-.card-custom img {
-  max-height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-/* ================== TEXT ================== */
-h4, .h5 {
-  color: #1a2e0a;
-}
-.judul-pesanan{
+.judul-pemesanan {
   font-size: 24px;
   font-weight: 700;
   
-  
+  margin-bottom: 2px;
 }
 
-.text-muted {
+/* =====================
+   ITEM CARD
+   ===================== */
+.item-card-pemesanan {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid #ebebeb;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.item-img-pemesanan {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #f4f4f2;
+}
+
+.item-body-pemesanan {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.item-name-pemesanan {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.item-price-pemesanan {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #2d8c62;
+}
+
+.item-price-pemesanan span {
   font-size: 13px;
+  font-weight: 400;
+  color: #999;
+}
+
+.item-desc-pemesanan {
+  font-size: 12.5px;
+  color: #888;
+  line-height: 1.55;
+  margin-top: 2px;
+}
+
+.item-footer-pemesanan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 0.5px solid #f0f0f0;
+}
+
+.item-unit-price-pemesanan {
+  font-size: 13px;
+  color: #888;
+}
+
+.item-qty-pemesanan {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: #f4f4f2;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* =====================
+   ALAMAT
+   ===================== */
+.alamat-card-pemesanan {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid #ebebeb;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alamat-head-pemesanan {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.alamat-input-pemesanan {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+  background: #fafafa;
+  resize: none;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.alamat-input-pemesanan::placeholder {
+  color: #ccc;
+}
+
+.alamat-input-pemesanan:focus {
+  border-color: #3a9e6f;
+  background: #fff;
+}
+
+.note-pemesanan {
+  font-size: 12px;
+  color: #bbb;
+}
+
+/* =====================
+   RIGHT — SUMMARY
+   ===================== */
+.right-pemesanan {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.summary-card-pemesanan {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid #ebebeb;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 400px;
+  margin-top: 43px;
+}
+
+.summary-title-pemesanan {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.summary-divider-pemesanan {
+  height: 0.5px;
+  background: #f0f0f0;
+}
+
+.summary-info-pemesanan {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.summary-row-pemesanan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-label-pemesanan {
+  font-size: 12.5px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.summary-value-pemesanan {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #1a1a1a;
+  text-align: right;
+}
+
+/* =====================
+   SUMMARY PRODUCT BOX
+   ===================== */
+.summary-product-pemesanan {
+  background: #f9f9f7;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: 0.5px solid #ebebeb;
+}
+
+.summary-product-name-pemesanan {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.summary-product-row-pemesanan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  color: #999;
+}
+
+/* =====================
+   TOTAL
+   ===================== */
+.summary-total-pemesanan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-total-label-pemesanan {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.summary-total-value-pemesanan {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d8c62;
+}
+
+/* =====================
+   BUTTON
+   ===================== */
+.btn-pemesanan {
+  width: 100%;
+  padding: 11px;
+  border-radius: 8px;
+  background: #2d8c62;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background 0.15s;
+  margin-top: 2px;
+}
+
+.btn-pemesanan:hover {
+  background: #236e4d;
 }

@@ -14,7 +14,7 @@
     <h1>Registrasi Berhasil!</h1>
     <p>Terimakasih sudah melakukan registrasi akun, silahkan lanjutkan ke halaman login</p>
 
-    <a href="#" class="btn">Login</a>
+    <a href="login.php" class="btn">Login</a>
 </div>
 
 </body>

@@ -1,9 +1,9 @@
 <?php
 
-
 function getProduk($conn, $tipe = 'all'){
+
     $query = "SELECT 
-        produk.id,
+        detail_produk.id AS id_detail,
         produk.nama_produk,
         produk.deskripsi,
         produk.tipe,
@@ -11,8 +11,8 @@ function getProduk($conn, $tipe = 'all'){
         produk.stok,
         buah.nama_buah,
         varietas.nama_varietas
-    FROM produk
-    JOIN detail_produk ON produk.id = detail_produk.id_produk
+    FROM detail_produk
+    JOIN produk ON detail_produk.id_produk = produk.id
     JOIN buah ON detail_produk.id_buah = buah.id
     JOIN varietas ON detail_produk.id_varietas = varietas.id";
 
@@ -23,6 +23,7 @@ function getProduk($conn, $tipe = 'all'){
     $result = mysqli_query($conn, $query);
 
     $data = [];
+
     while($row = mysqli_fetch_assoc($result)){
         $data[] = $row;
     }

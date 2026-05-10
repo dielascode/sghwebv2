@@ -1,0 +1,303 @@
+/* ============================================
+   detail-order.css
+   Semua class menggunakan suffix -detailorder
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* ---- Root Variables ---- */
+:root {
+  --do-bg: #f4f6f8;
+  --do-white: #ffffff;
+  --do-border: #e8ecf0;
+  --do-text-primary: #1a1d23;
+  --do-text-secondary: #6b7280;
+  --do-text-muted: #9ca3af;
+  --do-green-badge-bg: #d1fae5;
+  --do-green-badge-text: #065f46;
+  --do-green-dot: #10b981;
+  --do-accent: #16a34a;
+  --do-total-text: #111827;
+  --do-proof-bg: #f8fafc;
+  --do-proof-border: #e2e8f0;
+  --do-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+  --do-radius: 14px;
+  --do-font: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ---- Body / Page ---- */
+
+
+/* ---- Container ---- */
+.container-detailorder {
+  max-width: 860px;
+  margin-left: 250px;
+  padding: 70px 20px ;
+}
+
+/* ---- Header ---- */
+.header-detailorder {
+  margin-bottom: 20px;
+}
+
+.title-detailorder {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--do-text-primary);
+  
+  margin: 0 0 8px;
+}
+
+.order-id-detailorder {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--do-text-primary);
+  margin: 0 0 4px;
+}
+
+.order-date-detailorder {
+  font-size: 0.85rem;
+  color: var(--do-text-secondary);
+  margin: 0;
+}
+
+/* ---- Status Badge ---- */
+.status-wrapper-detailorder {
+  margin-bottom: 20px;
+}
+
+.status-badge-detailorder {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--do-green-badge-bg);
+  color: var(--do-green-badge-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 100px;
+}
+
+.status-dot-detailorder {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--do-green-dot);
+  flex-shrink: 0;
+}
+
+/* ---- Card ---- */
+.card-detailorder {
+  background-color: var(--do-white);
+  border: 1px solid var(--do-border);
+  border-radius: var(--do-radius);
+  box-shadow: var(--do-shadow);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* ---- Table ---- */
+.table-detailorder {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th-detailorder {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--do-text-secondary);
+  text-transform: lowercase;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--do-border);
+  text-align: left;
+  background: transparent;
+}
+
+.th-right-detailorder {
+  text-align: right;
+}
+
+.td-detailorder {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--do-border);
+  vertical-align: middle;
+}
+
+.td-right-detailorder {
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--do-text-primary);
+  white-space: nowrap;
+}
+
+/* ---- Product Row ---- */
+.product-row-detailorder {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.product-img-wrap-detailorder {
+  width: 52px;
+  height: 52px;
+  background-color: #f0fdf4;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.product-emoji-detailorder {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.product-name-detailorder {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: var(--do-text-primary);
+  margin: 0 0 3px;
+}
+
+.product-qty-detailorder {
+  font-size: 0.82rem;
+  color: var(--do-text-secondary);
+  margin: 0;
+}
+
+/* ---- Table Footer ---- */
+.tfoot-label-detailorder {
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--do-text-secondary);
+  padding: 14px 20px;
+}
+
+.tfoot-total-detailorder {
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--do-total-text);
+  padding: 14px 20px;
+  white-space: nowrap;
+}
+
+/* ---- Bottom 3-Column Grid ---- */
+.grid-detailorder {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ---- Info Card ---- */
+.info-card-detailorder {
+  background-color: var(--do-white);
+  border: 1px solid var(--do-border);
+  border-radius: var(--do-radius);
+  box-shadow: var(--do-shadow);
+  padding: 20px;
+}
+
+.info-card-title-detailorder {
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: var(--do-text-primary);
+  margin: 0 0 6px;
+}
+
+.info-card-sub-detailorder {
+  font-size: 0.8rem;
+  color: var(--do-text-secondary);
+  margin: 0 0 14px;
+}
+
+/* ---- Info List ---- */
+.info-list-detailorder {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-item-detailorder {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--do-text-primary);
+  line-height: 1.45;
+}
+
+.info-icon-detailorder {
+  width: 18px;
+  height: 18px;
+  color: var(--do-text-secondary);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.info-icon-detailorder svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---- Payment Method ---- */
+.payment-method-detailorder {
+  font-weight: 600;
+}
+
+/* ---- Divider ---- */
+.divider-detailorder {
+  height: 1px;
+  background-color: var(--do-border);
+  margin: 16px 0;
+}
+
+/* ---- Proof of Payment ---- */
+.proof-img-detailorder {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.proof-image-detailorder {
+  max-width: 100%;
+  max-height: 250px; /* batas biar ga kegedean */
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  border: 1.5px solid var(--do-proof-border);
+  object-fit: contain;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 720px) {
+  .grid-detailorder {
+    grid-template-columns: 1fr;
+  }
+
+  .container-detailorder {
+    margin: 20px auto;
+    padding: 0 14px 40px;
+  }
+
+  .title-detailorder {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .th-detailorder,
+  .td-detailorder,
+  .tfoot-label-detailorder,
+  .tfoot-total-detailorder {
+    padding: 12px 14px;
+  }
+}
