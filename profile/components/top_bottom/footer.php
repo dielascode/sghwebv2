@@ -19,7 +19,7 @@
             <a href="#" onclick="loadPage('components/pages/berita.php')">Berita</a>
             <a href="#" onclick="loadPage('components/pages/galeri.php')">Galeri</a>
             <a href="#" onclick="loadPage('components/pages/hubungi.php')">Hubungi Kami</a>
-            <a href="../../../../sghwebv2/ec/admin/loginAdmin.php">Login Operator</a>
+            <a href="../../../../sghwebv2/ec/loginAdmin.php">Login Operator</a>
         </div>
         <div class="footer3">
             <p class="judul-footer">Layanan</p>
