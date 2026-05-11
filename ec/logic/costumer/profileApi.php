@@ -43,33 +43,7 @@ mysqli_query($conn, "
 $cek = mysqli_query($conn, "SELECT * FROM costumer WHERE id_costumer = '$id_user'");
 $data_costumer = mysqli_fetch_assoc($cek);
 
-// =========================
-// UPLOAD FOTO (HANYA JIKA ADA FILE BARU)
-// =========================
-$foto_baru = null;
 
-if (!empty($_FILES['profile_image']['name'])) {
-
-    $ext = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
-
-    $foto_baru = time() . '_' . rand(1000,9999) . '.' . $ext;
-
-    $tmp = $_FILES['profile_image']['tmp_name'];
-
-    $upload_path = __DIR__ . '/../../uploads/profile/' . $foto_baru;
-
-    move_uploaded_file($tmp, $upload_path);
-
-    // hapus lama kalau ada
-    if (!empty($data_costumer['foto_profil'])) {
-
-        $old = __DIR__ . '/../../uploads/profile/' . $data_costumer['foto_profil'];
-
-        if (file_exists($old)) {
-            unlink($old);
-        }
-    }
-}
 
 // =========================
 // UPDATE / INSERT COSTUMER

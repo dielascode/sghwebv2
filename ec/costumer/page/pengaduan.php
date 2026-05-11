@@ -1,60 +1,88 @@
-<main class="pengaduan-main">
+<?php
+session_start();
+
+if (!isset($_SESSION['id_user'])) {
+    die("Anda belum login");
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaduan</title>
+</head>z
+<body>
+
+<div class="pengaduan-main">
+
+    <!-- Header -->
     <div class="page-header-pengaduan">
-        <h1>Formulir Pengaduan</h1>
-        <p>Berikan pendapat Anda dengan jujur tentang apa yang Anda pikirkan</p>
+        <h1>Form Pengaduan</h1>
+        <p>
+            Silakan sampaikan keluhan atau kendala yang Anda alami.
+        </p>
     </div>
 
     <div class="divider-pengaduan"></div>
 
+    <!-- Card -->
     <div class="form-card-pengaduan">
-        <div class="field-group-pengaduan">
-            <label>Subjek <span class="required-pengaduan">*</span></label>
-            <input type="text" id="subjek" placeholder="Masukkan subjek pengaduan..." />
-        </div>
 
-        <div class="field-group-pengaduan">
-            <label>Pesan Pengaduan <span class="required-pengaduan">*</span></label>
-            <textarea id="pesan" placeholder="Ketik disini..."></textarea>
-        </div>
+        <form action="/sghwebv2/ec/logic/costumer/pengaduanApi.php" method="POST">
 
-        <div class="field-grid-pengaduan">
+            <!-- Subjek -->
             <div class="field-group-pengaduan">
-                <label>Nama Lengkap <span class="required-pengaduan">*</span></label>
+
+                <label>
+                    Subjek
+                    <span class="required-pengaduan">*</span>
+                </label>
+
                 <div class="input-wrap-pengaduan">
-                    <svg class="icon-pengaduan" width="15" height="15">...</svg>
-                    <input type="text" id="nama" placeholder="Nama Anda" />
+
+                    <input
+                        type="text"
+                        name="subjek"
+                        placeholder="Masukkan subjek pengaduan"
+                        required
+                    >
+
                 </div>
+
             </div>
 
+            <!-- Pesan -->
             <div class="field-group-pengaduan">
-                <label>No Telepon</label>
-                <div class="input-wrap-pengaduan">
-                    <svg class="icon-pengaduan" width="15" height="15">...</svg>
-                    <input type="tel" id="telepon" placeholder="08xx-xxxx-xxxx" />
-                </div>
+
+                <label>
+                    Pesan
+                    <span class="required-pengaduan">*</span>
+                </label>
+
+                <textarea
+                    name="pesan"
+                    placeholder="Tuliskan pengaduan Anda..."
+                    required
+                ></textarea>
+
             </div>
 
-            <div class="field-group-pengaduan">
-                <label>E-mail</label>
-                <div class="input-wrap-pengaduan">
-                    <svg class="icon-pengaduan" width="15" height="15">...</svg>
-                    <input type="email" id="email" placeholder="contoh: xxxtenta@contoh.com" />
-                </div>
-            </div>
+            <!-- Button -->
+            <button
+                type="submit"
+                name="submit_pengaduan"
+                class="btn-submit-pengaduan"
+            >
+                Kirim Pengaduan
+            </button>
 
-            <div class="field-group-pengaduan">
-                <label>Alamat</label>
-                <div class="input-wrap-pengaduan">
-                    <svg class="icon-pengaduan" width="15" height="15">...</svg>
-                    <input type="text" id="alamat" placeholder="Jalan, Kota, Provinsi" />
-                </div>
-            </div>
-        </div>
+        </form>
 
-        <div id="successMsg" class="success-msg-pengaduan">
-            ✅ Pengaduan Anda berhasil dikirim!
-        </div>
-
-        <button class="btn-submit-pengaduan" onclick="handleSubmit()">Kirim</button>
     </div>
-</main>
+
+</div>
+
+</body>
+</html>

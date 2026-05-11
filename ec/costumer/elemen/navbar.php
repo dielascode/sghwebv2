@@ -15,7 +15,7 @@ if (isset($_SESSION['cart'])) {
 
 
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 require_once __DIR__ . '/../../config/connection.php';
@@ -44,7 +44,7 @@ $data = mysqli_fetch_assoc($query);
 
 
 if (!$data) {
-    die("Data user tidak ditemukan");
+  die("Data user tidak ditemukan");
 }
 ?>
 <!-- NAVBAR -->
@@ -112,12 +112,13 @@ if (!$data) {
         <div class="relative inline-block">
 
           <!-- PROFILE BUTTON -->
-          <button id="profileBtn" class="flex items-center justify-start w-52 px-3 py-2 rounded-lg ">
+          <button id="profileBtn" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg">
 
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
+                <img src="/sghwebv2/ec/images/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>"
+                  class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">
@@ -126,7 +127,7 @@ if (!$data) {
             </div>
 
             <!-- ICON DROPDOWN -->
-            <svg class="w-4 h-4 text-[#C8D8A8] ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-[#C8D8A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
 
@@ -173,7 +174,8 @@ if (!$data) {
               </a>
 
               <!-- LOGOUT -->
-              <a href="../../sghwebv2/ec/logoutCostumer.php" class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
+              <a href="../../sghwebv2/ec/logoutCostumer.php"
+                class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
                     d="M17 16l4-4m0 0l-4-4m4 4H7" />
@@ -196,20 +198,19 @@ if (!$data) {
 
 <!-- FIX GLOBAL LINK -->
 <style>
-
-header a {
+  header a {
     text-decoration: none !important;
     color: inherit !important;
-}
+  }
 
-.cart-icon-wrapper{
+  .cart-icon-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-}
+  }
 
-.cart-badge{
+  .cart-badge {
     position: absolute;
     top: -6px;
     right: -8px;
@@ -232,23 +233,23 @@ header a {
 
     border: 2px solid #1C2B10;
 
-    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .15);
 
-}
+  }
 
-@keyframes popBadge{
-    0%{
-        transform: scale(0.7);
-        opacity: 0;
-    }
-    100%{
-        transform: scale(1);
-        opacity: 1;
+  @keyframes popBadge {
+    0% {
+      transform: scale(0.7);
+      opacity: 0;
     }
 
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
 
-}
 
+  }
 </style>
 
 <!-- SCRIPT -->
