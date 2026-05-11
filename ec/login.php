@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+session_destroy();
+session_start();
 include 'config/connection.php';
 
 $db = new Database();
@@ -14,22 +17,24 @@ if (isset($_POST['login'])) {
     $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
     $result = mysqli_query($conn, $query);
 
-    if (mysqli_num_rows($result) > 0) {
+   if (mysqli_num_rows($result) > 0) {
 
-        $user = mysqli_fetch_assoc($result);
+    $user = mysqli_fetch_assoc($result);
+    
 
-        $_SESSION['nama'] = $user['nama'];
-        $_SESSION['role'] = $user['role'];
+    $_SESSION['id'] = $user['id'];
+$_SESSION['nama'] = $user['nama'];
+$_SESSION['role'] = $user['role'];
 
-        if ($user['role'] == 'superadmin') {
-            header("Location: superadmin.php");
-        } elseif ($user['role'] == 'admin') {
-            header("Location: admin.php");
-        } else {
-            header("Location: index.php");
-        }
-
+    if ($user['role'] == 'superadmin') {
+        header("Location: superadmin.php");
+    } elseif ($user['role'] == 'admin') {
+        header("Location: admin.php");
     } else {
+        header("Location: index.php");
+    }
+
+}else {
         echo "<script>alert('Login gagal');</script>";
     }
 }

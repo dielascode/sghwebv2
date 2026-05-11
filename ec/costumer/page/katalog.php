@@ -67,7 +67,11 @@
       <div class="product-card">
 
         <div class="img1-area">
-          <img src="<?= $row['foto_utama'] ?>" width="200" alt="Melon" class="product1-img">
+          <?php
+          $gambar = getGambarProduk($conn, $p['id_produk']);
+          ?>
+
+          <img src="/sghwebv2/ec/images/<?= $gambar[0] ?>" width="200" alt="Melon" class="product1-img">
         </div>
 
         <div class="card-body">
@@ -87,14 +91,15 @@
           </div>
 
           <div class="btn-row">
-            <button class="btn-buy" onclick="openModal({
-  id: '<?= $p['id_detail'] ?>',
-  title: '<?= $p['nama_produk'] ?>',
-  desc: '<?= $p['deskripsi'] ?>',
-  price: '<?= number_format($p['harga'], 0, ',', '.') ?>',
-  stock: '<?= $p['stok'] ?? 0 ?>',
-  img: '/sghwebv2/ec/images/produk5.png'
-})">
+            <button class="btn-buy" onclick='openModal({
+  id: "<?= $p["id_detail"] ?>",
+  variety: "<?= $p["nama_varietas"] ?>",
+  title: "<?= $p["nama_produk"] ?>",
+  desc: "<?= $p["deskripsi"] ?>",
+  price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
+  stock: "<?= $p["stok"] ?? 0 ?>",
+  images: <?= json_encode($gambar) ?>
+})'>
               Beli Sekarang
             </button>
 
@@ -138,11 +143,9 @@
           <div class="modal-main-img">
             <img id="modalImg" src="" alt="Foto Produk" />
           </div>
-          <div class="modal-thumbs">
-            <div class="modal-thumb active"><img id="thumb0" src="" /></div>
-            <div class="modal-thumb"><img id="thumb1" src="" /></div>
-            <div class="modal-thumb"><img id="thumb2" src="" /></div>
-            <div class="modal-thumb"><img id="thumb3" src="" /></div>
+
+          <div class="modal-thumbs" id="modalThumbs">
+            <!-- thumbnail akan di-inject lewat JS -->
           </div>
         </div>
 
@@ -151,8 +154,8 @@
 
           <div>
 
-            <p class="modal-varietas">Varietas </p>
             <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalVariety" class="modal-varietas"></p>
           </div>
 
           <div class="modal-price-row">
@@ -316,184 +319,135 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================
-    // GLOBAL STATE
-    // =========================
     let modalQty = 1;
     let selectedProductId = null;
 
     // =========================
-    // OPEN MODAL
+    // OPEN MODAL (FIXED)
     // =========================
     window.openModal = function (data) {
+
+      console.log("OPEN MODAL DATA:", data);
 
       selectedProductId = data.id;
 
       const modal = document.getElementById("modal");
       modal.classList.remove("hidden");
 
+      const images = data.images || []; // 🔥 FIX UTAMA BIAR GA ERROR
+
       document.getElementById("modalTitle").innerText = data.title;
+      document.getElementById("modalVariety").innerText = data.variety;
       document.getElementById("modalDesc").innerText = data.desc;
       document.getElementById("modalPrice").innerText = "Rp " + data.price;
       document.getElementById("modalStock").innerText = data.stock;
-      document.getElementById("modalImg").src = data.img;
 
-      // thumbnail
-      for (let i = 0; i < 4; i++) {
+      const basePath = "/sghwebv2/ec/images/";
 
-        const t = document.getElementById("thumb" + i);
+      const mainImg = document.getElementById("modalImg");
 
-        if (t) {
-          t.src = data.img;
-        }
-
+      // =========================
+      // MAIN IMAGE
+      // =========================
+      if (images.length > 0) {
+        mainImg.src = basePath + images[0];
+      } else {
+        mainImg.src = "";
       }
+
+      // =========================
+      // THUMBNAIL (FIXED SAFE)
+      // =========================
+     const thumbsContainer = document.getElementById("modalThumbs");
+thumbsContainer.innerHTML = "";
+
+(images || []).forEach((img) => {
+
+  if (!img) return; // 🔥 skip null / undefined
+
+  img = String(img); // 🔥 paksa jadi string biar aman
+
+  const div = document.createElement("div");
+  div.className = "modal-thumb";
+
+  const image = document.createElement("img");
+  image.src = basePath + img;
+
+  div.appendChild(image);
+  thumbsContainer.appendChild(div);
+
+  div.onclick = () => {
+
+    mainImg.src = image.src;
+
+    document.querySelectorAll(".modal-thumb")
+      .forEach(t => t.classList.remove("active"));
+
+    div.classList.add("active");
+  };
+
+});
 
       // reset qty
       modalQty = 1;
       document.getElementById("modalQty").textContent = modalQty;
-
-      // aktifkan thumbnail pertama
-      document.querySelectorAll(".modal-thumb").forEach((t, i) => {
-        t.classList.toggle("active", i === 0);
-      });
-
     };
 
     // =========================
     // CLOSE MODAL
     // =========================
     window.closeModal = function () {
-
       document.getElementById("modal").classList.add("hidden");
-
     };
 
     // =========================
-    // CHANGE QTY
+    // QTY
     // =========================
     window.changeQty = function (delta) {
-
       modalQty = Math.max(1, modalQty + delta);
-
       document.getElementById("modalQty").textContent = modalQty;
-
     };
-
-    // =========================
-    // THUMB CLICK
-    // =========================
-    document.querySelectorAll(".modal-thumb").forEach((thumb) => {
-
-      thumb.addEventListener("click", () => {
-
-        document.querySelectorAll(".modal-thumb")
-          .forEach(t => t.classList.remove("active"));
-
-        thumb.classList.add("active");
-
-        const img = thumb.querySelector("img").src;
-
-        document.getElementById("modalImg").src = img;
-
-      });
-
-    });
 
     // =========================
     // CLICK OUTSIDE MODAL
     // =========================
     window.addEventListener("click", function (e) {
-
       const modal = document.getElementById("modal");
-
       if (e.target === modal) {
-
         modal.classList.add("hidden");
-
       }
-
     });
-
-    // =========================
-    // UPDATE CART BADGE
-    // =========================
-    function updateCartBadge() {
-
-      fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-
-        body: 'action=get_total'
-
-      })
-        .then(res => res.text())
-        .then(total => {
-
-          const badge = document.getElementById("cart-badge");
-
-          if (badge) {
-
-            badge.innerText = total;
-
-          }
-
-        });
-
-    }
 
     // =========================
     // ADD TO CART
     // =========================
     window.addToCart = function () {
 
-      console.log("ID:", selectedProductId);
-      console.log("QTY:", modalQty);
-
       fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-
-        body: `action=add&id_detail=${selectedProductId}&qty=${modalQty}`
-
-      })
+  method: 'POST',
+  credentials: 'include', // 🔥 INI YANG HILANG
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: `action=add&id_detail=${selectedProductId}&qty=${modalQty}`
+})
         .then(res => res.text())
-.then(res => {
+        .then(res => {
 
-    console.log(res);
-    alert(res);
+          res = res.trim();
 
-          console.log("RESP:", res);
-
-          if (res.includes('success')) {
-
-            updateCartBadge();
-
-            showToast('Produk berhasil ditambahkan ke keranjang');
-
+          if (res === 'success') {
+            showToast('Produk berhasil ditambahkan ke keranjang')
+             updateCartBadge(); ;
           } else {
-
             showToast('Gagal menambahkan produk');
-
             console.log(res);
-
           }
 
         })
         .catch(err => {
-
           console.log(err);
-
           showToast('Terjadi error');
-
         });
 
     };
@@ -504,32 +458,20 @@
     function showToast(message) {
 
       let toast = document.createElement('div');
-
       toast.classList.add('custom-toast');
 
       toast.innerHTML = `
-        <i class="fa-solid fa-circle-check"></i>
-        <span>${message}</span>
-      `;
+      <i class="fa-solid fa-circle-check"></i>
+      <span>${message}</span>
+    `;
 
       document.body.appendChild(toast);
 
-      setTimeout(() => {
-
-        toast.classList.add('show');
-
-      }, 100);
+      setTimeout(() => toast.classList.add('show'), 100);
 
       setTimeout(() => {
-
         toast.classList.remove('show');
-
-        setTimeout(() => {
-
-          toast.remove();
-
-        }, 300);
-
+        setTimeout(() => toast.remove(), 300);
       }, 2500);
 
     }

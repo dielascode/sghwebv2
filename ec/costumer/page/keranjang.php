@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../../config/connection.php";
+require_once __DIR__ . "/../../logic/costumer/produkApi.php";
 
 $db = new Database();
 $conn = $db->getConnection();
@@ -10,6 +11,7 @@ $query = "
 SELECT 
     keranjang.qty,
     detail_produk.id AS id_detail,
+    produk.id AS id_produk,
     produk.nama_produk,
     produk.harga,
     varietas.nama_varietas
@@ -36,7 +38,7 @@ $subtotal = 0;
 // simpan data ke array biar bisa dipake ulang
 $cart = [];
 
-while($item = mysqli_fetch_assoc($result)){
+while ($item = mysqli_fetch_assoc($result)) {
 
     $cart[] = $item;
 
@@ -74,8 +76,7 @@ while($item = mysqli_fetch_assoc($result)){
                             dan mulai belanja sekarang.
                         </p>
 
-                        <button class="btn-shop"
-                            onclick="loadPage('costumer/page/katalog.php')">
+                        <button class="btn-shop" onclick="loadPage('costumer/page/katalog.php')">
 
                             Belanja Sekarang
 
@@ -97,9 +98,7 @@ while($item = mysqli_fetch_assoc($result)){
 
                         </label>
 
-                        <button type="button"
-                            class="btn-delete-selected"
-                            onclick="deleteSelected()">
+                        <button type="button" class="btn-delete-selected" onclick="deleteSelected()">
 
                             Hapus Dipilih
 
@@ -109,15 +108,11 @@ while($item = mysqli_fetch_assoc($result)){
 
                     <?php foreach ($cart as $item): ?>
 
-                        <div class="cart-card"
-                            data-price="<?= $item['harga'] ?>"
-                            data-qty="<?= $item['qty'] ?>">
+                        <div class="cart-card" data-price="<?= $item['harga'] ?>" data-qty="<?= $item['qty'] ?>">
 
                             <label class="checkbox-container-keranjang">
 
-                                <input type="checkbox"
-                                    class="product-check"
-                                    value="<?= $item['id_detail'] ?>">
+                                <input type="checkbox" class="product-check" value="<?= $item['id_detail'] ?>">
 
                                 <span class="checkmark-keranjang"></span>
 
@@ -125,7 +120,11 @@ while($item = mysqli_fetch_assoc($result)){
 
                             <div class="product-img">
 
-                                <img src="/sghwebv2/ec/images/produk1.png">
+                                <?php
+                                $gambar = getGambarProduk($conn, $item['id_produk']);
+                                $img = $gambar[0] ?? 'default.png';
+                                ?>
+                                <img src="/sghwebv2/ec/images/<?= $img ?>">
 
                             </div>
 
@@ -143,19 +142,15 @@ while($item = mysqli_fetch_assoc($result)){
 
                                     <div class="qty-picker">
 
-                                        <button type="button"
-                                            onclick="updateQty(<?= $item['id_detail'] ?>, -1, event)">
+                                        <button type="button" onclick="updateQty(<?= $item['id_detail'] ?>, -1, event)">
 
                                             -
 
                                         </button>
 
-                                        <input type="text"
-                                            value="<?= $item['qty'] ?>"
-                                            readonly>
+                                        <input type="text" value="<?= $item['qty'] ?>" readonly>
 
-                                        <button type="button"
-                                            onclick="updateQty(<?= $item['id_detail'] ?>, 1, event)">
+                                        <button type="button" onclick="updateQty(<?= $item['id_detail'] ?>, 1, event)">
 
                                             +
 
@@ -226,8 +221,7 @@ while($item = mysqli_fetch_assoc($result)){
                             Total Pembayaran
                         </span>
 
-                        <span class="summary-total-price-keranjang"
-                            id="summary-total">
+                        <span class="summary-total-price-keranjang" id="summary-total">
 
                             Rp 0
 
@@ -235,16 +229,11 @@ while($item = mysqli_fetch_assoc($result)){
 
                     </div>
 
-                    <button class="btn-next-keranjang"
-                        onclick="loadPage('costumer/page/pemesanan.php')">
+                    <button onclick="lanjutPemesanan()" class="btn-next-keranjang">
 
                         Selanjutnya
 
-                        <svg viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            width="14"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"
                             height="14">
 
                             <line x1="5" y1="12" x2="19" y2="12" />

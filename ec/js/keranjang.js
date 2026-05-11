@@ -10,13 +10,14 @@ function updateQty(id, delta, event) {
     formData.append('id_detail', id);
     formData.append('qty', delta);
 
-    fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString()
-    })
+   fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: formData.toString()
+})
     .then(response => response.text())
     .then(data => {
 
@@ -88,13 +89,14 @@ function deleteSelected() {
     formData.append('action', 'delete_selected');
     formData.append('ids', JSON.stringify(ids));
 
-    fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString()
-    })
+   fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: formData.toString()
+})
     .then(res => res.text())
     .then(res => {
 
@@ -138,38 +140,37 @@ document.addEventListener('change', function (e) {
 function updateCartBadge(){
 
     fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            'action': 'get_total'
-        })
-    })
+    method: 'POST',
+    credentials: 'include', // 🔥 INI WAJIB
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'action=get_total'
+})
     .then(res => res.text())
     .then(total => {
 
-        const badge = document.querySelector('.cart-badge');
+        total = parseInt(total) || 0;
 
-        total = parseInt(total);
+        const wrapper = document.querySelector('.cart-icon-wrapper');
+
+        if(!wrapper) return;
+
+        let badge = wrapper.querySelector('.cart-badge');
 
         if(total > 0){
 
-            if(badge){
+            if(!badge){
 
-                badge.innerText = total;
-
-            }else{
-
-                const wrapper = document.querySelector('.cart-icon-wrapper');
-
-                wrapper.innerHTML += `
-                    <span class="cart-badge">${total}</span>
-                `;
+                badge = document.createElement('span');
+                badge.className = 'cart-badge';
+                wrapper.appendChild(badge);
 
             }
 
-        }else{
+            badge.innerText = total;
+
+        } else {
 
             if(badge){
                 badge.remove();
@@ -231,3 +232,42 @@ document.addEventListener('change', function(e){
     }
 
 });
+window.lanjutPemesanan = function () {
+
+  console.log("BTN KLIK");
+
+  let selected = [];
+
+  document.querySelectorAll(".product-check:checked").forEach(el => {
+    selected.push(el.value);
+  });
+
+  console.log("SELECTED:", selected);
+
+  if (selected.length === 0) {
+    alert("Pilih minimal 1 produk");
+    return;
+  }
+
+  fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: `action=set_selected&ids=${JSON.stringify(selected)}`
+})
+.then(res => res.text())
+.then(res => {
+  console.log("RAW RESPONSE:", res); // 👈 WAJIB LIHAT INI
+
+  if (res.trim() === 'success') {
+    loadPage('costumer/page/pemesanan.php');
+  } else {
+    alert("Gagal: " + res);
+  }
+})
+.catch(err => {
+  console.log("FETCH ERROR:", err);
+});
+
+}

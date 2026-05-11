@@ -1,17 +1,33 @@
 <?php
+require_once __DIR__ . "/../../config/connection.php";
+
 session_start();
+
+$db = new Database();
+$conn = $db->getConnection();
+
+$id_users = $_SESSION['id'] ?? null;
+
 $totalQty = 0;
 
-if (isset($_SESSION['cart'])) {
+if ($id_users) {
 
-  foreach ($_SESSION['cart'] as $item) {
+    $query = mysqli_prepare($conn,
+        "SELECT count(*) as total
+         FROM keranjang
+         WHERE id_users = ?"
+    );
 
-    $totalQty++;
+    mysqli_stmt_bind_param($query, "s", $id_users);
 
-  }
+    mysqli_stmt_execute($query);
 
+    $result = mysqli_stmt_get_result($query);
+
+    $data = mysqli_fetch_assoc($result);
+
+    $totalQty = $data['total'] ?? 0;
 }
-
 ?>
 <!-- NAVBAR -->
 <header class="bg-[#1C2B10] shadow-sm text-[#C8D8A8] w-full fixed top-0 left-0 right-0 z-50">

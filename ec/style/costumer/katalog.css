@@ -250,8 +250,10 @@
 .custom-toast{
     position: fixed;
 
-    top: 30px;
-    right: 30px;
+   bottom: 30px;
+right: 30px;
+
+top: auto;
 
     background: linear-gradient(135deg, #f4fff7, #e8f8ee);
 
@@ -270,14 +272,14 @@
 
     z-index: 99999;
 
-    transform: translateX(120%);
+    transform: translateY(120%);
     opacity: 0;
 
     transition: all .35s ease;
 }
 
 .custom-toast.show{
-    transform: translateX(0);
+     transform: translateY(0);
     opacity: 1;
 }
 
