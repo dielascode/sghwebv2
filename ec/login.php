@@ -1,50 +1,10 @@
 <?php
 session_start();
-include 'config/connection.php';
-
-$db = new Database();
-$conn = $db->getConnection();
+include 'logic/class/handleLogin.php';
 
 if (isset($_POST['login'])) {
-
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // QUERY LOGIN
-    $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-    
-    $result = mysqli_query($conn, $query);
-
-    // CEK LOGIN
-    if (mysqli_num_rows($result) > 0) {
-
-        $user = mysqli_fetch_assoc($result);
-
-        // SESSION LOGIN
-        $_SESSION['id_user'] = $user['id'];
-        $_SESSION['nama'] = $user['nama'];
-        $_SESSION['role'] = $user['role'];
-
-        // REDIRECT ROLE
-        if ($user['role'] == 'superadmin') {
-
-            header("Location: superadmin.php");
-
-        } elseif ($user['role'] == 'admin') {
-
-            header("Location: admin.php");
-
-        } else {
-
-            header("Location: index.php");
-        }
-
-        exit;
-
-    } else {
-
-        echo "<script>alert('Login gagal');</script>";
-    }
+    $loginHandler = new LoginHandler();
+    $loginHandler->handleLogin($_POST['email'], $_POST['password']);
 }
 ?>
 
@@ -54,7 +14,7 @@ if (isset($_POST['login'])) {
 
 <head>
     <link rel="stylesheet" href="style/costumer/loginRegist.css">
-
+    <title>Login</title>
 </head>
 
 <body>
@@ -66,7 +26,7 @@ if (isset($_POST['login'])) {
 
                 <input type="email" name="email" placeholder="Email" required />
                 <input type="password" name="password" placeholder="Password" required />
-                <a class="forget-password" href="">Lupa Password?</a>
+                <a class="forget-password" href="./forgetPassword.php">Lupa Password?</a>
 
                 <button type="submit" name="login">Masuk Sekarang</button>
             </form>
