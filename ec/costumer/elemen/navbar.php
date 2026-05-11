@@ -99,11 +99,11 @@ if ($id_users) {
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="/sghwebv2/ec/images/profil.jpg" class="w-full h-full object-cover">
+                <img src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">
-                <?= $_SESSION['user']['name'] ?? 'Faiq imup'; ?>
+                <?= $data['username']; ?>
               </span>
             </div>
 
