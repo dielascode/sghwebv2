@@ -22,9 +22,11 @@ if (!$result) {
             <p class="text-muted mb-0">Kelola varietas anda disini</p>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
-                <i class="bi bi-plus-lg me-2"></i>Tambah Varietas
-            </button>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                    <i class="bi bi-plus-lg me-2"></i>Tambah Varietas
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -43,7 +45,10 @@ if (!$result) {
                                 <th>No</th>
                                 <th>Nama Varietas</th>
                                 <th>Buah</th>
-                                <th style="width: 120px;">Aksi</th>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                    <th style="width: 120px;">Aksi</th>
+                                <?php endif; ?>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -59,7 +64,7 @@ if (!$result) {
                                             <?= $v['nama_buah']; ?>
                                         </span>
                                     </td>
-
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                     <td style="display: flex; gap: 10px;">
                                         <!-- tombol edit -->
                                         <button
@@ -67,7 +72,7 @@ if (!$result) {
                                             onclick="openEditModal(<?= $v['id']; ?>, '<?= $v['nama_varietas']; ?>', <?= $v['id_buah']; ?>)">
                                             Edit
                                         </button>
-
+    
                                         <!-- tombol delete -->
                                         <button
                                             class="btn btn-sm btn-danger"
@@ -75,6 +80,8 @@ if (!$result) {
                                             Hapus
                                         </button>
                                     </td>
+                                <?php endif; ?>
+
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

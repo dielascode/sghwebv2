@@ -3,8 +3,8 @@
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 mb-lg-5">
         <div>
-            <h1 class="h3 mb-0">Order Management</h1>
-            <p class="text-muted mb-0">Track orders, manage fulfillment, and analyze sales</p>
+            <h1 class="h3 mb-0">Manajemen Pesanan</h1>
+            <p class="text-muted mb-0">Lacak pesanan, manajemen barang, analisa minat pembeli</p>
         </div>
         <div class="d-flex gap-2">
             <button type="button" class="btn btn-outline-secondary" @click="exportOrders()">
@@ -17,7 +17,7 @@
     </div>
 
     <!-- Order Management Container -->
-    <div x-data="orderTable" x-init="init()">
+    <div>
 
         <!-- Order Stats Widgets -->
         <div class="row g-4 g-lg-5 mb-5">
@@ -110,16 +110,12 @@
                                 <input type="search"
                                     class="form-control form-control-sm"
                                     placeholder="Search orders..."
-                                    x-model="searchQuery"
-                                    @input="filterOrders()"
                                     style="width: 200px;">
                                 <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
                             </div>
 
                             <!-- Status Filter -->
                             <select class="form-select form-select-sm"
-                                x-model="statusFilter"
-                                @change="filterOrders()"
                                 style="width: 150px;">
                                 <option value="">All Status</option>
                                 <option value="pending">Pending</option>
@@ -131,8 +127,6 @@
 
                             <!-- Date Range -->
                             <select class="form-select form-select-sm"
-                                x-model="dateFilter"
-                                @change="filterOrders()"
                                 style="width: 150px;">
                                 <option value="">All Dates</option>
                                 <option value="today">Today</option>
@@ -144,117 +138,56 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <!-- Bulk Actions Bar -->
-                <div class="bulk-actions-bar p-3 bg-light border-bottom" x-show="selectedOrders.length > 0" x-transition>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted">
-                            <span x-text="selectedOrders.length"></span> order(s) selected
-                        </span>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('processing')">
-                                <i class="bi bi-arrow-clockwise me-1"></i>Mark Processing
-                            </button>
-                            <button class="btn btn-sm btn-outline-info" @click="bulkAction('shipped')">
-                                <i class="bi bi-truck me-1"></i>Mark Shipped
-                            </button>
-                            <button class="btn btn-sm btn-outline-success" @click="bulkAction('delivered')">
-                                <i class="bi bi-check-circle me-1"></i>Mark Delivered
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Table -->
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox"
-                                        class="form-check-input"
-                                        @change="toggleAll($event.target.checked)"
-                                        :checked="selectedOrders.length === filteredOrders.length && filteredOrders.length > 0">
-                                </th>
-                                <th @click="sortBy('orderNumber')" class="sortable">Order #</th>
+                                <th>Order</th>
                                 <th>Customer</th>
                                 <th>Items</th>
-                                <th @click="sortBy('total')" class="sortable">Total</th>
+                                <th>Total</th>
                                 <th>Status</th>
-                                <th @click="sortBy('orderDate')" class="sortable">Date</th>
+                                <th>Date</th>
                                 <th style="width: 120px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <template x-for="order in paginatedOrders" :key="order.id">
-                                <tr>
-                                    <td>
-                                        <input type="checkbox"
-                                            class="form-check-input"
-                                            :value="order.id"
-                                            x-model="selectedOrders">
-                                    </td>
-                                    <td>
-                                        <div class="fw-medium" x-text="order.orderNumber"></div>
-                                        <small class="text-muted" x-text="'ID: ' + order.id"></small>
-                                    </td>
-                                    <td>
-                                        <div class="order-customer">
-                                            <img :src="order.customer.avatar"
-                                                class="customer-avatar"
-                                                :alt="order.customer.name">
-                                            <div>
-                                                <div class="fw-medium" x-text="order.customer.name"></div>
-                                                <small class="text-muted" x-text="order.customer.email"></small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="order-items">
-                                            <div x-text="order.itemCount + ' item' + (order.itemCount > 1 ? 's' : '')"></div>
-                                            <small class="text-muted" x-text="order.items[0].name + (order.itemCount > 1 ? ' +' + (order.itemCount - 1) + ' more' : '')"></small>
-                                        </div>
-                                    </td>
-                                    <td class="fw-medium" x-text="`$${order.total}`"></td>
-                                    <td>
-                                        <span class="order-status"
-                                            :class="{
-                                                                  'status-pending': order.status === 'pending',
-                                                                  'status-processing': order.status === 'processing',
-                                                                  'status-shipped': order.status === 'shipped',
-                                                                  'status-delivered': order.status === 'delivered',
-                                                                  'status-cancelled': order.status === 'cancelled'
-                                                              }"
-                                            x-text="order.status.charAt(0).toUpperCase() + order.status.slice(1)"></span>
-                                    </td>
-                                    <td x-text="order.orderDate"></td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#" @click="viewOrder(order)">
-                                                        <i class="bi bi-eye me-2"></i>View Details
-                                                    </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                        <i class="bi bi-truck me-2"></i>Track Order
-                                                    </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="printInvoice(order)">
-                                                        <i class="bi bi-printer me-2"></i>Print Invoice
-                                                    </a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                        <i class="bi bi-x-circle me-2"></i>Cancel Order
-                                                    </a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="dropdown" data-bs-display="static">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                            data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#" @click="viewOrder(order)">
+                                                    <i class="bi bi-eye me-2"></i>View Details
+                                                </a></li>
+                                            <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
+                                                    <i class="bi bi-truck me-2"></i>Track Order
+                                                </a></li>
+                                            <li><a class="dropdown-item" href="#" @click="printInvoice(order)">
+                                                    <i class="bi bi-printer me-2"></i>Print Invoice
+                                                </a></li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
+                                                    <i class="bi bi-x-circle me-2"></i>Cancel Order
+                                                </a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
