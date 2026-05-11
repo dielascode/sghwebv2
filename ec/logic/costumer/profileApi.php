@@ -9,12 +9,15 @@ require_once __DIR__ . '/../../config/connection.php';
 $db = new Database();
 $conn = $db->getConnection();
 
-if (!isset($_SESSION['id_user'])) {
+/* =========================
+   SESSION FIX
+========================= */
+if (!isset($_SESSION['id'])) {
     header("Location: ../../index.php");
     exit;
 }
 
-$id_user = $_SESSION['id_user'];
+$id_user = $_SESSION['id'];
 
 // =========================
 // AMBIL DATA FORM
@@ -26,7 +29,7 @@ $no_telepon    = $_POST['nomor_telepon'] ?? '';
 $jenis_kelamin = $_POST['jenis_kelamin'] ?? '';
 
 // =========================
-// UPDATE USERS (AMAN)
+// UPDATE USERS
 // =========================
 mysqli_query($conn, "
     UPDATE users SET
@@ -40,17 +43,21 @@ mysqli_query($conn, "
 // =========================
 // CEK COSTUMER
 // =========================
-$cek = mysqli_query($conn, "SELECT * FROM costumer WHERE id_costumer = '$id_user'");
+$cek = mysqli_query($conn, "
+    SELECT * FROM costumer
+    WHERE id_costumer = '$id_user'
+");
+
 $data_costumer = mysqli_fetch_assoc($cek);
 
-
+/* FOTO HARUS ADA INI (BIAR TIDAK ERROR) */
+$foto_baru = null;
 
 // =========================
 // UPDATE / INSERT COSTUMER
 // =========================
 if ($data_costumer) {
 
-    // kalau tidak upload foto → JANGAN overwrite foto_profil
     if ($foto_baru) {
         mysqli_query($conn, "
             UPDATE costumer SET

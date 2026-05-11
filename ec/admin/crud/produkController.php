@@ -48,7 +48,44 @@ if ($action === 'tambah') {
 
     echo json_encode($result);
 } else if ($action === 'update') {
+    $id = $_POST['id'] ?? null;
+
+    if (!$id) {
+        echo json_encode([
+            "status" => false,
+            "message" => "ID tidak ditemukan"
+        ]);
+        exit;
+    }
+
+    $data = [
+        "id" => $id,
+        "nama_produk" => $_POST['nama_produk'],
+        "tipe" => $_POST['tipe'],
+        "harga" => $_POST['harga'],
+        "stok" => $_POST['stok'],
+        "deskripsi" => $_POST['deskripsi'],
+        "komposisi" => json_decode($_POST['komposisi'], true),
+        "oldImages" => json_decode($_POST['oldImages'], true)
+    ];
+
+    $result = $produk->updateProduk($data, $_FILES);
+
+    echo json_encode($result);
 } else if ($action === 'delete') {
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        echo json_encode([
+            "status" => false,
+            "message" => "ID tidak ditemukan"
+        ]);
+        exit;
+    }
+
+    $result = $produk->deleteProduk($id);
+
+    echo json_encode($result);
 } else if ($action === 'get_detail') {
     $id = $_GET['id'] ?? null;
 
