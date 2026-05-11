@@ -10,19 +10,56 @@ function updateQty(id, delta, event) {
     formData.append('id_detail', id);
     formData.append('qty', delta);
 
-    fetch('/sghwebv2/ec/logic/costumer/updatecart.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString()
-    })
+   fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: formData.toString()
+})
     .then(response => response.text())
     .then(data => {
 
         if (data.includes('success')) {
 
-            loadPage('costumer/page/keranjang.php');
+            const card = document
+                .querySelector(`.product-check[value="${id}"]`)
+                .closest('.cart-card');
+
+            const qtyInput = card.querySelector('.qty-picker input');
+
+            let currentQty = parseInt(qtyInput.value);
+
+            currentQty += delta;
+
+            if(currentQty <= 0){
+
+                card.remove();
+
+            }else{
+
+                qtyInput.value = currentQty;
+
+                // update data qty
+                card.dataset.qty = currentQty;
+
+                // update harga
+                const price = parseInt(card.dataset.price);
+
+                const totalHarga = price * currentQty;
+
+                card.querySelector('.product-price')
+                    .innerText =
+                    `Rp ${totalHarga.toLocaleString('id-ID')}`;
+
+            }
+
+            // update summary
+            updateSummary();
+
+            // update badge
+            updateCartBadge();
 
         }
 
@@ -52,20 +89,22 @@ function deleteSelected() {
     formData.append('action', 'delete_selected');
     formData.append('ids', JSON.stringify(ids));
 
-    fetch('/sghwebv2/ec/logic/costumer/updatecart.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString()
-    })
+   fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: formData.toString()
+})
     .then(res => res.text())
     .then(res => {
 
         if (res.includes('success')) {
 
             loadPage('costumer/page/keranjang.php');
-             updateCartBadge(); 
+
+            updateCartBadge();
 
         }
 
@@ -100,37 +139,38 @@ document.addEventListener('change', function (e) {
 
 function updateCartBadge(){
 
-    fetch('/sghwebv2/ec/logic/costumer/updatecart.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            'action': 'get_total'
-        })
-    }  )
+    fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+    method: 'POST',
+    credentials: 'include', // 🔥 INI WAJIB
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'action=get_total'
+})
     .then(res => res.text())
     .then(total => {
 
-        const badge = document.querySelector('.cart-badge');
+        total = parseInt(total) || 0;
+
+        const wrapper = document.querySelector('.cart-icon-wrapper');
+
+        if(!wrapper) return;
+
+        let badge = wrapper.querySelector('.cart-badge');
 
         if(total > 0){
 
-            if(badge){
+            if(!badge){
 
-                badge.innerText = total;
-
-            }else{
-
-                const wrapper = document.querySelector('.cart-icon-wrapper');
-
-                wrapper.innerHTML += `
-                    <span class="cart-badge">${total}</span>
-                `;
+                badge = document.createElement('span');
+                badge.className = 'cart-badge';
+                wrapper.appendChild(badge);
 
             }
 
-        }else{
+            badge.innerText = total;
+
+        } else {
 
             if(badge){
                 badge.remove();
@@ -142,3 +182,92 @@ function updateCartBadge(){
 
 }
 
+
+
+function updateSummary() {
+
+    let checkedItems = document.querySelectorAll('.product-check:checked');
+
+    let total = 0;
+    let totalItem = 0;
+
+    checkedItems.forEach(item => {
+
+        const card = item.closest('.cart-card');
+
+        const price = parseInt(card.dataset.price);
+        const qty = parseInt(card.dataset.qty);
+
+        total += price * qty;
+        totalItem++;
+
+    });
+
+    document.getElementById('summary-item-count')
+        .innerText = `${totalItem} Item`;
+
+    document.getElementById('summary-subtotal')
+        .innerText = `Rp ${total.toLocaleString('id-ID')}`;
+
+    document.getElementById('summary-total')
+        .innerText = `Rp ${total.toLocaleString('id-ID')}`;
+
+}
+
+
+
+/* =========================
+   CHECKBOX CHANGE
+========================= */
+
+document.addEventListener('change', function(e){
+
+    if(
+        e.target.classList.contains('product-check') ||
+        e.target.id === 'check-all'
+    ){
+
+        updateSummary();
+
+    }
+
+});
+window.lanjutPemesanan = function () {
+
+  console.log("BTN KLIK");
+
+  let selected = [];
+
+  document.querySelectorAll(".product-check:checked").forEach(el => {
+    selected.push(el.value);
+  });
+
+  console.log("SELECTED:", selected);
+
+  if (selected.length === 0) {
+    alert("Pilih minimal 1 produk");
+    return;
+  }
+
+  fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: `action=set_selected&ids=${JSON.stringify(selected)}`
+})
+.then(res => res.text())
+.then(res => {
+  console.log("RAW RESPONSE:", res); // 👈 WAJIB LIHAT INI
+
+  if (res.trim() === 'success') {
+    loadPage('costumer/page/pemesanan.php');
+  } else {
+    alert("Gagal: " + res);
+  }
+})
+.catch(err => {
+  console.log("FETCH ERROR:", err);
+});
+
+}

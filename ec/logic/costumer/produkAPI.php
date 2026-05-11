@@ -4,6 +4,7 @@ function getProduk($conn, $tipe = 'all'){
 
     $query = "SELECT 
         detail_produk.id AS id_detail,
+        produk.id AS id_produk,
         produk.nama_produk,
         produk.deskripsi,
         produk.tipe,
@@ -29,4 +30,26 @@ function getProduk($conn, $tipe = 'all'){
     }
 
     return $data;
+}
+function getGambarProduk($conn, $id_produk)
+{
+    $query = "SELECT gambar 
+              FROM gambar_produk
+              WHERE id_produk = ?";
+
+    $stmt = mysqli_prepare($conn, $query);
+
+    mysqli_stmt_bind_param($stmt, "s", $id_produk);
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $gambar = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $gambar[] = $row['gambar'];
+    }
+
+    return $gambar;
 }
