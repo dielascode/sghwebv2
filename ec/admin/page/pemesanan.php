@@ -1,3 +1,17 @@
+<?php
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/pesananApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$pesanan = new Pesanan($conn);
+
+$result = $pesanan->getPesanan();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
+?>
 <div class="container-fluid p-4 p-lg-5">
 
     <!-- Page Header -->
@@ -144,50 +158,56 @@
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>Order</th>
+                                <th>No. Pesanan</th>
                                 <th>Customer</th>
-                                <th>Items</th>
-                                <th>Total</th>
+                                <th>Bukti Bayar</th>
+                                <th>Metode</th>
                                 <th>Status</th>
-                                <th>Date</th>
+                                <th>Tanggal Pesan</th>
                                 <th style="width: 120px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div class="dropdown" data-bs-display="static">
-                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots"></i>
-                                        </button>
+                            <?php foreach ($result as $p): ?>
+                                <tr>
+                                    <td><?= $p['nomor_pesanan'] ?></td>
+                                    <td><?= $p['nama'] ?></td>
+                                    <td><?= $p['bukti_bayar'] ?></td>
+                                    <td><?= $p['metode'] ?></td>
+                                    <td><?= $p['status'] ?></td>
+                                    <td><?= $p['tanggal_order'] ?></td>
+                                    <td>
+                                        <div class="dropdown" data-bs-display="static">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
 
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="#" @click="viewOrder(order)">
-                                                    <i class="bi bi-eye me-2"></i>View Details
-                                                </a></li>
-                                            <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                    <i class="bi bi-truck me-2"></i>Track Order
-                                                </a></li>
-                                            <li><a class="dropdown-item" href="#" @click="printInvoice(order)">
-                                                    <i class="bi bi-printer me-2"></i>Print Invoice
-                                                </a></li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                    <i class="bi bi-x-circle me-2"></i>Cancel Order
-                                                </a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" onclick="viewOrder('<?= $p['nomor_pesanan']; ?>')">
+                                                        <i class="bi bi-eye me-2"></i>View Details
+                                                    </a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
+                                                        <i class="bi bi-truck me-2"></i>Track Order
+                                                    </a></li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" onclick="printInvoice('<?= $p['id']; ?>')">
+                                                        <i class="bi bi-printer me-2"></i>Print Invoice
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
+                                                        <i class="bi bi-x-circle me-2"></i>Cancel Order
+                                                    </a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -218,6 +238,92 @@
             </div>
         </div>
 
-    </div> <!-- End Order Management Container -->
+    </div>
 
 </div>
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Pesanan</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <p><strong>No Pesanan:</strong> <span id="nomor_pesanan"></span></p>
+                <p><strong>Customer:</strong> <span id="nama"></span></p>
+                <p><strong>Alamat:</strong> <span id="order_alamat"></span></p>
+                <hr>
+
+                <h6>Produk:</h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order_items"></tbody>
+                </table>
+
+                <hr>
+
+                <h6>Bukti Pembayaran:</h6>
+                <div id="bukti_container">
+                    <span class="text-muted">Tidak ada bukti</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    async function viewOrder(nomor_pesanan) {
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+
+            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`);
+            let data = await res.json();
+
+            document.getElementById('nomor_pesanan').innerText = data.nomor_pesanan;
+            document.getElementById('nama').innerText = data.nama;
+            document.getElementById('order_alamat').innerText = data.alamat ?? 'Belum ada alamat';
+
+            let itemsHTML = '';
+            data.items.forEach(item => {
+                itemsHTML += `
+                <tr>
+                    <td>${item.nama_produk}</td>
+                    <td>${item.kuantitas}</td>
+                    <td>Rp ${parseInt(item.harga).toLocaleString()}</td>
+                </tr>
+            `;
+            });
+
+            document.getElementById('order_items').innerHTML = itemsHTML;
+
+            let buktiHTML = '';
+
+            if (data.bukti_bayar) {
+                buktiHTML = `
+                <img src="../assets/images/bukti/${data.bukti_bayar}" 
+                     class="img-fluid rounded shadow"
+                     style="max-height:300px; cursor:pointer;"
+                     onclick="window.open(this.src)">
+            `;
+            } else {
+                buktiHTML = `<span class="text-muted">Belum upload bukti</span>`;
+            }
+
+            document.getElementById('bukti_container').innerHTML = buktiHTML;
+
+            new bootstrap.Modal(document.getElementById('orderModal')).show();
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+</script>
