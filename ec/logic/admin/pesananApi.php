@@ -20,6 +20,7 @@ class Pesanan
                     $this->table.*,
                     users.nama,
                     users.email,
+                    users.nomor_telepon,
                     alamat_costumer.alamat
                 FROM $this->table
                 JOIN users ON $this->table.id_costumer = users.id
