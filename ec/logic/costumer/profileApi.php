@@ -9,12 +9,12 @@ require_once __DIR__ . '/../../config/connection.php';
 $db = new Database();
 $conn = $db->getConnection();
 
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['id'])) {
     header("Location: ../../index.php");
     exit;
 }
 
-$id_user = $_SESSION['id_user'];
+$id = $_SESSION['id'];
 
 // =========================
 // AMBIL DATA FORM
@@ -34,13 +34,13 @@ mysqli_query($conn, "
         nama = '$nama',
         email = '$email',
         nomor_telepon = '$no_telepon'
-    WHERE id = '$id_user'
+    WHERE id = '$id'
 ");
 
 // =========================
 // CEK COSTUMER
 // =========================
-$cek = mysqli_query($conn, "SELECT * FROM costumer WHERE id_costumer = '$id_user'");
+$cek = mysqli_query($conn, "SELECT * FROM costumer WHERE id_costumer = '$id'");
 $data_costumer = mysqli_fetch_assoc($cek);
 
 // =========================
@@ -82,13 +82,13 @@ if ($data_costumer) {
             UPDATE costumer SET
                 jenis_kelamin = '$jenis_kelamin',
                 foto_profil = '$foto_baru'
-            WHERE id_costumer = '$id_user'
+            WHERE id_costumer = '$id'
         ");
     } else {
         mysqli_query($conn, "
             UPDATE costumer SET
                 jenis_kelamin = '$jenis_kelamin'
-            WHERE id_costumer = '$id_user'
+            WHERE id_costumer = '$id'
         ");
     }
 
@@ -100,7 +100,7 @@ if ($data_costumer) {
             jenis_kelamin,
             foto_profil
         ) VALUES (
-            '$id_user',
+            '$id',
             '$jenis_kelamin',
             '$foto_baru'
         )

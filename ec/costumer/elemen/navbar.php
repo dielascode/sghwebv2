@@ -23,10 +23,11 @@ require_once __DIR__ . '/../../config/connection.php';
 $db = new Database();
 $conn = $db->getConnection();
 
+$id = $_SESSION['id'] ?? null;
 
-$id_user = $_SESSION['id_user'];
-
-echo "ID USER : " . $id_user;
+if (!$id) {
+    die("User tidak login atau session id tidak tersedia");
+}
 
 // ambil data profile
 $query = mysqli_query($conn, "
@@ -37,7 +38,7 @@ $query = mysqli_query($conn, "
     FROM users
     LEFT JOIN costumer 
         ON users.id = costumer.id_costumer
-    WHERE users.id = '$id_user'
+    WHERE users.id = '$id'
 ");
 
 $data = mysqli_fetch_assoc($query);
