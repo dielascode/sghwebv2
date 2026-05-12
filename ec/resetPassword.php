@@ -24,8 +24,15 @@ if (!$token) {
 <body>
     <div class="container" id="container">
         <div class="form-container sign-in-container">
-            <form method="POST" action="logic/resetPasswordHandler.php">
+            <form method="POST" action="logic/class/handleresetPassword.php">
                 <h1>Reset Password</h1>
+
+                <?php if (isset($_SESSION['error'])): ?>
+                    <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['success'])): ?>
+                    <p style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
+                <?php endif; ?>
 
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                 <input type="password" name="new_password" placeholder="Masukkan Password Baru" required />
@@ -44,4 +51,6 @@ if (!$token) {
                 </div>
             </div>
         </div>
+    </div>
+</body>
 </html>
