@@ -28,8 +28,20 @@ if ($action === 'get_detail') {
             "message" => "Data tidak lengkap"
         ]);
     }
-} else if ($action === 'delete') {
-    
+} else if ($action === 'cancel_status') {
+
+    $nomor_pesanan = $_GET['nomor_pesanan'] ;
+    $status = 'dibatalkan' ;
+
+    if ($nomor_pesanan && $status) {
+        $result = $pesanan->cancelStatus($nomor_pesanan, $status);
+        echo json_encode($result);
+    } else {
+        echo json_encode([
+            "status" => false,
+            "message" => "Data tidak lengkap"
+        ]);
+    }
 }else {
     echo json_encode(['status' => false, 'message' => 'Action salah: ' . $action]);
 }

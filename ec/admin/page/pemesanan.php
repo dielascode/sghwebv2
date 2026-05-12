@@ -200,7 +200,7 @@ if (!$result) {
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
-                                                    <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
+                                                    <li><a class="dropdown-item text-danger" href="#" onclick="cancelOrder('<?= $p['nomor_pesanan']; ?>')">
                                                             <i class="bi bi-x-circle me-2"></i>Batalkan Pesanan
                                                         </a></li>
                                                 <?php endif; ?>
@@ -544,4 +544,31 @@ async function updateStatus() {
         console.error(error);
     }
 }
+
+async function cancelOrder(nomor_pesanan) {
+
+        const confirmText =
+            "Yakin mau merubah status pesanan menjadi dibatalkan?";
+
+        if (!confirm(confirmText)) return;
+
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+
+            let res = await fetch(`${baseUrl}?action=cancel_status&nomor_pesanan=${nomor_pesanan}`);
+
+            let result = await res.json();
+
+            if (result.status) {
+                alert(result.message);
+                location.reload();
+            } else {
+                alert("Gagal: " + result.message);
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Terjadi error");
+        }
+    }
 </script>

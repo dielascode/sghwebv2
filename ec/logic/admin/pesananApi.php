@@ -76,4 +76,23 @@ class Pesanan
             ];
         }
     }
+    public function cancelStatus($nomor_pesanan, $status)
+    {
+        $query = "UPDATE pesanan SET status=? WHERE nomor_pesanan=?";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("ss", $status, $nomor_pesanan);
+
+        if ($stmt->execute()) {
+            return [
+                "status" => true,
+                "message" => "Status berhasil diubah ke $status"
+            ];
+        } else {
+            return [
+                "status" => false,
+                "message" => $stmt->error
+            ];
+        }
+    }
 }
