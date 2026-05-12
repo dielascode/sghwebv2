@@ -1,71 +1,99 @@
 <?php
-session_start();
-require_once "../../config/connection.php";
-require_once "../../costumer/page/p.diproses.php";
+require_once '../../config/connection.php';
+class PesananAPI
+{
+    private $conn;
 
-header('Content-Type: application/json');
-
-/* =========================
-   DB CONNECTION
-========================= */
-$db = new Database();
-$conn = $db->getConnection();
-
-/* =========================
-   INIT CLASS
-========================= */
-$pesanan = new Pesanan($conn);
-
-/* =========================
-   CEK LOGIN
-========================= */
-$id_costumer = $_SESSION['id'] ?? null;
-
-if (!$id_costumer) {
-    echo json_encode([]);
-    exit;
-}
-
-/* =========================
-   STATUS
-========================= */
-$status = $_GET['status'] ?? 'diproses';
-
-/* =========================
-   GET PESANAN
-========================= */
-$result = $pesanan->getByStatus($id_costumer, $status);
-
-$data = [];
-
-while ($p = $result->fetch_assoc()) {
-
-    $nomor = $p['nomor_pesanan'];
-
-    /* DETAIL */
-    $detail = $pesanan->getDetail($nomor);
-
-    $total = 0;
-    $qty = 0;
-    $first = null;
-
-    while ($d = $detail->fetch_assoc()) {
-        $total += $d['harga_produk'] * $d['kuantitas'];
-        $qty += $d['kuantitas'];
-
-        if (!$first) {
-            $first = $d;
-        }
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
     }
 
-    $data[] = [
-        "nomor_pesanan" => $nomor,
-        "status" => $p['status'],
-        "total" => $total,
-        "qty" => $qty,
-        "nama_produk" => $first['nama_produk'] ?? "-",
-        "foto" => $first['foto_produk'] ?? "default.png"
-    ];
-}
+    // =========================
+    // AMBIL PESANAN USER
+    // =========================
+    public function getOrderHistory($id_costumer)
+    {
+        $pesanan = $this->getPesanan($id_costumer);
+        $result = [];
 
-echo json_encode($data);
+        foreach ($pesanan as $p) {
+
+            $detail = $this->getDetail($p['nomor_pesanan']);
+
+            $total_qty = 0;
+            $total_harga = 0;
+
+            foreach ($detail as $d) {
+                $total_qty += $d['kuantitas'];
+                $total_harga += $d['kuantitas'] * $d['harga'];
+            }
+
+            $first = $detail[0] ?? null;
+
+            $result[] = [
+                "nomor_pesanan" => $p['nomor_pesanan'],
+                "status" => $p['status'],
+                "tanggal_order" => $p['tanggal_order'],
+
+                "nama_produk" => $first['nama_produk'] ?? '-',
+                "gambar" => $first['gambar'] ?? 'default.png',
+
+                "total_qty" => $total_qty,
+                "total_harga" => $total_harga,
+
+                "detail" => $detail
+            ];
+        }
+
+        return $result;
+    }
+
+    // =========================
+    // GET PESANAN
+    // =========================
+    private function getPesanan($id_costumer)
+    {
+        $sql = "SELECT * FROM pesanan 
+                WHERE id_costumer = ?
+                ORDER BY tanggal_order DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id_costumer);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // =========================
+    // GET DETAIL PESANAN
+    // =========================
+    private function getDetail($nomor_pesanan)
+    {
+        $sql = "SELECT 
+            d.nomor_pesanan,
+            d.id_produk,
+            d.kuantitas,
+            p.nama_produk,
+            p.harga,
+            (SELECT gp.gambar 
+             FROM gambar_produk gp 
+             WHERE gp.id_produk = p.id 
+             LIMIT 1) as gambar
+        FROM detail_pesanan d
+        JOIN produk p 
+            ON p.id = d.id_produk
+        WHERE d.nomor_pesanan = ?";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!$stmt) {
+            die("SQL ERROR: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("s", $nomor_pesanan);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+}
