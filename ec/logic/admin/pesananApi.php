@@ -12,15 +12,60 @@ class Pesanan
     public function getPesanan()
     {
         return $this->conn->query("
-    SELECT 
-        $this->table.*,
-        $this->table.status AS status_pesanan,
-        users.status AS status_user,
-        users.nama
-    FROM $this->table
-    JOIN users ON $this->table.id_costumer = users.id
-    ORDER BY tanggal_order DESC
-");
+            SELECT 
+                $this->table.*,
+                $this->table.status AS status_pesanan,
+                users.status AS status_user,
+                users.nama
+            FROM $this->table
+            JOIN users ON $this->table.id_costumer = users.id
+            ORDER BY tanggal_order DESC
+        ");
+    }
+    public function getTotalOrdersStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_order
+              FROM $this->table ";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+    public function getTotalOrdersWaitingStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_order_waiting
+              FROM $this->table WHERE status = 'menunggu_konfirmasi'";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+    public function getTotalOrdersProcessStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_order_process
+              FROM $this->table WHERE status = 'diproses'";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+    public function getTotalOrdersSendStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_order_send
+              FROM $this->table WHERE status = 'dikirim'";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+    public function getTotalOrdersDoneStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_order_done
+              FROM $this->table WHERE status = 'selesai'";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
     }
 
     public function getDetail($nomor_pesanan)

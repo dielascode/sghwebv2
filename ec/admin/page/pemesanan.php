@@ -8,6 +8,11 @@ $conn = $db->getConnection();
 $pesanan = new Pesanan($conn);
 
 $result = $pesanan->getPesanan();
+$total_order = $pesanan->getTotalOrdersStats();
+$total_order_waiting = $pesanan->getTotalOrdersWaitingStats();
+$total_order_process = $pesanan->getTotalOrdersProcessStats();
+$total_order_send = $pesanan->getTotalOrdersSendStats();
+$total_order_done = $pesanan->getTotalOrdersDoneStats();
 if (!$result) {
     die("ERROR: " . $conn->error);
 }
@@ -34,73 +39,100 @@ if (!$result) {
     <div>
 
         <!-- Order Stats Widgets -->
-        <div class="row g-4 g-lg-5 mb-5">
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
+        <div class="row g-3 g-lg-4 mb-5 row-cols-1 row-cols-md-3 row-cols-xl-5">
+            <!-- Total Pesanan -->
+            <div class="col">
+                <div class="card stats-card h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
                                 <i class="bi bi-bag-check"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 text-muted">Total Orders</h6>
-                                <h3 class="mb-0" x-text="stats.total"></h3>
-                                <small class="text-success">
-                                    <i class="bi bi-arrow-up"></i> +12% from last month
+                                <h6 class="mb-0 text-muted small">Total Pesanan</h6>
+                                <h3 class="mb-0 fs-4"><?= $total_order['total_order'] ?></h3>
+                                <small class="text-success" style="font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-up"></i> +12%
                                 </small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
+
+            <!-- Menunggu Konfirmasi -->
+            <div class="col">
+                <div class="card stats-card h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
                                 <i class="bi bi-clock"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 text-muted">Pending</h6>
-                                <h3 class="mb-0" x-text="stats.pending"></h3>
-                                <small class="text-warning">
-                                    <i class="bi bi-exclamation-circle"></i> Needs attention
+                                <h6 class="mb-0 text-muted small">Konfirmasi</h6>
+                                <h3 class="mb-0 fs-4"><?= $total_order_waiting['total_order_waiting'] ?></h3>
+                                <small class="text-warning" style="font-size: 0.75rem;">
+                                    <i class="bi bi-exclamation-circle"></i> Pending
                                 </small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
+
+            <!-- Diproses -->
+            <div class="col">
+                <div class="card stats-card h-100">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon bg-secondary bg-opacity-10 text-secondary me-3">
+                                <i class="bi bi-gear"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 text-muted small">Diproses</h6>
+                                <h3 class="mb-0 fs-4"><?= $total_order_process['total_order_process'] ?></h3>
+                                <small class="text-muted" style="font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-repeat"></i> In progress
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dikirim -->
+            <div class="col">
+                <div class="card stats-card h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
                                 <i class="bi bi-truck"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 text-muted">Shipped</h6>
-                                <h3 class="mb-0" x-text="stats.shipped"></h3>
-                                <small class="text-info">
-                                    <i class="bi bi-arrow-right"></i> In transit
+                                <h6 class="mb-0 text-muted small">Dikirim</h6>
+                                <h3 class="mb-0 fs-4"><?= $total_order_send['total_order_send'] ?></h3>
+                                <small class="text-info" style="font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-right"></i> Transit
                                 </small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
+
+            <!-- Selesai -->
+            <div class="col">
+                <div class="card stats-card h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
                                 <i class="bi bi-currency-dollar"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 text-muted">Revenue</h6>
-                                <h3 class="mb-0" x-text="`$${stats.revenue.toLocaleString()}`"></h3>
-                                <small class="text-success">
-                                    <i class="bi bi-arrow-up"></i> +8% from last week
+                                <h6 class="mb-0 text-muted small">Selesai</h6>
+                                <h3 class="mb-0 fs-4"><?= $total_order_done['total_order_done'] ?></h3>
+                                <small class="text-success" style="font-size: 0.75rem;">
+                                    <i class="bi bi-arrow-up"></i> +8%
                                 </small>
                             </div>
                         </div>
@@ -186,20 +218,22 @@ if (!$result) {
                                                         <i class="bi bi-eye me-2"></i>Tampilkan Detail
                                                     </a>
                                                 </li>
-                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin" && $p['status_pesanan'] !== 'dikirim' && $p['status_pesanan'] !== 'dibatalkan'): ?>
                                                     <li><a class="dropdown-item" href="#" onclick="openStatusModal('<?= $p['nomor_pesanan']; ?>', '<?= $p['status_pesanan']; ?>')">
                                                             <i class="bi bi-truck me-2"></i>Ubah Status
                                                         </a></li>
                                                 <?php endif; ?>
+                                                <?php if ($p['status_pesanan'] !== 'menunggu_konfirmasi'): ?>
                                                 <li>
                                                     <a class="dropdown-item" href="#" onclick="printInvoice('<?= $p['nomor_pesanan']; ?>')">
                                                         <i class="bi bi-printer me-2"></i>Cetak Struk
                                                     </a>
                                                 </li>
+                                                <?php endif; ?>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
-                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin" && $p['status_pesanan'] === 'menunggu_konfirmasi'): ?>
                                                     <li><a class="dropdown-item text-danger" href="#" onclick="cancelOrder('<?= $p['nomor_pesanan']; ?>')">
                                                             <i class="bi bi-x-circle me-2"></i>Batalkan Pesanan
                                                         </a></li>
@@ -507,45 +541,45 @@ if (!$result) {
     }
 </script>
 <script>
-function openStatusModal(nomor_pesanan, status) {
-    document.getElementById('nomor_pesanan').value = nomor_pesanan;
-    document.getElementById('current_status').innerText = status;
-    document.getElementById('new_status').value = status;
+    function openStatusModal(nomor_pesanan, status) {
+        document.getElementById('nomor_pesanan').value = nomor_pesanan;
+        document.getElementById('current_status').innerText = status;
+        document.getElementById('new_status').value = status;
 
-    new bootstrap.Modal(document.getElementById('statusModal')).show();
-}
+        new bootstrap.Modal(document.getElementById('statusModal')).show();
+    }
 </script>
 <script>
-async function updateStatus() {
-    let nomor_pesanan = document.getElementById('nomor_pesanan').value;
-    let status = document.getElementById('new_status').value;
+    async function updateStatus() {
+        let nomor_pesanan = document.getElementById('nomor_pesanan').value;
+        let status = document.getElementById('new_status').value;
 
-    try {
-        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
 
-        let response = await fetch(`${baseUrl}?action=update_status`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `nomor_pesanan=${nomor_pesanan}&status=${status}`
-        });
+            let response = await fetch(`${baseUrl}?action=update_status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `nomor_pesanan=${nomor_pesanan}&status=${status}`
+            });
 
-        let result = await response.json();
+            let result = await response.json();
 
-        if (result.status) {
-            alert("Status berhasil diupdate!");
-            location.reload();
-        } else {
-            alert("Gagal update!");
+            if (result.status) {
+                alert("Status berhasil diupdate!");
+                location.reload();
+            } else {
+                alert("Gagal update!");
+            }
+
+        } catch (error) {
+            console.error(error);
         }
-
-    } catch (error) {
-        console.error(error);
     }
-}
 
-async function cancelOrder(nomor_pesanan) {
+    async function cancelOrder(nomor_pesanan) {
 
         const confirmText =
             "Yakin mau merubah status pesanan menjadi dibatalkan?";
