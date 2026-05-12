@@ -10,20 +10,20 @@ $conn = $db->getConnection();
 // =====================================
 // CEK LOGIN
 // =====================================
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['id'])) {
 
     header("Location: ../../index.php");
     exit;
 }
 
-$id_user = $_SESSION['id_user'];
+$id = $_SESSION['id'];
 
 // =====================================
 // AMBIL DATA COSTUMER
 // =====================================
 $cek = mysqli_query($conn, "
     SELECT * FROM costumer
-    WHERE id_costumer = '$id_user'
+    WHERE id_costumer = '$id'
 ");
 
 $data = mysqli_fetch_assoc($cek);
@@ -87,7 +87,7 @@ if (isset($_FILES['profile_image']) &&
             $update = mysqli_query($conn, "
                 UPDATE costumer
                 SET foto_profil = '$foto_baru'
-                WHERE id_costumer = '$id_user'
+                WHERE id_costumer = '$id'
             ");
 
             if (!$update) {
@@ -102,7 +102,7 @@ if (isset($_FILES['profile_image']) &&
                     id_costumer,
                     foto_profil
                 ) VALUES (
-                    '$id_user',
+                    '$id',
                     '$foto_baru'
                 )
             ");

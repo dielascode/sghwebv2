@@ -23,9 +23,9 @@ $db = new Database();
 $conn = $db->getConnection();
 
 
-$id_user = $_SESSION['id'];
+$id = $_SESSION['id']?? null;
 
-echo "ID USER : " . $id_user;
+echo "ID USER : " . $id;
 
 // ambil data profile
 $query = mysqli_query($conn, "
@@ -36,7 +36,7 @@ $query = mysqli_query($conn, "
     FROM users
     LEFT JOIN costumer 
         ON users.id = costumer.id_costumer
-    WHERE users.id = '$id_user'
+    WHERE users.id = '$id'
 ");
 
 $data = mysqli_fetch_assoc($query);
@@ -116,7 +116,7 @@ if (!$data) {
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
+                <img src="/sghwebv2/ec/images/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>"class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">

@@ -23,9 +23,9 @@ if (!isset($_SESSION['id'])) {
 
 echo "SESSION ADA <br>";
 
-$id_user = $_SESSION['id'];
+$id = $_SESSION['id'] ?? null;
 
-echo "ID USER : " . $id_user;
+echo "ID USER : " . $id;
 
 // =====================================
 // AMBIL DATA PROFILE
@@ -38,7 +38,7 @@ $query = mysqli_query($conn, "
     FROM users
     LEFT JOIN costumer 
         ON users.id = costumer.id_costumer
-    WHERE users.id = '$id_user'
+    WHERE users.id = '$id'
 ");
 
 $data = mysqli_fetch_assoc($query);

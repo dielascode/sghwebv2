@@ -9,12 +9,12 @@ require_once __DIR__ . '/../../config/connection.php';
 $db = new Database();
 $conn = $db->conn;
 
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['id'])) {
     die("SESSION USER TIDAK ADA");
 }
 
 
-$id_costumer = $_SESSION['id_user'];
+$id_costumer = $_SESSION['id'];
 
 if (isset($_POST['submit_pengaduan'])) {
 

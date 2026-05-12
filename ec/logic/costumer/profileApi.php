@@ -17,7 +17,7 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-$id_user = $_SESSION['id'];
+$id = $_SESSION['id'] ?? null;
 
 // =========================
 // AMBIL DATA FORM
@@ -37,7 +37,7 @@ mysqli_query($conn, "
         nama = '$nama',
         email = '$email',
         nomor_telepon = '$no_telepon'
-    WHERE id = '$id_user'
+    WHERE id = '$id'
 ");
 
 // =========================
@@ -45,7 +45,7 @@ mysqli_query($conn, "
 // =========================
 $cek = mysqli_query($conn, "
     SELECT * FROM costumer
-    WHERE id_costumer = '$id_user'
+    WHERE id_costumer = '$id'
 ");
 
 $data_costumer = mysqli_fetch_assoc($cek);
@@ -63,13 +63,13 @@ if ($data_costumer) {
             UPDATE costumer SET
                 jenis_kelamin = '$jenis_kelamin',
                 foto_profil = '$foto_baru'
-            WHERE id_costumer = '$id_user'
+            WHERE id_costumer = '$id'
         ");
     } else {
         mysqli_query($conn, "
             UPDATE costumer SET
-                jenis_kelamin = '$jenis_kelamin'
-            WHERE id_costumer = '$id_user'
+            jenis_kelamin = '$jenis_kelamin'
+            WHERE id_costumer = '$id'
         ");
     }
 
@@ -81,7 +81,7 @@ if ($data_costumer) {
             jenis_kelamin,
             foto_profil
         ) VALUES (
-            '$id_user',
+            '$id',
             '$jenis_kelamin',
             '$foto_baru'
         )
