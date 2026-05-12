@@ -17,7 +17,7 @@ $totalQty = 0;
 $stmt = mysqli_prepare($conn,
     "SELECT count(*) as total
      FROM keranjang
-     WHERE id_users = ?"
+     WHERE id_costumer = ?"
 );
 
 if ($stmt) {
