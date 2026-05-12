@@ -42,6 +42,9 @@ if ($action === 'get_detail') {
             "message" => "Data tidak lengkap"
         ]);
     }
+}else if ($action === 'get_all_detail') {
+    $result = $pesanan->getAllWithDetail();
+    echo json_encode($result);
 }else {
     echo json_encode(['status' => false, 'message' => 'Action salah: ' . $action]);
 }
