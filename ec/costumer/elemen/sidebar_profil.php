@@ -15,16 +15,10 @@ $conn = $db->getConnection();
 echo "CONNECTION JALAN <br>";
 
 if (!isset($_SESSION['id'])) {
-
-    echo "SESSION TIDAK ADA";
-    exit;
+    exit("User tidak login atau session id tidak tersedia");
 }
 
-echo "SESSION ADA <br>";
-
-$id_user = $_SESSION['id'];
-
-echo "ID USER : " . $id_user;
+$id = $_SESSION['id'];
 
 // ambil data profile
 $query = mysqli_query($conn, "
@@ -35,7 +29,7 @@ $query = mysqli_query($conn, "
     FROM users
     LEFT JOIN costumer 
         ON users.id = costumer.id_costumer
-    WHERE users.id = '$id_user'
+    WHERE users.id = '$id'
 ");
 
 $data = mysqli_fetch_assoc($query);
@@ -49,9 +43,9 @@ if (!$data) {
  <aside class="sidebar-profil">
  
     <div class="sidebar-profil__header">
-      <img class="sidebar-profil__avatar" src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" alt="Avatar" />
+      <img class="sidebar-profil__avatar" src="/sghwebv2/ec/images/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>" alt="Avatar" />
       <div class="sidebar-profil__info">
-        <p class="sidebar-profil__name"><?= $data['nama'] ?></p>
+        <p class="sidebar-profil__name"><?= $data['username'] ?></p>
         <p class="sidebar-profil__sub">Jember, East Java</p>
       </div>
     </div>

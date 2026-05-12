@@ -1,14 +1,30 @@
 <?php
-require_once __DIR__ . "/../../config/connection.php";
+$totalQty = 0;
 
-session_start();
+if (isset($_SESSION['cart'])) {
+
+  foreach ($_SESSION['cart'] as $item) {
+
+    $totalQty++;
+
+  }
+
+}
+
+
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../../config/connection.php';
 
 $db = new Database();
 $conn = $db->getConnection();
 
 $id_costumer = $_SESSION['id'] ?? null;
 
-$totalQty = 0;
+// $id = $_SESSION['id']?? null;
 
 if ($id_costumer) {
 
@@ -103,7 +119,7 @@ if ($id_costumer) {
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="<?= $user['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
+                <img src="/sghwebv2/ec/images/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>"class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">
@@ -125,7 +141,7 @@ if ($id_costumer) {
 
               <!-- PROFIL -->
               <!-- PROFIL -->
-              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/profile.php')"
+              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/profile.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="8" r="4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
@@ -136,7 +152,7 @@ if ($id_costumer) {
               </a>
 
               <!-- PESANAN -->
-              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
+              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -149,7 +165,7 @@ if ($id_costumer) {
               </a>
 
               <!-- PENGADUAN -->
-              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
+              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -159,9 +175,7 @@ if ($id_costumer) {
               </a>
 
               <!-- LOGOUT -->
-              
-              <a href="../../sghwebv2/ec/logoutCostumer.php"  onclick="closeDropdown();"class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
-                
+              <a href="../../sghwebv2/ec/logoutCostumer.php" class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
                     d="M17 16l4-4m0 0l-4-4m4 4H7" />
@@ -256,14 +270,4 @@ header a {
       menu.classList.add("hidden");
     }
   });
-
-  function closeDropdown(){
-
-    const menu = document.getElementById("dropdownMenu");
-
-    if(menu){
-        menu.classList.add("hidden");
-    }
-
-}
 </script>

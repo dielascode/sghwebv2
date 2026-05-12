@@ -24,7 +24,9 @@ $id_costumer = $_SESSION['id'];
 
 echo "ID USER : " . $id_costumer;
 
-// ambil data profile
+// =====================================
+// AMBIL DATA PROFILE
+// =====================================
 $query = mysqli_query($conn, "
     SELECT 
         users.*,
@@ -38,10 +40,10 @@ $query = mysqli_query($conn, "
 
 $data = mysqli_fetch_assoc($query);
 
-
 if (!$data) {
     die("Data user tidak ditemukan");
 }
+
 ?>
 
 <body>
@@ -53,20 +55,34 @@ if (!$data) {
 
         <main class="content-profil">
 
+            <!-- HEADER -->
             <div class="header-content">
+
                 <h1>Informasi Akun</h1>
-                <p>Kelola Informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun</p>
+
+                <p>
+                    Kelola Informasi profil Anda untuk mengontrol,
+                    melindungi dan mengamankan akun
+                </p>
+
             </div>
 
-            <form action="logic/costumer/profileApi.php" method="POST" enctype="multipart/form-data" class="profile-grid">
+            <!-- =====================================
+                 PROFILE GRID
+                 ===================================== -->
+            <div class="profile-grid">
 
-                <div class="card-profil photo-card">
+                <!-- =====================================
+                     FORM UPLOAD FOTO
+                     ===================================== -->
+                <form action="http://localhost/sghwebv2/ec/logic/costumer/fotoProfileApi.php" method="POST"
+                    enctype="multipart/form-data" class="card-profil photo-card" id="uploadFotoForm">
 
                     <div class="photo-container">
 
                         <?php
                         $foto = !empty($data['foto_profil'])
-                            ? "/sghwebv2/uploads/profile/" . $data['foto_profil']
+                            ? "/sghwebv2/ec/images/profile/" . $data['foto_profil']
                             : "/sghwebv2/ec/images/Anonim.jpg";
                         ?>
 
@@ -75,186 +91,261 @@ if (!$data) {
                     </div>
 
                     <p class="display-name">
-                        <?= $data['nama']; ?>
+                        <?= $data['username']; ?>
                     </p>
 
+                    <!-- BUTTON GANTI FOTO -->
                     <label for="upload-photo" class="btn-photo">
-                        <i class="fa-solid fa-camera"></i> Ganti Foto
+
+                        <i class="fa-solid fa-camera"></i>
+
+                        Ganti Foto
+
                     </label>
 
-                    <input type="file" id="upload-photo" name="profile_image" hidden>
+                    <!-- INPUT FILE -->
+                    <input type="file" id="upload-photo" name="profile_image" accept="image/*" hidden onchange="document.getElementById('uploadFotoForm').submit();">
+                    
 
-                </div>
+                </form>
 
-                <div class="ps-card">
+                <!-- =====================================
+                     FORM EDIT PROFILE
+                     ===================================== -->
+                <form action="logic/costumer/profileApi.php" method="POST">
 
-                    <div class="ps-head">
+                    <div class="ps-card">
 
-                        <p class="ps-title">Profil Saya</p>
+                        <!-- HEADER -->
+                        <div class="ps-head">
 
-                        <button type="button" class="ps-edit-btn" id="editBtn" onclick="toggleEdit()">
+                            <p class="ps-title">
+                                Profil Saya
+                            </p>
 
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                                <path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z" />
-                            </svg>
+                            <button type="button" class="ps-edit-btn" id="editBtn" onclick="toggleEdit()">
 
-                            Edit Profil
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 
-                        </button>
-                    </div>
+                                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
 
-                    <div class="ps-divider"></div>
+                                    <path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z" />
 
-                    <!-- VIEW MODE -->
-                    <div class="ps-fields" id="viewMode">
+                                </svg>
 
-                        <div class="ps-row">
-                            <span class="ps-row__label">Username</span>
-                            <span class="ps-row__value" id="v-username">
-                                <?= $data['username']; ?>
-                            </span>
+                                Edit Profil
+
+                            </button>
+
                         </div>
 
-                        <div class="ps-row">
-                            <span class="ps-row__label">Nama Lengkap</span>
-                            <span class="ps-row__value" id="v-nama">
-                                <?= $data['nama']; ?>
-                            </span>
-                        </div>
+                        <div class="ps-divider"></div>
 
-                        <div class="ps-row">
-                            <span class="ps-row__label">Email</span>
-                            <span class="ps-row__value" id="v-email">
-                                <?= $data['email']; ?>
-                            </span>
-                        </div>
+                        <!-- =====================================
+                             VIEW MODE
+                             ===================================== -->
+                        <div class="ps-fields" id="viewMode">
 
-                        <div class="ps-row">
-                            <span class="ps-row__label">Nomor Telepon</span>
-                            <span class="ps-row__value" id="v-telepon">
-                                <?= $data['nomor_telepon']; ?>
-                            </span>
-                        </div>
+                            <div class="ps-row">
 
-                        <div class="ps-row">
-                            <span class="ps-row__label">Jenis Kelamin</span>
+                                <span class="ps-row__label">
+                                    Username
+                                </span>
 
-                            <span class="ps-pill" id="v-gender">
-                                <?= $data['jenis_kelamin']; ?>
-                            </span>
-                        </div>
+                                <span class="ps-row__value" id="v-username">
+                                    <?= $data['username']; ?>
+                                </span>
 
-                    </div>
-
-                    <!-- EDIT MODE -->
-                    <div id="editMode" style="display:none;">
-
-                        <div class="ps-fields">
-
-                            <div class="ps-edit-row">
-                                <span class="ps-edit-row__label">Username</span>
-
-                                <input
-                                    class="ps-input"
-                                    name="username"
-                                    id="e-username"
-                                    type="text"
-                                    value="<?= $data['username']; ?>" />
                             </div>
 
-                            <div class="ps-edit-row">
-                                <span class="ps-edit-row__label">Nama Lengkap</span>
+                            <div class="ps-row">
 
-                                <input
-                                    class="ps-input"
-                                    name="nama"
-                                    id="e-nama"
-                                    type="text"
-                                    value="<?= $data['nama']; ?>" />
+                                <span class="ps-row__label">
+                                    Nama Lengkap
+                                </span>
+
+                                <span class="ps-row__value" id="v-nama">
+                                    <?= $data['nama']; ?>
+                                </span>
+
                             </div>
 
-                            <div class="ps-edit-row">
-                                <span class="ps-edit-row__label">Email</span>
+                            <div class="ps-row">
 
-                                <input
-                                    class="ps-input"
-                                    name="email"
-                                    id="e-email"
-                                    type="email"
-                                    value="<?= $data['email']; ?>" />
+                                <span class="ps-row__label">
+                                    Email
+                                </span>
+
+                                <span class="ps-row__value" id="v-email">
+                                    <?= $data['email']; ?>
+                                </span>
+
                             </div>
 
-                            <div class="ps-edit-row">
-                                <span class="ps-edit-row__label">Nomor Telepon</span>
+                            <div class="ps-row">
 
-                                <input
-                                    class="ps-input"
-                                    name="nomor_telepon"
-                                    id="e-telepon"
-                                    type="text"
-                                    value="<?= $data['nomor_telepon']; ?>" />
+                                <span class="ps-row__label">
+                                    Nomor Telepon
+                                </span>
+
+                                <span class="ps-row__value" id="v-telepon">
+                                    <?= $data['nomor_telepon']; ?>
+                                </span>
+
                             </div>
 
-                            <div class="ps-edit-row">
+                            <div class="ps-row">
 
-                                <span class="ps-edit-row__label">
+                                <span class="ps-row__label">
                                     Jenis Kelamin
                                 </span>
 
-                                <div class="ps-gender-wrap">
+                                <span class="ps-pill" id="v-gender">
 
-                                    <label class="ps-radio">
-                                        <input
-                                            type="radio"
-                                            name="jenis_kelamin"
-                                            value="l"
-                                            <?= ($data['jenis_kelamin'] == 'Laki-Laki') ? 'checked' : ''; ?>>
-                                        Laki-laki
-                                    </label>
+                                    <?php
+                                    if ($data['jenis_kelamin'] == 'l') {
 
-                                    <label class="ps-radio">
-                                        <input
-                                            type="radio"
-                                            name="jenis_kelamin"
-                                            value="p"
-                                            <?= ($data['jenis_kelamin'] == 'Perempuan') ? 'checked' : ''; ?>>
-                                        Perempuan
-                                    </label>
+                                        echo 'Laki-Laki';
 
-                                </div>
+                                    } elseif ($data['jenis_kelamin'] == 'p') {
+
+                                        echo 'Perempuan';
+
+                                    } else {
+
+                                        echo '-';
+
+                                    }
+                                    ?>
+
+                                </span>
+
                             </div>
 
                         </div>
 
-                        <div class="ps-actions">
+                        <!-- =====================================
+                             EDIT MODE
+                             ===================================== -->
+                        <div id="editMode" style="display:none;">
 
-                            <button
-                                type="button"
-                                class="ps-btn ps-btn--ghost"
-                                onclick="toggleEdit()">
+                            <div class="ps-fields">
 
-                                Batal
+                                <!-- USERNAME -->
+                                <div class="ps-edit-row">
 
-                            </button>
+                                    <span class="ps-edit-row__label">
+                                        Username
+                                    </span>
 
-                            <button
-                                type="submit"
-                                class="ps-btn ps-btn--primary">
+                                    <input class="ps-input" name="username" id="e-username" type="text"
+                                        value="<?= $data['username']; ?>" />
 
-                                Simpan Perubahan
+                                </div>
 
-                            </button>
+                                <!-- NAMA -->
+                                <div class="ps-edit-row">
+
+                                    <span class="ps-edit-row__label">
+                                        Nama Lengkap
+                                    </span>
+
+                                    <input class="ps-input" name="nama" id="e-nama" type="text"
+                                        value="<?= $data['nama']; ?>" />
+
+                                </div>
+
+                                <!-- EMAIL -->
+                                <div class="ps-edit-row">
+
+                                    <span class="ps-edit-row__label">
+                                        Email
+                                    </span>
+
+                                    <input class="ps-input" name="email" id="e-email" type="email"
+                                        value="<?= $data['email']; ?>" />
+
+                                </div>
+
+                                <!-- TELEPON -->
+                                <div class="ps-edit-row">
+
+                                    <span class="ps-edit-row__label">
+                                        Nomor Telepon
+                                    </span>
+
+                                    <input class="ps-input" name="nomor_telepon" id="e-telepon" type="text"
+                                        value="<?= $data['nomor_telepon']; ?>" />
+
+                                </div>
+
+                                <!-- GENDER -->
+                                <div class="ps-edit-row">
+
+                                    <span class="ps-edit-row__label">
+                                        Jenis Kelamin
+                                    </span>
+
+                                    <div class="ps-gender-wrap">
+
+                                        <!-- LAKI-LAKI -->
+                                        <label class="ps-radio">
+
+                                            <input type="radio" name="jenis_kelamin" value="l"
+                                                <?= ($data['jenis_kelamin'] == 'l') ? 'checked' : ''; ?>>
+
+                                            Laki-laki
+
+                                        </label>
+
+                                        <!-- PEREMPUAN -->
+                                        <label class="ps-radio">
+
+                                            <input type="radio" name="jenis_kelamin" value="p"
+                                                <?= ($data['jenis_kelamin'] == 'p') ? 'checked' : ''; ?>>
+
+                                            Perempuan
+
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- ACTION -->
+                                <div class="ps-actions">
+
+                                    <button type="button" class="ps-btn ps-btn--ghost" onclick="toggleEdit()">
+
+                                        Batal
+
+                                    </button>
+
+                                    <button type="submit" class="ps-btn ps-btn--primary">
+
+                                        Simpan Perubahan
+
+                                    </button>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
-            </form>
+                </form>
+
+            </div>
+
         </main>
+
     </div>
 
+    <!-- =====================================
+         SCRIPT
+         ===================================== -->
     <script>
 
         let editing = false;
@@ -282,9 +373,6 @@ if (!$data) {
                 btn.classList.remove('cancel');
             }
         }
-        document.getElementById("upload-photo").addEventListener("change", function () {
-    this.form.submit();
-}); 
 
     </script>
 

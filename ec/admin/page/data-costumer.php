@@ -132,12 +132,14 @@ if (!$result) {
                                             onclick="openEditModal(<?= $c['id']; ?>, '')">
                                             Lihat Detail
                                         </button>
+                                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                            <button
+                                                class="btn btn-sm btn-danger"
+                                                onclick="deleteVarietas(<?= $c['id']; ?>)">
+                                                Nonaktifkan
+                                            </button>
+                                        <?php endif; ?>
 
-                                        <button
-                                            class="btn btn-sm btn-danger"
-                                            onclick="deleteVarietas(<?= $c['id']; ?>)">
-                                            Nonaktifkan
-                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -162,12 +164,12 @@ if (!$result) {
         doc.text("Dicetak pada: " + new Date().toLocaleString(), 14, 22);
 
         doc.autoTable({
-            html: '#tabelUser', 
+            html: '#tabelUser',
             startY: 30,
             theme: 'grid',
             headStyles: {
                 fillColor: [40, 167, 69]
-            }, 
+            },
         });
 
         doc.save('Laporan_Pelanggan_AgriNexa.pdf');
