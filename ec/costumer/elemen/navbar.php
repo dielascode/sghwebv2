@@ -6,27 +6,45 @@ session_start();
 $db = new Database();
 $conn = $db->getConnection();
 
-$id_users = $_SESSION['id'] ?? null;
+$id = $_SESSION['id'] ?? null;
+
+if (!$id) {
+    die("User tidak login atau session id tidak tersedia");
+}
 
 $totalQty = 0;
 
-if ($id_users) {
+$stmt = mysqli_prepare($conn,
+    "SELECT count(*) as total
+     FROM keranjang
+     WHERE id_users = ?"
+);
 
-    $query = mysqli_prepare($conn,
-        "SELECT count(*) as total
-         FROM keranjang
-         WHERE id_users = ?"
-    );
+if ($stmt) {
+    mysqli_stmt_bind_param($stmt, "s", $id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    $totalQty = $row['total'] ?? 0;
+    mysqli_stmt_close($stmt);
+}
 
-    mysqli_stmt_bind_param($query, "s", $id_users);
+// ambil data profile
+$query = mysqli_query($conn, "
+    SELECT 
+        users.*,
+        costumer.jenis_kelamin,
+        costumer.foto_profil
+    FROM users
+    LEFT JOIN costumer 
+        ON users.id = costumer.id_costumer
+    WHERE users.id = '$id'
+");
 
-    mysqli_stmt_execute($query);
+$data = mysqli_fetch_assoc($query);
 
-    $result = mysqli_stmt_get_result($query);
-
-    $data = mysqli_fetch_assoc($result);
-
-    $totalQty = $data['total'] ?? 0;
+if (!$data) {
+    die("Data user tidak ditemukan");
 }
 ?>
 <!-- NAVBAR -->

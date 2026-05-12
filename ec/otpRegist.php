@@ -1,64 +1,15 @@
 <?php
 session_start();
-include 'config/connection.php';
-
-$db = new Database();
-$conn = $db->getConnection();
+include 'logic/class/handleOtp.php';
 
 if (!isset($_SESSION['otp']) || !isset($_SESSION['data_register'])) {
     header("Location: register.php");
     exit;
 }
 
-function generateID($conn) {
-    $query = mysqli_query($conn, "SELECT id FROM users ORDER BY id DESC LIMIT 1");
-
-    if (mysqli_num_rows($query) == 0) {
-        return "USR001";
-    }
-
-    $data = mysqli_fetch_assoc($query);
-    $number = (int) substr($data['id'], 3);
-    $number++;
-
-    return "USR" . str_pad($number, 3, "0", STR_PAD_LEFT);
-}
-
 if (isset($_POST['verify'])) {
-
-    $otp_input = $_POST['otp'] ?? '';
-
-    if (strlen($otp_input) != 5) {
-        echo "<script>alert('OTP harus 5 digit');</script>";
-    }
-
-    elseif (time() > $_SESSION['otp_expired']) {
-        session_destroy();
-        echo "<script>alert('OTP kadaluarsa'); window.location='register.php';</script>";
-        exit;
-    }
-
-    elseif ($otp_input == $_SESSION['otp']) {
-
-        $data = $_SESSION['data_register'];
-        $id = generateID($conn);
-
-        $query = "INSERT INTO users 
-        (id, nama, email, username, password, nomor_telepon, role) 
-        VALUES 
-        ('$id', '{$data['nama']}', '{$data['email']}', '{$data['email']}', '{$data['password']}', '{$data['nomor_telepon']}', 'costumer')";
-
-        if (mysqli_query($conn, $query)) {
-            session_destroy();
-            header("Location: dummyRegist.php");
-            exit;
-        } else {
-            echo "Error DB: " . mysqli_error($conn);
-        }
-
-    } else {
-        echo "<script>alert('OTP salah');</script>";
-    }
+    $otpHandler = new OtpHandler();
+    $otpHandler->handleOtpVerification($_POST['otp'] ?? '');
 }
 ?>
 <!DOCTYPE html>
