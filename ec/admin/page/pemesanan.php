@@ -1,10 +1,24 @@
+<?php
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/pesananApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$pesanan = new Pesanan($conn);
+
+$result = $pesanan->getPesanan();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
+?>
 <div class="container-fluid p-4 p-lg-5">
 
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 mb-lg-5">
         <div>
-            <h1 class="h3 mb-0">Order Management</h1>
-            <p class="text-muted mb-0">Track orders, manage fulfillment, and analyze sales</p>
+            <h1 class="h3 mb-0">Manajemen Pesanan</h1>
+            <p class="text-muted mb-0">Lacak pesanan, manajemen barang, analisa minat pembeli</p>
         </div>
         <div class="d-flex gap-2">
             <button type="button" class="btn btn-outline-secondary" @click="exportOrders()">
@@ -17,7 +31,7 @@
     </div>
 
     <!-- Order Management Container -->
-    <div x-data="orderTable" x-init="init()">
+    <div>
 
         <!-- Order Stats Widgets -->
         <div class="row g-4 g-lg-5 mb-5">
@@ -105,21 +119,15 @@
                     </div>
                     <div class="col-auto">
                         <div class="d-flex gap-2">
-                            <!-- Search -->
                             <div class="position-relative">
                                 <input type="search"
                                     class="form-control form-control-sm"
                                     placeholder="Search orders..."
-                                    x-model="searchQuery"
-                                    @input="filterOrders()"
                                     style="width: 200px;">
                                 <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
                             </div>
 
-                            <!-- Status Filter -->
                             <select class="form-select form-select-sm"
-                                x-model="statusFilter"
-                                @change="filterOrders()"
                                 style="width: 150px;">
                                 <option value="">All Status</option>
                                 <option value="pending">Pending</option>
@@ -129,10 +137,7 @@
                                 <option value="cancelled">Cancelled</option>
                             </select>
 
-                            <!-- Date Range -->
                             <select class="form-select form-select-sm"
-                                x-model="dateFilter"
-                                @change="filterOrders()"
                                 style="width: 150px;">
                                 <option value="">All Dates</option>
                                 <option value="today">Today</option>
@@ -144,117 +149,66 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <!-- Bulk Actions Bar -->
-                <div class="bulk-actions-bar p-3 bg-light border-bottom" x-show="selectedOrders.length > 0" x-transition>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted">
-                            <span x-text="selectedOrders.length"></span> order(s) selected
-                        </span>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('processing')">
-                                <i class="bi bi-arrow-clockwise me-1"></i>Mark Processing
-                            </button>
-                            <button class="btn btn-sm btn-outline-info" @click="bulkAction('shipped')">
-                                <i class="bi bi-truck me-1"></i>Mark Shipped
-                            </button>
-                            <button class="btn btn-sm btn-outline-success" @click="bulkAction('delivered')">
-                                <i class="bi bi-check-circle me-1"></i>Mark Delivered
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Table -->
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                <div class="table">
+                    <table class="table ">
                         <thead class="table-light">
                             <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox"
-                                        class="form-check-input"
-                                        @change="toggleAll($event.target.checked)"
-                                        :checked="selectedOrders.length === filteredOrders.length && filteredOrders.length > 0">
-                                </th>
-                                <th @click="sortBy('orderNumber')" class="sortable">Order #</th>
+                                <th>No. Pesanan</th>
                                 <th>Customer</th>
-                                <th>Items</th>
-                                <th @click="sortBy('total')" class="sortable">Total</th>
+                                <th>Bukti Bayar</th>
+                                <th>Metode</th>
                                 <th>Status</th>
-                                <th @click="sortBy('orderDate')" class="sortable">Date</th>
+                                <th>Tanggal Pesan</th>
                                 <th style="width: 120px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <template x-for="order in paginatedOrders" :key="order.id">
+                            <?php foreach ($result as $p): ?>
                                 <tr>
+                                    <td><?= $p['nomor_pesanan'] ?></td>
+                                    <td><?= $p['nama'] ?></td>
+                                    <td><?= $p['bukti_bayar'] ?></td>
+                                    <td><?= $p['metode'] ?></td>
+                                    <td><?= $p['status'] ?></td>
+                                    <td><?= $p['tanggal_order'] ?></td>
                                     <td>
-                                        <input type="checkbox"
-                                            class="form-check-input"
-                                            :value="order.id"
-                                            x-model="selectedOrders">
-                                    </td>
-                                    <td>
-                                        <div class="fw-medium" x-text="order.orderNumber"></div>
-                                        <small class="text-muted" x-text="'ID: ' + order.id"></small>
-                                    </td>
-                                    <td>
-                                        <div class="order-customer">
-                                            <img :src="order.customer.avatar"
-                                                class="customer-avatar"
-                                                :alt="order.customer.name">
-                                            <div>
-                                                <div class="fw-medium" x-text="order.customer.name"></div>
-                                                <small class="text-muted" x-text="order.customer.email"></small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="order-items">
-                                            <div x-text="order.itemCount + ' item' + (order.itemCount > 1 ? 's' : '')"></div>
-                                            <small class="text-muted" x-text="order.items[0].name + (order.itemCount > 1 ? ' +' + (order.itemCount - 1) + ' more' : '')"></small>
-                                        </div>
-                                    </td>
-                                    <td class="fw-medium" x-text="`$${order.total}`"></td>
-                                    <td>
-                                        <span class="order-status"
-                                            :class="{
-                                                                  'status-pending': order.status === 'pending',
-                                                                  'status-processing': order.status === 'processing',
-                                                                  'status-shipped': order.status === 'shipped',
-                                                                  'status-delivered': order.status === 'delivered',
-                                                                  'status-cancelled': order.status === 'cancelled'
-                                                              }"
-                                            x-text="order.status.charAt(0).toUpperCase() + order.status.slice(1)"></span>
-                                    </td>
-                                    <td x-text="order.orderDate"></td>
-                                    <td>
-                                        <div class="dropdown">
+                                        <div class="dropdown" data-bs-display="static">
                                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                                type="button"
                                                 data-bs-toggle="dropdown">
                                                 <i class="bi bi-three-dots"></i>
                                             </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#" @click="viewOrder(order)">
-                                                        <i class="bi bi-eye me-2"></i>View Details
-                                                    </a></li>
+
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" onclick="viewOrder('<?= $p['nomor_pesanan']; ?>')">
+                                                        <i class="bi bi-eye me-2"></i>Tampilkan Detail
+                                                    </a>
+                                                </li>
+                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                                 <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                        <i class="bi bi-truck me-2"></i>Track Order
+                                                        <i class="bi bi-truck me-2"></i>Ubah Status
                                                     </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="printInvoice(order)">
-                                                        <i class="bi bi-printer me-2"></i>Print Invoice
-                                                    </a></li>
+                                                <?php endif; ?>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" onclick="printInvoice('<?= $p['nomor_pesanan']; ?>')">
+                                                        <i class="bi bi-printer me-2"></i>Cetak Struk
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
+                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                                 <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                        <i class="bi bi-x-circle me-2"></i>Cancel Order
+                                                        <i class="bi bi-x-circle me-2"></i>Batalkan Pesanan
                                                     </a></li>
+                                                <?php endif; ?>
                                             </ul>
                                         </div>
                                     </td>
                                 </tr>
-                            </template>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -282,9 +236,239 @@
                         </ul>
                     </nav>
                 </div>
-            </div>
+            </div> 
         </div>
 
-    </div> <!-- End Order Management Container -->
+    </div>
 
 </div>
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Pesanan</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <p><strong>No Pesanan:</strong> <span id="nomor_pesanan"></span></p>
+                <p><strong>Customer:</strong> <span id="nama"></span></p>
+                <p><strong>Alamat:</strong> <span id="order_alamat"></span></p>
+                <hr>
+
+                <h6>Produk:</h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order_items"></tbody>
+                </table>
+
+                <hr>
+
+                <h6>Bukti Pembayaran:</h6>
+                <div id="bukti_container">
+                    <span class="text-muted">Tidak ada bukti</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    async function viewOrder(nomor_pesanan) {
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+
+            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`);
+            let data = await res.json();
+
+            document.getElementById('nomor_pesanan').innerText = data.nomor_pesanan;
+            document.getElementById('nama').innerText = data.nama;
+            document.getElementById('order_alamat').innerText = data.alamat ?? 'Belum ada alamat';
+
+            let itemsHTML = '';
+            data.items.forEach(item => {
+                itemsHTML += `
+                <tr>
+                    <td>${item.nama_produk}</td>
+                    <td>${item.kuantitas}</td>
+                    <td>Rp ${parseInt(item.harga).toLocaleString()}</td>
+                </tr>
+            `;
+            });
+
+            document.getElementById('order_items').innerHTML = itemsHTML;
+
+            let buktiHTML = '';
+
+            if (data.bukti_bayar) {
+                buktiHTML = `
+                <img src="../assets/images/bukti/${data.bukti_bayar}" 
+                     class="img-fluid rounded shadow"
+                     style="max-height:300px; cursor:pointer;"
+                     onclick="window.open(this.src)">
+            `;
+            } else {
+                buktiHTML = `<span class="text-muted">Belum upload bukti</span>`;
+            }
+
+            document.getElementById('bukti_container').innerHTML = buktiHTML;
+
+            new bootstrap.Modal(document.getElementById('orderModal')).show();
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+</script>
+<script>
+    async function printInvoice(nomor_pesanan) {
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+
+            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`);
+            let data = await res.json();
+
+            let itemsHTML = '';
+            let total = 0;
+
+            data.items.forEach(item => {
+                let subtotal = item.kuantitas * item.harga;
+                total += subtotal;
+
+                itemsHTML += `
+                <tr>
+                    <td>${item.nama_produk}</td>
+                    <td>${item.kuantitas}</td>
+                    <td>Rp ${parseInt(item.harga).toLocaleString()}</td>
+                    <td>Rp ${parseInt(subtotal).toLocaleString()}</td>
+                </tr>
+            `;
+            });
+
+            let html = `
+        <html>
+        <head>
+            <title>Invoice ${data.nomor_pesanan}</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    padding: 30px;
+                    color: #333;
+                }
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 30px;
+                }
+                .title {
+                    font-size: 24px;
+                    font-weight: bold;
+                }
+                .box {
+                    margin-bottom: 20px;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 10px;
+                }
+                th, td {
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    text-align: left;
+                }
+                th {
+                    background: #f5f5f5;
+                }
+                .text-end {
+                    text-align: right;
+                }
+                .total {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+                .footer {
+                    margin-top: 40px;
+                    text-align: center;
+                    font-size: 12px;
+                    color: #777;
+                }
+                @media print {
+                    button { display: none; }
+                }
+            </style>
+        </head>
+
+        <body>
+
+            <div class="header">
+                <div>
+                    <div class="title">INVOICE</div>
+                    <div>No: ${data.nomor_pesanan}</div>
+                    <div>Tanggal: ${data.tanggal_order}</div>
+                </div>
+                <div>
+                    <strong>Smart Greenhouse</strong><br>
+                    Agrinexa Store
+                </div>
+            </div>
+
+            <div class="box">
+                <strong>Dikirim ke:</strong><br>
+                ${data.nama}<br>
+                ${data.nomor_telepon}<br>
+                ${data.alamat ?? '-'}
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produk</th>
+                        <th>Qty</th>
+                        <th>Harga</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsHTML}
+                </tbody>
+            </table>
+
+            <table style="margin-top:20px;">
+                <tr>
+                    <td class="text-end total">Total</td>
+                    <td class="text-end total">Rp ${total.toLocaleString()}</td>
+                </tr>
+            </table>
+
+            <div class="footer">
+                Terima kasih telah berbelanja 🌱
+            </div>
+
+            <script>
+                window.print();
+                window.onafterprint = () => window.close();
+            <\/script>
+
+        </body>
+        </html>
+        `;
+
+            let printWindow = window.open('', '', 'width=900,height=700');
+            printWindow.document.write(html);
+            printWindow.document.close();
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+</script>
