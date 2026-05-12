@@ -119,7 +119,6 @@ if (!$result) {
                     </div>
                     <div class="col-auto">
                         <div class="d-flex gap-2">
-                            <!-- Search -->
                             <div class="position-relative">
                                 <input type="search"
                                     class="form-control form-control-sm"
@@ -128,7 +127,6 @@ if (!$result) {
                                 <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
                             </div>
 
-                            <!-- Status Filter -->
                             <select class="form-select form-select-sm"
                                 style="width: 150px;">
                                 <option value="">All Status</option>
@@ -139,7 +137,6 @@ if (!$result) {
                                 <option value="cancelled">Cancelled</option>
                             </select>
 
-                            <!-- Date Range -->
                             <select class="form-select form-select-sm"
                                 style="width: 150px;">
                                 <option value="">All Dates</option>
@@ -154,8 +151,8 @@ if (!$result) {
             <div class="card-body p-0">
 
                 <!-- Table -->
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                <div class="table">
+                    <table class="table ">
                         <thead class="table-light">
                             <tr>
                                 <th>No. Pesanan</th>
@@ -186,23 +183,27 @@ if (!$result) {
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
                                                     <a class="dropdown-item" href="#" onclick="viewOrder('<?= $p['nomor_pesanan']; ?>')">
-                                                        <i class="bi bi-eye me-2"></i>View Details
+                                                        <i class="bi bi-eye me-2"></i>Tampilkan Detail
                                                     </a>
                                                 </li>
+                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                                 <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                        <i class="bi bi-truck me-2"></i>Track Order
+                                                        <i class="bi bi-truck me-2"></i>Ubah Status
                                                     </a></li>
+                                                <?php endif; ?>
                                                 <li>
                                                     <a class="dropdown-item" href="#" onclick="printInvoice('<?= $p['nomor_pesanan']; ?>')">
-                                                        <i class="bi bi-printer me-2"></i>Print Invoice
+                                                        <i class="bi bi-printer me-2"></i>Cetak Struk
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
+                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                                 <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                        <i class="bi bi-x-circle me-2"></i>Cancel Order
+                                                        <i class="bi bi-x-circle me-2"></i>Batalkan Pesanan
                                                     </a></li>
+                                                <?php endif; ?>
                                             </ul>
                                         </div>
                                     </td>
@@ -235,7 +236,7 @@ if (!$result) {
                         </ul>
                     </nav>
                 </div>
-            </div>
+            </div> 
         </div>
 
     </div>
