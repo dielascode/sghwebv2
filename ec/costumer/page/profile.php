@@ -12,7 +12,7 @@ $conn = $db->getConnection();
 
 echo "CONNECTION JALAN <br>";
 
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['id'])) {
 
     echo "SESSION TIDAK ADA";
     exit;
@@ -20,9 +20,9 @@ if (!isset($_SESSION['id_user'])) {
 
 echo "SESSION ADA <br>";
 
-$id_user = $_SESSION['id_user'];
+$id_costumer = $_SESSION['id'];
 
-echo "ID USER : " . $id_user;
+echo "ID USER : " . $id_costumer;
 
 // ambil data profile
 $query = mysqli_query($conn, "
@@ -33,7 +33,7 @@ $query = mysqli_query($conn, "
     FROM users
     LEFT JOIN costumer 
         ON users.id = costumer.id_costumer
-    WHERE users.id = '$id_user'
+    WHERE users.id = '$id_costumer'
 ");
 
 $data = mysqli_fetch_assoc($query);

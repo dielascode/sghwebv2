@@ -6,27 +6,31 @@ session_start();
 $db = new Database();
 $conn = $db->getConnection();
 
-$id_users = $_SESSION['id'] ?? null;
+$id_costumer = $_SESSION['id'] ?? null;
 
 $totalQty = 0;
 
-if ($id_users) {
+if ($id_costumer) {
 
-    $query = mysqli_prepare($conn,
-        "SELECT count(*) as total
-         FROM keranjang
-         WHERE id_users = ?"
+    $userQuery = mysqli_prepare($conn, "
+        SELECT users.username, costumer.foto_profil
+        FROM costumer
+        JOIN users 
+        ON users.id = costumer.id_costumer
+        WHERE costumer.id_costumer = ?
+    ");
+
+    mysqli_stmt_bind_param(
+        $userQuery,
+        "s",
+        $id_costumer
     );
 
-    mysqli_stmt_bind_param($query, "s", $id_users);
+    mysqli_stmt_execute($userQuery);
 
-    mysqli_stmt_execute($query);
+    $userResult = mysqli_stmt_get_result($userQuery);
 
-    $result = mysqli_stmt_get_result($query);
-
-    $data = mysqli_fetch_assoc($result);
-
-    $totalQty = $data['total'] ?? 0;
+    $user = mysqli_fetch_assoc($userResult);
 }
 ?>
 <!-- NAVBAR -->
@@ -99,11 +103,11 @@ if ($id_users) {
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
+                <img src="<?= $user['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">
-                <?= $data['username']; ?>
+                <?= $user['username'] ?? 'User'; ?>
               </span>
             </div>
 
@@ -237,6 +241,9 @@ header a {
 
 <!-- SCRIPT -->
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    updateCartBadge(); // ← ini yang bikin badge muncul saat refresh
+});
   const btn = document.getElementById("profileBtn");
   const menu = document.getElementById("dropdownMenu");
 

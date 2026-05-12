@@ -14,7 +14,7 @@ $conn = $db->getConnection();
 
 echo "CONNECTION JALAN <br>";
 
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['id'])) {
 
     echo "SESSION TIDAK ADA";
     exit;
@@ -22,7 +22,7 @@ if (!isset($_SESSION['id_user'])) {
 
 echo "SESSION ADA <br>";
 
-$id_user = $_SESSION['id_user'];
+$id_user = $_SESSION['id'];
 
 echo "ID USER : " . $id_user;
 

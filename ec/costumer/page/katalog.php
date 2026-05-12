@@ -34,14 +34,15 @@
     </div>
 
     <div class="search-flex">
-      <button type="button" class="btn-all">All</button>
-      <button type="button" class="btn-bundling">Bundling</button>
+  
+  <button type="button" class="btn-filter" data-filter="satuan">Satuan</button>
+  <button type="button" class="btn-filter" data-filter="bundling">Bundling</button>
 
-      <div class="search-box">
-        <i class="fa fa-search"></i>
-        <input type="text" placeholder="Search">
-      </div>
-    </div>
+  <div class="search-box">
+    <i class="fa fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Search">
+  </div>
+</div>
   </div>
 </section>
 
@@ -64,7 +65,9 @@
 
   <div class="grid">
     <?php foreach ($produk as $p): ?>
-      <div class="product-card">
+   
+
+<div class="product-card" data-tipe="<?= $p['tipe'] ?>">
 
         <div class="img1-area">
           <?php
@@ -315,166 +318,46 @@
   </div>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+// ========================= 
+// FILTER TIPE + SEARCH
+// =========================
+document.addEventListener('DOMContentLoaded', function () {
 
-    let modalQty = 1;
-    let selectedProductId = null;
+  const cards = document.querySelectorAll('.product-card');
+  const filterBtns = document.querySelectorAll('.btn-filter');
+  const searchInput = document.getElementById('searchInput');
 
-    // =========================
-    // OPEN MODAL (FIXED)
-    // =========================
-    window.openModal = function (data) {
+  let activeFilter = 'all';
 
-      console.log("OPEN MODAL DATA:", data);
+  function applyFilter() {
+    const keyword = searchInput.value.toLowerCase().trim();
 
-      selectedProductId = data.id;
+    cards.forEach(card => {
+      const tipe = card.dataset.tipe?.toLowerCase() ?? '';
+      const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
 
-      const modal = document.getElementById("modal");
-      modal.classList.remove("hidden");
+      const matchTipe = activeFilter === 'all' || tipe === activeFilter;
+      const matchSearch = nama.includes(keyword);
 
-      const images = data.images || []; // 🔥 FIX UTAMA BIAR GA ERROR
+      card.style.display = (matchTipe && matchSearch) ? '' : 'none';
+    });
+  }
 
-      document.getElementById("modalTitle").innerText = data.title;
-      document.getElementById("modalVariety").innerText = data.variety;
-      document.getElementById("modalDesc").innerText = data.desc;
-      document.getElementById("modalPrice").innerText = "Rp " + data.price;
-      document.getElementById("modalStock").innerText = data.stock;
+  // Klik filter button
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      activeFilter = this.dataset.filter;
+      applyFilter();
+    });
+  });
 
-      const basePath = "/sghwebv2/ec/images/";
-
-      const mainImg = document.getElementById("modalImg");
-
-      // =========================
-      // MAIN IMAGE
-      // =========================
-      if (images.length > 0) {
-        mainImg.src = basePath + images[0];
-      } else {
-        mainImg.src = "";
-      }
-
-      // =========================
-      // THUMBNAIL (FIXED SAFE)
-      // =========================
-     const thumbsContainer = document.getElementById("modalThumbs");
-thumbsContainer.innerHTML = "";
-
-(images || []).forEach((img) => {
-
-  if (!img) return; // 🔥 skip null / undefined
-
-  img = String(img); // 🔥 paksa jadi string biar aman
-
-  const div = document.createElement("div");
-  div.className = "modal-thumb";
-
-  const image = document.createElement("img");
-  image.src = basePath + img;
-
-  div.appendChild(image);
-  thumbsContainer.appendChild(div);
-
-  div.onclick = () => {
-
-    mainImg.src = image.src;
-
-    document.querySelectorAll(".modal-thumb")
-      .forEach(t => t.classList.remove("active"));
-
-    div.classList.add("active");
-  };
+  // Ketik search
+  searchInput.addEventListener('input', applyFilter);
 
 });
 
-      // reset qty
-      modalQty = 1;
-      document.getElementById("modalQty").textContent = modalQty;
-    };
 
-    // =========================
-    // CLOSE MODAL
-    // =========================
-    window.closeModal = function () {
-      document.getElementById("modal").classList.add("hidden");
-    };
-
-    // =========================
-    // QTY
-    // =========================
-    window.changeQty = function (delta) {
-      modalQty = Math.max(1, modalQty + delta);
-      document.getElementById("modalQty").textContent = modalQty;
-    };
-
-    // =========================
-    // CLICK OUTSIDE MODAL
-    // =========================
-    window.addEventListener("click", function (e) {
-      const modal = document.getElementById("modal");
-      if (e.target === modal) {
-        modal.classList.add("hidden");
-      }
-    });
-
-    // =========================
-    // ADD TO CART
-    // =========================
-    window.addToCart = function () {
-
-      fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-  method: 'POST',
-  credentials: 'include', // 🔥 INI YANG HILANG
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: `action=add&id_detail=${selectedProductId}&qty=${modalQty}`
-})
-        .then(res => res.text())
-        .then(res => {
-
-          res = res.trim();
-
-          if (res === 'success') {
-            showToast('Produk berhasil ditambahkan ke keranjang')
-             updateCartBadge(); ;
-          } else {
-            showToast('Gagal menambahkan produk');
-            console.log(res);
-          }
-
-        })
-        .catch(err => {
-          console.log(err);
-          showToast('Terjadi error');
-        });
-
-    };
-
-    // =========================
-    // TOAST
-    // =========================
-    function showToast(message) {
-
-      let toast = document.createElement('div');
-      toast.classList.add('custom-toast');
-
-      toast.innerHTML = `
-      <i class="fa-solid fa-circle-check"></i>
-      <span>${message}</span>
-    `;
-
-      document.body.appendChild(toast);
-
-      setTimeout(() => toast.classList.add('show'), 100);
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-      }, 2500);
-
-    }
-
-  });
 </script>

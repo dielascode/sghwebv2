@@ -44,9 +44,17 @@ if (isset($_POST['verify'])) {
         $id = generateID($conn);
 
         $query = "INSERT INTO users 
-        (id, nama, email, username, password, nomor_telepon, role) 
-        VALUES 
-        ('$id', '{$data['nama']}', '{$data['email']}', '{$data['email']}', '{$data['password']}', '{$data['nomor_telepon']}', 'costumer')";
+(id, nama, email, username, password, nomor_telepon, role) 
+VALUES 
+(
+    '$id',
+    '{$data['nama']}',
+    '{$data['email']}',
+    '',
+    '{$data['password']}',
+    '{$data['nomor_telepon']}',
+    'costumer'
+)";
 
         if (mysqli_query($conn, $query)) {
             session_destroy();
