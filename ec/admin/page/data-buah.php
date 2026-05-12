@@ -25,9 +25,11 @@ if (!$result) {
             <p class="text-muted mb-0">Kelola jenis buah anda disini</p>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
-                <i class="bi bi-plus-lg me-2"></i>Tambah Buah
-            </button>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                    <i class="bi bi-plus-lg me-2"></i>Tambah Buah
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -47,7 +49,9 @@ if (!$result) {
                             <tr>
                                 <th>No</th>
                                 <th>Nama Buah</th>
-                                <th style="width: 120px;">Aksi</th>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                    <th style="width: 120px;">Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,21 +62,24 @@ if (!$result) {
 
                                     <td><?= $b['nama_buah']; ?></td>
 
-                                    <td style="display: flex; gap: 10px;">
-                                        <!-- tombol edit -->
-                                        <button
-                                            class="btn btn-sm btn-warning"
-                                            onclick="openEditModal(<?= $b['id']; ?>, '<?= $b['nama_buah']; ?>')">
-                                            Edit
-                                        </button>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                        <td style="display: flex; gap: 10px;">
+                                            <button
+                                                class="btn btn-sm btn-warning"
+                                                onclick="openEditModal(<?= $b['id']; ?>, '<?= $b['nama_buah']; ?>')">
+                                                Edit
+                                            </button>
 
-                                        <!-- tombol delete -->
-                                        <button
-                                            class="btn btn-sm btn-danger"
-                                            onclick="deleteBuah(<?= $b['id']; ?>)">
-                                            Hapus
-                                        </button>
-                                    </td>
+                                            <!-- tombol delete -->
+                                            <button
+                                                class="btn btn-sm btn-danger"
+                                                onclick="deleteBuah(<?= $b['id']; ?>)">
+                                                Hapus
+                                            </button>
+                                            <!-- tombol edit -->
+
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
