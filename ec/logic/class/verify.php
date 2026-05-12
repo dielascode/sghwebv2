@@ -12,7 +12,7 @@ if (isset($_GET['token'])) {
     if ($user) {
         $update = $pdo->prepare("UPDATE users SET verified = 1, verification_token = NULL WHERE id = ?");
         $update->execute([$user['id']]);
-        echo "Your Account has been verified! you can now <a href='./login.html'>login</a>.";
+        echo "Your Account has been verified! you can now <a href='../../../login.php'>login</a>.";
     } else {
         echo "Invalid or expired verification link.";
     }
