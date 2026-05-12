@@ -140,4 +140,33 @@ class Pesanan
             ];
         }
     }
+    public function getAllWithDetail()
+    {
+        $query = "SELECT pesanan.*, users.nama 
+              FROM pesanan
+              JOIN users ON pesanan.id_costumer = users.id
+              ORDER BY pesanan.tanggal_order DESC";
+
+        $result = $this->conn->query($query);
+
+        $orders = [];
+
+        while ($row = $result->fetch_assoc()) {
+
+            $queryDetail = "SELECT dp.*, p.nama_produk, p.harga
+                        FROM detail_pesanan dp
+                        JOIN produk p ON dp.id_produk = p.id
+                        WHERE dp.nomor_pesanan = ?";
+
+            $stmt = $this->conn->prepare($queryDetail);
+            $stmt->bind_param("s", $row['nomor_pesanan']);
+            $stmt->execute();
+
+            $row['items'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+            $orders[] = $row;
+        }
+
+        return $orders;
+    }
 }
