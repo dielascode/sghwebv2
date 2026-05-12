@@ -1,50 +1,52 @@
 <?php
-require_once __DIR__ . "/../../config/connection.php";
+$totalQty = 0;
 
-session_start();
+if (isset($_SESSION['cart'])) {
+
+  foreach ($_SESSION['cart'] as $item) {
+
+    $totalQty++;
+
+  }
+
+}
+
+
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../../config/connection.php';
 
 $db = new Database();
 $conn = $db->getConnection();
 
-$id = $_SESSION['id'] ?? null;
+$id_costumer = $_SESSION['id'] ?? null;
 
-if (!$id) {
-    die("User tidak login atau session id tidak tersedia");
-}
+// $id = $_SESSION['id']?? null;
 
-$totalQty = 0;
+if ($id_costumer) {
 
-$stmt = mysqli_prepare($conn,
-    "SELECT count(*) as total
-     FROM keranjang
-     WHERE id_costumer = ?"
-);
-
-if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "s", $id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($result);
-    $totalQty = $row['total'] ?? 0;
-    mysqli_stmt_close($stmt);
-}
-
-// ambil data profile
-$query = mysqli_query($conn, "
-    SELECT 
-        users.*,
-        costumer.jenis_kelamin,
-        costumer.foto_profil
-    FROM users
-    LEFT JOIN costumer 
+    $userQuery = mysqli_prepare($conn, "
+        SELECT users.username, costumer.foto_profil
+        FROM costumer
+        JOIN users 
         ON users.id = costumer.id_costumer
-    WHERE users.id = '$id'
-");
+        WHERE costumer.id_costumer = ?
+    ");
 
-$data = mysqli_fetch_assoc($query);
+    mysqli_stmt_bind_param(
+        $userQuery,
+        "s",
+        $id_costumer
+    );
 
-if (!$data) {
-    die("Data user tidak ditemukan");
+    mysqli_stmt_execute($userQuery);
+
+    $userResult = mysqli_stmt_get_result($userQuery);
+
+    $user = mysqli_fetch_assoc($userResult);
 }
 ?>
 <!-- NAVBAR -->
@@ -117,11 +119,11 @@ if (!$data) {
             <!-- FOTO -->
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="<?= $data['foto_profil'] ?? '/sghwebv2/ec/images/Anonim.jpg' ?>" class="w-full h-full object-cover">
+                <img src="/sghwebv2/ec/images/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>"class="w-full h-full object-cover">
               </div>
 
               <span class="text-[#C8D8A8] font-medium text-base">
-                <?= $data['username']; ?>
+                <?= $user['username'] ?? 'User'; ?>
               </span>
             </div>
 
@@ -139,7 +141,7 @@ if (!$data) {
 
               <!-- PROFIL -->
               <!-- PROFIL -->
-              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/profile.php')"
+              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/profile.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="8" r="4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
@@ -150,7 +152,7 @@ if (!$data) {
               </a>
 
               <!-- PESANAN -->
-              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
+              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -163,7 +165,7 @@ if (!$data) {
               </a>
 
               <!-- PENGADUAN -->
-              <a href="#" onclick="closeDropdown(); loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
+              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -173,9 +175,7 @@ if (!$data) {
               </a>
 
               <!-- LOGOUT -->
-              
-              <a href="../../sghwebv2/ec/logoutCostumer.php"  onclick="closeDropdown();"class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
-                
+              <a href="../../sghwebv2/ec/logoutCostumer.php" class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
                     d="M17 16l4-4m0 0l-4-4m4 4H7" />
@@ -255,6 +255,9 @@ header a {
 
 <!-- SCRIPT -->
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    updateCartBadge(); // ← ini yang bikin badge muncul saat refresh
+});
   const btn = document.getElementById("profileBtn");
   const menu = document.getElementById("dropdownMenu");
 
@@ -267,14 +270,4 @@ header a {
       menu.classList.add("hidden");
     }
   });
-
-  function closeDropdown(){
-
-    const menu = document.getElementById("dropdownMenu");
-
-    if(menu){
-        menu.classList.add("hidden");
-    }
-
-}
 </script>

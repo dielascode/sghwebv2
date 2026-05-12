@@ -1,47 +1,25 @@
 <?php
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
 require_once '../../config/connection.php';
-require_once __DIR__ . "/../../logic/costumer/produkApi.php";
+ // Menghubungkan ke database
+  require_once __DIR__ . "/../../logic/costumer/produkApi.php";
+require_once '../controller/pesananController.php';
 
 $db = new Database();
 $conn = $db->getConnection();
 
-$id_users = $_SESSION['id']; // 🔥 FIX PENTING
+$controller = new PesananController($conn);
 
+$id_costumer = $_SESSION['id'] ?? null;
 $selected = $_SESSION['selected_cart'] ?? [];
 
-if (empty($selected)) {
-    die("Tidak ada item dipilih");
+if (!$id_costumer) {
+    die("SESSION TIDAK VALID");
 }
 
-// 🔥 bikin IN aman (integer)
-$ids = implode(",", array_map('intval', $selected));
-
-$query = "
-SELECT
-    keranjang.qty,
-    detail_produk.id AS id_detail,
-    produk.id AS id_produk,
-    produk.nama_produk,
-    produk.harga,
-    produk.deskripsi,
-    varietas.nama_varietas
-FROM keranjang
-JOIN detail_produk 
-    ON keranjang.id_detail_produk = detail_produk.id
-JOIN produk 
-    ON detail_produk.id_produk = produk.id
-JOIN varietas 
-    ON detail_produk.id_varietas = varietas.id
-WHERE keranjang.id_detail_produk IN ($ids)
-AND keranjang.id_users = '$id_users'
-";
-
-$result = mysqli_query($conn, $query);
+$items = $controller->getSelectedProduk($id_costumer, $selected);
+$total = $controller->getTotal($items);
 ?>
 
 <body>
@@ -81,7 +59,7 @@ $result = mysqli_query($conn, $query);
 
         <?php
         $total = 0;
-        while ($item = mysqli_fetch_assoc($result)): ?>
+        foreach ($items as $item): ?>
 
           <div class="item-card-pemesanan">
 
@@ -118,7 +96,7 @@ $result = mysqli_query($conn, $query);
                 </span> -->
 
                 <span class="item-qty-pemesanan">
-                  × <?php echo $item['qty']; ?>
+                  × <?php echo $item['kuantitas']; ?>
                 </span>
 
               </div>
@@ -126,8 +104,8 @@ $result = mysqli_query($conn, $query);
             </div>
 
           </div>
-          <?php $total += $item['harga'] * $item['qty']; ?>
-        <?php endwhile; ?>
+          <?php $total += $item['harga'] * $item['kuantitas']; ?>
+        <?php endforeach; ?>
 
 
 
@@ -172,11 +150,9 @@ $result = mysqli_query($conn, $query);
           <div class="summary-divider-pemesanan"></div>
 
           
-          <?php
-mysqli_data_seek($result, 0); // reset pointer biar bisa dipakai ulang
-?>
+     
 
-<?php while ($item = mysqli_fetch_assoc($result)): ?>
+<?php foreach ($items as $item): ?>
 
   <div class="summary-product-pemesanan">
 
@@ -186,7 +162,7 @@ mysqli_data_seek($result, 0); // reset pointer biar bisa dipakai ulang
 
     <div class="summary-product-row-pemesanan">
       <span>Kuantitas</span>
-      <span><?= $item['qty'] ?> Kg</span>
+      <span><?= $item['kuantitas'] ?> Kg</span>
     </div>
 
     <div class="summary-product-row-pemesanan">
@@ -195,12 +171,12 @@ mysqli_data_seek($result, 0); // reset pointer biar bisa dipakai ulang
     </div>
     <div class="summary-product-row-pemesanan">
       <span>Total harga</span>
-      <span>Rp <?= number_format($item['harga'] * $item['qty'], 0, ',', '.') ?></span>
+      <span>Rp <?= number_format($item['harga'] * $item['kuantitas'], 0, ',', '.') ?></span>
     </div>
 
   </div>
 
-<?php endwhile; ?>
+<?php endforeach; ?>
 
 
           <div class="summary-divider-pemesanan"></div>

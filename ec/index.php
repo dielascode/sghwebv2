@@ -49,6 +49,7 @@
     </main>
     <script src="/sghwebv2/ec/js/loadnavbar.js"></script>
     <script src="/sghwebv2/ec/js/keranjang.js"></script>
+    <script src="/sghwebv2/ec/js/katalog.js"></script>
     <script src="/sghwebv2/ec/js/profile.js"></script>
     <script src="/sghwebv2/ec/js/nilai-produk.js"></script>
 </body>

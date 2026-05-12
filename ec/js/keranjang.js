@@ -1,273 +1,131 @@
+// ============================================================
+//  keranjang.js
+// ============================================================
+
+const CART_URL = '/sghwebv2/ec/costumer/controller/keranjangController.php';
+
+// ── Helper: fetch POST ke controller ────────────────────────
+function postData(body) {
+    return fetch(CART_URL, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: typeof body === 'string' ? body : body.toString()
+    }).then(r => r.text());
+}
+
+// ── Update qty produk di keranjang ───────────────────────────
 function updateQty(id, delta, event) {
+    if (event) event.preventDefault();
 
-    if (event) {
-        event.preventDefault();
-    }
-
-    const formData = new URLSearchParams();
-
-    formData.append('action', 'qty');
-    formData.append('id_detail', id);
-    formData.append('qty', delta);
-
-   fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-  method: 'POST',
-  credentials: 'include',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: formData.toString()
-})
-    .then(response => response.text())
-    .then(data => {
-
-        if (data.includes('success')) {
-
-            const card = document
-                .querySelector(`.product-check[value="${id}"]`)
-                .closest('.cart-card');
-
-            const qtyInput = card.querySelector('.qty-picker input');
-
-            let currentQty = parseInt(qtyInput.value);
-
-            currentQty += delta;
-
-            if(currentQty <= 0){
-
-                card.remove();
-
-            }else{
-
-                qtyInput.value = currentQty;
-
-                // update data qty
-                card.dataset.qty = currentQty;
-
-                // update harga
-                const price = parseInt(card.dataset.price);
-
-                const totalHarga = price * currentQty;
-
-                card.querySelector('.product-price')
-                    .innerText =
-                    `Rp ${totalHarga.toLocaleString('id-ID')}`;
-
-            }
-
-            // update summary
-            updateSummary();
-
-            // update badge
-            updateCartBadge();
-
-        }
-
+    const params = new URLSearchParams({
+        action: 'kuantitas',
+        id_detail: id,
+        kuantitas: delta
     });
 
+    postData(params).then(res => {
+        if (!res.includes('success')) return;
+
+        const card     = document.querySelector(`.product-check[value="${id}"]`).closest('.cart-card');
+        const qtyInput = card.querySelector('.qty-picker input');
+        const newQty   = parseInt(qtyInput.value) + delta;
+
+        if (newQty <= 0) {
+            card.remove();
+        } else {
+            qtyInput.value      = newQty;
+            card.dataset.qty    = newQty;
+            const totalHarga    = parseInt(card.dataset.price) * newQty;
+            card.querySelector('.product-price').innerText = `Rp ${totalHarga.toLocaleString('id-ID')}`;
+        }
+
+        updateSummary();
+        updateCartBadge();
+    });
 }
 
-
-
+// ── Hapus produk yang dicentang ──────────────────────────────
 function deleteSelected() {
+    const ids = [...document.querySelectorAll('.product-check:checked')]
+        .map(el => el.value);
 
-    let checked = document.querySelectorAll('.product-check:checked');
+    if (!ids.length) { alert('Pilih produk dulu'); return; }
 
-    let ids = [];
-
-    checked.forEach(item => {
-        ids.push(item.value);
+    const params = new URLSearchParams({
+        action: 'delete_selected',
+        ids: JSON.stringify(ids)
     });
 
-    if (ids.length == 0) {
-        alert('Pilih produk dulu');
-        return;
-    }
-
-    const formData = new URLSearchParams();
-
-    formData.append('action', 'delete_selected');
-    formData.append('ids', JSON.stringify(ids));
-
-   fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-  method: 'POST',
-  credentials: 'include',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: formData.toString()
-})
-    .then(res => res.text())
-    .then(res => {
-
+    postData(params).then(res => {
         if (res.includes('success')) {
-
             loadPage('costumer/page/keranjang.php');
-
             updateCartBadge();
-
         }
-
     });
-
 }
 
-
-
-/* =========================
-   CHECK ALL
-========================= */
-
-document.addEventListener('change', function (e) {
-
-    // checkbox atas
-    if (e.target.id === 'check-all') {
-
-        const checked = e.target.checked;
-
-        document.querySelectorAll('.product-check').forEach(item => {
-
-            item.checked = checked;
-
-        });
-
-    }
-
-});
-
-
-
-function updateCartBadge(){
-
-    fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-    method: 'POST',
-    credentials: 'include', // 🔥 INI WAJIB
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'action=get_total'
-})
-    .then(res => res.text())
-    .then(total => {
-
+// ── Update badge jumlah item di navbar ───────────────────────
+function updateCartBadge() {
+    postData('action=get_total').then(total => {
         total = parseInt(total) || 0;
 
         const wrapper = document.querySelector('.cart-icon-wrapper');
-
-        if(!wrapper) return;
+        if (!wrapper) return;
 
         let badge = wrapper.querySelector('.cart-badge');
 
-        if(total > 0){
-
-            if(!badge){
-
+        if (total > 0) {
+            if (!badge) {
                 badge = document.createElement('span');
                 badge.className = 'cart-badge';
                 wrapper.appendChild(badge);
-
             }
-
             badge.innerText = total;
-
         } else {
-
-            if(badge){
-                badge.remove();
-            }
-
+            badge?.remove();
         }
-
     });
-
 }
 
-
-
+// ── Hitung ulang summary sidebar ─────────────────────────────
 function updateSummary() {
-
-    let checkedItems = document.querySelectorAll('.product-check:checked');
-
-    let total = 0;
+    let total     = 0;
     let totalItem = 0;
 
-    checkedItems.forEach(item => {
-
-        const card = item.closest('.cart-card');
-
-        const price = parseInt(card.dataset.price);
-        const qty = parseInt(card.dataset.qty);
-
-        total += price * qty;
+    document.querySelectorAll('.product-check:checked').forEach(el => {
+        const card = el.closest('.cart-card');
+        total     += parseInt(card.dataset.price) * parseInt(card.dataset.qty);
         totalItem++;
-
     });
 
-    document.getElementById('summary-item-count')
-        .innerText = `${totalItem} Item`;
-
-    document.getElementById('summary-subtotal')
-        .innerText = `Rp ${total.toLocaleString('id-ID')}`;
-
-    document.getElementById('summary-total')
-        .innerText = `Rp ${total.toLocaleString('id-ID')}`;
-
+    document.getElementById('summary-item-count').innerText = `${totalItem} Item`;
+    document.getElementById('summary-subtotal').innerText   = `Rp ${total.toLocaleString('id-ID')}`;
+    document.getElementById('summary-total').innerText      = `Rp ${total.toLocaleString('id-ID')}`;
 }
 
+// ── Lanjut ke pemesanan ───────────────────────────────────────
+window.lanjutPemesanan = function () {
+    const selected = [...document.querySelectorAll('.product-check:checked')]
+        .map(el => el.value);
 
+    if (!selected.length) { alert('Pilih minimal 1 produk'); return; }
 
-/* =========================
-   CHECKBOX CHANGE
-========================= */
+    postData(`action=set_selected&ids=${JSON.stringify(selected)}`).then(res => {
+        if (res.trim() === 'success') loadPage('costumer/page/pemesanan.php');
+    });
+};
 
-document.addEventListener('change', function(e){
+// ── Checkbox: check-all + update summary ─────────────────────
+document.addEventListener('change', function (e) {
+    const t = e.target;
 
-    if(
-        e.target.classList.contains('product-check') ||
-        e.target.id === 'check-all'
-    ){
-
-        updateSummary();
-
+    if (t.id === 'check-all') {
+        document.querySelectorAll('.product-check')
+            .forEach(el => el.checked = t.checked);
     }
 
+    if (t.id === 'check-all' || t.classList.contains('product-check')) {
+        updateSummary();
+    }
 });
-window.lanjutPemesanan = function () {
-
-  console.log("BTN KLIK");
-
-  let selected = [];
-
-  document.querySelectorAll(".product-check:checked").forEach(el => {
-    selected.push(el.value);
-  });
-
-  console.log("SELECTED:", selected);
-
-  if (selected.length === 0) {
-    alert("Pilih minimal 1 produk");
-    return;
-  }
-
-  fetch('/sghwebv2/ec/logic/costumer/keranjangApi.php', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: `action=set_selected&ids=${JSON.stringify(selected)}`
-})
-.then(res => res.text())
-.then(res => {
-  console.log("RAW RESPONSE:", res); // 👈 WAJIB LIHAT INI
-
-  if (res.trim() === 'success') {
-    loadPage('costumer/page/pemesanan.php');
-  } else {
-    alert("Gagal: " + res);
-  }
-})
-.catch(err => {
-  console.log("FETCH ERROR:", err);
-});
-
-}

@@ -9,12 +9,15 @@ require_once __DIR__ . '/../../config/connection.php';
 $db = new Database();
 $conn = $db->getConnection();
 
+/* =========================
+   SESSION FIX
+========================= */
 if (!isset($_SESSION['id'])) {
     header("Location: ../../index.php");
     exit;
 }
 
-$id = $_SESSION['id'];
+$id = $_SESSION['id'] ?? null;
 
 // =========================
 // AMBIL DATA FORM
@@ -26,7 +29,7 @@ $no_telepon    = $_POST['nomor_telepon'] ?? '';
 $jenis_kelamin = $_POST['jenis_kelamin'] ?? '';
 
 // =========================
-// UPDATE USERS (AMAN)
+// UPDATE USERS
 // =========================
 mysqli_query($conn, "
     UPDATE users SET
@@ -40,43 +43,21 @@ mysqli_query($conn, "
 // =========================
 // CEK COSTUMER
 // =========================
-$cek = mysqli_query($conn, "SELECT * FROM costumer WHERE id_costumer = '$id'");
+$cek = mysqli_query($conn, "
+    SELECT * FROM costumer
+    WHERE id_costumer = '$id'
+");
+
 $data_costumer = mysqli_fetch_assoc($cek);
 
-// =========================
-// UPLOAD FOTO (HANYA JIKA ADA FILE BARU)
-// =========================
+/* FOTO HARUS ADA INI (BIAR TIDAK ERROR) */
 $foto_baru = null;
-
-if (!empty($_FILES['profile_image']['name'])) {
-
-    $ext = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
-
-    $foto_baru = time() . '_' . rand(1000,9999) . '.' . $ext;
-
-    $tmp = $_FILES['profile_image']['tmp_name'];
-
-    $upload_path = __DIR__ . '/../../uploads/profile/' . $foto_baru;
-
-    move_uploaded_file($tmp, $upload_path);
-
-    // hapus lama kalau ada
-    if (!empty($data_costumer['foto_profil'])) {
-
-        $old = __DIR__ . '/../../uploads/profile/' . $data_costumer['foto_profil'];
-
-        if (file_exists($old)) {
-            unlink($old);
-        }
-    }
-}
 
 // =========================
 // UPDATE / INSERT COSTUMER
 // =========================
 if ($data_costumer) {
 
-    // kalau tidak upload foto → JANGAN overwrite foto_profil
     if ($foto_baru) {
         mysqli_query($conn, "
             UPDATE costumer SET
@@ -87,7 +68,7 @@ if ($data_costumer) {
     } else {
         mysqli_query($conn, "
             UPDATE costumer SET
-                jenis_kelamin = '$jenis_kelamin'
+            jenis_kelamin = '$jenis_kelamin'
             WHERE id_costumer = '$id'
         ");
     }

@@ -1,253 +1,124 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+class KeranjangApi
+{
+    private $conn;
 
-require_once __DIR__ . "/../../config/connection.php";
-
-$db = new Database();
-$conn = $db->getConnection();
-
-$action = $_POST['action'] ?? null;
-
-// ambil id user dari session login
-$id_users = $_SESSION['id'];
-
-
-/* =========================
-   ADD TO CART
-========================= */
-if ($action == 'add') {
-    $id_users = $_SESSION['id'] ?? null;
-
-    
-
-    if (!$id_users) {
-        die("SESSION KOSONG");
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
     }
 
-    $id_detail = $_POST['id_detail'] ?? null;
-    $qty = (int) ($_POST['qty'] ?? 1);
+    // ── Helper: prepare → bind → execute → result ──────────────────
+    private function query(string $sql, string $types = '', array $params = [])
+    {
+        $stmt = mysqli_prepare($this->conn, $sql);
 
-    if (!$id_detail) {
-        die("ID produk kosong");
-    }
-
-    // cek produk
-    $stmt = mysqli_prepare($conn,
-        "SELECT id FROM detail_produk WHERE id = ?"
-    );
-
-    mysqli_stmt_bind_param($stmt, "i", $id_detail);
-    mysqli_stmt_execute($stmt);
-
-    $result = mysqli_stmt_get_result($stmt);
-    $produk = mysqli_fetch_assoc($result);
-
-    if (!$produk) {
-        die("produk tidak ditemukan");
-    }
-
-    // cek cart
-    $check = mysqli_prepare($conn,
-        "SELECT qty FROM keranjang
-         WHERE id_detail_produk = ?
-         AND id_users = ?"
-    );
-
-    mysqli_stmt_bind_param($check, "is", $id_detail, $id_users);
-    mysqli_stmt_execute($check);
-
-    $checkResult = mysqli_stmt_get_result($check);
-
-    if (mysqli_num_rows($checkResult) > 0) {
-
-        $update = mysqli_prepare($conn,
-            "UPDATE keranjang
-             SET qty = qty + ?
-             WHERE id_detail_produk = ?
-             AND id_users = ?"
-        );
-
-        mysqli_stmt_bind_param($update, "iis", $qty, $id_detail, $id_users);
-        mysqli_stmt_execute($update);
-
-    } else {
-
-        $queryId = mysqli_query($conn,
-            "SELECT id FROM keranjang ORDER BY id DESC LIMIT 1"
-        );
-
-        $dataId = mysqli_fetch_assoc($queryId);
-
-        if ($dataId) {
-            $lastId = $dataId['id'];
-            $number = (int) substr($lastId, 3);
-            $number++;
-            $id_keranjang = 'KRJ' . str_pad($number, 3, '0', STR_PAD_LEFT);
-        } else {
-            $id_keranjang = 'KRJ001';
+        if ($types && $params) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
         }
 
-        $insert = mysqli_prepare($conn,
-            "INSERT INTO keranjang
-            (id, id_detail_produk, id_users, qty)
-            VALUES (?, ?, ?, ?)"
+        mysqli_stmt_execute($stmt);
+
+        return mysqli_stmt_get_result($stmt);
+    }
+
+    private function exec(string $sql, string $types, array $params): bool
+    {
+        $stmt = mysqli_prepare($this->conn, $sql);
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        return mysqli_stmt_execute($stmt);
+    }
+
+    // ── Cart ────────────────────────────────────────────────────────
+    public function getCart(string $id_costumer)
+    {
+        return $this->query("
+            SELECT k.kuantitas, dp.id AS id_detail,
+                   p.id AS id_produk, p.nama_produk, p.harga,
+                   v.nama_varietas
+            FROM keranjang k
+            JOIN detail_produk dp ON k.id_detail_produk = dp.id
+            JOIN produk p         ON dp.id_produk = p.id
+            JOIN varietas v       ON dp.id_varietas = v.id
+            WHERE k.id_costumer = ?
+        ", 's', [$id_costumer]);
+    }
+
+    public function checkCart(string $id_detail, string $id_costumer)
+    {
+        return $this->query(
+            "SELECT kuantitas FROM keranjang WHERE id_detail_produk = ? AND id_costumer = ?",
+            'is', [$id_detail, $id_costumer]
+        );
+    }
+
+    public function getProduk(string $id_detail)
+    {
+        return $this->query(
+            "SELECT id FROM detail_produk WHERE id = ?",
+            'i', [$id_detail]
+        );
+    }
+
+    public function getTotalCart(string $id_costumer)
+    {
+        return $this->query(
+            "SELECT COUNT(*) as total FROM keranjang WHERE id_costumer = ?",
+            's', [$id_costumer]
+        );
+    }
+
+    public function getKuantitasCart(string $id_detail, string $id_costumer)
+    {
+        return $this->query(
+            "SELECT kuantitas FROM keranjang WHERE id_detail_produk = ? AND id_costumer = ?",
+            'is', [$id_detail, $id_costumer]
+        );
+    }
+
+    // ── Write ───────────────────────────────────────────────────────
+    public function insertCart(string $id, $id_detail, string $id_costumer, int $kuantitas): bool
+    {
+        return $this->exec(
+            "INSERT INTO keranjang (id, id_detail_produk, id_costumer, kuantitas) VALUES (?, ?, ?, ?)",
+            'sisi', [$id, $id_detail, $id_costumer, $kuantitas]
+        );
+    }
+
+    public function updateCart(int $kuantitas, $id_detail, string $id_costumer): bool
+    {
+        return $this->exec(
+            "UPDATE keranjang SET kuantitas = kuantitas + ? WHERE id_detail_produk = ? AND id_costumer = ?",
+            'iis', [$kuantitas, $id_detail, $id_costumer]
+        );
+    }
+
+    public function setKuantitas(int $kuantitas, $id_detail, string $id_costumer): bool
+    {
+        return $this->exec(
+            "UPDATE keranjang SET kuantitas = ? WHERE id_detail_produk = ? AND id_costumer = ?",
+            'iis', [$kuantitas, $id_detail, $id_costumer]
+        );
+    }
+
+    public function deleteCart($id_detail, string $id_costumer): bool
+    {
+        return $this->exec(
+            "DELETE FROM keranjang WHERE id_detail_produk = ? AND id_costumer = ?",
+            'is', [$id_detail, $id_costumer]
+        );
+    }
+
+    // ── Generate ID ─────────────────────────────────────────────────
+    public function generateId(): string
+    {
+        $row = mysqli_fetch_assoc(
+            mysqli_query($this->conn, "SELECT id FROM keranjang ORDER BY id DESC LIMIT 1")
         );
 
-        mysqli_stmt_bind_param($insert, "sisi", $id_keranjang, $id_detail, $id_users, $qty);
-        mysqli_stmt_execute($insert);
+        $next = $row ? (int) substr($row['id'], 3) + 1 : 1;
+
+        return 'KRJ' . str_pad($next, 3, '0', STR_PAD_LEFT);
     }
-
-    echo "success";
-    exit;
-}
-
-
-
-/* =========================
-   GET TOTAL CART
-========================= */
-/* =========================
-   GET TOTAL CART
-========================= */
-if ($action == 'get_total') {
-
-    $id_users = $_SESSION['id'] ?? null;
-
-    if (!$id_users) {
-        echo 0;
-        exit;
-    }
-
-    $query = mysqli_prepare($conn,
-        "SELECT count(*) as total
-         FROM keranjang
-         WHERE id_users = ?"
-    );
-
-    mysqli_stmt_bind_param($query, "s", $id_users);
-
-    mysqli_stmt_execute($query);
-
-    $result = mysqli_stmt_get_result($query);
-
-    $data = mysqli_fetch_assoc($result);
-
-    echo $data['total'] ?? 0;
-
-    exit;
-}
-
-
-/* =========================
-   UPDATE QTY
-========================= */
-if ($action == 'qty') {
-
-    $id = $_POST['id_detail'] ?? null;
-    $delta = (int) ($_POST['qty'] ?? 0);
-
-    if (!$id) {
-        die("ID kosong");
-    }
-
-    // ambil qty sekarang
-    $check = mysqli_prepare($conn,
-        "SELECT qty FROM keranjang
-         WHERE id_detail_produk = ?
-         AND id_users = ?"
-    );
-
-    // ✅ FIX: bind ke $check, bukan $update — dan variabel sudah ada semua
-    mysqli_stmt_bind_param($check, "ss", $id, $id_users);
-
-    mysqli_stmt_execute($check);
-
-    $result = mysqli_stmt_get_result($check);
-    $item = mysqli_fetch_assoc($result);
-
-    if (!$item) {
-        die("produk tidak ditemukan");
-    }
-
-    $newQty = $item['qty'] + $delta;
-
-    if ($newQty <= 0) {
-
-        $delete = mysqli_prepare($conn,
-            "DELETE FROM keranjang
-             WHERE id_detail_produk = ?
-             AND id_users = ?"
-        );
-
-        mysqli_stmt_bind_param($delete, "ss", $id, $id_users);
-        mysqli_stmt_execute($delete);
-
-    } else {
-
-        $update = mysqli_prepare($conn,
-            "UPDATE keranjang SET qty = ?
-             WHERE id_detail_produk = ?
-             AND id_users = ?"
-        );
-
-        // ✅ FIX: prepare dulu, baru bind — urutannya benar sekarang
-        mysqli_stmt_bind_param($update, "iss", $newQty, $id, $id_users);
-        mysqli_stmt_execute($update);
-
-    }
-
-    echo "success";
-    exit;
-}
-
-
-
-/* =========================
-   DELETE SELECTED
-========================= */
-if ($action == 'delete_selected') {
-
-    $ids = json_decode($_POST['ids'], true);
-
-    if (!$ids || !is_array($ids)) {
-        die("data kosong");
-    }
-
-    foreach ($ids as $id) {
-
-        $delete = mysqli_prepare($conn,
-            "DELETE FROM keranjang
-             WHERE id_detail_produk = ?
-             AND id_users = ?"
-        );
-
-      mysqli_stmt_bind_param($delete, "ss", $id, $id_users);
-
-        mysqli_stmt_execute($delete);
-
-    }
-
-    echo "success";
-    exit;
-}
-if ($action == 'set_selected') {
-
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    $ids = json_decode($_POST['ids'] ?? '[]', true);
-
-    if (!is_array($ids) || empty($ids)) {
-        echo "invalid";
-        exit;
-    }
-
-    $_SESSION['selected_cart'] = $ids;
-
-    echo "success";
-    exit;
 }
