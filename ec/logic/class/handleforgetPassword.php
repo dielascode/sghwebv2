@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "Invalid email format.";
-        header("Location: ../../../forgetPassword.php");
+        header("Location: ../../forgetPassword.php");
         exit();
     }
 
@@ -67,16 +67,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mail->send();
             $_SESSION['success'] = "A reset link has been sent to your email.";
-            header("Location: ../../../index.php");
+            header("Location: ../../dummyforgetPassword.php");
             exit();
         } catch (Exception $e) {
             $_SESSION['error'] = "Email could not be sent. Error: {$mail->ErrorInfo}";
-            header("Location: ../../../forgetPassword.php");
+            header("Location: ../../forgetPassword.php");
             exit();
         }
     } else {
         $_SESSION['error'] = "No account found with that email.";
-        header("Location: ../../../forgetPassword.php");
+        header("Location: ../../forgetPassword.php");
         exit();
     }
 }
