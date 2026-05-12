@@ -2,7 +2,7 @@
 class Pesanan
 {
     private $conn;
-    private $table = "Pesanan";
+    private $table = "pesanan";
 
     public function __construct($db)
     {
@@ -11,7 +11,16 @@ class Pesanan
 
     public function getPesanan()
     {
-        return $this->conn->query("SELECT * FROM $this->table JOIN users ON $this->table.id_costumer = users.id ORDER BY tanggal_order DESC");
+        return $this->conn->query("
+    SELECT 
+        $this->table.*,
+        $this->table.status AS status_pesanan,
+        users.status AS status_user,
+        users.nama
+    FROM $this->table
+    JOIN users ON $this->table.id_costumer = users.id
+    ORDER BY tanggal_order DESC
+");
     }
 
     public function getDetail($nomor_pesanan)
@@ -47,5 +56,24 @@ class Pesanan
         $pesanan['items'] = $stmtDetail->get_result()->fetch_all(MYSQLI_ASSOC);
 
         return $pesanan;
+    }
+    public function toggleStatus($nomor_pesanan, $status)
+    {
+        $query = "UPDATE pesanan SET status=? WHERE nomor_pesanan=?";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("ss", $status, $nomor_pesanan);
+
+        if ($stmt->execute()) {
+            return [
+                "status" => true,
+                "message" => "Status berhasil diubah ke $status"
+            ];
+        } else {
+            return [
+                "status" => false,
+                "message" => $stmt->error
+            ];
+        }
     }
 }

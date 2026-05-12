@@ -171,7 +171,7 @@ if (!$result) {
                                     <td><?= $p['nama'] ?></td>
                                     <td><?= $p['bukti_bayar'] ?></td>
                                     <td><?= $p['metode'] ?></td>
-                                    <td><?= $p['status'] ?></td>
+                                    <td><?= $p['status_pesanan'] ?></td>
                                     <td><?= $p['tanggal_order'] ?></td>
                                     <td>
                                         <div class="dropdown" data-bs-display="static">
@@ -187,9 +187,9 @@ if (!$result) {
                                                     </a>
                                                 </li>
                                                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
-                                                <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                        <i class="bi bi-truck me-2"></i>Ubah Status
-                                                    </a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="openStatusModal('<?= $p['nomor_pesanan']; ?>', '<?= $p['status_pesanan']; ?>')">
+                                                            <i class="bi bi-truck me-2"></i>Ubah Status
+                                                        </a></li>
                                                 <?php endif; ?>
                                                 <li>
                                                     <a class="dropdown-item" href="#" onclick="printInvoice('<?= $p['nomor_pesanan']; ?>')">
@@ -200,9 +200,9 @@ if (!$result) {
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
-                                                <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                        <i class="bi bi-x-circle me-2"></i>Batalkan Pesanan
-                                                    </a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
+                                                            <i class="bi bi-x-circle me-2"></i>Batalkan Pesanan
+                                                        </a></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </div>
@@ -236,7 +236,7 @@ if (!$result) {
                         </ul>
                     </nav>
                 </div>
-            </div> 
+            </div>
         </div>
 
     </div>
@@ -278,6 +278,40 @@ if (!$result) {
                 </div>
 
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="statusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Ubah Status Pesanan</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden" id="nomor_pesanan">
+
+                <p>Status saat ini:
+                    <strong id="current_status"></strong>
+                </p>
+
+                <label>Status Baru</label>
+                <select class="form-select" id="new_status">
+                    <option value="menunggu_konfirmasi">Menunggu Konfirmasi</option>
+                    <option value="diproses">Diproses</option>
+                    <option value="dikirim">Dikirim</option>
+                </select>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button class="btn btn-primary" onclick="updateStatus()">Update</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -471,4 +505,43 @@ if (!$result) {
             console.error("Error:", error);
         }
     }
+</script>
+<script>
+function openStatusModal(nomor_pesanan, status) {
+    document.getElementById('nomor_pesanan').value = nomor_pesanan;
+    document.getElementById('current_status').innerText = status;
+    document.getElementById('new_status').value = status;
+
+    new bootstrap.Modal(document.getElementById('statusModal')).show();
+}
+</script>
+<script>
+async function updateStatus() {
+    let nomor_pesanan = document.getElementById('nomor_pesanan').value;
+    let status = document.getElementById('new_status').value;
+
+    try {
+        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+
+        let response = await fetch(`${baseUrl}?action=update_status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `nomor_pesanan=${nomor_pesanan}&status=${status}`
+        });
+
+        let result = await response.json();
+
+        if (result.status) {
+            alert("Status berhasil diupdate!");
+            location.reload();
+        } else {
+            alert("Gagal update!");
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
 </script>

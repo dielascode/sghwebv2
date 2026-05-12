@@ -15,8 +15,19 @@ if ($action === 'get_detail') {
     $nomor_pesanan = $_GET['nomor_pesanan'];
     $result = $pesanan->getDetail($nomor_pesanan);
     echo json_encode($result);
-} else if ($action === 'update') {
-    
+} else if ($action === 'update_status') {
+    $nomor_pesanan = $_POST['nomor_pesanan'] ;
+    $status = $_POST['status'] ;
+
+    if ($nomor_pesanan && $status) {
+        $result = $pesanan->toggleStatus($nomor_pesanan, $status);
+        echo json_encode($result);
+    } else {
+        echo json_encode([
+            "status" => false,
+            "message" => "Data tidak lengkap"
+        ]);
+    }
 } else if ($action === 'delete') {
     
 }else {
