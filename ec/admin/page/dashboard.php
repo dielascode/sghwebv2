@@ -26,7 +26,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-0 text-muted">Total Users</h6>
-                            <h3 class="mb-0" data-stat-value>12,426</h3>
+                            <h3 class="mb-0" data-stat-users>0</h3>
                             <small class="text-success">
                                 <i class="bi bi-arrow-up"></i> +12.5%
                             </small>
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <!-- <div class="col-sm-6 col-xl-3">
             <div class="card stats-card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-0 text-muted">Revenue</h6>
-                            <h3 class="mb-0">$54,320</h3>
+                            <h3 class="mb-0" data-stat-revenue>Rp 0</h3>
                             <small class="text-success">
                                 <i class="bi bi-arrow-up"></i> +8.2%
                             </small>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="col-sm-6 col-xl-3">
             <div class="card stats-card">
@@ -68,7 +68,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-0 text-muted">Orders</h6>
-                            <h3 class="mb-0">1,852</h3>
+                            <h3 class="mb-0" data-stat-orders>0</h3>
                             <small class="text-danger">
                                 <i class="bi bi-arrow-down"></i> -2.1%
                             </small>
@@ -170,7 +170,6 @@
                                 <tr>
                                     <th>Order ID</th>
                                     <th>Customer</th>
-                                    <th>Amount</th>
                                     <th>Status</th>
                                     <th>Date</th>
                                 </tr>
@@ -216,6 +215,55 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function() {
+
+    const res = await fetch('/sghwebv2/ec/admin/crud/dashboardController.php');
+    const data = await res.json();
+
+    document.querySelector('[data-stat-users]').innerText = data.users;
+    document.querySelector('[data-stat-orders]').innerText = data.orders;
+    // document.querySelector('[data-stat-revenue]').innerText = 
+    //     'Rp ' + parseInt(data.revenue).toLocaleString();
+
+    let table = document.getElementById('recent-orders-table');
+    table.innerHTML = '';
+
+    data.recentOrders.forEach(order => {
+        table.innerHTML += `
+            <tr>
+                <td>${order.nomor_pesanan}</td>
+                <td>${order.nama}</td>
+                <td>${order.status}</td>
+                <td>${order.tanggal_order}</td>
+            </tr>
+        `;
+    });
+
+    const ctx = document.getElementById('PemesananSeminggu').getContext('2d');
+
+    const labels = data.chart.map(item => item.tanggal);
+    const values = data.chart.map(item => item.total);
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Pesanan',
+                data: values,
+                borderColor: '#21543C',
+                backgroundColor: 'rgba(33,84,60,0.15)',
+                tension: 0.4,
+                fill: true
+            }]
+        }
+    });
+
+});
+</script>
 <script>
 function updateDateTime() {
     const now = new Date();

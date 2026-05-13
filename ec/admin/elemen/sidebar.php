@@ -65,7 +65,7 @@
                         </a>
                     </li>
                 <?php endif; ?>
-                <li class="nav-item mt-3">
+                <!-- <li class="nav-item mt-3">
                     <small class="text-muted px-3 text-uppercase fw-bold">Admin</small>
                 </li>
                 <li class="nav-item">
@@ -85,7 +85,7 @@
                         <i class="bi bi-question-circle"></i>
                         <span>Help & Support</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </div>

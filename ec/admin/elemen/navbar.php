@@ -13,36 +13,6 @@
                 <i class="bi bi-list"></i>
             </button>
 
-            <!-- Search Bar with Alpine.js -->
-            <div class="search-container flex-grow-1 mx-4" x-data="searchComponent">
-                <div class="position-relative">
-                    <input type="search"
-                        class="form-control"
-                        placeholder="Search... (Ctrl+K)"
-                        x-model="query"
-                        @input="search()"
-                        data-search-input
-                        aria-label="Search">
-                    <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3"></i>
-
-                    <!-- Search Results Dropdown -->
-                    <div x-show="results.length > 0"
-                        x-transition:enter="transition ease-out duration-100"
-                        x-transition:enter-start="opacity-0 scale-95"
-                        x-transition:enter-end="opacity-100 scale-100"
-                        class="position-absolute top-100 start-0 w-100 bg-white border rounded-2 shadow-lg mt-1 z-3">
-                        <template x-for="result in results" :key="result.title">
-                            <a :href="result.url" class="d-block px-3 py-2 text-decoration-none text-dark border-bottom">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-file-text me-2 text-muted"></i>
-                                    <span x-text="result.title"></span>
-                                    <small class="ms-auto text-muted" x-text="result.type"></small>
-                                </div>
-                            </a>
-                        </template>
-                    </div>
-                </div>
-            </div>
 
             <!-- Right Side Icons -->
             <div class="navbar-nav flex-row">
@@ -68,7 +38,7 @@
 
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        <!-- <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i>Settings</a></li> -->
                         <li>
                             <hr class="dropdown-divider">
                         </li>
