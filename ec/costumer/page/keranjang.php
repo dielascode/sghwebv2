@@ -17,7 +17,7 @@ $cart = $data['cart'];
 $subtotal = $data['subtotal'];
 
 $totalQty = $data['totalItem'];
-    
+
 ?>
 
 <main class="cart-wrapper">
@@ -80,15 +80,11 @@ $totalQty = $data['totalItem'];
 
                     <?php foreach ($cart as $item): ?>
 
-                        <div class="cart-card"
-                            data-price="<?= $item['harga'] ?>"
-                            data-qty="<?= $item['kuantitas'] ?>">
+                        <div class="cart-card" data-price="<?= $item['harga'] ?>" data-qty="<?= $item['kuantitas'] ?>">
 
                             <label class="checkbox-container-keranjang">
 
-                                <input type="checkbox"
-                                    class="product-check"
-                                    value="<?= $item['id_detail'] ?>">
+                                <input type="checkbox" class="product-check" value="<?= $item['id_produk'] ?>">
 
                                 <span class="checkmark-keranjang"></span>
 
@@ -101,7 +97,7 @@ $totalQty = $data['totalItem'];
                                 $img = $gambar[0] ?? 'default.png';
                                 ?>
 
-                                <img src="/sghwebv2/ec/images/<?= $img ?>">
+                                <img src="/sghwebv2/ec/admin/assets/images/produk/<?= $img ?>">
 
                             </div>
 
@@ -119,19 +115,13 @@ $totalQty = $data['totalItem'];
 
                                     <div class="qty-picker">
 
-                                        <button type="button"
-                                            onclick="updateQty(<?= $item['id_detail'] ?>, -1, event)">
-
+                                        <button type="button" onclick="updateQty('<?= $item['id_produk'] ?>', -1, event)">
                                             -
-
                                         </button>
 
-                                        <input type="text"
-                                            value="<?= $item['kuantitas'] ?>"
-                                            readonly>
+                                        <input type="text" value="<?= $item['kuantitas'] ?>" readonly>
 
-                                        <button type="button"
-                                            onclick="updateQty(<?= $item['id_detail'] ?>, 1, event)">
+                                        <button type="button" onclick="updateQty('<?= $item['id_produk'] ?>', 1, event)">
 
                                             +
 
@@ -152,11 +142,11 @@ $totalQty = $data['totalItem'];
                             <div class="product-price">
 
                                 Rp <?= number_format(
-                                        $item['harga'] * $item['kuantitas'],
-                                        0,
-                                        ',',
-                                        '.'
-                                    ) ?>
+                                    $item['harga'] * $item['kuantitas'],
+                                    0,
+                                    ',',
+                                    '.'
+                                ) ?>
 
                             </div>
 
@@ -202,8 +192,7 @@ $totalQty = $data['totalItem'];
                             Total Pembayaran
                         </span>
 
-                        <span class="summary-total-price-keranjang"
-                            id="summary-total">
+                        <span class="summary-total-price-keranjang" id="summary-total">
 
                             Rp 0
 
@@ -211,16 +200,11 @@ $totalQty = $data['totalItem'];
 
                     </div>
 
-                    <button onclick="lanjutPemesanan()"
-                        class="btn-next-keranjang">
+                    <button onclick="lanjutPemesanan()" class="btn-next-keranjang">
 
                         Selanjutnya
 
-                        <svg viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            width="14"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"
                             height="14">
 
                             <line x1="5" y1="12" x2="19" y2="12" />

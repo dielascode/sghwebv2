@@ -1,7 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start(); // ← fix ini
 require_once "../../config/connection.php";
-require_once "../../costumer/page/p.diproses.php";
+require_once "../../logic/costumer/Apipesanan.php";
 
 header('Content-Type: application/json');
 
@@ -14,7 +14,7 @@ $conn = $db->getConnection();
 /* =========================
    INIT CLASS
 ========================= */
-$pesanan = new Pesanan($conn);
+$pesanan = new PesananApi($conn);
 
 /* =========================
    CEK LOGIN
@@ -67,5 +67,6 @@ while ($p = $result->fetch_assoc()) {
         "foto" => $first['foto_produk'] ?? "default.png"
     ];
 }
+
 
 echo json_encode($data);

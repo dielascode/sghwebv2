@@ -18,14 +18,21 @@ function postData(body) {
 function updateQty(id, delta, event) {
     if (event) event.preventDefault();
 
-    const params = new URLSearchParams({
-        action: 'kuantitas',
-        id_detail: id,
-        kuantitas: delta
-    });
-
-    postData(params).then(res => {
-        if (!res.includes('success')) return;
+    fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `action=kuantitas&id_produk=${id}&kuantitas=${delta}`
+    })
+    .then(res => res.text())
+    .then(res => {
+        res = res.trim();
+        
+        console.log('response:', res); // debug sementara
+        
+        if (res !== 'success') return;
 
         const card     = document.querySelector(`.product-check[value="${id}"]`).closest('.cart-card');
         const qtyInput = card.querySelector('.qty-picker input');
@@ -34,15 +41,16 @@ function updateQty(id, delta, event) {
         if (newQty <= 0) {
             card.remove();
         } else {
-            qtyInput.value      = newQty;
-            card.dataset.qty    = newQty;
-            const totalHarga    = parseInt(card.dataset.price) * newQty;
+            qtyInput.value           = newQty;
+            card.dataset.qty         = newQty;
+            const totalHarga         = parseInt(card.dataset.price) * newQty;
             card.querySelector('.product-price').innerText = `Rp ${totalHarga.toLocaleString('id-ID')}`;
         }
 
         updateSummary();
         updateCartBadge();
-    });
+    })
+    .catch(err => console.log(err));
 }
 
 // ── Hapus produk yang dicentang ──────────────────────────────
@@ -105,6 +113,7 @@ function updateSummary() {
 }
 
 // ── Lanjut ke pemesanan ───────────────────────────────────────
+// Di keranjang.js
 window.lanjutPemesanan = function () {
     const selected = [...document.querySelectorAll('.product-check:checked')]
         .map(el => el.value);
@@ -112,7 +121,15 @@ window.lanjutPemesanan = function () {
     if (!selected.length) { alert('Pilih minimal 1 produk'); return; }
 
     postData(`action=set_selected&ids=${JSON.stringify(selected)}`).then(res => {
-        if (res.trim() === 'success') loadPage('costumer/page/pemesanan.php');
+        if (res.trim() === 'success') {
+            // Hapus buynow session sebelum ke pemesanan
+            fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=clear_buynow'
+            }).then(() => loadPage('costumer/page/pemesanan.php'));
+        }
     });
 };
 

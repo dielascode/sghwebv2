@@ -1,5 +1,5 @@
-<?php session_start(); ?>
-
+<?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+    
 <div class="container-pesanan d-flex">
 
     <!-- SIDEBAR -->
