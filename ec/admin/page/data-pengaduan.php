@@ -1,286 +1,101 @@
+<?php
+include __DIR__ . "/../../config/connection.php";
+include __DIR__ . "/../../logic/admin/pengaduanApi.php";
+
+
+$db = new Database();
+$conn = $db->getConnection();
+$pengaduan = new Pengaduan($conn);
+
+$result = $pengaduan->getPengaduan();
+if (!$result) {
+    die("ERROR: " . $conn->error);
+}
+?>
+
 <div class="container-fluid p-4 p-lg-5">
 
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 mb-lg-5">
         <div>
-            <h1 class="h3 mb-0">Order Management</h1>
-            <p class="text-muted mb-0">Track orders, manage fulfillment, and analyze sales</p>
-        </div>
-        <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary" @click="exportOrders()">
-                <i class="bi bi-download me-2"></i>Export
-            </button>
-            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bulkUpdateModal">
-                <i class="bi bi-arrow-repeat me-2"></i>Bulk Update
-            </button>
+            <h1 class="h3 mb-0">Data Pengaduan</h1>
+            <p class="text-muted mb-0">Respon pengaduan dari costumer anda</p>
         </div>
     </div>
 
     <!-- Order Management Container -->
-    <div x-data="orderTable" x-init="init()">
-
-        <!-- Order Stats Widgets -->
-        <div class="row g-4 g-lg-5 mb-5">
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
-                                <i class="bi bi-bag-check"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 text-muted">Total Orders</h6>
-                                <h3 class="mb-0" x-text="stats.total"></h3>
-                                <small class="text-success">
-                                    <i class="bi bi-arrow-up"></i> +12% from last month
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
-                                <i class="bi bi-clock"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 text-muted">Pending</h6>
-                                <h3 class="mb-0" x-text="stats.pending"></h3>
-                                <small class="text-warning">
-                                    <i class="bi bi-exclamation-circle"></i> Needs attention
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
-                                <i class="bi bi-truck"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 text-muted">Shipped</h6>
-                                <h3 class="mb-0" x-text="stats.shipped"></h3>
-                                <small class="text-info">
-                                    <i class="bi bi-arrow-right"></i> In transit
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
-                                <i class="bi bi-currency-dollar"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 text-muted">Revenue</h6>
-                                <h3 class="mb-0" x-text="`$${stats.revenue.toLocaleString()}`"></h3>
-                                <small class="text-success">
-                                    <i class="bi bi-arrow-up"></i> +8% from last week
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <div>
 
         <!-- Orders Table -->
         <div class="card">
             <div class="card-header">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5 class="card-title mb-0">Orders</h5>
-                    </div>
-                    <div class="col-auto">
-                        <div class="d-flex gap-2">
-                            <!-- Search -->
-                            <div class="position-relative">
-                                <input type="search"
-                                    class="form-control form-control-sm"
-                                    placeholder="Search orders..."
-                                    x-model="searchQuery"
-                                    @input="filterOrders()"
-                                    style="width: 200px;">
-                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
-                            </div>
-
-                            <!-- Status Filter -->
-                            <select class="form-select form-select-sm"
-                                x-model="statusFilter"
-                                @change="filterOrders()"
-                                style="width: 150px;">
-                                <option value="">All Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="processing">Processing</option>
-                                <option value="shipped">Shipped</option>
-                                <option value="delivered">Delivered</option>
-                                <option value="cancelled">Cancelled</option>
-                            </select>
-
-                            <!-- Date Range -->
-                            <select class="form-select form-select-sm"
-                                x-model="dateFilter"
-                                @change="filterOrders()"
-                                style="width: 150px;">
-                                <option value="">All Dates</option>
-                                <option value="today">Today</option>
-                                <option value="week">This Week</option>
-                                <option value="month">This Month</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <h5 class="mb-0">Tabel Pengaduan</h5>
             </div>
-            <div class="card-body p-0">
-                <!-- Bulk Actions Bar -->
-                <div class="bulk-actions-bar p-3 bg-light border-bottom" x-show="selectedOrders.length > 0" x-transition>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted">
-                            <span x-text="selectedOrders.length"></span> order(s) selected
-                        </span>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" @click="bulkAction('processing')">
-                                <i class="bi bi-arrow-clockwise me-1"></i>Mark Processing
-                            </button>
-                            <button class="btn btn-sm btn-outline-info" @click="bulkAction('shipped')">
-                                <i class="bi bi-truck me-1"></i>Mark Shipped
-                            </button>
-                            <button class="btn btn-sm btn-outline-success" @click="bulkAction('delivered')">
-                                <i class="bi bi-check-circle me-1"></i>Mark Delivered
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Table -->
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-striped table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox"
-                                        class="form-check-input"
-                                        @change="toggleAll($event.target.checked)"
-                                        :checked="selectedOrders.length === filteredOrders.length && filteredOrders.length > 0">
-                                </th>
-                                <th @click="sortBy('orderNumber')" class="sortable">Order #</th>
-                                <th>Customer</th>
-                                <th>Items</th>
-                                <th @click="sortBy('total')" class="sortable">Total</th>
+                                <th>No</th>
+                                <th>Nama Costumer</th>
+                                <th>Subjek</th>
+                                <th>Pesan</th>
                                 <th>Status</th>
-                                <th @click="sortBy('orderDate')" class="sortable">Date</th>
-                                <th style="width: 120px;">Actions</th>
+                                <th>Tanggal Masuk</th>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                    <th style="width: 120px;">Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
-                            <template x-for="order in paginatedOrders" :key="order.id">
+                            <?php $no = 1; ?>
+                            <?php foreach ($result as $pg): ?>
                                 <tr>
-                                    <td>
-                                        <input type="checkbox"
-                                            class="form-check-input"
-                                            :value="order.id"
-                                            x-model="selectedOrders">
-                                    </td>
-                                    <td>
-                                        <div class="fw-medium" x-text="order.orderNumber"></div>
-                                        <small class="text-muted" x-text="'ID: ' + order.id"></small>
-                                    </td>
-                                    <td>
-                                        <div class="order-customer">
-                                            <img :src="order.customer.avatar"
-                                                class="customer-avatar"
-                                                :alt="order.customer.name">
-                                            <div>
-                                                <div class="fw-medium" x-text="order.customer.name"></div>
-                                                <small class="text-muted" x-text="order.customer.email"></small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="order-items">
-                                            <div x-text="order.itemCount + ' item' + (order.itemCount > 1 ? 's' : '')"></div>
-                                            <small class="text-muted" x-text="order.items[0].name + (order.itemCount > 1 ? ' +' + (order.itemCount - 1) + ' more' : '')"></small>
-                                        </div>
-                                    </td>
-                                    <td class="fw-medium" x-text="`$${order.total}`"></td>
-                                    <td>
-                                        <span class="order-status"
-                                            :class="{
-                                                                  'status-pending': order.status === 'pending',
-                                                                  'status-processing': order.status === 'processing',
-                                                                  'status-shipped': order.status === 'shipped',
-                                                                  'status-delivered': order.status === 'delivered',
-                                                                  'status-cancelled': order.status === 'cancelled'
-                                                              }"
-                                            x-text="order.status.charAt(0).toUpperCase() + order.status.slice(1)"></span>
-                                    </td>
-                                    <td x-text="order.orderDate"></td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#" @click="viewOrder(order)">
-                                                        <i class="bi bi-eye me-2"></i>View Details
-                                                    </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                        <i class="bi bi-truck me-2"></i>Track Order
-                                                    </a></li>
-                                                <li><a class="dropdown-item" href="#" @click="printInvoice(order)">
-                                                        <i class="bi bi-printer me-2"></i>Print Invoice
-                                                    </a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                        <i class="bi bi-x-circle me-2"></i>Cancel Order
-                                                    </a></li>
-                                            </ul>
-                                        </div>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= $pg['nama'] ?></td>
+                                    <td><?= $pg['subjek'] ?></td>
+                                    <td><?= strlen($pg['pesan']) > 20
+                                            ? substr($pg['pesan'], 0, 20) . '...'
+                                            : $pg['pesan']; ?></td>
+                                    <td><?= $pg['status_pengaduan'] ?></td>
+                                    <td><?= $pg['tanggal_masuk'] ?></td>
+
+                                    <td style="display: flex; gap: 10px;">
+                                        <button
+                                            class="btn btn-sm btn-primary"
+                                            onclick="openDetail(<?= $pg['id']; ?>)">
+                                            Detail
+                                        </button>
+                                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+                                            <?php
+                                            $nextStatus = '';
+                                            $label = '';
+
+                                            if ($pg['status'] === 'diterima') {
+                                                $nextStatus = 'diproses';
+                                                $label = 'Proses';
+                                            } elseif ($pg['status'] === 'diproses') {
+                                                $nextStatus = 'selesai';
+                                                $label = 'Selesaikan';
+                                            }
+                                            ?>
+
+                                            <?php if ($pg['status'] !== 'selesai'): ?>
+                                                <button
+                                                    class="btn btn-sm btn-warning"
+                                                    onclick="ubahStatus('<?= $pg['id']; ?>', '<?= $nextStatus; ?>')">
+                                                    <?= $label; ?>
+                                                </button>
+                                            <?php endif; ?>
+
+
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-                            </template>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="d-flex justify-content-between align-items-center p-3">
-                    <div class="text-muted">
-                        Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to
-                        <span x-text="Math.min(currentPage * itemsPerPage, filteredOrders.length)"></span> of
-                        <span x-text="filteredOrders.length"></span> results
-                    </div>
-                    <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-                            </li>
-                            <template x-for="(page, index) in visiblePages" :key="`page-${index}`">
-                                <li class="page-item" :class="{ 'active': page === currentPage }">
-                                    <a class="page-link" href="#" @click.prevent="page !== '...' && goToPage(page)" x-text="page"></a>
-                                </li>
-                            </template>
-                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -288,3 +103,101 @@
     </div> <!-- End Order Management Container -->
 
 </div>
+
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Subjek: <span id="detailSubjek"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <th width="200">Nama Costumer</th>
+                        <td>: <span id="detailNama"></span></td>
+                    </tr>
+
+                    <tr>
+                        <th width="200">Tanggal Pelaporan</th>
+                        <td>: <span id="detailTanggal"></span></td>
+                    </tr>
+                    <tr>
+                        <th width="200">Status Pelaporan</th>
+                        <td>: <span class="badge bg-info" id="detailStatus"></span></td>
+                    </tr>
+                </table>
+
+                <h6>Pesan:</h6>
+                <p id="detailPesan" class="text-muted small" style="
+                    
+                        max-height: 120px;
+                        overflow-y: auto;
+                        word-break: break-all;
+                    ">
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    async function openDetail(id) {
+        try {
+            const response = await fetch(`/sghwebv2/ec/admin/crud/pengaduanController.php?action=get_detail&id=${id}`);
+            const data = await response.json();
+
+            document.getElementById('detailSubjek').innerText = data.subjek;
+            document.getElementById('detailNama').innerText = data.nama;
+            document.getElementById('detailTanggal').innerText = data.tanggal_masuk;
+            document.getElementById('detailStatus').innerText = data.status_pengaduan;
+            document.getElementById('detailPesan').innerText = data.pesan || 'Tidak ada deskripsi';
+
+            let modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+
+        } catch (error) {
+            console.error("Gagal ambil detail:", error);
+            alert("Gagal mengambil data produk");
+        }
+    }
+</script>
+<script>
+    async function ubahStatus(id, statusBaru) {
+
+        let konfirmasi = confirm(`Yakin ingin mengubah status menjadi "${statusBaru}"?`);
+
+        if (!konfirmasi) return;
+
+        try {
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pengaduanController.php';
+
+            let res = await fetch(`${baseUrl}?action=update_status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `id=${id}&status=${statusBaru}`
+            });
+
+            let result = await res.json();
+
+            if (result.status) {
+                alert("Status berhasil diubah!");
+                location.reload();
+            } else {
+                alert("Gagal: " + result.message);
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Terjadi error");
+        }
+    }
+</script>

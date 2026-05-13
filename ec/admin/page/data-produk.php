@@ -565,3 +565,72 @@ if (!$result) {
         toggleAddButton();
     });
 </script>
+<script>
+    async function openDetail(id) {
+        try {
+            const response = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+            const data = await response.json();
+
+            document.getElementById('detailNama').innerText = data.nama_produk;
+            document.getElementById('detailTipe').innerText = data.tipe;
+            document.getElementById('detailHarga').innerText = data.harga ?
+                parseInt(data.harga).toLocaleString() :
+                0;
+            document.getElementById('detailStok').innerText = data.stok;
+            document.getElementById('detailDeskripsi').innerText = data.deskripsi || 'Tidak ada deskripsi';
+
+            let mainImage = document.getElementById('detailMainImage');
+            let thumbnails = document.getElementById('detailThumbnails');
+
+            thumbnails.innerHTML = '';
+
+            if (data.images && data.images.length > 0) {
+                mainImage.src = '../admin/assets/images/produk/' + data.images[0].gambar;
+
+                data.images.forEach(img => {
+                    let el = document.createElement('img');
+                    el.src = '../admin/assets/images/produk/' + img.gambar;
+                    el.className = 'img-thumbnail';
+                    el.style.width = '60px';
+                    el.style.height = '60px';
+                    el.style.objectFit = 'cover';
+
+                    el.onclick = () => {
+                        mainImage.src = el.src;
+                    };
+
+                    thumbnails.appendChild(el);
+                });
+
+            } else {
+                mainImage.src = '';
+            }
+
+            let komposisi = document.getElementById('detailKomposisi');
+            komposisi.innerHTML = '';
+
+            if (data.komposisi && data.komposisi.length > 0) {
+                data.komposisi.forEach(item => {
+                    let li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center p-1';
+
+                    li.innerHTML = `
+                    <span>${item.nama_buah}</span>
+                    <span class="badge bg-secondary rounded-pill">${item.nama_varietas}</span>
+                `;
+
+                    komposisi.appendChild(li);
+                });
+            } else {
+                komposisi.innerHTML = '<li class="list-group-item">Tidak ada komposisi</li>';
+            }
+
+            let modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+
+        } catch (error) {
+            console.error("Gagal ambil detail:", error);
+            alert("Gagal mengambil data produk");
+        }
+    }
+</script>
