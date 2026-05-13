@@ -26,6 +26,9 @@
    
 
     <div class="grid-py">
+       <?php if (session_status() === PHP_SESSION_NONE) session_start();
+$total_bayar = $_SESSION['total_bayar'] ?? 0;
+?>
 
         <!-- LANGKAH 1 -->
         <div class="card1">
@@ -70,7 +73,7 @@
             <div class="nominal-row">
                 <div>
                     <p class="nom-label">Nominal yang dibayarkan</p>
-                    <p class="nom-amount">Rp 30.000</p>
+                    <p class="nom-amount">Rp <?= number_format($total_bayar) ?></p>
                 </div>
                 <p class="nom-note">*Pastikan jumlah pembayaran sudah sesuai sebelum mengupload bukti pembayaran.</p>
             </div>
@@ -78,7 +81,7 @@
 
         <!-- LANGKAH 2 -->
         <div class="card2">
-            <div class="step-pembayaran-pill"> Langkah 2</div>
+            <div class="step-pembayaran-pill"> Langkah 2s</div>
             <p class="card-title">Upload bukti pembayaran</p>
             <p class="card-desc">Unggah screenshot atau struk pembayaran setelah transaksi berhasil dilakukan.</p>
 
@@ -125,3 +128,81 @@
     </div>
 
 </div>
+<script>
+// ── Preview & enable tombol saat file dipilih ─────────────
+const fileInput  = document.getElementById('fileInput');
+const previewBox = document.getElementById('previewBox');
+const previewThumb = document.getElementById('previewThumb');
+const previewName  = document.getElementById('previewName');
+const previewSize  = document.getElementById('previewSize');
+const confirmBtn   = document.getElementById('confirmBtn');
+const removeBtn    = document.getElementById('removeBtn');
+
+fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    // Validasi ukuran maks 5MB
+    if (file.size > 5 * 1024 * 1024) {
+        alert('File terlalu besar, maksimal 5MB');
+        this.value = '';
+        return;
+    }
+
+    // Tampilkan preview
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        previewThumb.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    previewName.textContent = file.name;
+    previewSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
+    previewBox.style.display = 'flex';
+    confirmBtn.disabled = false; // ← aktifkan tombol
+});
+
+// ── Hapus file yang diupload ──────────────────────────────
+removeBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    fileInput.value      = '';
+    previewBox.style.display = 'none';
+    previewThumb.src     = '';
+    confirmBtn.disabled  = true; // ← nonaktifkan lagi
+});
+
+// ── Konfirmasi pembayaran ─────────────────────────────────
+function handleConfirm() {
+    const file = fileInput.files[0];
+    if (!file) { alert('Upload bukti bayar dulu'); return; }
+
+    confirmBtn.disabled  = true;
+    confirmBtn.innerText = 'Mengirim...';
+
+    const formData = new FormData();
+    formData.append('action', 'konfirmasi');
+    formData.append('bukti_bayar', file);
+
+    fetch('/sghwebv2/ec/costumer/controller/pesananController.php', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(res => {
+        if (res.trim() === 'success') {
+            document.getElementById('successMsg').style.display = 'flex';
+            setTimeout(() => loadPage('costumer/page/pesanan.php'), 2000);
+        } else {
+            alert('Gagal: ' + res);
+            confirmBtn.disabled  = false;
+            confirmBtn.innerText = 'Konfirmasi Pembayaran';
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        confirmBtn.disabled  = false;
+        confirmBtn.innerText = 'Konfirmasi Pembayaran';
+    });
+}
+</script>

@@ -1,78 +1,61 @@
 <?php
+ob_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once __DIR__ . '/../../config/connection.php';
+require_once __DIR__ . '/../../logic/costumer/Apipesanan.php';
 
-class PesananController
-{
-    private $conn;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? null;
 
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
-    }
+    if ($action === 'konfirmasi') {
+        $db   = new Database();
+        $conn = $db->getConnection();
+        $api  = new PesananApi($conn);
 
-    // =========================
-    // GET DATA PESANAN (SELECTED CART)
-    // =========================
-    public function getSelectedProduk($id_costumer, $selected = [])
-    {
-        if (empty($selected)) {
-            return [];
+        $id_costumer = $_SESSION['id'] ?? null;
+        if (!$id_costumer) {
+            ob_end_clean();
+            echo "error: tidak login";
+            exit;
         }
 
-        $ids = implode(",", array_map('intval', $selected));
+        $buynow   = $_SESSION['konfirmasi_buynow'] ?? null; // ← fix di sini
+        $selected = $_SESSION['selected_cart'] ?? [];
 
-        $query = "
-            SELECT
-                keranjang.kuantitas,
-                detail_produk.id AS id_detail,
-                produk.id AS id_produk,
-                produk.nama_produk,
-                produk.harga,
-                produk.deskripsi,
-                varietas.nama_varietas
-            FROM keranjang
-            JOIN detail_produk 
-                ON keranjang.id_detail_produk = detail_produk.id
-            JOIN produk 
-                ON detail_produk.id_produk = produk.id
-            JOIN varietas 
-                ON detail_produk.id_varietas = varietas.id
-            WHERE keranjang.id_detail_produk IN ($ids)
-            AND keranjang.id_costumer = '$id_costumer'
-        ";
-$result = mysqli_query($this->conn, $query);
+        $nomor     = 'ORD-' . time();
+        $bukti     = null;
+        $uploadDir = __DIR__ . '/../../uploads/bukti/';
 
-if (!$result) {
-    echo "<pre>";
-    echo "QUERY ERROR:\n";
-    echo mysqli_error($this->conn);
-    echo "\n\nQUERY:\n";
-    echo $query;
-    echo "</pre>";
-    exit;
-}
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
-        $data = [];
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $data[] = $row;
+        if (isset($_FILES['bukti_bayar']) && $_FILES['bukti_bayar']['error'] === 0) {
+            $ext   = pathinfo($_FILES['bukti_bayar']['name'], PATHINFO_EXTENSION);
+            $bukti = $nomor . '.' . $ext;
+            move_uploaded_file($_FILES['bukti_bayar']['tmp_name'], $uploadDir . $bukti);
         }
 
-        return $data;
-    }
+        $api->insertPesanan($nomor, $id_costumer, $bukti);
 
-    // =========================
-    // HITUNG TOTAL
-    // =========================
-    public function getTotal($items)
-    {
-        $total = 0;
-
-        foreach ($items as $item) {
-            $total += $item['harga'] * $item['kuantitas'];
+        if ($buynow) {
+            $api->insertDetail($nomor, $buynow['id_produk'], (int) $buynow['qty']);
+            unset($_SESSION['konfirmasi_buynow']);
+        } elseif (!empty($selected)) {
+            foreach ($selected as $id_produk) {
+                $item = $api->getKuantitasKeranjang($id_produk, $id_costumer);
+                if ($item) $api->insertDetail($nomor, $id_produk, (int) $item['kuantitas']);
+            }
+            foreach ($selected as $id_produk) {
+                $api->deleteKeranjang($id_produk, $id_costumer);
+            }
+            unset($_SESSION['selected_cart']);
+        } else {
+            ob_end_clean();
+            echo "error: tidak ada produk";
+            exit;
         }
 
-        return $total;
+        ob_end_clean();
+        echo "success";
     }
 }

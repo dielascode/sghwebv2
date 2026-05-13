@@ -1,6 +1,7 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) session_start();
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
 
 require_once __DIR__ . '/../../config/connection.php';
 require_once __DIR__ . '/../../logic/costumer/keranjangApi.php';
@@ -23,22 +24,22 @@ class KeranjangController
     // ── Tampil cart (dipanggil dari view) ────────────────────────────
     public function index(): array
     {
-        $cart     = [];
+        $cart = [];
         $subtotal = 0;
         $totalQty = 0;
 
         $result = $this->api->getCart($this->userId());
 
         while ($item = mysqli_fetch_assoc($result)) {
-            $cart[]    = $item;
+            $cart[] = $item;
             $subtotal += $item['harga'] * $item['kuantitas'];
             $totalQty += $item['kuantitas'];
         }
 
         return [
-            'cart'      => $cart,
-            'subtotal'  => $subtotal,
-            'totalQty'  => $totalQty,
+            'cart' => $cart,
+            'subtotal' => $subtotal,
+            'totalQty' => $totalQty,
             'totalItem' => count($cart),
         ];
     }
@@ -49,31 +50,33 @@ class KeranjangController
         $action = $_POST['action'] ?? null;
 
         match ($action) {
-            'add'            => $this->add(),
-            'get_total'      => $this->getTotal(),
-            'kuantitas'      => $this->updateKuantitas(),
-            'delete_selected'=> $this->deleteSelected(),
-            'set_selected'   => $this->setSelected(),
-            default          => http_response_code(400),
-        };
+    'add'            => $this->add(),
+    'get_total'      => $this->getTotal(),
+    'kuantitas'      => $this->updateKuantitas(),
+    'delete_selected'=> $this->deleteSelected(),
+    'set_selected'   => $this->setSelected(),
+    'set_buynow'     => $this->setBuyNow(), // ← tambah ini
+    'clear_buynow'   => $this->clearBuyNow(), // ← tambah ini
+    default          => http_response_code(400),
+};
     }
 
     // ── Add to cart ──────────────────────────────────────────────────
     public function add(): void
     {
-        $uid       = $this->userId() ?: die("SESSION KOSONG");
-        $id_detail = $_POST['id_detail'] ?? null ?: die("ID produk kosong");
+        $uid = $this->userId() ?: die("SESSION KOSONG");
+        $id_produk = $_POST['id_produk'] ?? null ?: die("ID produk kosong");
         $kuantitas = (int) ($_POST['kuantitas'] ?? 1);
 
-        if (!mysqli_fetch_assoc($this->api->getProduk($id_detail))) {
+        if (!mysqli_fetch_assoc($this->api->getProduk($id_produk))) {
             die("produk tidak ditemukan");
         }
 
-        $exists = mysqli_num_rows($this->api->checkCart($id_detail, $uid)) > 0;
+        $exists = mysqli_num_rows($this->api->checkCart($id_produk, $uid)) > 0;
 
         $exists
-            ? $this->api->updateCart($kuantitas, $id_detail, $uid)
-            : $this->api->insertCart($this->api->generateId(), $id_detail, $uid, $kuantitas);
+            ? $this->api->updateCart($kuantitas, $id_produk, $uid)
+            : $this->api->insertCart($this->api->generateId(), $id_produk, $uid, $kuantitas);
 
         echo "success";
     }
@@ -83,7 +86,10 @@ class KeranjangController
     {
         $uid = $this->userId();
 
-        if (!$uid) { echo 0; return; }
+        if (!$uid) {
+            echo 0;
+            return;
+        }
 
         $row = mysqli_fetch_assoc($this->api->getTotalCart($uid));
 
@@ -91,24 +97,39 @@ class KeranjangController
     }
 
     // ── Update kuantitas ─────────────────────────────────────────────
-    public function updateKuantitas(): void
-    {
-        $uid       = $this->userId();
-        $id_detail = $_POST['id_detail'] ?? null ?: die("ID kosong");
-        $delta     = (int) ($_POST['kuantitas'] ?? 0);
+ public function updateKuantitas(): void
+{
+    $uid       = $this->userId();
+    $id_produk = $_POST['id_produk'] ?? null;
+    $delta     = (int) ($_POST['kuantitas'] ?? 0);
 
-        $item = mysqli_fetch_assoc(
-            $this->api->getKuantitasCart($id_detail, $uid)
-        ) ?: die("produk tidak ditemukan");
+    // Tambah ini sementara
+    error_log("DEBUG uid: $uid | id_produk: $id_produk | delta: $delta");
 
-        $new = $item['kuantitas'] + $delta;
-
-        $new <= 0
-            ? $this->api->deleteCart($id_detail, $uid)
-            : $this->api->setKuantitas($new, $id_detail, $uid);
-
-        echo "success";
+    if (!$id_produk) {
+        echo "error: ID produk kosong";
+        return;
     }
+
+    $result = $this->api->getKuantitasCart($id_produk, $uid);
+    $item   = mysqli_fetch_assoc($result);
+
+    // Tambah ini sementara
+    error_log("DEBUG item: " . json_encode($item));
+
+    if (!$item) {
+        echo "error: produk tidak ditemukan";
+        return;
+    }
+
+    $new = $item['kuantitas'] + $delta;
+
+    $new <= 0
+        ? $this->api->deleteCart($id_produk, $uid)
+        : $this->api->setKuantitas($new, $id_produk, $uid);
+
+    echo "success";
+}
 
     // ── Delete selected ──────────────────────────────────────────────
     public function deleteSelected(): void
@@ -116,7 +137,8 @@ class KeranjangController
         $uid = $this->userId();
         $ids = json_decode($_POST['ids'] ?? '[]', true);
 
-        if (!is_array($ids) || empty($ids)) die("data kosong");
+        if (!is_array($ids) || empty($ids))
+            die("data kosong");
 
         foreach ($ids as $id) {
             $this->api->deleteCart($id, $uid);
@@ -130,17 +152,45 @@ class KeranjangController
     {
         $ids = json_decode($_POST['ids'] ?? '[]', true);
 
-        if (!is_array($ids) || empty($ids)) { echo "invalid"; return; }
+        if (!is_array($ids) || empty($ids)) {
+            echo "invalid";
+            return;
+        }
 
         $_SESSION['selected_cart'] = $ids;
 
         echo "success";
     }
+    // ── Set buy now ke session ───────────────────────────────────
+public function setBuyNow(): void
+{
+    $id_produk = $_POST['id_produk'] ?? null;
+    $qty       = (int) ($_POST['qty'] ?? 1);
+
+    if (!$id_produk) {
+        echo "error: ID produk kosong";
+        return;
+    }
+
+    $_SESSION['buynow'] = [
+        'id_produk' => $id_produk,
+        'qty'       => $qty
+    ];
+
+    echo "success";
+}
+// ── Clear buy now dari session ───────────────────────────────
+public function clearBuyNow(): void
+{
+    unset($_SESSION['buynow']);
+    echo "success";
+}
 }
 
 // ── Endpoint AJAX ────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $db   = new Database();
+    $db = new Database();
     $ctrl = new KeranjangController($db->getConnection());
     $ctrl->handleRequest();
+    
 }
