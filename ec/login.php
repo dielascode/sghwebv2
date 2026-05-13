@@ -23,6 +23,12 @@ if (isset($_POST['login'])) {
             <form method="POST">
                 <h1>Log In</h1>
 
+                <?php if (isset($_SESSION['error'])): ?>
+                    <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['success'])): ?>
+                    <p style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
+                <?php endif; ?>
 
                 <input type="email" name="email" placeholder="Email" required />
                 <input type="password" name="password" placeholder="Password" required />

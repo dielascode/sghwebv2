@@ -54,7 +54,7 @@ if (isset($_FILES['profile_image']) &&
     // PATH UPLOAD
     // =====================================
     $upload_path =
-        __DIR__ . '/../../images/profile/' . $foto_baru;
+        __DIR__ . '/../../../asset/image/profile/' . $foto_baru;
 
     // =====================================
     // UPLOAD FILE
@@ -67,7 +67,7 @@ if (isset($_FILES['profile_image']) &&
         if (!empty($data['foto_profil'])) {
 
             $old =
-                __DIR__ . '/../../images/profile/' .
+                __DIR__ . '/../../../asset/image/profile/' .
                 $data['foto_profil'];
 
             if (

@@ -18,13 +18,13 @@ if (isset($_POST['register'])) {
 	<div class="container right-panel-active" id="container">
 		<div class="form-container sign-up-container">
 			<form method="POST">
-				<h1>Sign Up</h1>
+				<h1>Mendaftar</h1>
 
-				<input type="text" name="nama" placeholder="Name" required />
+				<input type="text" name="nama" placeholder="Nama" required />
 				<input type="email" name="email" placeholder="Email" required />
-				<input type="text" name="nomor_telepon" placeholder="Phone Number" required />
+				<input type="text" name="nomor_telepon" placeholder="Nomor Telepon" required />
 				<input type="password" name="password" placeholder="Password" required />
-				<input type="password" name="confirm_password" placeholder="Confirm Password" required />
+				<input type="password" name="confirm_password" placeholder="Konfirmasi Password" required />
 
 				<button type="submit" name="register">Buat Akun</button>
 			</form>

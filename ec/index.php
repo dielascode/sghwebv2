@@ -51,6 +51,6 @@
     <script src="/sghwebv2/ec/js/keranjang.js"></script>
     <script src="/sghwebv2/ec/js/katalog.js"></script>
     <script src="/sghwebv2/ec/js/profile.js"></script>
-    <script src="/sghwebv2/ec/js/nilai-produk.js"></script>
+    <script src="/sghwebv2/ec/js/pesanan-nilai-invoice.js"></script>
 </body>
 </html>
