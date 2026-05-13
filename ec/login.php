@@ -21,7 +21,7 @@ if (isset($_POST['login'])) {
     <div class="container" id="container">
         <div class="form-container sign-in-container">
             <form method="POST">
-                <h1>Log In</h1>
+                <h1>Masuk</h1>
 
                 <?php if (isset($_SESSION['error'])): ?>
                     <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
@@ -41,11 +41,11 @@ if (isset($_POST['login'])) {
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-right">
-                    <h1>Masuk ke Akun Anda</h1>
+                    <h1>Daftarkan Akun Anda</h1>
                     <p>Silakan masuk menggunakan email dan kata sandi <br> yang telah terdaftar untuk melanjutkan.
-                        <br>Jika belum memiliki akun maka lakukan Sign Up dibawah.</p>
+                        <br>Jika belum memiliki akun maka lakukan Daftar Sekarang.</p>
                     <button class="ghost switch-btn" data-target="registrasi.php" data-mode="sign-up">
-                        Sign Up
+                        Daftar Sekarang
                     </button>
                 </div>
             </div>

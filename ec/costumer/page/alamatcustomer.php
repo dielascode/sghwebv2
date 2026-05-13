@@ -3,10 +3,10 @@ session_start();
 require '../../config/connection.php';
 
 $db          = (new Database())->getConnection();
-$id_costumer = $_SESSION['id_costumer'];
+$id_costumer = $_SESSION['id'];
 
-$stmt = $db->prepare("SELECT * FROM alamat_costumer WHERE id_costumer = ? ORDER BY FIELD(status, 'utama', 'bukan')");
-$stmt->bind_param("i", $id_costumer);
+$stmt = $db->prepare("SELECT * FROM alamat_costumer WHERE id_costumer = ? ORDER BY FIELD(status, 'utama', 'bukan'), id DESC");
+$stmt->bind_param("s", $id_costumer);
 $stmt->execute();
 $alamat_list = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
@@ -62,8 +62,7 @@ unset($row);
                 <div class="alamat-top">
                     <div class="user-info">
                         <i class="fa-regular fa-user icon"></i>
-                        <span class="nama"><?= htmlspecialchars($d['nama_lengkap'] ?? '') ?></span>
-                        <span class="phone">| <?= htmlspecialchars($d['no_telp'] ?? '') ?></span>
+                        <span class="nama">Alamat Pengiriman</span>
                     </div>
 
                     <div class="aksi">
@@ -72,8 +71,6 @@ unset($row);
                            data-bs-toggle="modal"
                            data-bs-target="#modalAlamat"
                            data-id="<?= $alamat['id'] ?>"
-                           data-nama="<?= htmlspecialchars($d['nama_lengkap'] ?? '') ?>"
-                           data-telp="<?= htmlspecialchars($d['no_telp'] ?? '') ?>"
                            data-provinsi-id="<?= htmlspecialchars($d['provinsi_id'] ?? '') ?>"
                            data-kota-id="<?= htmlspecialchars($d['kota_id'] ?? '') ?>"
                            data-kecamatan-id="<?= htmlspecialchars($d['kecamatan_id'] ?? '') ?>"
@@ -85,7 +82,7 @@ unset($row);
 
                         <!-- Hapus hanya muncul untuk alamat bukan utama -->
                         <?php if ($alamat['status'] !== 'utama'): ?>
-                        <a href="proses_alamat.php?action=hapus&id=<?= $alamat['id'] ?>"
+                        <a href="/sghwebv2/ec/costumer/page/proses_alamat.php?action=hapus&id=<?= $alamat['id'] ?>"
                            class="hapus"
                            onclick="return confirm('Yakin ingin menghapus alamat ini?')">
                             <i class="fa-solid fa-trash"></i> Hapus
@@ -114,7 +111,7 @@ unset($row);
                         </span>
                     <?php else: ?>
                         <button class="btn-outline"
-                                onclick="window.location.href='proses_alamat.php?action=set_utama&id=<?= $alamat['id'] ?>'">
+                                onclick="window.location.href='/sghwebv2/ec/costumer/page/proses_alamat.php?action=set_utama&id=<?= $alamat['id'] ?>'">
                             Atur Sebagai Utama
                         </button>
                     <?php endif; ?>
@@ -132,48 +129,30 @@ unset($row);
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formAlamat" action="proses_alamat.php?action=simpan" method="POST">
+                            <form id="formAlamat" action="/sghwebv2/ec/costumer/page/proses_alamat.php?action=simpan" method="POST">
 
                                 <!-- Hidden: id untuk mode ubah -->
                                 <input type="hidden" name="id" id="inputId">
                                 <!-- Hidden: JSON alamat lengkap yang dikirim ke server -->
                                 <input type="hidden" name="alamat_json" id="hiddenAlamatJson">
 
-                                <!-- Nama & Telepon -->
-                                <div class="row g-3 mb-4">
-                                    <div class="col-md-6">
-                                        <div class="form-floating-custom">
-                                            <label class="label-floating">Nama Lengkap</label>
-                                            <input type="text" name="nama_lengkap" id="inputNama"
-                                                   class="form-control custom-input" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating-custom">
-                                            <label class="label-floating">Nomor Telepon</label>
-                                            <input type="text" name="no_telp" id="inputTelp"
-                                                   class="form-control custom-input" required>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- Provinsi & Kota otomatis -->
+                                <input type="hidden" name="provinsi_id" value="35">
+                                <input type="hidden" name="provinsi" value="Jawa Timur">
+                                <input type="hidden" name="kota_id" value="3508">
+                                <input type="hidden" name="kota" value="Jember">
 
-                                <!-- Provinsi -->
                                 <div class="mb-3">
                                     <div class="form-floating-custom">
                                         <label class="label-floating">Provinsi</label>
-                                        <select class="form-select custom-input" id="selectProvinsi">
-                                            <option value="">-- Pilih Provinsi --</option>
-                                        </select>
+                                        <input type="text" class="form-control custom-input" value="Jawa Timur" disabled>
                                     </div>
                                 </div>
 
-                                <!-- Kota/Kabupaten -->
                                 <div class="mb-3">
                                     <div class="form-floating-custom">
                                         <label class="label-floating">Kabupaten / Kota</label>
-                                        <select class="form-select custom-input" id="selectKota" disabled>
-                                            <option value="">-- Pilih Kabupaten/Kota --</option>
-                                        </select>
+                                        <input type="text" class="form-control custom-input" value="Jember" disabled>
                                     </div>
                                 </div>
 
@@ -181,9 +160,8 @@ unset($row);
                                 <div class="mb-3">
                                     <div class="form-floating-custom">
                                         <label class="label-floating">Kecamatan</label>
-                                        <select class="form-select custom-input" id="selectKecamatan" disabled>
-                                            <option value="">-- Pilih Kecamatan --</option>
-                                        </select>
+                                        <input type="text" class="form-control custom-input" id="inputKecamatan" name="kecamatan"
+                                               placeholder="Contoh: Kaliwates">
                                     </div>
                                 </div>
 
@@ -191,57 +169,26 @@ unset($row);
                                 <div class="mb-4">
                                     <div class="form-floating-custom">
                                         <label class="label-floating">Kelurahan / Desa</label>
-                                        <select class="form-select custom-input" id="selectKelurahan" disabled>
-                                            <option value="">-- Pilih Kelurahan --</option>
-                                        </select>
+                                        <input type="text" class="form-control custom-input" id="inputKelurahan" name="kelurahan"
+                                               placeholder="Contoh: Tegal Besar">
                                     </div>
                                 </div>
 
-                                <!-- Nama Jalan + Autocomplete Nominatim -->
-                                <div class="mb-4" style="position: relative;">
+                                <!-- Nama Jalan, Gedung, No. Rumah -->
+                                <div class="mb-4">
                                     <div class="form-floating-custom">
                                         <label class="label-floating">Nama Jalan, Gedung, No. Rumah</label>
-                                        <!-- FIX BUG 1: Tambah name="jalan" -->
                                         <textarea class="form-control custom-input" id="inputJalan"
                                                   name="jalan" rows="2" autocomplete="off"></textarea>
                                     </div>
-                                    <!-- Dropdown hasil autocomplete -->
-                                    <ul id="autocompleteList" style="
-                                        display: none;
-                                        position: absolute;
-                                        z-index: 9999;
-                                        background: #fff;
-                                        border: 1px solid #ddd;
-                                        border-radius: 8px;
-                                        width: 100%;
-                                        max-height: 200px;
-                                        overflow-y: auto;
-                                        list-style: none;
-                                        padding: 0;
-                                        margin: 0;
-                                        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                                    "></ul>
                                 </div>
 
                                 <!-- Detail Lainnya -->
                                 <div class="mb-4">
                                     <div class="form-floating-custom">
                                         <label class="label-floating">Detail Lainnya</label>
-                                        <!-- FIX BUG 1: Tambah name="detail" -->
                                         <input type="text" id="inputDetail" name="detail" class="form-control custom-input"
                                                placeholder="Contoh: Patokan, warna pagar, dll">
-                                    </div>
-                                </div>
-
-                                <!-- Peta (OpenStreetMap embed) -->
-                                <div class="mb-4">
-                                    <div class="map-container border overflow-hidden"
-                                         style="height: 200px; position: relative;">
-                                        <iframe id="mapFrame"
-                                            src="https://www.openstreetmap.org/export/embed.html?bbox=113.5800,-8.2200,113.7800,-8.0800&layer=mapnik"
-                                            width="100%" height="100%" style="border:0;"
-                                            allowfullscreen="" loading="lazy">
-                                        </iframe>
                                     </div>
                                 </div>
 
@@ -267,152 +214,29 @@ unset($row);
 <script>
 // ================================================================
 // KONFIGURASI
-// FIX BUG 3: Ganti emsifa.com (sering down) ke mirror ibnux yang lebih stabil
 // ================================================================
-const BASE_WILAYAH = 'https://wilayah.id/api';
-// Elemen dropdown
-const selProvinsi  = document.getElementById('selectProvinsi');
-const selKota      = document.getElementById('selectKota');
-const selKecamatan = document.getElementById('selectKecamatan');
-const selKelurahan = document.getElementById('selectKelurahan');
+const DEFAULT_PROVINSI_ID = '35'; // Jawa Timur
+const DEFAULT_KOTA_ID = '3508';   // Jember
 
 // Elemen input
-const inputJalan  = document.getElementById('inputJalan');
-const inputDetail = document.getElementById('inputDetail');
-const inputNama   = document.getElementById('inputNama');
-const inputTelp   = document.getElementById('inputTelp');
-const inputId     = document.getElementById('inputId');
-const acList      = document.getElementById('autocompleteList');
-const mapFrame    = document.getElementById('mapFrame');
+const inputKecamatan   = document.getElementById('inputKecamatan');
+const inputKelurahan   = document.getElementById('inputKelurahan');
+const inputJalan       = document.getElementById('inputJalan');
+const inputDetail      = document.getElementById('inputDetail');
+const inputId          = document.getElementById('inputId');
+const hiddenAlamatJson = document.getElementById('hiddenAlamatJson');
 
 // Objek penampung data wilayah yang dipilih
 let wilayah = {
-    provinsi_id: '', provinsi: '',
-    kota_id: '',     kota: '',
-    kecamatan_id: '', kecamatan: '',
-    kelurahan_id: '', kelurahan: ''
+    provinsi_id: DEFAULT_PROVINSI_ID,
+    provinsi   : 'Jawa Timur',
+    kota_id    : DEFAULT_KOTA_ID,
+    kota       : 'Jember',
+    kecamatan_id: '',
+    kecamatan   : '',
+    kelurahan_id: '',
+    kelurahan   : ''
 };
-
-// ================================================================
-// FUNGSI LOAD API WILAYAH
-// FIX BUG 3: Sesuaikan endpoint dengan format ibnux.github.io
-// ================================================================
-const BASE_WILAYAH = 'https://wilayah.id/api';
-
-async function loadProvinsi() {
-    try {
-        const res  = await fetch(`${BASE_WILAYAH}/provinces.json`);
-        const json = await res.json();
-        const data = json.data;
-        selProvinsi.innerHTML = '<option value="">-- Pilih Provinsi --</option>';
-        data.forEach(p => {
-            selProvinsi.innerHTML += `<option value="${p.code}">${p.name}</option>`;
-        });
-    } catch(e) {
-        console.error('Gagal load provinsi:', e);
-        alert('Gagal memuat data provinsi. Coba refresh halaman.');
-    }
-}
-
-async function loadKota(provinsiCode) {
-    try {
-        selKota.innerHTML = '<option value="">Memuat...</option>';
-        const res  = await fetch(`${BASE_WILAYAH}/regencies/${provinsiCode}.json`);
-        const json = await res.json();
-        const data = json.data;
-        selKota.innerHTML = '<option value="">-- Pilih Kabupaten/Kota --</option>';
-        data.forEach(k => {
-            selKota.innerHTML += `<option value="${k.code}">${k.name}</option>`;
-        });
-        selKota.disabled = false;
-    } catch(e) {
-        console.error('Gagal load kota:', e);
-    }
-}
-
-async function loadKecamatan(kotaCode) {
-    try {
-        selKecamatan.innerHTML = '<option value="">Memuat...</option>';
-        const res  = await fetch(`${BASE_WILAYAH}/districts/${kotaCode}.json`);
-        const json = await res.json();
-        const data = json.data;
-        selKecamatan.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
-        data.forEach(k => {
-            selKecamatan.innerHTML += `<option value="${k.code}">${k.name}</option>`;
-        });
-        selKecamatan.disabled = false;
-    } catch(e) {
-        console.error('Gagal load kecamatan:', e);
-    }
-}
-
-async function loadKelurahan(kecamatanCode) {
-    try {
-        selKelurahan.innerHTML = '<option value="">Memuat...</option>';
-        const res  = await fetch(`${BASE_WILAYAH}/villages/${kecamatanCode}.json`);
-        const json = await res.json();
-        const data = json.data;
-        selKelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-        data.forEach(k => {
-            selKelurahan.innerHTML += `<option value="${k.code}">${k.name}</option>`;
-        });
-        selKelurahan.disabled = false;
-    } catch(e) {
-        console.error('Gagal load kelurahan:', e);
-    }
-}
-    selKelurahan.innerHTML = '<option value="">Memuat...</option>';
-    const data = await fetch(`${BASE_WILAYAH}/kelurahan/${kecamatanId}.json`).then(r => r.json());
-    selKelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-    data.forEach(k => {
-        selKelurahan.innerHTML += `<option value="${k.id}">${k.nama}</option>`;
-    });
-    selKelurahan.disabled = false;
-}
-
-function resetDropdownBawah(dari) {
-    if (dari === 'provinsi') {
-        selKota.innerHTML = '<option value="">-- Pilih Kabupaten/Kota --</option>';
-        selKota.disabled = true;
-    }
-    selKecamatan.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
-    selKecamatan.disabled = true;
-    selKelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-    selKelurahan.disabled = true;
-}
-
-// ================================================================
-// EVENT CHANGE DROPDOWN
-// ================================================================
-selProvinsi.addEventListener('change', async function () {
-    wilayah.provinsi_id = this.value;
-    wilayah.provinsi    = this.options[this.selectedIndex].text;
-    resetDropdownBawah('provinsi');
-    if (this.value) await loadKota(this.value);
-});
-
-selKota.addEventListener('change', async function () {
-    wilayah.kota_id = this.value;
-    wilayah.kota    = this.options[this.selectedIndex].text;
-    selKecamatan.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
-    selKecamatan.disabled = true;
-    selKelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-    selKelurahan.disabled = true;
-    if (this.value) await loadKecamatan(this.value);
-});
-
-selKecamatan.addEventListener('change', async function () {
-    wilayah.kecamatan_id = this.value;
-    wilayah.kecamatan    = this.options[this.selectedIndex].text;
-    selKelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-    selKelurahan.disabled = true;
-    if (this.value) await loadKelurahan(this.value);
-});
-
-selKelurahan.addEventListener('change', function () {
-    wilayah.kelurahan_id = this.value;
-    wilayah.kelurahan    = this.options[this.selectedIndex].text;
-});
 
 // ================================================================
 // MODAL EVENTS
@@ -420,103 +244,61 @@ selKelurahan.addEventListener('change', function () {
 const modalEl    = document.getElementById('modalAlamat');
 const modalTitle = document.getElementById('modalAlamatLabel');
 
-modalEl.addEventListener('show.bs.modal', async function (event) {
+modalEl.addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
+    hiddenAlamatJson.value = '';
+
+    inputId.value        = '';
+    inputJalan.value     = '';
+    inputDetail.value    = '';
+    inputKecamatan.value = '';
+    inputKelurahan.value = '';
+
+    wilayah = {
+        provinsi_id: DEFAULT_PROVINSI_ID,
+        provinsi   : 'Jawa Timur',
+        kota_id    : DEFAULT_KOTA_ID,
+        kota       : 'Jember',
+        kecamatan_id: '',
+        kecamatan   : '',
+        kelurahan_id: '',
+        kelurahan   : ''
+    };
 
     if (btn && btn.dataset.id) {
-        // ── MODE UBAH ──────────────────────────────
         modalTitle.innerText = 'Ubah Alamat';
+        inputId.value        = btn.dataset.id;
+        inputJalan.value     = btn.dataset.jalan;
+        inputDetail.value    = btn.dataset.detail;
+        inputKecamatan.value = btn.dataset.kecamatan || '';
+        inputKelurahan.value = btn.dataset.kelurahan || '';
 
-        inputId.value     = btn.dataset.id;
-        inputNama.value   = btn.dataset.nama;
-        inputTelp.value   = btn.dataset.telp;
-        inputJalan.value  = btn.dataset.jalan;
-        inputDetail.value = btn.dataset.detail;
-
-        const pId = btn.dataset.provinsiId;
-        const kId = btn.dataset.kotaId;
-        const cId = btn.dataset.kecamatanId;
-        const lId = btn.dataset.kelurahanId;
-
-        // FIX BUG 2: Load provinsi dulu sebelum set value,
-        // lalu load bertahap dengan urutan yang benar agar
-        // nama wilayah terbaca dengan tepat dari selectedIndex
-        await loadProvinsi();
-        selProvinsi.value       = pId;
-        wilayah.provinsi_id     = pId;
-        wilayah.provinsi        = selProvinsi.options[selProvinsi.selectedIndex]?.text ?? '';
-
-        await loadKota(pId);
-        selKota.value       = kId;
-        wilayah.kota_id     = kId;
-        wilayah.kota        = selKota.options[selKota.selectedIndex]?.text ?? '';
-
-        await loadKecamatan(kId);
-        selKecamatan.value       = cId;
-        wilayah.kecamatan_id     = cId;
-        wilayah.kecamatan        = selKecamatan.options[selKecamatan.selectedIndex]?.text ?? '';
-
-        await loadKelurahan(cId);
-        selKelurahan.value       = lId;
-        wilayah.kelurahan_id     = lId;
-        wilayah.kelurahan        = selKelurahan.options[selKelurahan.selectedIndex]?.text ?? '';
-
+        wilayah.kecamatan_id = inputKecamatan.value.trim();
+        wilayah.kecamatan    = inputKecamatan.value.trim();
+        wilayah.kelurahan_id = inputKelurahan.value.trim();
+        wilayah.kelurahan    = inputKelurahan.value.trim();
     } else {
-        // ── MODE TAMBAH ────────────────────────────
         modalTitle.innerText = 'Tambah Alamat';
-
-        inputId.value     = '';
-        inputNama.value   = '';
-        inputTelp.value   = '';
-        inputJalan.value  = '';
-        inputDetail.value = '';
-        resetDropdownBawah('provinsi');
-        selProvinsi.value = '';
-
-        // Load provinsi pertama kali saja
-        if (selProvinsi.options.length <= 1) {
-            selProvinsi.innerHTML = '<option value="">Memuat provinsi...</option>';
-            await loadProvinsi();
-        }
-
-        wilayah = {
-            provinsi_id: '', provinsi: '',
-            kota_id: '',     kota: '',
-            kecamatan_id: '', kecamatan: '',
-            kelurahan_id: '', kelurahan: ''
-        };
-
-        // Reset peta ke Jember
-        mapFrame.src = 'https://www.openstreetmap.org/export/embed.html?bbox=113.5800,-8.2200,113.7800,-8.0800&layer=mapnik';
     }
 });
 
 // ================================================================
 // SUBMIT FORM — Gabung semua jadi JSON lalu kirim
-// FIX BUG 4: Tambah validasi wilayah sebelum submit
 // ================================================================
 document.getElementById('formAlamat').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Validasi: pastikan semua dropdown wilayah sudah dipilih
-    if (!wilayah.provinsi_id) {
-        alert('Mohon pilih Provinsi terlebih dahulu.');
-        selProvinsi.focus();
+    const kecamatanValue = inputKecamatan.value.trim();
+    const kelurahanValue = inputKelurahan.value.trim();
+
+    if (!kecamatanValue) {
+        alert('Mohon isi Kecamatan terlebih dahulu.');
+        inputKecamatan.focus();
         return;
     }
-    if (!wilayah.kota_id) {
-        alert('Mohon pilih Kabupaten/Kota terlebih dahulu.');
-        selKota.focus();
-        return;
-    }
-    if (!wilayah.kecamatan_id) {
-        alert('Mohon pilih Kecamatan terlebih dahulu.');
-        selKecamatan.focus();
-        return;
-    }
-    if (!wilayah.kelurahan_id) {
-        alert('Mohon pilih Kelurahan terlebih dahulu.');
-        selKelurahan.focus();
+    if (!kelurahanValue) {
+        alert('Mohon isi Kelurahan terlebih dahulu.');
+        inputKelurahan.focus();
         return;
     }
     if (!inputJalan.value.trim()) {
@@ -525,9 +307,12 @@ document.getElementById('formAlamat').addEventListener('submit', function (e) {
         return;
     }
 
+    wilayah.kecamatan_id = kecamatanValue;
+    wilayah.kecamatan    = kecamatanValue;
+    wilayah.kelurahan_id = kelurahanValue;
+    wilayah.kelurahan    = kelurahanValue;
+
     const alamatJSON = JSON.stringify({
-        nama_lengkap : inputNama.value.trim(),
-        no_telp      : inputTelp.value.trim(),
         provinsi_id  : wilayah.provinsi_id,
         provinsi     : wilayah.provinsi,
         kota_id      : wilayah.kota_id,
@@ -540,72 +325,8 @@ document.getElementById('formAlamat').addEventListener('submit', function (e) {
         detail       : inputDetail.value.trim(),
     });
 
-    document.getElementById('hiddenAlamatJson').value = alamatJSON;
+    hiddenAlamatJson.value = alamatJSON;
     this.submit();
-});
-
-// ================================================================
-// AUTOCOMPLETE NAMA JALAN — Nominatim OpenStreetMap
-// ================================================================
-let debounceTimer;
-
-inputJalan.addEventListener('input', function () {
-    clearTimeout(debounceTimer);
-    const q = this.value.trim();
-
-    if (q.length < 3) {
-        acList.style.display = 'none';
-        return;
-    }
-
-    debounceTimer = setTimeout(async () => {
-        // Sertakan nama kota agar hasil lebih relevan
-        const kotaQ = wilayah.kota || 'Indonesia';
-
-        try {
-            const res  = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q + ' ' + kotaQ)}&countrycodes=id&limit=5&addressdetails=1`,
-                { headers: { 'Accept-Language': 'id' } }
-            );
-            const data = await res.json();
-
-            if (!data.length) {
-                acList.style.display = 'none';
-                return;
-            }
-
-            acList.innerHTML = '';
-            data.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item.display_name;
-                li.style.cssText = 'padding:10px 14px; cursor:pointer; font-size:13px; border-bottom:1px solid #f0f0f0;';
-                li.addEventListener('mouseenter', () => li.style.background = '#f5f5f5');
-                li.addEventListener('mouseleave', () => li.style.background = '#fff');
-                li.addEventListener('click', () => {
-                    inputJalan.value       = item.display_name;
-                    acList.style.display   = 'none';
-
-                    // Update peta ke lokasi yang dipilih
-                    const lat = parseFloat(item.lat);
-                    const lon = parseFloat(item.lon);
-                    const delta = 0.005;
-                    mapFrame.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta},${lat - delta},${lon + delta},${lat + delta}&layer=mapnik&marker=${lat},${lon}`;
-                });
-                acList.appendChild(li);
-            });
-
-            acList.style.display = 'block';
-        } catch (err) {
-            console.error('Autocomplete error:', err);
-        }
-    }, 500);
-});
-
-// Tutup autocomplete saat klik di luar
-document.addEventListener('click', function (e) {
-    if (!inputJalan.contains(e.target) && !acList.contains(e.target)) {
-        acList.style.display = 'none';
-    }
 });
 </script>
 
