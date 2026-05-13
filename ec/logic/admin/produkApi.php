@@ -20,20 +20,13 @@ class Produk
 
     public function getVarietas()
     {
-        $query = "SELECT 
-                    v.id,
-                    v.nama_varietas,
-                    v.id_buah,
-                    b.nama_buah
-                  FROM $this->table3 v
-                  JOIN buah b ON v.id_buah = b.id";
-
-        return $this->conn->query($query);
+        $result = $this->conn->query("SELECT id, nama_varietas, id_buah FROM varietas");
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getProduk()
     {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table ORDER BY stok ASC";
         return $this->conn->query($query);
     }
 
@@ -76,7 +69,7 @@ class Produk
     public function getTotalProductMinStats()
     {
         $query = "SELECT 
-                COUNT(*) as total_produk
+                COUNT(*) as total_produk_min
               FROM $this->table WHERE stok <= 10";
 
         $result = $this->conn->query($query);
@@ -85,7 +78,7 @@ class Produk
     public function getTotalProductMaxStats()
     {
         $query = "SELECT 
-                COUNT(*) as total_produk
+                COUNT(*) as total_produk_max
               FROM $this->table WHERE stok >= 10";
 
         $result = $this->conn->query($query);
@@ -233,6 +226,4 @@ class Produk
             "message" => "Produk berhasil dihapus"
         ];
     }
-
-
 }

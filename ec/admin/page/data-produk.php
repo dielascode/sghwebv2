@@ -51,7 +51,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">Total Products</h6>
-                                <h3 class="mb-0" ><?= $total_product['total_produk']; ?></h3>
+                                <h3 class="mb-0"><?= $total_product['total_produk']; ?></h3>
                                 <small class="text-success">
                                     <i class="bi bi-arrow-up"></i> +5% from last month
                                 </small>
@@ -69,7 +69,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">In Stock</h6>
-                                <h3 class="mb-0"><?= $total_product_max['total_produk']; ?></h3>
+                                <h3 class="mb-0"><?= $total_product_max['total_produk_max']; ?></h3>
                                 <small class="text-success">
                                     <i class="bi bi-arrow-up"></i> Well stocked
                                 </small>
@@ -87,7 +87,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">Low Stock</h6>
-                                <h3 class="mb-0"><?= $total_product_max['total_produk']; ?></h3>
+                                <h3 class="mb-0"><?= $total_product_min['total_produk_min']; ?></h3>
                                 <small class="text-warning">
                                     <i class="bi bi-exclamation-circle"></i> Needs attention
                                 </small>
@@ -323,63 +323,49 @@ if (!$result) {
     let oldImages = [];
     let editId = null;
 
-    async function deleteProduk(id) {
+    const semuaVarietas = <?= json_encode($varietas); ?>;
+    console.log(semuaVarietas);
 
+    async function deleteProduk(id) {
         if (!confirm("Yakin mau hapus produk ini?")) return;
 
-        try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
-            let res = await fetch(`${baseUrl}?action=delete&id=${id}`, {
-                method: 'GET'
-            });
+        let res = await fetch(`${baseUrl}?action=delete&id=${id}`);
+        let result = await res.json();
 
-            let result = await res.json();
-
-            if (result.status) {
-                alert("Berhasil dihapus!");
-                location.reload();
-            } else {
-                alert("Gagal: " + result.message);
-            }
-
-        } catch (err) {
-            console.error(err);
-            alert("Terjadi error");
+        if (result.status) {
+            alert("Berhasil dihapus!");
+            location.reload();
+        } else {
+            alert("Gagal: " + result.message);
         }
     }
 
     async function openEdit(id) {
-        try {
-            editId = id;
+        editId = id;
 
-            const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
-            const data = await res.json();
+        const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+        const data = await res.json();
 
-            document.getElementById('nama_produk').value = data.nama_produk;
-            document.getElementById('tipe').value = data.tipe;
-            document.getElementById('harga').value = data.harga;
-            document.getElementById('stok').value = data.stok;
-            document.getElementById('deskripsi').value = data.deskripsi;
+        document.getElementById('nama_produk').value = data.nama_produk;
+        document.getElementById('tipe').value = data.tipe;
+        document.getElementById('harga').value = data.harga;
+        document.getElementById('stok').value = data.stok;
+        document.getElementById('deskripsi').value = data.deskripsi;
 
-            items = data.komposisi.map(item => ({
-                id_buah: item.id_buah,
-                id_varietas: item.id_varietas
-            }));
+        items = data.komposisi.map(item => ({
+            id_buah: item.id_buah,
+            id_varietas: item.id_varietas
+        }));
 
-            renderItems();
+        oldImages = data.images || [];
+        images = [];
 
-            oldImages = data.images || [];
-            images = [];
+        renderItems();
+        renderImages();
 
-            renderImages();
-
-            new bootstrap.Modal(document.getElementById('productModal')).show();
-
-        } catch (err) {
-            console.error(err);
-            alert("Gagal ambil data");
-        }
+        new bootstrap.Modal(document.getElementById('productModal')).show();
     }
 
     function renderItems() {
@@ -392,10 +378,12 @@ if (!$result) {
             <div class="row g-2 mb-2">
 
                 <div class="col-md-5">
-                    <select class="form-select" onchange="updateItem(${index}, 'buah', this.value)">
+                    <select class="form-select" 
+                        onchange="updateItem(${index}, 'buah', this.value)">
                         <option value="">Pilih Buah</option>
                         <?php foreach ($buah as $b): ?>
-                            <option value="<?= $b['id']; ?>" ${item.id_buah == "<?= $b['id']; ?>" ? 'selected' : ''}>
+                            <option value="<?= $b['id']; ?>" 
+                                ${item.id_buah == "<?= $b['id']; ?>" ? 'selected' : ''}>
                                 <?= $b['nama_buah']; ?>
                             </option>
                         <?php endforeach; ?>
@@ -403,24 +391,52 @@ if (!$result) {
                 </div>
 
                 <div class="col-md-5">
-                    <select class="form-select" onchange="updateItem(${index}, 'varietas', this.value)">
+                    <select class="form-select" 
+                        id="varietas-${index}"
+                        onchange="updateItem(${index}, 'varietas', this.value)">
                         <option value="">Pilih Varietas</option>
-                        <?php foreach ($varietas as $v): ?>
-                            <option value="<?= $v['id']; ?>" ${item.id_varietas == "<?= $v['id']; ?>" ? 'selected' : ''}>
-                                <?= $v['nama_varietas']; ?>
-                            </option>
-                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="col-md-2">
                     ${(items.length > 1 && tipe === 'bundling') 
-                    ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
-                    : ''}
+                        ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
+                        : ''}
                 </div>
 
             </div>
-        `;
+            `;
+
+            if (item.id_buah) {
+                loadVarietas(index, item.id_buah, item.id_varietas);
+            }
+        });
+    }
+
+    function updateItem(index, field, value) {
+        if (field === 'buah') {
+            items[index].id_buah = value;
+            items[index].id_varietas = '';
+            loadVarietas(index, value);
+        } else {
+            items[index].id_varietas = value;
+        }
+    }
+
+    function loadVarietas(index, id_buah, selectedVarietas = null) {
+        const select = document.getElementById(`varietas-${index}`);
+
+        select.innerHTML = `<option value="">Pilih Varietas</option>`;
+
+        const filtered = semuaVarietas.filter(v => v.id_buah == id_buah);
+
+        filtered.forEach(v => {
+            select.innerHTML += `
+                <option value="${v.id}" 
+                    ${selectedVarietas == v.id ? 'selected' : ''}>
+                    ${v.nama_varietas}
+                </option>
+            `;
         });
     }
 
@@ -444,11 +460,6 @@ if (!$result) {
         renderItems();
     }
 
-    function updateItem(index, type, value) {
-        if (type === 'buah') items[index].id_buah = value;
-        if (type === 'varietas') items[index].id_varietas = value;
-    }
-
     function resetItems() {
         const tipe = document.getElementById('tipe').value;
 
@@ -457,13 +468,6 @@ if (!$result) {
                 id_buah: '',
                 id_varietas: ''
             }];
-        } else {
-            if (items.length === 0) {
-                items = [{
-                    id_buah: '',
-                    id_varietas: ''
-                }];
-            }
         }
 
         renderItems();
@@ -474,17 +478,12 @@ if (!$result) {
         const tipe = document.getElementById('tipe').value;
         const btn = document.getElementById('btnAddItem');
 
-        if (tipe === 'satuan') {
-            btn.style.display = 'none';
-        } else {
-            btn.style.display = 'inline-block';
-        }
+        btn.style.display = (tipe === 'satuan') ? 'none' : 'inline-block';
     }
 
     function handleFiles(event) {
         const newFiles = Array.from(event.target.files);
         images = [...images, ...newFiles];
-
         renderImages();
     }
 
@@ -496,16 +495,11 @@ if (!$result) {
             preview.innerHTML += `
             <div class="position-relative">
                 <img src="../admin/assets/images/produk/${img.gambar}" 
-                    class="img-thumbnail" 
+                    class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
-
-                <button type="button"
-                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeOldImage(${index})">
-                    <i class="bi bi-trash mr-0"></i>
-                </button>
-            </div>
-        `;
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onclick="removeOldImage(${index})">×</button>
+            </div>`;
         });
 
         images.forEach((file, index) => {
@@ -514,16 +508,11 @@ if (!$result) {
             preview.innerHTML += `
             <div class="position-relative">
                 <img src="${url}" 
-                    class="img-thumbnail" 
+                    class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
-
-                <button type="button"
-                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeImage(${index})">
-                    <i class="bi bi-trash mr-0"></i>
-                </button>
-            </div>
-        `;
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onclick="removeImage(${index})">×</button>
+            </div>`;
         });
     }
 
@@ -540,137 +529,39 @@ if (!$result) {
     async function saveProduct() {
         let data = new FormData();
 
-        data.append('nama_produk', document.getElementById('nama_produk').value);
-        data.append('tipe', document.getElementById('tipe').value);
-        data.append('harga', document.getElementById('harga').value);
-        data.append('stok', document.getElementById('stok').value);
-        data.append('deskripsi', document.getElementById('deskripsi').value);
-
+        data.append('nama_produk', nama_produk.value);
+        data.append('tipe', tipe.value);
+        data.append('harga', harga.value);
+        data.append('stok', stok.value);
+        data.append('deskripsi', deskripsi.value);
         data.append('komposisi', JSON.stringify(items));
 
-        images.forEach((file, index) => {
-            data.append(`images[${index}]`, file);
-        });
-
+        images.forEach((file, i) => data.append(`images[${i}]`, file));
         data.append('oldImages', JSON.stringify(oldImages));
+
+        if (editId) data.append('id', editId);
 
         let action = editId ? 'update' : 'tambah';
 
-        if (editId) {
-            data.append('id', editId);
-        }
+        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
-        try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+        let res = await fetch(`${baseUrl}?action=${action}`, {
+            method: 'POST',
+            body: data
+        });
 
-            let res = await fetch(`${baseUrl}?action=${action}`, {
-                method: 'POST',
-                body: data
-            });
+        let result = await res.json();
 
-            let result = await res.json();
-
-            if (result.status) {
-                alert(editId ? 'Berhasil update!' : 'Berhasil tambah!');
-                location.reload();
-            } else {
-                alert('Gagal: ' + result.message);
-            }
-
-        } catch (err) {
-            console.error(err);
+        if (result.status) {
+            alert('Berhasil!');
+            location.reload();
+        } else {
+            alert(result.message);
         }
     }
-
-    document.getElementById('productModal')
-        .addEventListener('hidden.bs.modal', () => {
-
-            editId = null;
-
-            document.getElementById('productForm').reset();
-
-            items = [{
-                id_buah: '',
-                id_varietas: ''
-            }];
-            images = [];
-            oldImages = [];
-
-            renderItems();
-            renderImages();
-        });
 
     document.addEventListener('DOMContentLoaded', () => {
         renderItems();
         toggleAddButton();
     });
-</script>
-<script>
-    async function openDetail(id) {
-        try {
-            const response = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
-            const data = await response.json();
-
-            document.getElementById('detailNama').innerText = data.nama_produk;
-            document.getElementById('detailTipe').innerText = data.tipe;
-            document.getElementById('detailHarga').innerText = data.harga ?
-                parseInt(data.harga).toLocaleString() :
-                0;
-            document.getElementById('detailStok').innerText = data.stok;
-            document.getElementById('detailDeskripsi').innerText = data.deskripsi || 'Tidak ada deskripsi';
-
-            let mainImage = document.getElementById('detailMainImage');
-            let thumbnails = document.getElementById('detailThumbnails');
-
-            thumbnails.innerHTML = '';
-
-            if (data.images && data.images.length > 0) {
-                mainImage.src = '../admin/assets/images/produk/' + data.images[0].gambar;
-
-                data.images.forEach(img => {
-                    let el = document.createElement('img');
-                    el.src = '../admin/assets/images/produk/' + img.gambar;
-                    el.className = 'img-thumbnail';
-                    el.style.width = '60px';
-                    el.style.height = '60px';
-                    el.style.objectFit = 'cover';
-
-                    el.onclick = () => {
-                        mainImage.src = el.src;
-                    };
-
-                    thumbnails.appendChild(el);
-                });
-
-            } else {
-                mainImage.src = '';
-            }
-
-            let komposisi = document.getElementById('detailKomposisi');
-            komposisi.innerHTML = '';
-
-            if (data.komposisi && data.komposisi.length > 0) {
-                data.komposisi.forEach(item => {
-                    let li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between align-items-center p-1';
-
-                    li.innerHTML = `
-                    <span>${item.nama_buah}</span>
-                    <span class="badge bg-secondary rounded-pill">${item.nama_varietas}</span>
-                `;
-
-                    komposisi.appendChild(li);
-                });
-            } else {
-                komposisi.innerHTML = '<li class="list-group-item">Tidak ada komposisi</li>';
-            }
-
-            let modal = new bootstrap.Modal(document.getElementById('detailModal'));
-            modal.show();
-
-        } catch (error) {
-            console.error("Gagal ambil detail:", error);
-            alert("Gagal mengambil data produk");
-        }
-    }
 </script>
