@@ -59,7 +59,8 @@ foreach ($data as $item) {
                             <div class="product-box">
 
                                 <div class="melon-thumb">
-                                    <img src="/sghwebv2/ec/images/<?= $row['foto'] ?>" class="thumb-img">
+                                    <img src="/sghwebv2/asset/image/produk/<?= $data['foto'] ?? 'melon1.jpg' ?>"
+                                        class="thumb-img">
                                 </div>
 
                                 <div class="product-info">
@@ -98,12 +99,14 @@ foreach ($data as $item) {
                             </div>
 
                             <div class="btn-box">
-                                <button href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/detailorder.php')"
-                                    class="btn-detail">Order Detail</button>
+                                <button class="btn-detail"
+                                    onclick="loadPage('/sghwebv2/ec/costumer/page/detailOrder.php?nomor_pesanan=<?= $row['nomor_pesanan'] ?>')">
+                                    Order Detail
+                                </button>
                                 <button class="btn-struk" onclick="printInvoice('<?= $row['nomor_pesanan'] ?>')">
                                     Cetak Struk
                                 </button>
-                                <button class="btn-struk">
+                                <button class="btn-selesai" onclick="selesaikanPesanan('<?= $row['nomor_pesanan'] ?>')">
                                     Pesanan Selesai
                                 </button>
                             </div>

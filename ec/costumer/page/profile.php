@@ -82,8 +82,8 @@ if (!$data) {
 
                         <?php
                         $foto = !empty($data['foto_profil'])
-                            ? "/sghwebv2/ec/images/profile/" . $data['foto_profil']
-                            : "/sghwebv2/ec/images/Anonim.jpg";
+                            ? "/sghwebv2/asset/image/profile/" . $data['foto_profil']
+                            : "/sghwebv2/asset/image/Anonim.jpg";
                         ?>
 
                         <img src="<?= $foto ?>" alt="Foto Profil">

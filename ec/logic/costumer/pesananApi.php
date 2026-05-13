@@ -96,4 +96,89 @@ class PesananAPI
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getDetailOrder($nomor_pesanan)
+    {
+        $query = "SELECT 
+                pesanan.nomor_pesanan,
+                pesanan.id_costumer,
+                pesanan.tanggal_order,
+                pesanan.status,
+                pesanan.metode,
+                pesanan.bukti_bayar,
+
+                users.nama,
+                users.nomor_telepon AS no_hp,
+
+                alamat_costumer.alamat,
+
+                detail_pesanan.kuantitas,
+
+                produk.nama_produk,
+                produk.harga,
+
+                gambar_produk.gambar
+
+            FROM pesanan
+
+            JOIN users
+                ON users.id = pesanan.id_costumer
+
+            LEFT JOIN alamat_costumer
+                ON alamat_costumer.id_costumer = users.id
+                AND alamat_costumer.status = 'utama'
+
+            JOIN detail_pesanan
+                ON detail_pesanan.nomor_pesanan = pesanan.nomor_pesanan
+
+            JOIN produk
+                ON produk.id = detail_pesanan.id_produk
+
+            LEFT JOIN gambar_produk
+                ON gambar_produk.id_produk = produk.id
+
+            WHERE pesanan.nomor_pesanan = ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            die("SQL ERROR: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("s", $nomor_pesanan);
+
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    
+
+    public function toggleStatus($nomor_pesanan, $status)
+    {
+        $query = "UPDATE pesanan 
+                  SET status=? 
+                  WHERE nomor_pesanan=?";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("ss", $status, $nomor_pesanan);
+
+        if ($stmt->execute()) {
+
+            return [
+                "status" => true,
+                "message" => "Status berhasil diubah"
+            ];
+
+        } else {
+
+            return [
+                "status" => false,
+                "message" => $stmt->error
+            ];
+
+        }
+    }
 }
+

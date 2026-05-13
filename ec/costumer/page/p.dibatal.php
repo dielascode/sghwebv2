@@ -58,7 +58,7 @@ foreach ($data as $item) {
                             <div class="product-box">
 
                                 <div class="melon-thumb">
-                                    <img src="/sghwebv2/ec/images/<?= $row['foto'] ?>" class="thumb-img">
+                                    <img src="/sghwebv2/asset/image/produk/<?= $data['foto'] ?? 'melon1.jpg' ?>" class="thumb-img">
                                 </div>
 
                                 <div class="product-info">

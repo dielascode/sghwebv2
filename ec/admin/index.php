@@ -47,6 +47,9 @@ if (!isset($_SESSION['login'])) {
     .badge.bg-success {
         background-color: #21543C !important;
     }
+    .filter-card.active {
+    border: 2px solid #0d6efd;
+}
 </style>
 
     <!-- PWA Manifest -->
@@ -66,6 +69,7 @@ if (!isset($_SESSION['login'])) {
     <link rel="stylesheet" href="./assets/theme-override.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body data-page="dashboard" class="admin-layout">

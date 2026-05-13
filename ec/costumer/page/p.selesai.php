@@ -58,7 +58,8 @@ foreach ($data as $item) {
                             <div class="product-box">
 
                                 <div class="melon-thumb">
-                                    <img src="/sghwebv2/ec/images/<?= $row['foto'] ?>" class="thumb-img">
+                                    <img src="/sghwebv2/asset/image/produk/<?= $data['foto'] ?? 'melon1.jpg' ?>"
+                                        class="thumb-img">
                                 </div>
 
                                 <div class="product-info">
@@ -97,14 +98,20 @@ foreach ($data as $item) {
                             </div>
 
                             <div class="btn-box">
-                                <button href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/detailorder.php')" class="btn-detail">Order Detail</button>
+                                <button class="btn-detail"
+                                    onclick="loadPage('/sghwebv2/ec/costumer/page/detailOrder.php?nomor_pesanan=<?= $row['nomor_pesanan'] ?>')">
+                                    Order Detail
+                                </button>
                                 <button class="btn-struk" onclick="printInvoice('<?= $row['nomor_pesanan'] ?>')">
                                     Cetak Struk
                                 </button>
-                                <button class="btn-nilai"
-                                    onclick="openNilaiPopup('Melon Sky Rocket', '/sghwebv2/ec/images/produk4.png')">
-                                Nilai Produk
-                            </button>
+                                <button class="btn-nilai" onclick="openNilaiPopup(
+                                    '<?= $row['nama_produk'] ?>',
+                                    '/sghwebv2/asset/image/produk/<?= $row['gambar'] ?>',
+                                    '<?= $row['nomor_pesanan'] ?>'
+                                        )">
+                                    Nilai Produk
+                                </button>
                             </div>
 
                         </div>
@@ -130,78 +137,115 @@ foreach ($data as $item) {
 
         <h2>Nilai produk</h2>
 
-        <!-- Info produk (diisi JS saat tombol diklik) -->
+        <!-- hidden -->
+        <input type="hidden" id="nilai-nomor-pesanan">
+
+        <!-- Info produk -->
         <div class="nilai-product-row">
+
             <div class="nilai-product-icon">
-                <img id="nilai-img" src="" alt=""
-                     style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+                <img id="nilai-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
             </div>
-            <div class="nilai-product-name" id="nilai-nama">-</div>
+
+            <div class="nilai-product-name" id="nilai-nama">
+                -
+            </div>
+
         </div>
 
-        <!-- Rating bintang -->
+        <!-- Rating -->
         <div class="nilai-rating-row">
-            <span class="nilai-rating-label">Kualitas Produk</span>
+
+            <span class="nilai-rating-label">
+                Kualitas Produk
+            </span>
+
             <div class="nilai-stars">
-                <span class="nilai-star" onclick="nilaiSetRating(1)" onmouseover="nilaiHover(1)" onmouseout="nilaiResetHover()">&#9733;</span>
-                <span class="nilai-star" onclick="nilaiSetRating(2)" onmouseover="nilaiHover(2)" onmouseout="nilaiResetHover()">&#9733;</span>
-                <span class="nilai-star" onclick="nilaiSetRating(3)" onmouseover="nilaiHover(3)" onmouseout="nilaiResetHover()">&#9733;</span>
-                <span class="nilai-star" onclick="nilaiSetRating(4)" onmouseover="nilaiHover(4)" onmouseout="nilaiResetHover()">&#9733;</span>
-                <span class="nilai-star" onclick="nilaiSetRating(5)" onmouseover="nilaiHover(5)" onmouseout="nilaiResetHover()">&#9733;</span>
+
+                <span class="nilai-star" onclick="nilaiSetRating(1)" onmouseover="nilaiHover(1)"
+                    onmouseout="nilaiResetHover()">
+                    &#9733;
+                </span>
+
+                <span class="nilai-star" onclick="nilaiSetRating(2)" onmouseover="nilaiHover(2)"
+                    onmouseout="nilaiResetHover()">
+                    &#9733;
+                </span>
+
+                <span class="nilai-star" onclick="nilaiSetRating(3)" onmouseover="nilaiHover(3)"
+                    onmouseout="nilaiResetHover()">
+                    &#9733;
+                </span>
+
+                <span class="nilai-star" onclick="nilaiSetRating(4)" onmouseover="nilaiHover(4)"
+                    onmouseout="nilaiResetHover()">
+                    &#9733;
+                </span>
+
+                <span class="nilai-star" onclick="nilaiSetRating(5)" onmouseover="nilaiHover(5)"
+                    onmouseout="nilaiResetHover()">
+                    &#9733;
+                </span>
+
             </div>
+
             <span class="nilai-rating-desc" id="nilai-rating-desc"></span>
+
         </div>
 
-        <!-- Textarea ulasan -->
+        <!-- textarea -->
         <div class="nilai-input-box">
+
             <div class="nilai-input-group">
-                <label for="nilai-quality">Kualitas:</label>
+
+                <label for="nilai-quality">
+                    Deskripsi:
+                </label>
+
                 <textarea id="nilai-quality"
-                          placeholder="Saya merasa produk ini sangat baik dari segi luarnya"></textarea>
+                    placeholder="Saya merasa produk ini sangat baik dari segi luarnya"></textarea>
+
             </div>
-            <div class="nilai-input-group">
-                <label for="nilai-taste">Rasa:</label>
-                <textarea id="nilai-taste"
-                          placeholder="Saya merasa produk ini lebih enak dari yang lain"></textarea>
-            </div>
+
         </div>
 
-        <!-- Upload foto & video -->
+        <!-- upload -->
         <div class="nilai-upload-row">
+
             <label class="nilai-upload-btn">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
+
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
                 </svg>
+
                 Tambah Foto
-                <input type="file" accept="image/*" multiple
-                       onchange="nilaiHandleFiles(this,'photo')">
+
+                <input type="file" id="nilai-photo" accept="image/*" multiple onchange="nilaiHandleFiles(this,'photo')">
+
             </label>
-            <label class="nilai-upload-btn">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="7" width="15" height="10" rx="2"/>
-                    <polyline points="17 9 22 5 22 19 17 15"/>
-                </svg>
-                Tambah Video
-                <input type="file" accept="video/*"
-                       onchange="nilaiHandleFiles(this,'video')">
-            </label>
+
         </div>
 
-        <!-- Preview thumbnail -->
+        <!-- preview -->
         <div id="nilai-preview-area"></div>
 
-        <!-- Footer -->
+        <!-- footer -->
         <div class="nilai-modal-footer">
-            <button class="nilai-btn-cancel" onclick="closeNilaiPopup()">Nanti Saja</button>
-            <button class="nilai-btn-ok"     onclick="nilaiSubmit()">OK</button>
+
+            <button class="nilai-btn-cancel" onclick="closeNilaiPopup()">
+                Nanti Saja
+            </button>
+
+            <button class="nilai-btn-ok" onclick="nilaiSubmit()">
+                OK
+            </button>
+
         </div>
 
     </div>
 </div>
 
-<!-- Toast -->
+<!-- toast -->
 <div id="nilai-toast"></div>
