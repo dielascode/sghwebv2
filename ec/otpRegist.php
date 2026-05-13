@@ -7,6 +7,13 @@ if (!isset($_SESSION['otp']) || !isset($_SESSION['data_register'])) {
     exit;
 }
 
+$remaining_time = $_SESSION['otp_expired'] - time();
+if ($remaining_time <= 0) {
+    $expired = true;
+} else {
+    $expired = false;
+}
+
 if (isset($_POST['verify'])) {
     $otpHandler = new OtpHandler();
     $otpHandler->handleOtpVerification($_POST['otp'] ?? '');
@@ -31,18 +38,21 @@ if (isset($_POST['verify'])) {
         <?php echo $_SESSION['data_register']['email']; ?>
     </div>
 
+    <div id="countdown" class="countdown">Waktu tersisa: <span id="timer"></span></div>
+    <div id="expired-message" class="expired-message" style="display: none;">OTP telah hangus. Silakan daftar ulang.</div>
+
     <form method="POST" id="otpForm">
         <div class="otp-input">
-            <input type="text" maxlength="1" class="otp-box">
-            <input type="text" maxlength="1" class="otp-box">
-            <input type="text" maxlength="1" class="otp-box">
-            <input type="text" maxlength="1" class="otp-box">
-            <input type="text" maxlength="1" class="otp-box">
+            <input type="text" maxlength="1" class="otp-box" <?php if ($expired) echo 'disabled'; ?>>
+            <input type="text" maxlength="1" class="otp-box" <?php if ($expired) echo 'disabled'; ?>>
+            <input type="text" maxlength="1" class="otp-box" <?php if ($expired) echo 'disabled'; ?>>
+            <input type="text" maxlength="1" class="otp-box" <?php if ($expired) echo 'disabled'; ?>>
+            <input type="text" maxlength="1" class="otp-box" <?php if ($expired) echo 'disabled'; ?>>
         </div>
 
         <input type="hidden" name="otp" id="otp-value">
 
-        <button type="submit" name="verify" class="btn">Verifikasi</button>
+        <button type="submit" name="verify" class="btn" <?php if ($expired) echo 'disabled'; ?>>Verifikasi</button>
     </form>
 </div>
 
@@ -50,6 +60,40 @@ if (isset($_POST['verify'])) {
 const inputs = document.querySelectorAll(".otp-box");
 const hiddenInput = document.getElementById("otp-value");
 const form = document.getElementById("otpForm");
+const timerElement = document.getElementById("timer");
+const countdownElement = document.getElementById("countdown");
+const expiredMessage = document.getElementById("expired-message");
+
+let remainingTime = <?php echo $remaining_time; ?>;
+let expired = <?php echo $expired ? 'true' : 'false'; ?>;
+
+if (expired) {
+    showExpired();
+} else {
+    startCountdown();
+}
+
+function startCountdown() {
+    const interval = setInterval(() => {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        remainingTime--;
+        
+        if (remainingTime < 0) {
+            clearInterval(interval);
+            showExpired();
+        }
+    }, 1000);
+}
+
+function showExpired() {
+    countdownElement.style.display = 'none';
+    expiredMessage.style.display = 'block';
+    inputs.forEach(input => input.disabled = true);
+    form.querySelector('button').disabled = true;
+}
 
 // input handling
 inputs.forEach((input, index) => {

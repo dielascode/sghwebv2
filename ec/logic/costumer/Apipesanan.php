@@ -53,7 +53,7 @@ class PesananApi
     {
         $this->exec(
             "INSERT INTO pesanan (nomor_pesanan, id_costumer, bukti_bayar, metode, tanggal_order, status)
-             VALUES (?, ?, ?, 'QRIS', NOW(), 'diproses')",
+             VALUES (?, ?, ?, 'QRIS', NOW(), 'menunggu_konfirmasi')",
             'sss', [$nomor, $id_costumer, $bukti]
         );
     }

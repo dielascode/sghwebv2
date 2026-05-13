@@ -31,19 +31,28 @@ class LoginHandler {
             return;
         }
 
+        // Hanya role costumer yang bisa login
+        if ($user['role'] !== 'costumer') {
+            echo "<script>alert('Hanya costumer yang bisa login di sini');</script>";
+            return;
+        }
+
         // SESSION LOGIN
         $_SESSION['id'] = $user['id'];
         $_SESSION['nama'] = $user['nama'];
         $_SESSION['role'] = $user['role'];
 
-        // REDIRECT ROLE
-        if ($user['role'] === 'superadmin') {
-            header("Location: superadmin.php");
-        } elseif ($user['role'] === 'admin') {
-            header("Location: admin/index.php");
-        } else {
-            header("Location: index.php");
+        // Pastikan data ada di tabel costumer
+        $query_check = "SELECT * FROM costumer WHERE id_costumer='{$user['id']}'";
+        $result_check = mysqli_query($this->conn, $query_check);
+        if (mysqli_num_rows($result_check) == 0) {
+            // Insert data costumer default dengan relasi ke users.id
+            $insert = "INSERT INTO costumer (id_costumer, jenis_kelamin, foto_profil) VALUES ('{$user['id']}', NULL, NULL)";
+            mysqli_query($this->conn, $insert);
         }
+
+        // REDIRECT
+        header("Location: index.php");
         exit;
     }
 }

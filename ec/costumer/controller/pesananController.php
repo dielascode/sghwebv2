@@ -3,7 +3,7 @@ ob_start();
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once __DIR__ . '/../../config/connection.php';
-require_once __DIR__ . '/../../logic/costumer/pesananApi.php';
+require_once __DIR__ . '/../../logic/costumer/Apipesanan.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? null;

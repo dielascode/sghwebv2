@@ -81,7 +81,7 @@ $total_bayar = $_SESSION['total_bayar'] ?? 0;
 
         <!-- LANGKAH 2 -->
         <div class="card2">
-            <div class="step-pembayaran-pill"> Langkah 2</div>
+            <div class="step-pembayaran-pill"> Langkah 2s</div>
             <p class="card-title">Upload bukti pembayaran</p>
             <p class="card-desc">Unggah screenshot atau struk pembayaran setelah transaksi berhasil dilakukan.</p>
 
