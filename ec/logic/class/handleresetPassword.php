@@ -14,13 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm_password = $_POST['confirm_password'] ?? "";
 
     if (empty($token) || empty($password) || empty($confirm_password)) {
-        $_SESSION['error'] = "All fields are required.";
+        $_SESSION['error'] = "Semua field wajib diisi.";
         header("Location: ../../resetPassword.php?token=" . urlencode($token));
         exit();
     }
 
     if ($password !== $confirm_password) {
-        $_SESSION['error'] = "Passwords do not match.";
+        $_SESSION['error'] = "Kata sandi tidak cocok.";
         header("Location: ../../resetPassword.php?token=" . urlencode($token));
         exit();
     }
@@ -41,16 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $update->bind_param("ss", $hashedPassword, $user['id']);
             $update->execute();
 
-            $_SESSION['success'] = "Password has been reset successfully. You can now login.";
+            $_SESSION['success'] = "Kata sandi telah berhasil direset. Anda sekarang dapat masuk.";
             header("Location: ../../login.php");
             exit();
         } else {
-            $_SESSION['error'] = "Reset link is invalid or expired.";
+            $_SESSION['error'] = "Tautan pengaturan ulang tidak valid atau telah kedaluwarsa.";
             header("Location: ../../resetPassword.php?token=" . urlencode($token));
             exit();
         }
     } catch (Exception $e) {
-        $_SESSION['error'] = "Something went wrong: " . $e->getMessage();
+        $_SESSION['error'] = "Ada yang tidak beres: " . $e->getMessage();
         header("Location: ../../resetPassword.php?token=" . urlencode($token));
         exit();
     }

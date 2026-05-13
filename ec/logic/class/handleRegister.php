@@ -20,7 +20,7 @@ class RegisterHandler {
 
         // simpan ke session
         $_SESSION['otp'] = $otp;
-        $_SESSION['otp_expired'] = time() + 300; // 5 menit
+        $_SESSION['otp_expired'] = time() + 90; // 1.5 menit
         $_SESSION['data_register'] = $postData;
 
         $email = $postData['email'];
