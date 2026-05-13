@@ -22,9 +22,9 @@ if (!$result) {
             <p class="text-muted mb-0">Kelola manajemen produk dan inventoris</p>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
+            <!-- <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
                 <i class="bi bi-download me-2"></i>Export
-            </button>
+            </button> -->
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
                     <i class="bi bi-plus-lg me-2"></i>Add Product
