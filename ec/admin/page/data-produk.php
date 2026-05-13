@@ -115,9 +115,7 @@ if (!$result) {
                                 <th>Deskripsi</th>
                                 <th>Stok</th>
                                 <th>Harga</th>
-                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                     <th style="width: 120px;">Aksi</th>
-                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,14 +135,14 @@ if (!$result) {
                                         <td><span class="badge badge-success"><?= $b['stok']; ?></span></td>
                                     <?php endif; ?>
                                     <td><?= $b['harga']; ?></td>
+                                    <td style="display: flex; gap: 10px;">
+                                        
+                                        <button
+                                        class="btn btn-sm btn-primary"
+                                        onclick="openDetail('<?= $b['id']; ?>')">
+                                        Detail
+                                    </button>
                                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
-                                        <td style="display: flex; gap: 10px;">
-
-                                            <button
-                                                class="btn btn-sm btn-primary"
-                                                onclick="openDetail('<?= $b['id']; ?>')">
-                                                Detail
-                                            </button>
                                             <button
                                                 class="btn btn-sm btn-warning"
                                                 onclick="openEdit('<?= $b['id']; ?>')">
@@ -156,8 +154,8 @@ if (!$result) {
                                                 onclick="deleteProduk('<?= $b['id']; ?>')">
                                                 <i class="bi bi-trash mr-0"></i>
                                             </button>
+                                            <?php endif; ?>
                                         </td>
-                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
