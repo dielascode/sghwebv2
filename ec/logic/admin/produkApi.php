@@ -64,6 +64,34 @@ class Produk
         return $produk;
     }
 
+    public function getTotalProductStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_produk
+              FROM $this->table ";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+    public function getTotalProductMinStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_produk
+              FROM $this->table WHERE stok <= 10";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+    public function getTotalProductMaxStats()
+    {
+        $query = "SELECT 
+                COUNT(*) as total_produk
+              FROM $this->table WHERE stok >= 10";
+
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+
     public function storeComplex($data, $komposisi, $images)
     {
         try {

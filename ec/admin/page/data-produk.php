@@ -9,6 +9,9 @@ $produk = new Produk($conn);
 $result = $produk->getProduk();
 $buah = $produk->getBuah();
 $varietas = $produk->getVarietas();
+$total_product = $produk->getTotalProductStats();
+$total_product_min = $produk->getTotalProductMinStats();
+$total_product_max = $produk->getTotalProductMaxStats();
 if (!$result) {
     die("ERROR: " . $conn->error);
 }
@@ -39,7 +42,7 @@ if (!$result) {
 
         <!-- Product Stats Widgets -->
         <div class="row g-4 g-lg-5 mb-5">
-            <div class="col-xl-3 col-lg-6">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card stats-card">
                     <div class="card-body p-3 p-lg-4">
                         <div class="d-flex align-items-center">
@@ -48,7 +51,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">Total Products</h6>
-                                <h3 class="mb-0" x-text="stats.total"></h3>
+                                <h3 class="mb-0" ><?= $total_product['total_produk']; ?></h3>
                                 <small class="text-success">
                                     <i class="bi bi-arrow-up"></i> +5% from last month
                                 </small>
@@ -57,7 +60,7 @@ if (!$result) {
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card stats-card">
                     <div class="card-body p-3 p-lg-4">
                         <div class="d-flex align-items-center">
@@ -66,7 +69,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">In Stock</h6>
-                                <h3 class="mb-0" x-text="stats.inStock"></h3>
+                                <h3 class="mb-0"><?= $total_product_max['total_produk']; ?></h3>
                                 <small class="text-success">
                                     <i class="bi bi-arrow-up"></i> Well stocked
                                 </small>
@@ -75,7 +78,7 @@ if (!$result) {
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card stats-card">
                     <div class="card-body p-3 p-lg-4">
                         <div class="d-flex align-items-center">
@@ -84,27 +87,9 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">Low Stock</h6>
-                                <h3 class="mb-0" x-text="stats.lowStock"></h3>
+                                <h3 class="mb-0"><?= $total_product_max['total_produk']; ?></h3>
                                 <small class="text-warning">
                                     <i class="bi bi-exclamation-circle"></i> Needs attention
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
-                                <i class="bi bi-currency-dollar"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 text-muted">Total Value</h6>
-                                <h3 class="mb-0" x-text="`$${stats.totalValue.toLocaleString()}`"></h3>
-                                <small class="text-info">
-                                    <i class="bi bi-info-circle"></i> Inventory value
                                 </small>
                             </div>
                         </div>
@@ -146,7 +131,11 @@ if (!$result) {
                                     <td><?= strlen($b['deskripsi']) > 30
                                             ? substr($b['deskripsi'], 0, 30) . '...'
                                             : $b['deskripsi']; ?></td>
-                                    <td><?= $b['stok']; ?></td>
+                                    <?php if ($b['stok'] < 10): ?>
+                                        <td><span class="badge badge-danger"><?= $b['stok']; ?></span></td>
+                                    <?php else: ?>
+                                        <td><span class="badge badge-success"><?= $b['stok']; ?></span></td>
+                                    <?php endif; ?>
                                     <td><?= $b['harga']; ?></td>
                                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                         <td style="display: flex; gap: 10px;">
