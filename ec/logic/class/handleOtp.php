@@ -11,7 +11,7 @@ class OtpHandler {
     }
 
     private function generateID() {
-        $query = mysqli_query($this->conn, "SELECT id FROM users ORDER BY id DESC LIMIT 1");
+        $query = mysqli_query($this->conn, "SELECT id FROM users WHERE id LIKE 'COST%' ORDER BY id DESC LIMIT 1");
 
         if (mysqli_num_rows($query) == 0) {
             return "COST001";

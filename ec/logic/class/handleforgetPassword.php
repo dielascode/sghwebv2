@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['error'] = "Invalid email format.";
+        $_SESSION['error'] = "Format email tidak valid.";
         header("Location: ../../forgetPassword.php");
         exit();
     }
@@ -54,28 +54,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->SMTPDebug = 0;
             $mail->Timeout = 15; // short timeout so it doesn't hang forever
 
-            $mail->setFrom("nextarchocolatepie@gmail.com", "Reset Password");
+            $mail->setFrom("nextarchocolatepie@gmail.com", "Ubah Password");
             $mail->addAddress($email);
 
             // email content
             $mail->isHTML(true);
-            $mail->Subject = "Password Reset Request";
-            $mail->Body = "<h1>Hello,</h1>
-            <p>We received a request to reset your password. Click the link below to reset it:</p>
+            $mail->Subject = "Permintaan Reset Kata Sandi";
+            $mail->Body = "<h1>Halo,</h1>
+            <p>We Kami menerima permintaan untuk mengatur ulang kata sandi Anda. Klik tautan di bawah ini untuk mengatur ulang kata sandi Anda.:</p>
             <p><a href='{$resetLink}'>$resetLink</a></p>
-            <p>This link will expire in 10 minutes.</p>";
+            <p>Tautan ini akan kedaluwarsa dalam 10 menit.</p>";
 
             $mail->send();
-            $_SESSION['success'] = "A reset link has been sent to your email.";
+            $_SESSION['success'] = "Tautan untuk mengatur ulang telah dikirim ke email Anda.";
             header("Location: ../../dummyforgetPassword.php");
             exit();
         } catch (Exception $e) {
-            $_SESSION['error'] = "Email could not be sent. Error: {$mail->ErrorInfo}";
+            $_SESSION['error'] = "Email tidak dapat dikirim. Terjadi kesalahan.: {$mail->ErrorInfo}";
             header("Location: ../../forgetPassword.php");
             exit();
         }
     } else {
-        $_SESSION['error'] = "No account found with that email.";
+        $_SESSION['error'] = "Tidak ditemukan akun dengan email tersebut.";
         header("Location: ../../forgetPassword.php");
         exit();
     }

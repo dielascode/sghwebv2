@@ -12,12 +12,12 @@ if (isset($_GET['token'])) {
     if ($user) {
         $update = $pdo->prepare("UPDATE users SET verified = 1, verification_token = NULL WHERE id = ?");
         $update->execute([$user['id']]);
-        echo "Your Account has been verified! you can now <a href='../../../login.php'>login</a>.";
+        echo "Akun Anda telah diverifikasi! Anda sekarang dapat <a href='../../../login.php'>login</a>.";
     } else {
-        echo "Invalid or expired verification link.";
+        echo "Tautan verifikasi tidak valid atau telah kedaluwarsa.";
     }
     
 } else {
-    echo "No token provided.";
+    echo "Tidak ada token yang disediakan.";
 }
 ?>
