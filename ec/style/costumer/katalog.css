@@ -314,3 +314,251 @@ top: auto;
 
     letter-spacing: .2px;
 }
+
+@media (max-width: 992px) {
+ 
+    .carousel {
+        padding: 60px 20px 20px;
+    }
+ 
+    /* Header katalog: susun vertikal jika terlalu sempit */
+    .container1-katalog {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 0 30px;
+    }
+ 
+    .judul-flex {
+        font-size: 26px;
+    }
+ 
+    .search-flex {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+ 
+    .search-box {
+        flex: 1;
+        min-width: 180px;
+    }
+ 
+    /* Grid: 3 kolom */
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        padding: 24px 16px;
+    }
+ 
+    .img1-area {
+        height: 160px;
+    }
+ 
+    .container2-katalog {
+        padding: 24px 30px;
+    }
+}
+ 
+ 
+/* ============================================
+   RESPONSIVE — max-width: 768px (Tablet Kecil)
+   ============================================ */
+@media (max-width: 768px) {
+ 
+    .carousel {
+        padding: 45px 15px 15px;
+    }
+ 
+    .container1-katalog {
+        padding: 0 20px;
+        gap: 14px;
+    }
+ 
+    .judul-flex {
+        font-size: 22px;
+    }
+ 
+    .search-flex {
+        gap: 6px;
+    }
+ 
+    .btn-filter {
+        font-size: 12px;
+        padding: 6px 14px;
+    }
+ 
+    /* Grid: 2 kolom */
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        padding: 20px 14px;
+    }
+ 
+    .img1-area {
+        height: 150px;
+    }
+ 
+    .product-name {
+        font-size: 14px;
+    }
+ 
+    .price {
+        font-size: 16px;
+    }
+ 
+    .btn-buy,
+    .btn-cart {
+        font-size: 12px;
+        padding: 8px 6px;
+    }
+ 
+    .container2-katalog {
+        padding: 20px 16px;
+    }
+ 
+    /* Toast ke tengah bawah */
+    .custom-toast {
+        right: 50%;
+        transform: translateX(50%) translateY(120%);
+        bottom: 20px;
+        width: calc(100% - 40px);
+        max-width: 360px;
+    }
+ 
+    .custom-toast.show {
+        transform: translateX(50%) translateY(0);
+    }
+}
+ 
+ 
+/* ============================================
+   RESPONSIVE — max-width: 480px (Mobile)
+   ============================================ */
+@media (max-width: 480px) {
+ 
+    .carousel {
+        padding: 80px 10px 10px;
+    }
+ 
+    .container1-katalog {
+        padding: 0 10px;
+        gap: 10px;
+    }
+ 
+    .judul-flex {
+      align-items: center;
+      font-size: 18px;
+    }
+ 
+    .search-flex {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+ 
+    .btn-filter {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+ 
+    .search-box {
+        flex: 1;
+        min-width: 120px;
+        padding: 4px 8px;
+    }
+ 
+    .search-box input {
+        font-size: 12px;
+    }
+ 
+    /* Grid: tetap 2 kolom, diperkecil */
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 14px 10px;
+    }
+ 
+    .img1-area {
+        height: 110px;
+    }
+ 
+    .card-body {
+        padding: 8px 10px !important;
+    }
+ 
+    .variety-label {
+        font-size: 9px;
+        margin-bottom: 2px;
+    }
+ 
+    .product-name {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+ 
+    .price {
+        font-size: 13px;
+    }
+ 
+    .per-unit {
+        font-size: 10px;
+    }
+ 
+    .price-row {
+        margin-bottom: 6px;
+    }
+ 
+    .stock-dot {
+        width: 6px;
+        height: 6px;
+    }
+ 
+    .stock-text,
+    .stock-num {
+        font-size: 10px;
+    }
+ 
+    .stock-row {
+        margin-bottom: 8px;
+        gap: 5px;
+    }
+ 
+    .btn-row {
+        gap: 5px;
+    }
+ 
+    .btn-buy,
+    .btn-cart {
+        font-size: 10px;
+        padding: 6px 4px;
+        border-radius: 8px;
+    }
+ 
+    .product-card {
+        border-radius: 12px;
+    }
+ 
+    .container2-katalog {
+        padding: 14px 10px;
+    }
+ 
+    /* Toast penuh di mobile */
+    .custom-toast {
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-width: 100%;
+        bottom: 16px;
+        transform: translateY(120%);
+    }
+ 
+    .custom-toast.show {
+        transform: translateY(0);
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+        display: none;
+    }
+    
+}

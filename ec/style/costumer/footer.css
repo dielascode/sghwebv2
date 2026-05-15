@@ -1,0 +1,26 @@
+footer {
+    width: 100%;
+    background: #1C2B10;
+    padding: 18px 0;
+    
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-footer {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.bottom-footer a {
+    color: #f0fdf4;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: 0.3s ease;
+}
+
+.bottom-footer a:hover {
+    color: #bbf7d0;
+    text-shadow: 0 0 8px rgba(187, 247, 208, 0.8);
+}

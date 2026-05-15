@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/detailorder.css?v=22">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pengaduanStyles.css?v=23">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/dummysukses.css?v=24">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/footer.css?v=24">
 </head>
 <body class="m-0">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -46,7 +47,11 @@
                 include "costumer/page/katalog.php"
             ?>
         </div>
+        
     </main>
+    <?php 
+        include "costumer/elemen/footer.php"
+    ?>
     <script src="/sghwebv2/ec/js/loadnavbar.js"></script>
     <script src="/sghwebv2/ec/js/keranjang.js"></script>
     <script src="/sghwebv2/ec/js/katalog.js"></script>
