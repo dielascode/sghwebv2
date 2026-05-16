@@ -220,6 +220,34 @@ async function printInvoice(nomor_pesanan) {
 
         let data = await res.json();
 
+        let alamatText = '-';
+
+        try {
+
+            let alamatObj = JSON.parse(data.alamat);
+
+            alamatText =
+                `${alamatObj.jalan}, ` +
+                `${alamatObj.kelurahan}, ` +
+                `${alamatObj.kecamatan}, ` +
+                `${alamatObj.kota}, ` +
+                `${alamatObj.provinsi}`;
+
+            if (alamatObj.detail) {
+
+                alamatText =
+                    `${alamatObj.jalan}, ${alamatObj.detail}, ` +
+                    `${alamatObj.kelurahan}, ${alamatObj.kecamatan}, ` +
+                    `${alamatObj.kota}, ${alamatObj.provinsi}`;
+
+            }
+
+        } catch (e) {
+
+            alamatText = data.alamat ?? '-';
+
+        }
+
         let itemsHTML = '';
 
         let total = 0;
@@ -412,7 +440,7 @@ async function printInvoice(nomor_pesanan) {
 
                 ${data.nama}<br>
 
-                ${data.alamat ?? '-'}
+                ${alamatText}
 
             </div>
 
