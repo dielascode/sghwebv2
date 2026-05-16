@@ -192,7 +192,8 @@ function handleConfirm() {
     .then(res => {
         if (res.trim() === 'success') {
             document.getElementById('successMsg').style.display = 'flex';
-            setTimeout(() => loadPage('costumer/page/pesanan.php'), 2000);
+             updateCartBadge(); 
+            setTimeout(() => loadPage('costumer/page/dummysukses.php'), 2000);
         } else {
             alert('Gagal: ' + res);
             confirmBtn.disabled  = false;

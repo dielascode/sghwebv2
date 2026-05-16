@@ -45,7 +45,7 @@ if ($id_costumer) {
 
       <!-- NAV DESKTOP -->
       <nav class="hidden absolute left-1/2 -translate-x-1/2 md:flex items-center h-16">
-        <ul class="flex items-center gap-6 text-sm h-full">
+        <ul class="flex items-center gap-3 text-sm h-full">
           <li>
             <a class="nav-link" href="../../sghwebv2/ec/logoutCostumer.php">Beranda</a>
           </li>
@@ -137,9 +137,9 @@ if ($id_costumer) {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M10 21a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2z" />
             </svg>
-            <?php if ($totalQty > 0): ?>
-              <span class="cart-badge"><?= $totalQty ?></span>
-            <?php endif; ?>
+            <span class="cart-badge <?= $totalQty <= 0 ? 'hidden' : '' ?>">
+    <?= $totalQty ?>
+</span>
           </div>
         </a>
 

@@ -102,7 +102,8 @@
   desc: "<?= $p["deskripsi"] ?>",
   price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
   stock: "<?= $p["stok"] ?? 0 ?>",
-  images: <?= json_encode($gambar) ?>
+  images: <?= json_encode($gambar) ?>,
+  reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
 })'>
               Beli Sekarang
             </button>
@@ -233,90 +234,12 @@
       </div>
 
       <!-- ULASAN -->
-      <div class="modal-reviews">
-        <!-- <p class="modal-reviews-title">Ulasan pembeli</p> -->
-        <div class="modal-reviews-grid">
-          <div class="modal-review-card">
-            <div class="modal-review-stars">
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-            </div>
-            <p class="modal-review-text">Baru pertama kali beli melon di sini dan ternyata kualitasnya bagus. Buahnya
-              segar, rasanya manis, dan aromanya juga harum. Pengemasannya rapi jadi sampai dengan kondisi baik.
-              Recommended!</p>
-            <div class="modal-review-footer">
-              <div class="modal-reviewer">
-                <div class="modal-reviewer-avatar">NS</div>
-                <span class="modal-reviewer-name">Nguyen Shane</span>
-              </div>
-              <span class="modal-review-date">13 Okt 2017</span>
-            </div>
-          </div>
-          <div class="modal-review-card">
-            <div class="modal-review-stars">
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-            </div>
-            <p class="modal-review-text">Baru pertama kali beli melon di sini dan ternyata kualitasnya bagus. Buahnya
-              segar, rasanya manis, dan aromanya juga harum. Pengemasannya rapi jadi sampai dengan kondisi baik.
-              Recommended!</p>
-            <div class="modal-review-footer">
-              <div class="modal-reviewer">
-                <div class="modal-reviewer-avatar">NS</div>
-                <span class="modal-reviewer-name">Nguyen Shane</span>
-              </div>
-              <span class="modal-review-date">13 Okt 2017</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <!-- ULASAN -->
+<div class="modal-reviews">
+    <div class="modal-reviews-grid">
+        <!-- diisi JS saat openModal -->
+    </div>
+</div>
     </div>
   </div>
 
