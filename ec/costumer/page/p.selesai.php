@@ -222,7 +222,8 @@ foreach ($data as $item) {
 
                 Tambah Foto
 
-                <input type="file" id="nilai-photo" accept="image/*" multiple onchange="nilaiHandleFiles(this,'photo')">
+                <input type="file" id="nilai-photo" name="photos[]" accept="image/*" multiple
+                    onchange="nilaiHandleFiles(this,'photo')">
 
             </label>
 

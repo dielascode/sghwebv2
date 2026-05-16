@@ -56,10 +56,20 @@ $total = 0;
 
             <div class="card-status-bar">
 
-                <span class="status-dot"></span>
+                
 
                 <span class="status-label">
-                    <?= $header['status'] ?>
+                    <div style="
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:20px;
+    background: <?= $data[0]['status_bg'] ?>;
+    color: <?= $data[0]['status_color'] ?>;
+    font-size:13px;
+    font-weight:bold;
+">
+                        <?= $data[0]['status_label'] ?>
+                    </div>
                 </span>
 
             </div>
@@ -86,51 +96,48 @@ $total = 0;
 
                     <?php foreach ($data as $item): ?>
 
-                    <?php
-                    $subtotal = $item['kuantitas'] * $item['harga'];
-                    $total += $subtotal;
-                    ?>
+                        <?php
+                        $subtotal = $item['kuantitas'] * $item['harga'];
+                        $total += $subtotal;
+                        ?>
 
-                    <tr>
+                        <tr>
 
-                        <td class="td-detailorder">
+                            <td class="td-detailorder">
 
-                            <div class="product-row-detailorder">
+                                <div class="product-row-detailorder">
 
-                                <div class="product-img-wrap-detailorder">
+                                    <div class="product-img-wrap-detailorder">
 
-                                    <img
-                                        src="/sghwebv2/asset/image/produk/<?= $data['foto'] ?? 'melon1.jpg' ?>"
-                                        width="70"
-                                        style="border-radius:10px;"
-                                    >
+                                        <img src="/sghwebv2/asset/image/produk/<?= $data['foto'] ?? 'melon1.jpg' ?>"
+                                            width="70" style="border-radius:10px;">
+
+                                    </div>
+
+                                    <div class="product-info-detailorder">
+
+                                        <p class="product-name-detailorder">
+                                            <?= $item['nama_produk'] ?>
+                                        </p>
+
+                                        <p class="product-qty-detailorder">
+                                            Jumlah:
+                                            <?= $item['kuantitas'] ?> Kg
+                                        </p>
+
+                                    </div>
 
                                 </div>
 
-                                <div class="product-info-detailorder">
+                            </td>
 
-                                    <p class="product-name-detailorder">
-                                        <?= $item['nama_produk'] ?>
-                                    </p>
+                            <td class="td-detailorder td-right-detailorder">
 
-                                    <p class="product-qty-detailorder">
-                                        Jumlah:
-                                        <?= $item['kuantitas'] ?> Kg
-                                    </p>
+                                Rp <?= number_format($subtotal, 0, ',', '.') ?>
 
-                                </div>
+                            </td>
 
-                            </div>
-
-                        </td>
-
-                        <td class="td-detailorder td-right-detailorder">
-
-                            Rp <?= number_format($subtotal, 0, ',', '.') ?>
-
-                        </td>
-
-                    </tr>
+                        </tr>
 
                     <?php endforeach; ?>
 
@@ -215,7 +222,7 @@ $total = 0;
                         </span>
 
                         <span>
-                            <?= $header['alamat'] ?>
+                            <?= $data[0]['alamat_lengkap'] ?>
                         </span>
 
                     </li>
@@ -341,11 +348,8 @@ $total = 0;
 
                 <div class="proof-img-detailorder">
 
-                    <img
-                        src="/sghwebv2/ec/images/<?= $header['bukti_bayar'] ?>"
-                        alt="Bukti Pembayaran"
-                        class="proof-image-detailorder"
-                    />
+                    <img src="/sghwebv2/asset/image/bukti_bayar/<?= $header['bukti_bayar'] ?>" alt="Bukti Pembayaran"
+                        class="proof-image-detailorder" />
 
                 </div>
 
