@@ -10,12 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if ($auth->login($email, $password)) {
-        header("Location: admin/index.php");
-        session_regenerate_id(true);
+    $result = $auth->login($email, $password);
+
+    if ($result['status']) {
         $_SESSION['login'] = true;
+        header("Location: admin/index.php");
+        exit;
     } else {
-        $error = "Username atau password salah!";
+        $error = $result['message'];
     }
 }
 
@@ -76,10 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <h2 class="text-xl font-semibold text-gray-800">Selamat Datang Kembali</h2>
             <p class="text-sm text-gray-500 mt-1">Silakan masuk untuk mengelola data pertanian Anda</p>
-        </div>
-        <?php  if(isset($error)) : ?>
-                <p style="color:red"><?php echo $error?></p>
+            <?php  if(isset($error)) : ?>
+                <p class="text-sm text-red-500 mt-5"><?php echo $error?></p>
             <?php  endif; ?>
+        </div>
+        
         <!-- Form Login -->
         <form class="p-8 pt-4 space-y-5" method="post">
             <div>
