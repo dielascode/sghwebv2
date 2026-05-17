@@ -47,7 +47,7 @@ if ($id_costumer) {
       <nav class="hidden absolute left-1/2 -translate-x-1/2 md:flex items-center h-16">
         <ul class="flex items-center gap-3 text-sm h-full">
           <li>
-            <a class="nav-link" href="../../sghwebv2/ec/logoutCostumer.php">Beranda</a>
+            <a class="nav-link" href="../../sghwebv2/index.php">Beranda</a>
           </li>
           <li>
             <a class="nav-link" href="#" onclick="loadPage('costumer/page/katalog.php')">Produk</a>
