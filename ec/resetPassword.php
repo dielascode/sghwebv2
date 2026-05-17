@@ -31,7 +31,7 @@ if (!$token) {
                     <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['success'])): ?>
-                    <p style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
+                    <p style="color: black;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
                 <?php endif; ?>
 
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">

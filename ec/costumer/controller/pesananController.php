@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $nomor     = 'ORD-' . time();
         $bukti     = null;
-        $uploadDir = __DIR__ . '/../../uploads/bukti/';
+        $uploadDir = __DIR__ . '/../../../asset/image/bukti_bayar/';
 
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
@@ -39,11 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($buynow) {
             $api->insertDetail($nomor, $buynow['id_produk'], (int) $buynow['qty']);
+              $api->kurangiStok($buynow['id_produk'], (int) $buynow['qty']); // ← tambah ini
             unset($_SESSION['konfirmasi_buynow']);
         } elseif (!empty($selected)) {
             foreach ($selected as $id_produk) {
                 $item = $api->getKuantitasKeranjang($id_produk, $id_costumer);
                 if ($item) $api->insertDetail($nomor, $id_produk, (int) $item['kuantitas']);
+                 $api->kurangiStok($id_produk, (int) $item['kuantitas']); // ← tambah ini
             }
             foreach ($selected as $id_produk) {
                 $api->deleteKeranjang($id_produk, $id_costumer);

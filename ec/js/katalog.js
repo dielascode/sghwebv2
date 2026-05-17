@@ -12,7 +12,7 @@ window.openModal = function (data) {
     document.getElementById("modalDesc").innerText = data.desc;
     document.getElementById("modalPrice").innerText = "Rp " + data.price;
     document.getElementById("modalStock").innerText = data.stock;
-    const basePath = "/sghwebv2/ec/images/";
+    const basePath = "/sghwebv2/asset/image/produk/";
     const mainImg = document.getElementById("modalImg");
     if (images.length > 0) {
         mainImg.src = basePath + images[0];
@@ -82,11 +82,18 @@ window.closeModal = function () {
 };
 
 window.changeQty = function (delta) {
-    window.modalQty = Math.max(1, window.modalQty + delta);
+    const stock = parseInt(document.getElementById("modalStock").innerText) || 0;
+    window.modalQty = Math.min(Math.max(1, window.modalQty + delta), stock);
     document.getElementById("modalQty").textContent = window.modalQty;
 };
 
 window.addToCart = function () {
+    const stock = parseInt(document.getElementById("modalStock").innerText) || 0;
+    if (window.modalQty > stock) {
+        showToast('Jumlah melebihi stok tersedia');
+        return;
+    }
+
     fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',
@@ -101,16 +108,18 @@ window.addToCart = function () {
             updateCartBadge();
         } else {
             showToast('Gagal menambahkan produk');
-            console.log(res);
         }
     })
-    .catch(err => {
-        console.log(err);
-        showToast('Terjadi error');
-    });
+    .catch(() => showToast('Terjadi error'));
 };
 
 window.buyNow = function () {
+    const stock = parseInt(document.getElementById("modalStock").innerText) || 0;
+    if (window.modalQty > stock) {
+        showToast('Jumlah melebihi stok tersedia');
+        return;
+    }
+
     fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',

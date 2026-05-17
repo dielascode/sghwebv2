@@ -20,42 +20,20 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                            <div class="stats-icon bg-info bg-opacity-10 text-primary">
                                 <i class="bi bi-people"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-0 text-muted">Total Users</h6>
-                            <h3 class="mb-0" data-stat-users>0</h3>
-                            <small class="text-success">
-                                <i class="bi bi-arrow-up"></i> +12.5%
-                            </small>
+                            <h3 class="mb-0" data-users>0</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- <div class="col-sm-6 col-xl-3">
-            <div class="card stats-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <div class="stats-icon bg-success bg-opacity-10 text-success">
-                                <i class="bi bi-graph-up"></i>
-                            </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-0 text-muted">Revenue</h6>
-                            <h3 class="mb-0" data-stat-revenue>Rp 0</h3>
-                            <small class="text-success">
-                                <i class="bi bi-arrow-up"></i> +8.2%
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+
 
         <div class="col-sm-6 col-xl-3">
             <div class="card stats-card">
@@ -68,36 +46,14 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-0 text-muted">Orders</h6>
-                            <h3 class="mb-0" data-stat-orders>0</h3>
-                            <small class="text-danger">
-                                <i class="bi bi-arrow-down"></i> -2.1%
-                            </small>
+                            <h3 class="mb-0" data-orders>0</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
-            <div class="card stats-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <div class="stats-icon bg-info bg-opacity-10 text-info">
-                                <i class="bi bi-clock-history"></i>
-                            </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="mb-0 text-muted">Avg. Response</h6>
-                            <h3 class="mb-0">2.3s</h3>
-                            <small class="text-success">
-                                <i class="bi bi-arrow-up"></i> +5.4%
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     <!-- Chart Section -->
@@ -112,40 +68,6 @@
                     <div class="card-body">
                         <canvas id="PemesananSeminggu" height="100"></canvas>
 
-                        <script>
-                            document.addEventListener("DOMContentLoaded", async function() {
-                                const ctx = document.getElementById('PemesananSeminggu').getContext('2d');
-
-                                let labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                                let data = [5, 8, 12, 15, 10, 18, 22];
-
-                                const chart = new Chart(ctx, {
-                                    type: 'line',
-                                    data: {
-                                        labels: labels,
-                                        datasets: [{
-                                            label: 'New Users',
-                                            data: data,
-                                            borderColor: '#21543C', // garis utama
-                                            backgroundColor: 'rgba(33,84,60,0.15)', // area bawah (transparan)
-                                            pointBackgroundColor: '#21543C', // titik
-                                            pointBorderColor: '#21543C',
-                                            borderWidth: 2,
-                                            tension: 0.4,
-                                            fill: true
-                                        }]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                        plugins: {
-                                            legend: {
-                                                display: true
-                                            }
-                                        }
-                                    }
-                                });
-                            });
-                        </script>
                     </div>
                 </div>
             </div>
@@ -158,7 +80,7 @@
     <!-- New Widgets Row -->
     <div class="row g-4 mb-4">
         <!-- Recent Orders -->
-        <div class="col-lg-8">
+        <div>
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Recent Orders</h5>
@@ -184,7 +106,7 @@
         </div>
 
         <!-- Storage Status -->
-        <div class="col-lg-4">
+        <!-- <div class="col-lg-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Revenue Overview</h5>
@@ -210,7 +132,7 @@
                     </script>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </div>
@@ -218,76 +140,85 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", async function() {
+    let chartInstance = null;
+    document.addEventListener("DOMContentLoaded", async function() {
 
-    const res = await fetch('/sghwebv2/ec/admin/crud/dashboardController.php');
-    const data = await res.json();
+        try {
+            const res = await fetch('/sghwebv2/ec/admin/crud/dashboardController.php');
+            const data = await res.json();
 
-    document.querySelector('[data-stat-users]').innerText = data.users;
-    document.querySelector('[data-stat-orders]').innerText = data.orders;
-    // document.querySelector('[data-stat-revenue]').innerText = 
-    //     'Rp ' + parseInt(data.revenue).toLocaleString();
+            console.log("DATA:", data);
 
-    let table = document.getElementById('recent-orders-table');
-    table.innerHTML = '';
+            // stats
+            document.querySelector('[data-users]').innerText = data.users;
+            document.querySelector('[data-orders]').innerText = data.orders;
 
-    data.recentOrders.forEach(order => {
-        table.innerHTML += `
-            <tr>
-                <td>${order.nomor_pesanan}</td>
-                <td>${order.nama}</td>
-                <td>${order.status}</td>
-                <td>${order.tanggal_order}</td>
-            </tr>
-        `;
-    });
+            // recent orders
+            const table = document.getElementById('recent-orders-table');
+            table.innerHTML = '';
 
-    const ctx = document.getElementById('PemesananSeminggu').getContext('2d');
+            data.recentOrders.forEach(order => {
+                table.innerHTML += `
+                <tr>
+                    <td>${order.nomor_pesanan}</td>
+                    <td>${order.nama}</td>
+                    <td>${order.status}</td>
+                    <td>${order.tanggal_order}</td>
+                </tr>
+            `;
+            });
 
-    const labels = data.chart.map(item => item.tanggal);
-    const values = data.chart.map(item => item.total);
+            const ctx = document.getElementById('PemesananSeminggu').getContext('2d');
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Pesanan',
-                data: values,
-                borderColor: '#21543C',
-                backgroundColor: 'rgba(33,84,60,0.15)',
-                tension: 0.4,
-                fill: true
-            }]
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.chart.labels,
+                    datasets: [{
+                        label: 'Jumlah Pesanan',
+                        data: data.chart.data,
+                        borderColor: '#21543C',
+                        backgroundColor: 'rgba(33,84,60,0.15)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                }
+            });
+
+        } catch (err) {
+            console.error("ERROR:", err);
         }
-    });
 
-});
+    });
 </script>
 <script>
-function updateDateTime() {
-    const now = new Date();
+    function updateDateTime() {
+        const now = new Date();
 
-    // format tanggal (Indonesia)
-    const dateOptions = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    };
+        // format tanggal (Indonesia)
+        const dateOptions = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
 
-    const date = now.toLocaleDateString('id-ID', dateOptions);
+        const date = now.toLocaleDateString('id-ID', dateOptions);
 
-    // format jam
-    const time = now.toLocaleTimeString('id-ID');
+        // format jam
+        const time = now.toLocaleTimeString('id-ID');
 
-    document.getElementById('current-date').textContent = date;
-    document.getElementById('current-time').textContent = time;
-}
+        document.getElementById('current-date').textContent = date;
+        document.getElementById('current-time').textContent = time;
+    }
 
-// update pertama kali
-updateDateTime();
+    // update pertama kali
+    updateDateTime();
 
-// update tiap detik
-setInterval(updateDateTime, 1000);
+    // update tiap detik
+    setInterval(updateDateTime, 1000);
 </script>

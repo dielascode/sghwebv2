@@ -102,5 +102,11 @@ public function getBuyNowProduk(string $id_produk): array|null
             WHERE dp.nomor_pesanan = ?
         ", 's', [$nomor]);
     }
-  
+    public function kurangiStok(string $id_produk, int $qty): void
+{
+    $this->exec(
+        "UPDATE produk SET stok = stok - ? WHERE id = ? AND stok >= ?",
+        'isi', [$qty, $id_produk, $qty]
+    );
+}
 }

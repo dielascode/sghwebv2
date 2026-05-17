@@ -40,10 +40,23 @@ if (strlen($newPassword) < 8) {
 }
 
 $stmt = $conn->prepare('SELECT password FROM users WHERE id = ? LIMIT 1');
+if (!$stmt) {
+    error_log('Prepare SELECT password failed: ' . $conn->error);
+    $_SESSION['error'] = 'Terjadi masalah saat memproses permintaan.';
+    header('Location: ../../index.php');
+    exit();
+}
+
 $stmt->bind_param('s', $userId);
-$stmt->execute();
+if (!$stmt->execute()) {
+    error_log('Execute SELECT password failed: ' . $stmt->error);
+    $_SESSION['error'] = 'Terjadi masalah saat memproses permintaan.';
+    header('Location: ../../index.php');
+    exit();
+}
+
 $result = $stmt->get_result();
-$user   = $result->fetch_assoc();
+$user = $result ? $result->fetch_assoc() : null;
 $stmt->close();
 
 if (!$user || !password_verify($oldPassword, $user['password'])) {
@@ -54,8 +67,29 @@ if (!$user || !password_verify($oldPassword, $user['password'])) {
 
 $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 $stmt = $conn->prepare('UPDATE users SET password = ? WHERE id = ?');
+if (!$stmt) {
+    error_log('Prepare UPDATE password failed: ' . $conn->error);
+    $_SESSION['error'] = 'Terjadi masalah saat menyimpan password.';
+    header('Location: ../../index.php');
+    exit();
+}
+
 $stmt->bind_param('ss', $hashedPassword, $userId);
-$stmt->execute();
+if (!$stmt->execute()) {
+    error_log('Execute UPDATE password failed: ' . $stmt->error);
+    $_SESSION['error'] = 'Terjadi masalah saat menyimpan password.';
+    header('Location: ../../index.php');
+    exit();
+}
+
+if ($stmt->affected_rows === 0) {
+    error_log('Password update did not affect any rows for user id: ' . $userId);
+    $_SESSION['error'] = 'Password tidak berubah. Coba lagi.';
+    $stmt->close();
+    header('Location: ../../index.php');
+    exit();
+}
+
 $stmt->close();
 
 $_SESSION['success'] = 'Password berhasil diperbarui.';

@@ -124,22 +124,28 @@ if (!$result) {
                                     <td><?= $c['username']; ?></td>
                                     <td><span class="badge badge-primary"><?= $c['role']; ?></span></td>
 
-                                    <td><span class="badge badge-success">Aktif</span></td>
+                                    <td>
+                                        <?php if ($c['status'] === 'aktif'): ?>
+                                            <span class="badge bg-success">Aktif</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-danger">Nonaktif</span>
+                                        <?php endif; ?>
+                                    </td>
 
                                     <td style="display: flex; gap: 10px;">
                                         <button
                                             class="btn btn-sm btn-primary"
-                                            onclick="openEditModal(<?= $c['id']; ?>, '')">
+                                            onclick="openDetail('<?= $c['id']; ?>')">
                                             Lihat Detail
                                         </button>
-                                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
+
+                                        <?php if ($_SESSION['role'] === "admin"): ?>
                                             <button
                                                 class="btn btn-sm btn-danger"
-                                                onclick="deleteVarietas(<?= $c['id']; ?>)">
+                                                onclick="nonaktifkanCustomer('<?= $c['id']; ?>')">
                                                 Nonaktifkan
                                             </button>
                                         <?php endif; ?>
-
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -151,6 +157,76 @@ if (!$result) {
     </div> <!-- End Users Management Container -->
 
 </div>
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Customer</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p><b>Nama:</b> <span id="d_nama"></span></p>
+                <p><b>Email:</b> <span id="d_email"></span></p>
+                <p><b>Username:</b> <span id="d_username"></span></p>
+                <p><b>No HP:</b> <span id="d_hp"></span></p>
+                <p><b>Status:</b> <span id="d_status"></span></p>
+                <p><b>Tanggal Daftar:</b> <span id="d_tanggal"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+async function openDetail(id) {
+    try {
+        const res = await fetch(`/sghwebv2/ec/admin/crud/costumerController.php?action=detail&id=${id}`);
+        const data = await res.json();
+
+        document.getElementById('d_nama').innerText = data.nama;
+        document.getElementById('d_email').innerText = data.email;
+        document.getElementById('d_username').innerText = data.username;
+        document.getElementById('d_hp').innerText = data.nomor_telepon;
+        document.getElementById('d_status').innerText = data.status;
+        document.getElementById('d_tanggal').innerText = data.tanggal_daftar;
+
+        new bootstrap.Modal(document.getElementById('detailModal')).show();
+
+    } catch (err) {
+        console.error(err);
+        alert("Gagal ambil data");
+    }
+}
+
+// NONAKTIFKAN
+async function nonaktifkanCustomer(id) {
+
+    let konfirmasi = confirm("Yakin mau nonaktifkan customer ini?");
+    if (!konfirmasi) return;
+
+    try {
+        const res = await fetch(`/sghwebv2/ec/admin/crud/costumerController.php?action=nonaktifkan`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}`
+        });
+
+        const result = await res.json();
+
+        if (result.status) {
+            alert("Berhasil dinonaktifkan!");
+            location.reload();
+        } else {
+            alert("Gagal: " + result.message);
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("Terjadi error");
+    }
+}
+</script>
 
 <script>
     document.getElementById('btnExportPDF').addEventListener('click', function() {
