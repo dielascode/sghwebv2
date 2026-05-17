@@ -53,7 +53,7 @@ $total = 0;
             </h1>
 
             <p class="order-id-detailorder">
-                order-history<?= $header['nomor_pesanan'] ?>
+                <?= $header['nomor_pesanan'] ?>
             </p>
 
             <p class="order-date-detailorder">

@@ -33,7 +33,7 @@
   width:84px;
   height:84px;
   border-radius:50%;
-  background:linear-gradient(135deg,#43a047,#2e7d32);
+  background: linear-gradient(135deg, #21543c 0%, #3d8c62 100%);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -60,7 +60,7 @@
 }
 
 .brand-dummysukses{
-  color:#2e7d32;
+  color:#163f18;
   font-weight:700;
 }
 
@@ -69,7 +69,7 @@
   padding:14px;
   border:none;
   border-radius:14px;
-  background:linear-gradient(135deg,#43a047,#2e7d32);
+  background: linear-gradient(135deg, #21543c 0%, #3d8c62 100%);
   color:white;
   font-size:15px;
   font-weight:600;
@@ -89,7 +89,7 @@
   border-radius:14px;
   border:1.5px solid #43a047;
   background:#f6fff7;
-  color:#2e7d32;
+  color:#1c531e;
   font-size:15px;
   font-weight:600;
   cursor:pointer;
