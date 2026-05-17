@@ -492,7 +492,7 @@ if (!$result) {
         oldImages.forEach((img, index) => {
             preview.innerHTML += `
             <div class="position-relative">
-                <img src="../admin/assets/images/produk/${img.gambar}" 
+                <img src="../../asset/image/produk/${img.gambar}" 
                     class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
                 <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
@@ -583,11 +583,11 @@ if (!$result) {
             thumbnails.innerHTML = '';
 
             if (data.images && data.images.length > 0) {
-                mainImage.src = '../admin/assets/images/produk/' + data.images[0].gambar;
+                mainImage.src = '../../asset/image/produk/' + data.images[0].gambar;
 
                 data.images.forEach(img => {
                     let el = document.createElement('img');
-                    el.src = '../admin/assets/images/produk/' + img.gambar;
+                    el.src = '../../asset/image/produk/' + img.gambar;
                     el.className = 'img-thumbnail';
                     el.style.width = '60px';
                     el.style.height = '60px';
