@@ -37,6 +37,7 @@
 
       <button type="button" class="btn-filter" data-filter="satuan">Satuan</button>
       <button type="button" class="btn-filter" data-filter="bundling">Bundling</button>
+      <button type="button" class="btn-filter active" data-filter="all">Semua</button>
 
       <div class="search-box">
         <i class="fa fa-search"></i>

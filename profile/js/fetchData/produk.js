@@ -36,7 +36,6 @@ function renderProduk() {
             </div>
             <div class="produk-child-btn d-flex" style="justify-content: space-evenly; align-items: center;">
                 <button class="btn-main-hijau detail-produk" id="detail-produk" data-id="${item.id}">Detail Produk</button>
-                <button class="btn-main-hijau"><a href="https://wa.me/6281357026595?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20anda.%20Mohon%20info%20lebih%20lanjut."><i class="fa-brands fa-whatsapp"></i></a></button>
             </div>
             
             

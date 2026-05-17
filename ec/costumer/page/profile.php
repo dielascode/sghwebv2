@@ -1,8 +1,7 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+error_reporting(0);      // tambah ini
+ini_set('display_errors', 0);  // dan ini
+// HAPUS error_reporting dan echo debug
 session_start();
 
 require_once __DIR__ . '/../../config/connection.php';
@@ -10,23 +9,13 @@ require_once __DIR__ . '/../../config/connection.php';
 $db = new Database();
 $conn = $db->getConnection();
 
-echo "CONNECTION JALAN <br>";
-
 if (!isset($_SESSION['id'])) {
-
-    echo "SESSION TIDAK ADA";
+    header("Location: ../../index.php");
     exit;
 }
 
-echo "SESSION ADA <br>";
-
 $id_costumer = $_SESSION['id'];
 
-echo "ID USER : " . $id_costumer;
-
-// =====================================
-// AMBIL DATA PROFILE
-// =====================================
 $query = mysqli_query($conn, "
     SELECT 
         users.*,
@@ -51,9 +40,9 @@ if (!$data) {
     <div class="container-pesanan d-flex">
 
         <!-- SIDEBAR -->
-        <?php include "../elemen/sidebar_profil.php"; ?>
+        <?php include __DIR__ . "/../elemen/sidebar_profil.php"; ?>
 
-        <main class="content-profil">
+        <main class="content-profil" style="margin-top: 80px;">
 
             <!-- HEADER -->
             <div class="header-content">
@@ -112,7 +101,7 @@ if (!$data) {
                 <!-- =====================================
                      FORM EDIT PROFILE
                      ===================================== -->
-                <form action="logic/costumer/profileApi.php" method="POST">
+                <form action="/sghwebv2/ec/logic/costumer/profileApi.php" method="POST">
 
                     <div class="ps-card">
 
