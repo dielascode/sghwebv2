@@ -12,7 +12,7 @@ window.openModal = function (data) {
     document.getElementById("modalDesc").innerText = data.desc;
     document.getElementById("modalPrice").innerText = "Rp " + data.price;
     document.getElementById("modalStock").innerText = data.stock;
-    const basePath = "/sghwebv2/ec/images/";
+    const basePath = "/sghwebv2/asset/image/produk/";
     const mainImg = document.getElementById("modalImg");
     if (images.length > 0) {
         mainImg.src = basePath + images[0];

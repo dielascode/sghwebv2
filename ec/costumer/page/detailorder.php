@@ -35,13 +35,25 @@ $total = 0;
 
         <!-- Header -->
         <div class="header-detailorder">
+            <button onclick="history.back()" style="
+        padding:8px 16px;
+        border:none;
+        border-radius:8px;
+        background:#2e7d32;
+        color:white;
+        cursor:pointer;
+        margin-bottom:15px;
+        font-weight:600;
+    ">
+                Kembali
+            </button>
 
             <h1 class="title-detailorder">
                 Detail Order
             </h1>
 
             <p class="order-id-detailorder">
-                #<?= $header['nomor_pesanan'] ?>
+                order-history<?= $header['nomor_pesanan'] ?>
             </p>
 
             <p class="order-date-detailorder">
@@ -56,7 +68,7 @@ $total = 0;
 
             <div class="card-status-bar">
 
-                
+
 
                 <span class="status-label">
                     <div style="
@@ -109,8 +121,8 @@ $total = 0;
 
                                     <div class="product-img-wrap-detailorder">
 
-                                        <img src="/sghwebv2/asset/image/produk/<?= $data['foto'] ?? 'melon1.jpg' ?>"
-                                            width="70" style="border-radius:10px;">
+                                        <img src="/sghwebv2/asset/image/produk/<?= $item['gambar'] ?? 'melon1.jpg' ?>"
+                                            width="70" style="border-radius:7px;">
 
                                     </div>
 

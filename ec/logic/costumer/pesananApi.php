@@ -101,44 +101,46 @@ class PesananAPI
     public function getDetailOrder($nomor_pesanan)
     {
         $query = "SELECT 
-            pesanan.nomor_pesanan,
-            pesanan.id_costumer,
-            pesanan.tanggal_order,
-            pesanan.status,
-            pesanan.metode,
-            pesanan.bukti_bayar,
+    pesanan.nomor_pesanan,
+    pesanan.id_costumer,
+    pesanan.tanggal_order,
+    pesanan.status,
+    pesanan.metode,
+    pesanan.bukti_bayar,
 
-            users.nama,
-            users.nomor_telepon AS no_hp,
+    users.nama,
+    users.nomor_telepon AS no_hp,
 
-            alamat_costumer.alamat,
+    alamat_costumer.alamat,
 
-            detail_pesanan.kuantitas,
+    detail_pesanan.kuantitas,
 
-            produk.nama_produk,
-            produk.harga,
+    produk.nama_produk,
+    produk.harga,
 
-            gambar_produk.gambar
+    (
+        SELECT gp.gambar
+        FROM gambar_produk gp
+        WHERE gp.id_produk = produk.id
+        LIMIT 1
+    ) AS gambar
 
-        FROM pesanan
+FROM pesanan
 
-        JOIN users
-            ON users.id = pesanan.id_costumer
+JOIN users
+    ON users.id = pesanan.id_costumer
 
-        LEFT JOIN alamat_costumer
-            ON alamat_costumer.id_costumer = users.id
-            AND alamat_costumer.status = 'utama'
+LEFT JOIN alamat_costumer
+    ON alamat_costumer.id_costumer = users.id
+    AND alamat_costumer.status = 'utama'
 
-        JOIN detail_pesanan
-            ON detail_pesanan.nomor_pesanan = pesanan.nomor_pesanan
+JOIN detail_pesanan
+    ON detail_pesanan.nomor_pesanan = pesanan.nomor_pesanan
 
-        JOIN produk
-            ON produk.id = detail_pesanan.id_produk
+JOIN produk
+    ON produk.id = detail_pesanan.id_produk
 
-        LEFT JOIN gambar_produk
-            ON gambar_produk.id_produk = produk.id
-
-        WHERE pesanan.nomor_pesanan = ?";
+WHERE pesanan.nomor_pesanan = ?";
 
         $stmt = $this->conn->prepare($query);
 

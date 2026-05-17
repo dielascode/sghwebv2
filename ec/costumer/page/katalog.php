@@ -74,7 +74,7 @@
           $gambar = getGambarProduk($conn, $p['id_produk']);
           ?>
 
-          <img src="/sghwebv2/ec/admin/assets/images/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
+          <img src="/sghwebv2/asset/image/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
             class="product1-img">
         </div>
 
