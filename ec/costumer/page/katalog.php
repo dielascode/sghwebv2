@@ -34,15 +34,15 @@
     </div>
 
     <div class="search-flex">
-  
-  <button type="button" class="btn-filter" data-filter="satuan">Satuan</button>
-  <button type="button" class="btn-filter" data-filter="bundling">Bundling</button>
 
-  <div class="search-box">
-    <i class="fa fa-search"></i>
-    <input type="text" id="searchInput" placeholder="Search">
-  </div>
-</div>
+      <button type="button" class="btn-filter" data-filter="satuan">Satuan</button>
+      <button type="button" class="btn-filter" data-filter="bundling">Bundling</button>
+
+      <div class="search-box">
+        <i class="fa fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search">
+      </div>
+    </div>
   </div>
 </section>
 
@@ -65,16 +65,17 @@
 
   <div class="grid">
     <?php foreach ($produk as $p): ?>
-   
 
-<div class="product-card" data-tipe="<?= $p['tipe'] ?>">
+
+      <div class="product-card" data-tipe="<?= $p['tipe'] ?>">
 
         <div class="img1-area">
           <?php
           $gambar = getGambarProduk($conn, $p['id_produk']);
           ?>
 
-          <img src="/sghwebv2/ec/images/<?= $gambar[0] ?>" width="200" alt="Melon" class="product1-img">
+          <img src="/sghwebv2/ec/admin/assets/images/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
+            class="product1-img">
         </div>
 
         <div class="card-body">
@@ -95,7 +96,7 @@
 
           <div class="btn-row">
             <button class="btn-buy" onclick='openModal({
-  id: "<?= $p["id_detail"] ?>",
+  id: "<?= $p["id_produk"] ?>",
   variety: "<?= $p["nama_varietas"] ?>",
   title: "<?= $p["nama_produk"] ?>",
   desc: "<?= $p["deskripsi"] ?>",
@@ -222,7 +223,9 @@
               <span class="modal-qty-num" id="modalQty">1</span>
               <button class="modal-qty-btn" onclick="changeQty(1)">+</button>
             </div>
-            <button class="modal-btn-buy">Beli Sekarang</button>
+           <button type="button" class="modal-btn-buy" onclick="buyNow()">
+  Beli Sekarang
+</button>
             <button class="modal-btn-cart" onclick="addToCart()">+ Keranjang</button>
           </div>
 
@@ -319,45 +322,38 @@
 
 </div>
 <script>
-// ========================= 
-// FILTER TIPE + SEARCH
-// =========================
-document.addEventListener('DOMContentLoaded', function () {
+  // ========================= 
+  // FILTER TIPE + SEARCH
+  // =========================
+ (function () {
+    const cards = document.querySelectorAll('.product-card');
+    const filterBtns = document.querySelectorAll('.btn-filter');
+    const searchInput = document.getElementById('searchInput');
 
-  const cards = document.querySelectorAll('.product-card');
-  const filterBtns = document.querySelectorAll('.btn-filter');
-  const searchInput = document.getElementById('searchInput');
+    let activeFilter = 'all';
 
-  let activeFilter = 'all';
+    function applyFilter() {
+        const keyword = searchInput.value.toLowerCase().trim();
+        cards.forEach(card => {
+            const tipe = card.dataset.tipe?.toLowerCase() ?? '';
+            const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
+            const matchTipe = activeFilter === 'all' || tipe === activeFilter;
+            const matchSearch = nama.includes(keyword);
+            card.style.display = (matchTipe && matchSearch) ? '' : 'none';
+        });
+    }
 
-  function applyFilter() {
-    const keyword = searchInput.value.toLowerCase().trim();
-
-    cards.forEach(card => {
-      const tipe = card.dataset.tipe?.toLowerCase() ?? '';
-      const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
-
-      const matchTipe = activeFilter === 'all' || tipe === activeFilter;
-      const matchSearch = nama.includes(keyword);
-
-      card.style.display = (matchTipe && matchSearch) ? '' : 'none';
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            activeFilter = this.dataset.filter;
+            applyFilter();
+        });
     });
-  }
 
-  // Klik filter button
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', function () {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      activeFilter = this.dataset.filter;
-      applyFilter();
-    });
-  });
-
-  // Ketik search
-  searchInput.addEventListener('input', applyFilter);
-
-});
+    searchInput.addEventListener('input', applyFilter);
+})();
 
 
 </script>
