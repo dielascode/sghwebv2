@@ -37,6 +37,42 @@ window.openModal = function (data) {
             div.classList.add("active");
         };
     });
+
+    // Render review
+const grid = document.querySelector('.modal-reviews-grid');
+grid.innerHTML = '';
+
+const reviews = data.reviews || [];
+if (reviews.length > 0) {
+   reviews.forEach(r => {
+    const bintang = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+    const inisial = r.nama.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+    const tanggal = new Date(r.tanggal_review).toLocaleDateString('id-ID', {
+        day: 'numeric', month: 'short', year: 'numeric'
+    });
+
+    const fotoHtml = r.file
+        ? `<img src="/sghwebv2/asset/image/review/${r.file}" 
+               style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid #e0e0e0;">`
+        : '';
+
+    grid.innerHTML += `
+        <div class="modal-review-card">
+            <div class="modal-review-stars" style="color:#f5a623;font-size:14px;letter-spacing:2px;">${bintang}</div>
+            <p class="modal-review-text">${r.komentar}</p>
+            ${fotoHtml}
+            <div class="modal-review-footer">
+                <div class="modal-reviewer">
+                    <div class="modal-reviewer-avatar">${inisial}</div>
+                    <span class="modal-reviewer-name">${r.nama}</span>
+                </div>
+                <span class="modal-review-date">${tanggal}</span>
+            </div>
+        </div>`;
+});
+} else {
+    grid.innerHTML = '<p style="color:#aaa;font-size:13px;padding:8px 0;grid-column:1/-1;">Belum ada ulasan.</p>';
+}
     window.modalQty = 1;
     document.getElementById("modalQty").textContent = window.modalQty;
 };

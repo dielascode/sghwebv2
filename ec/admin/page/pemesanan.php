@@ -196,7 +196,11 @@ if (!$result) {
                                 <tr data-status="<?= $p['status_pesanan'] ?>" data-date="<?= $p['tanggal_order'] ?>">
                                     <td><?= $p['nomor_pesanan'] ?></td>
                                     <td><?= $p['nama'] ?></td>
-                                    <td><?= $p['bukti_bayar'] ?></td>
+                                    <td>
+                                        <a href="../../asset/image/bukti_bayar/<?= $p['bukti_bayar'] ?>" target="_blank">
+                                            Lihat Bukti
+                                        </a>
+                                    </td>
                                     <td><?= $p['metode'] ?></td>
                                     <td><?= $p['status_pesanan'] ?></td>
                                     <td><?= $p['tanggal_order'] ?></td>
@@ -490,7 +494,17 @@ if (!$result) {
 
             document.getElementById('nomor_pesanan').innerText = data.nomor_pesanan;
             document.getElementById('nama').innerText = data.nama;
-            document.getElementById('order_alamat').innerText = data.alamat ?? 'Belum ada alamat';
+            let alamat = data.alamat;
+
+            if (typeof alamat === 'string') {
+                alamat = JSON.parse(alamat); 
+            }
+
+            let alamatText = `
+                ${alamat.jalan || ''}, ${alamat.kelurahan || ''}, ${alamat.kecamatan || ''}, ${alamat.kota || ''}, ${alamat.provinsi || ''}
+                `;
+
+            document.getElementById('order_alamat').innerText = alamatText;
 
             let itemsHTML = '';
             data.items.forEach(item => {
@@ -509,7 +523,7 @@ if (!$result) {
 
             if (data.bukti_bayar) {
                 buktiHTML = `
-                <img src="../assets/images/bukti/${data.bukti_bayar}" 
+                <img src="../../asset/image/bukti_bayar/${data.bukti_bayar}" 
                      class="img-fluid rounded shadow"
                      style="max-height:300px; cursor:pointer;"
                      onclick="window.open(this.src)">

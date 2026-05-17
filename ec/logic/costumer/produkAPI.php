@@ -53,3 +53,18 @@ function getGambarProduk($conn, $id_produk)
 
     return $gambar;
 }
+function getReviewProduk($conn, $id_produk) {
+    $stmt = mysqli_prepare($conn, "
+        SELECT r.rating, r.komentar, r.tanggal_review, r.file, u.nama
+        FROM review r
+        JOIN pesanan p ON p.nomor_pesanan = r.nomor_pesanan
+        JOIN detail_pesanan dp ON dp.nomor_pesanan = p.nomor_pesanan
+        JOIN users u ON u.id = r.id_costumer
+        WHERE dp.id_produk = ?
+        ORDER BY r.tanggal_review DESC
+        LIMIT 2
+    ");
+    mysqli_stmt_bind_param($stmt, 's', $id_produk);
+    mysqli_stmt_execute($stmt);
+    return mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+}

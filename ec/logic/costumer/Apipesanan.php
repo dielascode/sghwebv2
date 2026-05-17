@@ -20,34 +20,36 @@ class PesananApi
     }
 
     public function getSelectedProduk(string $id_costumer, array $selected): array
-    {
-        if (empty($selected)) return [];
+{
+    if (empty($selected)) return [];
 
-        $ids  = implode(",", array_map(fn($id) => "'" . mysqli_real_escape_string($this->conn, $id) . "'", $selected));
-        $rows = $this->query("
-            SELECT k.kuantitas, p.id AS id_produk, p.nama_produk, p.harga, p.deskripsi, v.nama_varietas
-            FROM keranjang k
-            JOIN produk p ON k.id_produk = p.id
-            JOIN detail_produk dp ON p.id = dp.id_produk
-            JOIN varietas v ON dp.id_varietas = v.id
-            WHERE k.id_produk IN ($ids) AND k.id_costumer = ?
-        ", 's', [$id_costumer]);
+    $ids  = implode(",", array_map(fn($id) => "'" . mysqli_real_escape_string($this->conn, $id) . "'", $selected));
+    $rows = $this->query("
+        SELECT k.kuantitas, p.id AS id_produk, p.nama_produk, p.harga, p.deskripsi, v.nama_varietas
+        FROM keranjang k
+        JOIN produk p ON k.id_produk = p.id
+        JOIN detail_produk dp ON p.id = dp.id_produk
+        JOIN varietas v ON dp.id_varietas = v.id
+        WHERE k.id_produk IN ($ids) AND k.id_costumer = ?
+        GROUP BY p.id
+    ", 's', [$id_costumer]);
 
-        $data = [];
-        while ($row = mysqli_fetch_assoc($rows)) $data[] = $row;
-        return $data;
-    }
-
-    public function getBuyNowProduk(string $id_produk): array|null
-    {
-        return mysqli_fetch_assoc($this->query("
-            SELECT p.id AS id_produk, p.nama_produk, p.harga, p.deskripsi, v.nama_varietas
-            FROM produk p
-            JOIN detail_produk dp ON p.id = dp.id_produk
-            JOIN varietas v ON dp.id_varietas = v.id
-            WHERE p.id = ? LIMIT 1
-        ", 's', [$id_produk]));
-    }
+    $data = [];
+    while ($row = mysqli_fetch_assoc($rows)) $data[] = $row;
+    return $data;
+}
+public function getBuyNowProduk(string $id_produk): array|null
+{
+    return mysqli_fetch_assoc($this->query("
+        SELECT p.id AS id_produk, p.nama_produk, p.harga, p.deskripsi, v.nama_varietas
+        FROM produk p
+        JOIN detail_produk dp ON p.id = dp.id_produk
+        JOIN varietas v ON dp.id_varietas = v.id
+        WHERE p.id = ?
+        GROUP BY p.id
+        LIMIT 1
+    ", 's', [$id_produk]));
+}
 
     public function insertPesanan(string $nomor, string $id_costumer, ?string $bukti): void
     {

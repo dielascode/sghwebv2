@@ -142,11 +142,11 @@ $totalQty = $data['totalItem'];
                             <div class="product-price">
 
                                 Rp <?= number_format(
-                                    $item['harga'] * $item['kuantitas'],
-                                    0,
-                                    ',',
-                                    '.'
-                                ) ?>
+                                        $item['harga'] * $item['kuantitas'],
+                                        0,
+                                        ',',
+                                        '.'
+                                    ) ?>
 
                             </div>
 

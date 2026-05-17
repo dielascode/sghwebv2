@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/popupproduk.css?v=24">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/detailorder.css?v=22">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pengaduanStyles.css?v=23">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/dummysukses.css?v=24">
+    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/dummysukses.css?v=25">
     <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/footer.css?v=24">
 </head>
 <body class="m-0">

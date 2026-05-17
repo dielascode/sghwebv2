@@ -96,14 +96,15 @@
 
           <div class="btn-row">
             <button class="btn-buy" onclick='openModal({
-  id: "<?= $p["id_produk"] ?>",
-  variety: "<?= $p["nama_varietas"] ?>",
-  title: "<?= $p["nama_produk"] ?>",
-  desc: "<?= $p["deskripsi"] ?>",
-  price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
-  stock: "<?= $p["stok"] ?? 0 ?>",
-  images: <?= json_encode($gambar) ?>
-})'>
+                id: "<?= $p["id_produk"] ?>",
+                variety: "<?= $p["nama_varietas"] ?>",
+                title: "<?= $p["nama_produk"] ?>",
+                desc: "<?= $p["deskripsi"] ?>",
+                price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
+                stock: "<?= $p["stok"] ?? 0 ?>",
+                images: <?= json_encode($gambar) ?>,
+                reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
+              })'>
               Beli Sekarang
             </button>
 
@@ -223,9 +224,9 @@
               <span class="modal-qty-num" id="modalQty">1</span>
               <button class="modal-qty-btn" onclick="changeQty(1)">+</button>
             </div>
-           <button type="button" class="modal-btn-buy" onclick="buyNow()">
-  Beli Sekarang
-</button>
+            <button type="button" class="modal-btn-buy" onclick="buyNow()">
+              Beli Sekarang
+            </button>
             <button class="modal-btn-cart" onclick="addToCart()">+ Keranjang</button>
           </div>
 
@@ -233,90 +234,12 @@
       </div>
 
       <!-- ULASAN -->
+      <!-- ULASAN -->
       <div class="modal-reviews">
-        <!-- <p class="modal-reviews-title">Ulasan pembeli</p> -->
         <div class="modal-reviews-grid">
-          <div class="modal-review-card">
-            <div class="modal-review-stars">
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-            </div>
-            <p class="modal-review-text">Baru pertama kali beli melon di sini dan ternyata kualitasnya bagus. Buahnya
-              segar, rasanya manis, dan aromanya juga harum. Pengemasannya rapi jadi sampai dengan kondisi baik.
-              Recommended!</p>
-            <div class="modal-review-footer">
-              <div class="modal-reviewer">
-                <div class="modal-reviewer-avatar">NS</div>
-                <span class="modal-reviewer-name">Nguyen Shane</span>
-              </div>
-              <span class="modal-review-date">13 Okt 2017</span>
-            </div>
-          </div>
-          <div class="modal-review-card">
-            <div class="modal-review-stars">
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-              <svg viewBox="0 0 24 24" width="12" height="12">
-                <polygon
-                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                  fill="#f5a623" />
-              </svg>
-            </div>
-            <p class="modal-review-text">Baru pertama kali beli melon di sini dan ternyata kualitasnya bagus. Buahnya
-              segar, rasanya manis, dan aromanya juga harum. Pengemasannya rapi jadi sampai dengan kondisi baik.
-              Recommended!</p>
-            <div class="modal-review-footer">
-              <div class="modal-reviewer">
-                <div class="modal-reviewer-avatar">NS</div>
-                <span class="modal-reviewer-name">Nguyen Shane</span>
-              </div>
-              <span class="modal-review-date">13 Okt 2017</span>
-            </div>
-          </div>
+          <!-- diisi JS saat openModal -->
         </div>
       </div>
-
     </div>
   </div>
 
@@ -325,7 +248,7 @@
   // ========================= 
   // FILTER TIPE + SEARCH
   // =========================
- (function () {
+  (function() {
     const cards = document.querySelectorAll('.product-card');
     const filterBtns = document.querySelectorAll('.btn-filter');
     const searchInput = document.getElementById('searchInput');
@@ -333,27 +256,25 @@
     let activeFilter = 'all';
 
     function applyFilter() {
-        const keyword = searchInput.value.toLowerCase().trim();
-        cards.forEach(card => {
-            const tipe = card.dataset.tipe?.toLowerCase() ?? '';
-            const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
-            const matchTipe = activeFilter === 'all' || tipe === activeFilter;
-            const matchSearch = nama.includes(keyword);
-            card.style.display = (matchTipe && matchSearch) ? '' : 'none';
-        });
+      const keyword = searchInput.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const tipe = card.dataset.tipe?.toLowerCase() ?? '';
+        const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
+        const matchTipe = activeFilter === 'all' || tipe === activeFilter;
+        const matchSearch = nama.includes(keyword);
+        card.style.display = (matchTipe && matchSearch) ? '' : 'none';
+      });
     }
 
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            activeFilter = this.dataset.filter;
-            applyFilter();
-        });
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        activeFilter = this.dataset.filter;
+        applyFilter();
+      });
     });
 
     searchInput.addEventListener('input', applyFilter);
-})();
-
-
+  })();
 </script>

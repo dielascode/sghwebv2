@@ -23,7 +23,7 @@ if ($action === 'tambah') {
 
     $komposisi = json_decode($_POST['komposisi']);
 
-    $targetDir = __DIR__ . "/../assets/images/produk/";
+    $targetDir = __DIR__ . "/../../../asset/image/produk/";
 
     if (!is_dir($targetDir)) {
         mkdir($targetDir, 0777, true);

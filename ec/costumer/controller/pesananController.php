@@ -20,12 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $buynow   = $_SESSION['konfirmasi_buynow'] ?? null; // ← fix di sini
+        $buynow = $_SESSION['konfirmasi_buynow'] ?? null;
         $selected = $_SESSION['selected_cart'] ?? [];
 
         $nomor     = 'ORD-' . time();
         $bukti     = null;
-        $uploadDir = __DIR__ . '/../../uploads/bukti/';
+        $uploadDir = __DIR__ . '/../../../asset/image/bukti_bayar/';
 
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
