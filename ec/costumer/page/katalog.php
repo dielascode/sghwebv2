@@ -96,15 +96,15 @@
 
           <div class="btn-row">
             <button class="btn-buy" onclick='openModal({
-  id: "<?= $p["id_produk"] ?>",
-  variety: "<?= $p["nama_varietas"] ?>",
-  title: "<?= $p["nama_produk"] ?>",
-  desc: "<?= $p["deskripsi"] ?>",
-  price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
-  stock: "<?= $p["stok"] ?? 0 ?>",
-  images: <?= json_encode($gambar) ?>,
-  reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
-})'>
+                id: "<?= $p["id_produk"] ?>",
+                variety: "<?= $p["nama_varietas"] ?>",
+                title: "<?= $p["nama_produk"] ?>",
+                desc: "<?= $p["deskripsi"] ?>",
+                price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
+                stock: "<?= $p["stok"] ?? 0 ?>",
+                images: <?= json_encode($gambar) ?>,
+                reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
+              })'>
               Beli Sekarang
             </button>
 
@@ -224,9 +224,9 @@
               <span class="modal-qty-num" id="modalQty">1</span>
               <button class="modal-qty-btn" onclick="changeQty(1)">+</button>
             </div>
-           <button type="button" class="modal-btn-buy" onclick="buyNow()">
-  Beli Sekarang
-</button>
+            <button type="button" class="modal-btn-buy" onclick="buyNow()">
+              Beli Sekarang
+            </button>
             <button class="modal-btn-cart" onclick="addToCart()">+ Keranjang</button>
           </div>
 
@@ -234,12 +234,12 @@
       </div>
 
       <!-- ULASAN -->
-    <!-- ULASAN -->
-<div class="modal-reviews">
-    <div class="modal-reviews-grid">
-        <!-- diisi JS saat openModal -->
-    </div>
-</div>
+      <!-- ULASAN -->
+      <div class="modal-reviews">
+        <div class="modal-reviews-grid">
+          <!-- diisi JS saat openModal -->
+        </div>
+      </div>
     </div>
   </div>
 
@@ -248,7 +248,7 @@
   // ========================= 
   // FILTER TIPE + SEARCH
   // =========================
- (function () {
+  (function() {
     const cards = document.querySelectorAll('.product-card');
     const filterBtns = document.querySelectorAll('.btn-filter');
     const searchInput = document.getElementById('searchInput');
@@ -256,27 +256,25 @@
     let activeFilter = 'all';
 
     function applyFilter() {
-        const keyword = searchInput.value.toLowerCase().trim();
-        cards.forEach(card => {
-            const tipe = card.dataset.tipe?.toLowerCase() ?? '';
-            const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
-            const matchTipe = activeFilter === 'all' || tipe === activeFilter;
-            const matchSearch = nama.includes(keyword);
-            card.style.display = (matchTipe && matchSearch) ? '' : 'none';
-        });
+      const keyword = searchInput.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const tipe = card.dataset.tipe?.toLowerCase() ?? '';
+        const nama = card.querySelector('.product-name')?.innerText.toLowerCase() ?? '';
+        const matchTipe = activeFilter === 'all' || tipe === activeFilter;
+        const matchSearch = nama.includes(keyword);
+        card.style.display = (matchTipe && matchSearch) ? '' : 'none';
+      });
     }
 
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            activeFilter = this.dataset.filter;
-            applyFilter();
-        });
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        activeFilter = this.dataset.filter;
+        applyFilter();
+      });
     });
 
     searchInput.addEventListener('input', applyFilter);
-})();
-
-
+  })();
 </script>
