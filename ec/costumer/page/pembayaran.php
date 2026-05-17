@@ -129,81 +129,78 @@ $total_bayar = $_SESSION['total_bayar'] ?? 0;
 
 </div>
 <script>
-// ── Preview & enable tombol saat file dipilih ─────────────
-const fileInput  = document.getElementById('fileInput');
-const previewBox = document.getElementById('previewBox');
-const previewThumb = document.getElementById('previewThumb');
-const previewName  = document.getElementById('previewName');
-const previewSize  = document.getElementById('previewSize');
-const confirmBtn   = document.getElementById('confirmBtn');
-const removeBtn    = document.getElementById('removeBtn');
+(function() {
+    const fileInput    = document.getElementById('fileInput');
+    const previewBox   = document.getElementById('previewBox');
+    const previewThumb = document.getElementById('previewThumb');
+    const previewName  = document.getElementById('previewName');
+    const previewSize  = document.getElementById('previewSize');
+    const confirmBtn   = document.getElementById('confirmBtn');
+    const removeBtn    = document.getElementById('removeBtn');
 
-fileInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (!file) return;
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
 
-    // Validasi ukuran maks 5MB
-    if (file.size > 5 * 1024 * 1024) {
-        alert('File terlalu besar, maksimal 5MB');
-        this.value = '';
-        return;
-    }
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File terlalu besar, maksimal 5MB');
+            this.value = '';
+            return;
+        }
 
-    // Tampilkan preview
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        previewThumb.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewThumb.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
 
-    previewName.textContent = file.name;
-    previewSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
-    previewBox.style.display = 'flex';
-    confirmBtn.disabled = false; // ← aktifkan tombol
-});
+        previewName.textContent  = file.name;
+        previewSize.textContent  = (file.size / 1024).toFixed(1) + ' KB';
+        previewBox.style.display = 'flex';
+        confirmBtn.disabled      = false;
+    });
 
-// ── Hapus file yang diupload ──────────────────────────────
-removeBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    fileInput.value      = '';
-    previewBox.style.display = 'none';
-    previewThumb.src     = '';
-    confirmBtn.disabled  = true; // ← nonaktifkan lagi
-});
+    removeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        fileInput.value          = '';
+        previewBox.style.display = 'none';
+        previewThumb.src         = '';
+        confirmBtn.disabled      = true;
+    });
 
-// ── Konfirmasi pembayaran ─────────────────────────────────
-function handleConfirm() {
-    const file = fileInput.files[0];
-    if (!file) { alert('Upload bukti bayar dulu'); return; }
+    window.handleConfirm = function () {
+        const file = fileInput.files[0];
+        if (!file) { alert('Upload bukti bayar dulu'); return; }
 
-    confirmBtn.disabled  = true;
-    confirmBtn.innerText = 'Mengirim...';
+        confirmBtn.disabled  = true;
+        confirmBtn.innerText = 'Mengirim...';
 
-    const formData = new FormData();
-    formData.append('action', 'konfirmasi');
-    formData.append('bukti_bayar', file);
+        const formData = new FormData();
+        formData.append('action', 'konfirmasi');
+        formData.append('bukti_bayar', file);
 
-    fetch('/sghwebv2/ec/costumer/controller/pesananController.php', {
-        method: 'POST',
-        credentials: 'include',
-        body: formData
-    })
-    .then(res => res.text())
-    .then(res => {
-        if (res.trim() === 'success') {
-            document.getElementById('successMsg').style.display = 'flex';
-             updateCartBadge(); 
-            setTimeout(() => loadPage('costumer/page/dummysukses.php'), 2000);
-        } else {
-            alert('Gagal: ' + res);
+        fetch('/sghwebv2/ec/costumer/controller/pesananController.php', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData
+        })
+        .then(res => res.text())
+        .then(res => {
+            if (res.trim() === 'success') {
+                document.getElementById('successMsg').style.display = 'flex';
+                updateCartBadge();
+                setTimeout(() => loadPage('costumer/page/dummysukses.php'), 2000);
+            } else {
+                alert('Gagal: ' + res);
+                confirmBtn.disabled  = false;
+                confirmBtn.innerText = 'Konfirmasi Pembayaran';
+            }
+        })
+        .catch(err => {
+            console.log(err);
             confirmBtn.disabled  = false;
             confirmBtn.innerText = 'Konfirmasi Pembayaran';
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        confirmBtn.disabled  = false;
-        confirmBtn.innerText = 'Konfirmasi Pembayaran';
-    });
-}
+        });
+    };
+})();
 </script>

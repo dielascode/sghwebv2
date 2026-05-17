@@ -171,6 +171,7 @@ public function setBuyNow(): void
         echo "error: ID produk kosong";
         return;
     }
+      unset($_SESSION['konfirmasi_buynow']);
 
     $_SESSION['buynow'] = [
         'id_produk' => $id_produk,
@@ -180,11 +181,7 @@ public function setBuyNow(): void
     echo "success";
 }
 // ── Clear buy now dari session ───────────────────────────────
-public function clearBuyNow(): void
-{
-    unset($_SESSION['buynow']);
-    echo "success";
-}
+
 }
 
 // ── Endpoint AJAX ────────────────────────────────────────────────────

@@ -16,7 +16,7 @@ $selected    = $_SESSION['selected_cart'] ?? [];
 if (!$id_costumer) die("SESSION TIDAK VALID");
 
 // Baca dari buynow
-$buynow    = $_SESSION['buynow'] ?? null;
+$buynow    = $_SESSION['konfirmasi_buynow'] ?? $_SESSION['buynow'] ?? null;
 $id_produk = $buynow['id_produk'] ?? null;
 $qty       = $buynow['qty'] ?? 1;
 
@@ -25,6 +25,7 @@ if ($id_produk) {
     $item['kuantitas'] = (int) $qty;
     $items             = [$item];
 
+    // Simpan ke konfirmasi_buynow, hapus buynow
     $_SESSION['konfirmasi_buynow'] = [
         'id_produk' => $id_produk,
         'qty'       => (int) $qty

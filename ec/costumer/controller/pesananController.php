@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $buynow   = $_SESSION['buynow'] ?? null; // ← fix di sini
+        $buynow = $_SESSION['konfirmasi_buynow'] ?? null;
         $selected = $_SESSION['selected_cart'] ?? [];
 
         $nomor     = 'ORD-' . time();
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($buynow) {
             $api->insertDetail($nomor, $buynow['id_produk'], (int) $buynow['qty']);
-            unset($_SESSION['buynow']);
+            unset($_SESSION['konfirmasi_buynow']);
         } elseif (!empty($selected)) {
             foreach ($selected as $id_produk) {
                 $item = $api->getKuantitasKeranjang($id_produk, $id_costumer);
