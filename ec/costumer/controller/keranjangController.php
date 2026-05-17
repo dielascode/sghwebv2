@@ -56,7 +56,7 @@ class KeranjangController
     'delete_selected'=> $this->deleteSelected(),
     'set_selected'   => $this->setSelected(),
     'set_buynow'     => $this->setBuyNow(), // ← tambah ini
-    'clear_buynow'   => $this->clearBuyNow(), // ← tambah ini
+   
     default          => http_response_code(400),
 };
     }
@@ -97,32 +97,27 @@ class KeranjangController
     }
 
     // ── Update kuantitas ─────────────────────────────────────────────
- public function updateKuantitas(): void
+public function updateKuantitas(): void
 {
     $uid       = $this->userId();
     $id_produk = $_POST['id_produk'] ?? null;
     $delta     = (int) ($_POST['kuantitas'] ?? 0);
 
-    // Tambah ini sementara
-    error_log("DEBUG uid: $uid | id_produk: $id_produk | delta: $delta");
-
-    if (!$id_produk) {
-        echo "error: ID produk kosong";
-        return;
-    }
+    if (!$id_produk) { echo "error: ID produk kosong"; return; }
 
     $result = $this->api->getKuantitasCart($id_produk, $uid);
     $item   = mysqli_fetch_assoc($result);
 
-    // Tambah ini sementara
-    error_log("DEBUG item: " . json_encode($item));
-
-    if (!$item) {
-        echo "error: produk tidak ditemukan";
-        return;
-    }
+    if (!$item) { echo "error: produk tidak ditemukan"; return; }
 
     $new = $item['kuantitas'] + $delta;
+
+    // Cek stok
+    $stok = mysqli_fetch_assoc($this->api->getProduk($id_produk))['stok'] ?? 0;
+    if ($new > $stok) {
+        echo "error: melebihi stok";
+        return;
+    }
 
     $new <= 0
         ? $this->api->deleteCart($id_produk, $uid)

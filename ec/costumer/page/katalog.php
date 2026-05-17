@@ -102,6 +102,7 @@
   desc: "<?= $p["deskripsi"] ?>",
   price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
   stock: "<?= $p["stok"] ?? 0 ?>",
+  
   images: <?= json_encode($gambar) ?>,
   reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
 })'>

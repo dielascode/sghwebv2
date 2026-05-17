@@ -327,46 +327,36 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+
 .qty-picker button {
   position: relative;
   z-index: 10;
 }
+
 .empty-cart{
     width: 100%;
     min-height: 350px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     text-align: center;
-
     background: linear-gradient(180deg, #f8fffb 0%, #eefaf2 100%);
-
     border: 1px solid #d8f0df;
-
     border-radius: 24px;
-
     padding: 40px 20px;
-
     box-shadow: 0 8px 30px rgba(46, 125, 50, 0.08);
 }
 
 .empty-cart-icon{
     width: 95px;
     height: 95px;
-
     border-radius: 50%;
-
     background:linear-gradient(135deg,var(--green),var(--green-dark));
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     margin-bottom: 22px;
-
     box-shadow: 0 8px 20px rgba(69, 167, 120, 0.25);
 }
 
@@ -378,129 +368,398 @@
 .empty-cart h2{
     font-size: 26px;
     font-weight: 700;
-
     margin-bottom: 12px;
-
     color: #1f5f3f;
 }
 
 .empty-cart p{
     max-width: 420px;
-
     font-size: 14px;
     line-height: 1.7;
-
     color: #5d7d68;
-
     margin-bottom: 28px;
 }
 
 .btn-shop{
     border: none;
     outline: none;
-
     padding: 13px 28px;
-
     border-radius: 999px;
-
-   background:linear-gradient(135deg,var(--green),var(--green-dark));
-
+    background:linear-gradient(135deg,var(--green),var(--green-dark));
     color: white;
-
     font-size: 14px;
     font-weight: 600;
-
     cursor: pointer;
-
     transition: all .25s ease;
-
     box-shadow: 0 6px 18px rgba(69, 167, 120, 0.25);
 }
 
 .btn-shop:hover{
     transform: translateY(-3px);
-
     box-shadow: 0 10px 22px rgba(69, 167, 120, 0.35);
 }
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    padding: 20px 15px;
-  }
 
-  .cart-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
 
-  .page-title {
-    font-size: 20px;
-  }
+/* ============================================
+   RESPONSIVE — 992px (Tablet Besar)
+   ============================================ */
+@media (max-width: 992px) {
 
-  .cart-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 15px;
-  }
+    .container-keranjang {
+        margin: 0 16px;
+        padding: 0 16px;
+    }
 
-  .product-img {
-    margin: 0 0 15px 0;
-    width: 80px;
-    height: 80px;
-  }
+    .cart-grid {
+        grid-template-columns: 1fr 300px;
+        gap: 18px;
+    }
 
-  .product-price {
-    font-size: 18px;
-    margin-top: 10px;
-  }
+    .page-title1 {
+        font-size: 24px;
+    }
 
-  .action-row {
-    justify-content: center;
-  }
+    .product-img {
+        width: 90px;
+        height: 90px;
+    }
 
-  .summary-card {
-    padding: 20px;
-  }
+    .product-info h3 {
+        font-size: 16px;
+    }
+
+    .product-price {
+        font-size: 20px;
+    }
+
+    .summary-card-keranjang {
+        padding: 20px;
+    }
+
+    .summary-total-price-keranjang {
+        font-size: 20px;
+    }
 }
 
+
+/* ============================================
+   RESPONSIVE — 768px (Tablet)
+   ============================================ */
+@media (max-width: 768px) {
+
+    .cart-wrapper {
+        padding-top: 76px;
+        padding-bottom: 32px;
+    }
+
+    .container-keranjang {
+        margin: 0;
+        padding: 0 14px;
+    }
+
+    .page-title1 {
+        font-size: 22px;
+        margin-bottom: 4px;
+    }
+
+    .product-count {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .cart-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .summary-card-keranjang {
+        position: static;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .select-all-bar {
+        padding: 14px 18px;
+        border-radius: 14px;
+        margin-bottom: 14px;
+    }
+
+    .cart-card {
+        padding: 16px;
+        gap: 16px;
+        border-radius: 18px;
+        margin-bottom: 12px;
+    }
+
+    .product-img {
+        width: 86px;
+        height: 86px;
+        border-radius: 14px;
+    }
+
+    .product-info h3 {
+        font-size: 15px;
+        margin-bottom: 3px;
+    }
+
+    .sub-name {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .product-price {
+        font-size: 18px;
+    }
+
+    .action-row {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .qty-picker button {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .qty-picker input {
+        width: 38px;
+        font-size: 13px;
+    }
+
+    .badge-stock {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    .btn-delete-selected {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .summary-title-keranjang {
+        font-size: 18px;
+        margin-bottom: 14px;
+    }
+
+    .summary-total-price-keranjang {
+        font-size: 20px;
+    }
+
+    .btn-next-keranjang {
+        padding: 13px;
+        font-size: 13px;
+        border-radius: 14px;
+    }
+
+    .empty-cart {
+        min-height: 280px;
+        padding: 32px 16px;
+        border-radius: 18px;
+    }
+
+    .empty-cart h2 {
+        font-size: 22px;
+    }
+
+    .empty-cart p {
+        font-size: 13px;
+    }
+}
+
+
+/* ============================================
+   RESPONSIVE — 480px (Mobile)
+   ============================================ */
 @media (max-width: 480px) {
-  .container {
-    padding: 15px 10px;
-  }
 
-  .page-title {
-    font-size: 18px;
-  }
+    .cart-wrapper {
+        padding-top: 80px;
+        padding-bottom: 24px;
+    }
 
-  .product-info h3 {
-    font-size: 16px;
-  }
+    .container-keranjang {
+        padding: 0 20px;
+    }
 
-  .product-price {
-    font-size: 16px;
-  }
+    .page-title1 {
+        font-size: 19px;
+    }
 
-  .qty-picker input {
-    width: 30px;
-  }
+    .product-count {
+        font-size: 12px;
+        margin-bottom: 14px;
+    }
 
-  .qty-picker button {
-    padding: 5px 8px;
-    font-size: 14px;
-  }
+    .select-all-bar {
+        padding: 11px 14px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        gap: 8px;
+    }
 
-  .btn-next {
-    padding: 12px;
-    font-size: 14px;
-  }
+    .btn-delete-selected {
+        font-size: 11px;
+        padding: 7px 10px;
+        border-radius: 8px;
+    }
 
-  .select-all-bar {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
+    /* Card: baris 1 = checkbox+gambar+info, baris 2 = price */
+    .cart-card {
+        padding: 12px;
+        gap: 12px;
+        border-radius: 16px;
+        margin-bottom: 10px;
+        align-items: center; /* semua sejajar tengah vertikal */
+        flex-wrap: wrap;     /* price turun ke baris bawah */
+    }
 
-  .btn-delete-selected {
-    align-self: flex-end;
-  }
+    /* Checkbox sejajar tengah */
+    .checkbox-container-keranjang {
+        align-self: center;
+        padding-left: 20px;
+        font-size: 12px;
+    }
+
+    .checkmark-keranjang {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .checkmark-keranjang::after {
+        left: 4px;
+        top: 2px;
+        width: 4px;
+        height: 8px;
+    }
+
+    /* Gambar sejajar tengah */
+    .product-img {
+        width: 72px;
+        height: 72px;
+        border-radius: 12px;
+        align-self: center;
+    }
+
+    /* Info sejajar tengah, ambil sisa ruang */
+    .product-info {
+        flex: 1;
+        align-self: center;
+    }
+
+    .product-info h3 {
+        font-size: 13.5px;
+        margin-bottom: 2px;
+    }
+
+    .sub-name {
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+
+    .action-row {
+        gap: 8px;
+    }
+
+    .qty-picker {
+        border-radius: 9px;
+    }
+
+    .qty-picker button {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    .qty-picker input {
+        width: 32px;
+        font-size: 12px;
+    }
+
+    .badge-stock {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    /* Price turun ke baris bawah, full width, rata kanan */
+    .product-price {
+        width: 100%;
+        text-align: right;
+        font-size: 15px;
+        font-weight: 700;
+        padding-top: 8px;
+        margin-top: 2px;
+        border-top: 1px solid #f0f0f0;
+        color: var(--text);
+    }
+
+    /* Summary */
+    .summary-card-keranjang {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .summary-title-keranjang {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .summary-details-keranjang {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .summary-line-keranjang {
+        font-size: 12.5px;
+    }
+
+    .summary-total-label-keranjang {
+        font-size: 13.5px;
+    }
+
+    .summary-total-price-keranjang {
+        font-size: 18px;
+    }
+
+    .btn-next-keranjang {
+        padding: 12px;
+        font-size: 12.5px;
+        border-radius: 12px;
+        margin-top: 8px;
+    }
+
+    /* Empty cart */
+    .empty-cart {
+        min-height: 240px;
+        padding: 28px 14px;
+        border-radius: 16px;
+    }
+
+    .empty-cart-icon {
+        width: 76px;
+        height: 76px;
+        margin-bottom: 16px;
+    }
+
+    .empty-cart-icon i {
+        font-size: 32px;
+    }
+
+    .empty-cart h2 {
+        font-size: 19px;
+        margin-bottom: 8px;
+    }
+
+    .empty-cart p {
+        font-size: 12.5px;
+        margin-bottom: 20px;
+    }
+
+    .btn-shop {
+        padding: 10px 22px;
+        font-size: 13px;
+    }
 }
