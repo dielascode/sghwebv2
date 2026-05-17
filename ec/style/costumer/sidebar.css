@@ -1,6 +1,6 @@
 .sidebar {
   width: 220px;
-  height: calc(100vh - 70px); /* biar ga full nutup */
+  height: 100%;
   position: fixed;
   left: 0;
   top: 50px; /* geser ke bawah navbar */

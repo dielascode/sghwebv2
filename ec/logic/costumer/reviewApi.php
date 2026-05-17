@@ -99,7 +99,7 @@ try {
 
     if (!empty($_FILES['photos']['name'][0])) {
 
-        $folder = __DIR__ . '/../../../asset/image/review/';
+       $folder = __DIR__ . '/../../../asset/image/review/';
 
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);

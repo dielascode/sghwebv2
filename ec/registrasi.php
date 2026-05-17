@@ -36,7 +36,7 @@ if (isset($_POST['register'])) {
 					<h1>Bergabung Bersama Kami</h1>
 					<p>Lengkapi formulir pendaftaran untuk mulai menggunakan layanan dan mengelola aktivitas Anda dengan mudah. Jika sudah memilki akun maka lanjutkan ke halaman Login dibawah.</p>
 					<button class="ghost switch-btn" data-target="login.php" data-mode="sign-in">
-						Login
+						Masuk
 					</button>
 				</div>
 			</div>

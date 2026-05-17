@@ -12,7 +12,7 @@
             <p>Pastikan password Anda kuat dan aman</p>
         </div>
 
-        <form action="proses_update_pw.php" method="POST">
+        <form action="/sghwebv2/ec/logic/costumer/handleubahPassword.php" method="POST">
 
             <div class="form-group-pw">
                 <label>Password Lama</label>
@@ -22,7 +22,7 @@
             <div class="form-group-pw">
                 <label>Password Baru</label>
                 <input type="password" name="new_password" placeholder="Masukkan password baru" required>
-                <small class="hint">Minimal 8 karakter, kombinasi huruf & angka</small>
+                <small class="hint">Minimal 8 karakter.</small>
             </div>
 
             <div class="form-group-pw">
