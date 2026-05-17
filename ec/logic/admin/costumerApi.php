@@ -42,4 +42,27 @@ class Costumer
 
         return $data['total'] ?? 0;
     }
+    public function getDetail($id)
+    {
+        $query = "SELECT * FROM $this->table WHERE id=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function nonaktifkan($id)
+    {
+        $status = 'nonaktif';
+
+        $query = "UPDATE $this->table SET status=? WHERE id=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ss", $status, $id);
+
+        if ($stmt->execute()) {
+            return ['status' => true, 'message' => 'Berhasil dinonaktifkan'];
+        } else {
+            return ['status' => false, 'message' => 'Gagal'];
+        }
+    }
 }

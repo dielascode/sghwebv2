@@ -521,22 +521,24 @@ async function printInvoice(nomor_pesanan) {
 
 //Pindah Pesanan Selesai
 async function selesaikanPesanan(nomor_pesanan) {
+
     let konfirmasi = confirm(
         "Apakah Anda yakin pesanan sudah selesai?"
     );
 
-    if (!konfirmasi) {
-        return;
-    }
+    if (!konfirmasi) return;
 
     try {
 
-        let response = await fetch(
-            '/sghwebv2/ec/logic/costumer/pesananController.php?action=selesai&nomor_pesanan='
-            + nomor_pesanan
+        const response = await fetch(
+            `/sghwebv2/ec/costumer/controller/pesananSelesaiController.php?action=selesai&nomor_pesanan=${nomor_pesanan}`
         );
 
-        let result = await response.json();
+        const text = await response.text();
+
+        console.log(text);
+
+        const result = JSON.parse(text);
 
         if (result.status) {
 
@@ -554,7 +556,7 @@ async function selesaikanPesanan(nomor_pesanan) {
 
         console.error(error);
 
-        alert("Terjadi kesalahan");
+        alert(error);
 
     }
 }

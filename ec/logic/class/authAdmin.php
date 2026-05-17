@@ -20,17 +20,45 @@ class Auth
         $stmt->execute();
 
         $result = $stmt->get_result();
+
         if ($result && $result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            if ($user && password_verify($password, $user['password'])) {
-                session_regenerate_id(true);
-                $_SESSION['user'] = $user;
-                $_SESSION['nama'] = $user['nama'];
-                $_SESSION['role'] = $user['role'];
-                return true;
+            if (!password_verify($password, $user['password'])) {
+                return [
+                    'status' => false,
+                    'message' => 'Password salah!'
+                ];
             }
-            return false;
+
+            if ($user['status'] !== 'aktif') {
+                return [
+                    'status' => false,
+                    'message' => 'Akun tidak aktif!'
+                ];
+            }
+
+            if (!in_array($user['role'], ['admin', 'superadmin'])) {
+                return [
+                    'status' => false,
+                    'message' => 'Akses ditolak! Bukan admin.'
+                ];
+            }
+
+            session_regenerate_id(true);
+            $_SESSION['user'] = $user;
+            $_SESSION['nama'] = $user['nama'];
+            $_SESSION['role'] = $user['role'];
+
+            return [
+                'status' => true,
+                'message' => 'Login berhasil!'
+            ];
         }
+
+        return [
+            'status' => false,
+            'message' => 'Email tidak ditemukan!'
+        ];
     }
 }

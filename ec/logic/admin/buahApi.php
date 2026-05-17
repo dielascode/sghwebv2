@@ -18,13 +18,25 @@ class Buah
 
     public function store($data)
     {
+        $cek = $this->conn->prepare("SELECT * FROM $this->table WHERE nama_buah = ?");
+        $cek->bind_param("s", $data['nama_buah']);
+        $cek->execute();
+        $result = $cek->get_result();
+
+        if ($result->num_rows > 0) {
+            return [
+                'status' => false,
+                'message' => 'Buah sudah ada!'
+            ];
+        }
+
         $stmt = $this->conn->prepare("INSERT INTO $this->table(nama_buah) VALUES (?)");
         $stmt->bind_param("s", $data['nama_buah']);
 
         if ($stmt->execute()) {
             return [
                 'status' => true,
-                'message' => 'Buah berhasil disimpan ke AgriNexa!'
+                'message' => 'Buah berhasil disimpan!'
             ];
         } else {
             return [
@@ -36,8 +48,21 @@ class Buah
 
     public function update($id, $data)
     {
+        $cek = $this->conn->prepare("SELECT * FROM $this->table WHERE nama_buah = ? AND id != ?");
+        $cek->bind_param("si", $data['nama_buah'], $id);
+        $cek->execute();
+        $result = $cek->get_result();
+
+        if ($result->num_rows > 0) {
+            return [
+                'status' => false,
+                'message' => 'Nama buah sudah dipakai!'
+            ];
+        }
+
         $stmt = $this->conn->prepare("UPDATE $this->table SET nama_buah=? WHERE id=?");
         $stmt->bind_param("si", $data['nama_buah'], $id);
+
         if ($stmt->execute()) {
             return [
                 'status' => true,
