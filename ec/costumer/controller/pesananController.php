@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $nomor     = 'ORD-' . time();
         $bukti     = null;
-        $uploadDir = __DIR__ . '/../../uploads/bukti/';
+        $uploadDir = __DIR__ . '/../../../asset/image/bukti_bayar/';
 
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 

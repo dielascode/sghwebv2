@@ -101,9 +101,6 @@ foreach ($data as $item) {
                                     onclick="loadPage('/sghwebv2/ec/costumer/page/detailOrder.php?nomor_pesanan=<?= $row['nomor_pesanan'] ?>')">
                                     Order Detail
                                 </button>
-                                <button class="btn-struk" onclick="printInvoice('<?= $row['nomor_pesanan'] ?>')">
-                                    Cetak Struk
-                                </button>
                             </div>
 
                         </div>
