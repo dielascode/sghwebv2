@@ -22,9 +22,9 @@ if (!$result) {
             <p class="text-muted mb-0">Kelola costumer anda disini</p>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" id="btnExportPDF" class="btn btn-outline-secondary">
+            <!-- <button type="button" id="btnExportPDF" class="btn btn-outline-secondary">
                 <i class="bi bi-download me-2"></i>Export
-            </button>
+            </button> -->
         </div>
     </div>
 

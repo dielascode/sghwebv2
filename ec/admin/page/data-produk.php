@@ -9,6 +9,9 @@ $produk = new Produk($conn);
 $result = $produk->getProduk();
 $buah = $produk->getBuah();
 $varietas = $produk->getVarietas();
+$total_product = $produk->getTotalProductStats();
+$total_product_min = $produk->getTotalProductMinStats();
+$total_product_max = $produk->getTotalProductMaxStats();
 if (!$result) {
     die("ERROR: " . $conn->error);
 }
@@ -22,9 +25,9 @@ if (!$result) {
             <p class="text-muted mb-0">Kelola manajemen produk dan inventoris</p>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
+            <!-- <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
                 <i class="bi bi-download me-2"></i>Export
-            </button>
+            </button> -->
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
                     <i class="bi bi-plus-lg me-2"></i>Add Product
@@ -39,7 +42,7 @@ if (!$result) {
 
         <!-- Product Stats Widgets -->
         <div class="row g-4 g-lg-5 mb-5">
-            <div class="col-xl-3 col-lg-6">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card stats-card">
                     <div class="card-body p-3 p-lg-4">
                         <div class="d-flex align-items-center">
@@ -48,7 +51,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">Total Products</h6>
-                                <h3 class="mb-0" x-text="stats.total"></h3>
+                                <h3 class="mb-0"><?= $total_product['total_produk']; ?></h3>
                                 <small class="text-success">
                                     <i class="bi bi-arrow-up"></i> +5% from last month
                                 </small>
@@ -57,7 +60,7 @@ if (!$result) {
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card stats-card">
                     <div class="card-body p-3 p-lg-4">
                         <div class="d-flex align-items-center">
@@ -66,7 +69,7 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">In Stock</h6>
-                                <h3 class="mb-0" x-text="stats.inStock"></h3>
+                                <h3 class="mb-0"><?= $total_product_max['total_produk_max']; ?></h3>
                                 <small class="text-success">
                                     <i class="bi bi-arrow-up"></i> Well stocked
                                 </small>
@@ -75,7 +78,7 @@ if (!$result) {
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card stats-card">
                     <div class="card-body p-3 p-lg-4">
                         <div class="d-flex align-items-center">
@@ -84,27 +87,9 @@ if (!$result) {
                             </div>
                             <div>
                                 <h6 class="mb-0 text-muted">Low Stock</h6>
-                                <h3 class="mb-0" x-text="stats.lowStock"></h3>
+                                <h3 class="mb-0"><?= $total_product_min['total_produk_min']; ?></h3>
                                 <small class="text-warning">
                                     <i class="bi bi-exclamation-circle"></i> Needs attention
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-                <div class="card stats-card">
-                    <div class="card-body p-3 p-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
-                                <i class="bi bi-currency-dollar"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 text-muted">Total Value</h6>
-                                <h3 class="mb-0" x-text="`$${stats.totalValue.toLocaleString()}`"></h3>
-                                <small class="text-info">
-                                    <i class="bi bi-info-circle"></i> Inventory value
                                 </small>
                             </div>
                         </div>
@@ -130,9 +115,7 @@ if (!$result) {
                                 <th>Deskripsi</th>
                                 <th>Stok</th>
                                 <th>Harga</th>
-                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
                                     <th style="width: 120px;">Aksi</th>
-                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,16 +129,20 @@ if (!$result) {
                                     <td><?= strlen($b['deskripsi']) > 30
                                             ? substr($b['deskripsi'], 0, 30) . '...'
                                             : $b['deskripsi']; ?></td>
-                                    <td><?= $b['stok']; ?></td>
+                                    <?php if ($b['stok'] < 10): ?>
+                                        <td><span class="badge badge-danger"><?= $b['stok']; ?></span></td>
+                                    <?php else: ?>
+                                        <td><span class="badge badge-success"><?= $b['stok']; ?></span></td>
+                                    <?php endif; ?>
                                     <td><?= $b['harga']; ?></td>
+                                    <td style="display: flex; gap: 10px;">
+                                        
+                                        <button
+                                        class="btn btn-sm btn-primary"
+                                        onclick="openDetail('<?= $b['id']; ?>')">
+                                        Detail
+                                    </button>
                                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "admin"): ?>
-                                        <td style="display: flex; gap: 10px;">
-
-                                            <button
-                                                class="btn btn-sm btn-primary"
-                                                onclick="openDetail('<?= $b['id']; ?>')">
-                                                Detail
-                                            </button>
                                             <button
                                                 class="btn btn-sm btn-warning"
                                                 onclick="openEdit('<?= $b['id']; ?>')">
@@ -167,8 +154,8 @@ if (!$result) {
                                                 onclick="deleteProduk('<?= $b['id']; ?>')">
                                                 <i class="bi bi-trash mr-0"></i>
                                             </button>
+                                            <?php endif; ?>
                                         </td>
-                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -334,63 +321,49 @@ if (!$result) {
     let oldImages = [];
     let editId = null;
 
-    async function deleteProduk(id) {
+    const semuaVarietas = <?= json_encode($varietas); ?>;
+    console.log(semuaVarietas);
 
+    async function deleteProduk(id) {
         if (!confirm("Yakin mau hapus produk ini?")) return;
 
-        try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
-            let res = await fetch(`${baseUrl}?action=delete&id=${id}`, {
-                method: 'GET'
-            });
+        let res = await fetch(`${baseUrl}?action=delete&id=${id}`);
+        let result = await res.json();
 
-            let result = await res.json();
-
-            if (result.status) {
-                alert("Berhasil dihapus!");
-                location.reload();
-            } else {
-                alert("Gagal: " + result.message);
-            }
-
-        } catch (err) {
-            console.error(err);
-            alert("Terjadi error");
+        if (result.status) {
+            alert("Berhasil dihapus!");
+            location.reload();
+        } else {
+            alert("Gagal: " + result.message);
         }
     }
 
     async function openEdit(id) {
-        try {
-            editId = id;
+        editId = id;
 
-            const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
-            const data = await res.json();
+        const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+        const data = await res.json();
 
-            document.getElementById('nama_produk').value = data.nama_produk;
-            document.getElementById('tipe').value = data.tipe;
-            document.getElementById('harga').value = data.harga;
-            document.getElementById('stok').value = data.stok;
-            document.getElementById('deskripsi').value = data.deskripsi;
+        document.getElementById('nama_produk').value = data.nama_produk;
+        document.getElementById('tipe').value = data.tipe;
+        document.getElementById('harga').value = data.harga;
+        document.getElementById('stok').value = data.stok;
+        document.getElementById('deskripsi').value = data.deskripsi;
 
-            items = data.komposisi.map(item => ({
-                id_buah: item.id_buah,
-                id_varietas: item.id_varietas
-            }));
+        items = data.komposisi.map(item => ({
+            id_buah: item.id_buah,
+            id_varietas: item.id_varietas
+        }));
 
-            renderItems();
+        oldImages = data.images || [];
+        images = [];
 
-            oldImages = data.images || [];
-            images = [];
+        renderItems();
+        renderImages();
 
-            renderImages();
-
-            new bootstrap.Modal(document.getElementById('productModal')).show();
-
-        } catch (err) {
-            console.error(err);
-            alert("Gagal ambil data");
-        }
+        new bootstrap.Modal(document.getElementById('productModal')).show();
     }
 
     function renderItems() {
@@ -403,10 +376,12 @@ if (!$result) {
             <div class="row g-2 mb-2">
 
                 <div class="col-md-5">
-                    <select class="form-select" onchange="updateItem(${index}, 'buah', this.value)">
+                    <select class="form-select" 
+                        onchange="updateItem(${index}, 'buah', this.value)">
                         <option value="">Pilih Buah</option>
                         <?php foreach ($buah as $b): ?>
-                            <option value="<?= $b['id']; ?>" ${item.id_buah == "<?= $b['id']; ?>" ? 'selected' : ''}>
+                            <option value="<?= $b['id']; ?>" 
+                                ${item.id_buah == "<?= $b['id']; ?>" ? 'selected' : ''}>
                                 <?= $b['nama_buah']; ?>
                             </option>
                         <?php endforeach; ?>
@@ -414,24 +389,52 @@ if (!$result) {
                 </div>
 
                 <div class="col-md-5">
-                    <select class="form-select" onchange="updateItem(${index}, 'varietas', this.value)">
+                    <select class="form-select" 
+                        id="varietas-${index}"
+                        onchange="updateItem(${index}, 'varietas', this.value)">
                         <option value="">Pilih Varietas</option>
-                        <?php foreach ($varietas as $v): ?>
-                            <option value="<?= $v['id']; ?>" ${item.id_varietas == "<?= $v['id']; ?>" ? 'selected' : ''}>
-                                <?= $v['nama_varietas']; ?>
-                            </option>
-                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="col-md-2">
                     ${(items.length > 1 && tipe === 'bundling') 
-                    ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
-                    : ''}
+                        ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
+                        : ''}
                 </div>
 
             </div>
-        `;
+            `;
+
+            if (item.id_buah) {
+                loadVarietas(index, item.id_buah, item.id_varietas);
+            }
+        });
+    }
+
+    function updateItem(index, field, value) {
+        if (field === 'buah') {
+            items[index].id_buah = value;
+            items[index].id_varietas = '';
+            loadVarietas(index, value);
+        } else {
+            items[index].id_varietas = value;
+        }
+    }
+
+    function loadVarietas(index, id_buah, selectedVarietas = null) {
+        const select = document.getElementById(`varietas-${index}`);
+
+        select.innerHTML = `<option value="">Pilih Varietas</option>`;
+
+        const filtered = semuaVarietas.filter(v => v.id_buah == id_buah);
+
+        filtered.forEach(v => {
+            select.innerHTML += `
+                <option value="${v.id}" 
+                    ${selectedVarietas == v.id ? 'selected' : ''}>
+                    ${v.nama_varietas}
+                </option>
+            `;
         });
     }
 
@@ -455,11 +458,6 @@ if (!$result) {
         renderItems();
     }
 
-    function updateItem(index, type, value) {
-        if (type === 'buah') items[index].id_buah = value;
-        if (type === 'varietas') items[index].id_varietas = value;
-    }
-
     function resetItems() {
         const tipe = document.getElementById('tipe').value;
 
@@ -468,13 +466,6 @@ if (!$result) {
                 id_buah: '',
                 id_varietas: ''
             }];
-        } else {
-            if (items.length === 0) {
-                items = [{
-                    id_buah: '',
-                    id_varietas: ''
-                }];
-            }
         }
 
         renderItems();
@@ -485,17 +476,12 @@ if (!$result) {
         const tipe = document.getElementById('tipe').value;
         const btn = document.getElementById('btnAddItem');
 
-        if (tipe === 'satuan') {
-            btn.style.display = 'none';
-        } else {
-            btn.style.display = 'inline-block';
-        }
+        btn.style.display = (tipe === 'satuan') ? 'none' : 'inline-block';
     }
 
     function handleFiles(event) {
         const newFiles = Array.from(event.target.files);
         images = [...images, ...newFiles];
-
         renderImages();
     }
 
@@ -507,16 +493,11 @@ if (!$result) {
             preview.innerHTML += `
             <div class="position-relative">
                 <img src="../admin/assets/images/produk/${img.gambar}" 
-                    class="img-thumbnail" 
+                    class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
-
-                <button type="button"
-                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeOldImage(${index})">
-                    <i class="bi bi-trash mr-0"></i>
-                </button>
-            </div>
-        `;
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onclick="removeOldImage(${index})">×</button>
+            </div>`;
         });
 
         images.forEach((file, index) => {
@@ -525,16 +506,11 @@ if (!$result) {
             preview.innerHTML += `
             <div class="position-relative">
                 <img src="${url}" 
-                    class="img-thumbnail" 
+                    class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
-
-                <button type="button"
-                    class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeImage(${index})">
-                    <i class="bi bi-trash mr-0"></i>
-                </button>
-            </div>
-        `;
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                    onclick="removeImage(${index})">×</button>
+            </div>`;
         });
     }
 
@@ -551,65 +527,36 @@ if (!$result) {
     async function saveProduct() {
         let data = new FormData();
 
-        data.append('nama_produk', document.getElementById('nama_produk').value);
-        data.append('tipe', document.getElementById('tipe').value);
-        data.append('harga', document.getElementById('harga').value);
-        data.append('stok', document.getElementById('stok').value);
-        data.append('deskripsi', document.getElementById('deskripsi').value);
-
+        data.append('nama_produk', nama_produk.value);
+        data.append('tipe', tipe.value);
+        data.append('harga', harga.value);
+        data.append('stok', stok.value);
+        data.append('deskripsi', deskripsi.value);
         data.append('komposisi', JSON.stringify(items));
 
-        images.forEach((file, index) => {
-            data.append(`images[${index}]`, file);
-        });
-
+        images.forEach((file, i) => data.append(`images[${i}]`, file));
         data.append('oldImages', JSON.stringify(oldImages));
+
+        if (editId) data.append('id', editId);
 
         let action = editId ? 'update' : 'tambah';
 
-        if (editId) {
-            data.append('id', editId);
-        }
+        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
-        try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+        let res = await fetch(`${baseUrl}?action=${action}`, {
+            method: 'POST',
+            body: data
+        });
 
-            let res = await fetch(`${baseUrl}?action=${action}`, {
-                method: 'POST',
-                body: data
-            });
+        let result = await res.json();
 
-            let result = await res.json();
-
-            if (result.status) {
-                alert(editId ? 'Berhasil update!' : 'Berhasil tambah!');
-                location.reload();
-            } else {
-                alert('Gagal: ' + result.message);
-            }
-
-        } catch (err) {
-            console.error(err);
+        if (result.status) {
+            alert('Berhasil!');
+            location.reload();
+        } else {
+            alert(result.message);
         }
     }
-
-    document.getElementById('productModal')
-        .addEventListener('hidden.bs.modal', () => {
-
-            editId = null;
-
-            document.getElementById('productForm').reset();
-
-            items = [{
-                id_buah: '',
-                id_varietas: ''
-            }];
-            images = [];
-            oldImages = [];
-
-            renderItems();
-            renderImages();
-        });
 
     document.addEventListener('DOMContentLoaded', () => {
         renderItems();
