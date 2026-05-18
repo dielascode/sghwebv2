@@ -1,9 +1,7 @@
 <?php
-session_name('sghwebv2_session');
-session_start();
 
-require_once '../../config/connection.php';
-require_once '../../logic/costumer/pesananApi.php';
+require_once __DIR__ . '/../../config/connection.php';
+require_once __DIR__ . '/../../logic/costumer/pesananApi.php';
 
 $db = new Database();
 $conn = $db->getConnection();
@@ -30,31 +28,19 @@ $total = 0;
 <div class="container-pesanan d-flex">
 
     <!-- SIDEBAR -->
-    <?php include "../elemen/sidebar_pesanan.php"; ?>
+    <?php include __DIR__ . '/../elemen/sidebar_pesanan.php'; ?>
 
     <div class="container-detailorder">
 
         <!-- Header -->
         <div class="header-detailorder">
-            <button onclick="history.back()" style="
-        padding:8px 16px;
-        border:none;
-        border-radius:8px;
-        background:#2e7d32;
-        color:white;
-        cursor:pointer;
-        margin-bottom:15px;
-        font-weight:600;
-    ">
-                Kembali
-            </button>
 
             <h1 class="title-detailorder">
                 Detail Order
             </h1>
 
             <p class="order-id-detailorder">
-                order-history<?= $header['nomor_pesanan'] ?>
+                <?= $header['nomor_pesanan'] ?>
             </p>
 
             <p class="order-date-detailorder">
