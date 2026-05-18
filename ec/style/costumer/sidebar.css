@@ -1,6 +1,7 @@
 .sidebar {
   width: 220px;
-  height: 100%;
+  height: calc(100vh - 50px); /* 50px = tinggi navbar */
+    overflow-y: auto;      
   position: fixed;
   left: 0;
   top: 50px; /* geser ke bawah navbar */
