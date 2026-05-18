@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if (session_status() == PHP_SESSION_NONE) {
+    session_name('sghwebv2_session');
     session_start();
 }
 

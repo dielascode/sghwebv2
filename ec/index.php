@@ -1,11 +1,13 @@
 <?php
+session_name('sghwebv2_session');
 session_start();
 
-if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'costumer') {
-    header("Location: /sghwebv2/ec/login.php");
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

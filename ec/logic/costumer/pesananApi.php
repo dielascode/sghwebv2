@@ -56,7 +56,7 @@ class PesananAPI
                 ORDER BY tanggal_order DESC";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $id_costumer);
+        $stmt->bind_param("s", $id_costumer);
         $stmt->execute();
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

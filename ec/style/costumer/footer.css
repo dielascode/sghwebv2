@@ -2,8 +2,9 @@ footer {
     width: 100%;
     background: #1C2B10;
     padding: 18px 0;
-    
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 999;
 }
 
 .bottom-footer {

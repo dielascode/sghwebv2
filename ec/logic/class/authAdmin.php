@@ -7,6 +7,8 @@ class Auth
     {
         $this->conn = $db;
         if (session_status() == PHP_SESSION_NONE) {
+           
+            session_name('sghwebv2_session');
             session_start();
         }
     }

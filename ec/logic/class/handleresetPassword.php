@@ -1,5 +1,7 @@
 <?php
 
+
+session_name('sghwebv2_session');
 session_start();
 include __DIR__ . '/../../config/connection.php';
 
@@ -15,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($token) || empty($password) || empty($confirm_password)) {
         $_SESSION['error'] = "Semua field wajib diisi.";
+        header("Location: ../../resetPassword.php?token=" . urlencode($token));
+        exit();
+    }
+
+    if (strlen($password) < 8) {
+        $_SESSION['error'] = "Password minimal 8 karakter.";
         header("Location: ../../resetPassword.php?token=" . urlencode($token));
         exit();
     }

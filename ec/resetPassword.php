@@ -1,5 +1,6 @@
 <?php 
 
+session_name('sghwebv2_session');
 session_start();
 
 // get token from URL
@@ -35,8 +36,8 @@ if (!$token) {
                 <?php endif; ?>
 
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
-                <input type="password" name="new_password" placeholder="Masukkan Password Baru" required />
-                <input type="password" name="confirm_password" placeholder="Konfirmasi Password Baru" required />
+                <input type="password" name="new_password" placeholder="Masukkan Password Baru" minlength="8" required />
+                <input type="password" name="confirm_password" placeholder="Konfirmasi Password Baru" minlength="8" required />
 
                 <button type="submit" name="reset">Setel Ulang Password</button>
             </form>

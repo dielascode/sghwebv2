@@ -16,6 +16,25 @@ class RegisterHandler {
     }
 
     public function handleRegistration($postData) {
+        $email = trim($postData['email'] ?? '');
+        $password = $postData['password'] ?? '';
+        $confirmPassword = $postData['confirm_password'] ?? '';
+
+        if (strlen($password) < 8) {
+            echo "<script>alert('Password minimal 8 karakter'); window.history.back();</script>";
+            return;
+        }
+
+        if ($password !== $confirmPassword) {
+            echo "<script>alert('Password dan konfirmasi password tidak sama'); window.history.back();</script>";
+            return;
+        }
+
+        if ($this->isEmailRegistered($email)) {
+            echo "<script>alert('Email sudah terdaftar, tidak bisa daftar'); window.history.back();</script>";
+            return;
+        }
+
         $otp = rand(10000, 99999);
 
         // simpan ke session
@@ -23,8 +42,6 @@ class RegisterHandler {
         $_SESSION['otp_expired'] = time() + 90; // 1.5 menit
         $_SESSION['data_register'] = $postData;
 
-        $email = $postData['email'];
-        
         $mail = new PHPMailer(true);
 
         try {
@@ -50,6 +67,14 @@ class RegisterHandler {
         } catch (Exception $e) {
             echo "Gagal kirim OTP: {$mail->ErrorInfo}";
         }
+    }
+
+    private function isEmailRegistered($email) {
+        $email = mysqli_real_escape_string($this->conn, $email);
+        $query = "SELECT id FROM users WHERE email = '$email' LIMIT 1";
+        $result = mysqli_query($this->conn, $query);
+
+        return $result && mysqli_num_rows($result) > 0;
     }
 }
 ?>

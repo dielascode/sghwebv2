@@ -12,6 +12,7 @@ class LoginHandler {
 
     public function handleLogin($email, $password) {
         if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_name('sghwebv2_session');
             session_start();
         }
 
