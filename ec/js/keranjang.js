@@ -27,14 +27,20 @@ function updateQty(id, delta, event) {
         body: `action=kuantitas&id_produk=${id}&kuantitas=${delta}`
     })
     .then(res => res.text())
-    .then(res => {
-        res = res.trim();
-        
-        console.log('response:', res); // debug sementara
-        
-        if (res !== 'success') return;
+   .then(res => {
+    res = res.trim();
+    
+    console.log('response:', res);
+
+    if (res.includes('melebihi stok')) {
+        alert('Jumlah melebihi stok tersedia');
+        return;
+    }
+
+    if (res !== 'success') return;
 
         const card     = document.querySelector(`.product-check[value="${id}"]`).closest('.cart-card');
+   
         const qtyInput = card.querySelector('.qty-picker input');
         const newQty   = parseInt(qtyInput.value) + delta;
 

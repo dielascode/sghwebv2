@@ -37,6 +37,7 @@
 
       <button type="button" class="btn-filter" data-filter="satuan">Satuan</button>
       <button type="button" class="btn-filter" data-filter="bundling">Bundling</button>
+      <button type="button" class="btn-filter active" data-filter="all">Semua</button>
 
       <div class="search-box">
         <i class="fa fa-search"></i>
@@ -74,7 +75,7 @@
           $gambar = getGambarProduk($conn, $p['id_produk']);
           ?>
 
-          <img src="/sghwebv2/ec/admin/assets/images/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
+          <img src="/sghwebv2/asset/image/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
             class="product1-img">
         </div>
 
@@ -96,15 +97,16 @@
 
           <div class="btn-row">
             <button class="btn-buy" onclick='openModal({
-                id: "<?= $p["id_produk"] ?>",
-                variety: "<?= $p["nama_varietas"] ?>",
-                title: "<?= $p["nama_produk"] ?>",
-                desc: "<?= $p["deskripsi"] ?>",
-                price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
-                stock: "<?= $p["stok"] ?? 0 ?>",
-                images: <?= json_encode($gambar) ?>,
-                reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
-              })'>
+  id: "<?= $p["id_produk"] ?>",
+  variety: "<?= $p["nama_varietas"] ?>",
+  title: "<?= $p["nama_produk"] ?>",
+  desc: "<?= $p["deskripsi"] ?>",
+  price: "<?= number_format($p["harga"], 0, ",", ".") ?>",
+  stock: "<?= $p["stok"] ?? 0 ?>",
+  
+  images: <?= json_encode($gambar) ?>,
+  reviews: <?= json_encode(getReviewProduk($conn, $p["id_produk"])) ?>
+})'>
               Beli Sekarang
             </button>
 

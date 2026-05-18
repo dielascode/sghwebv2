@@ -3,7 +3,7 @@
     
     <div class="container-pesanan d-flex">
         <!-- SIDEBAR -->
-        <?php include "../elemen/sidebar_profil.php"; ?>   
+        <?php include __DIR__ . "/../elemen/sidebar_profil.php"; ?>
         <main class="content">
     <div class="pw-card">
         

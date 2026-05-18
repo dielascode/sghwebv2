@@ -91,5 +91,6 @@ if ($data_costumer) {
 // =========================
 // REDIRECT
 // =========================
+$_SESSION['success'] = 'Perubahan berhasil disimpan!';
 header("Location: ../../index.php?page=profile");
 exit;

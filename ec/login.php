@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
                     <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['success'])): ?>
-                    <p style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
+                    <p style="color: black;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
                 <?php endif; ?>
 
                 <input type="email" name="email" placeholder="Email" required />

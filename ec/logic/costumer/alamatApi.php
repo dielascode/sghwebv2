@@ -22,7 +22,7 @@ switch ($action) {
         $kota        = trim($_POST['kota'] ?? 'Jember');
 
         if ($kecamatan === '' || $kelurahan === '' || $jalan === '') {
-            header("Location: alamatcustomer.php?error=data_kosong");
+            header("Location: ../../costumer/page/alamatcustomer.php?error=data_kosong");
             exit;
         }
 
@@ -41,7 +41,7 @@ switch ($action) {
     }
 
     $decoded = json_decode($alamat_json, true);
-    if (json_last_error() !== JSON_ERROR_NONE) { header("Location: alamatcustomer.php?error=json_invalid"); exit; }
+    if (json_last_error() !== JSON_ERROR_NONE) { header("Location: ../costumer/page/alamatcustomer.php?error=json_invalid"); exit; }
 
     if ($id) {
         $stmt = $db->prepare("UPDATE alamat_costumer SET alamat = ? WHERE id = ? AND id_costumer = ?");
@@ -103,5 +103,5 @@ switch ($action) {
     break;
 }
 
-header("Location: /sghwebv2/ec/index.php");
+header("Location: /sghwebv2/ec/index.php?page=alamat");
 exit;
