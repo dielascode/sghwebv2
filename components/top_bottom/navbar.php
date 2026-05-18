@@ -1,3 +1,12 @@
+<?php
+session_name('sghwebv2_session');
+session_start();
+
+$sudah_login = isset($_SESSION['id']);
+// // DEBUG sementara
+// var_dump($sudah_login);
+// var_dump($_SESSION);
+?>
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
 
@@ -74,18 +83,25 @@
     <div style="width: 1px; height: 30px; background: #ccc;"></div>
 
     <!-- Button minimalis -->
-    <!-- Login -->
-<a href="../../../sghwebv2/ec/login.php" 
-    style="color: #2d6a4f; font-weight: 600; font-size: 0.88rem; text-decoration: none;">
+   <?php if ($sudah_login): ?>
+    <!-- Sudah login, tampilkan tombol ke e-commerce -->
+    <a href="../../../sghwebv2/ec/index.php" 
+        style="background: #2d6a4f; color: #fff; font-weight: 600; font-size: 0.88rem;
+                padding: 6px 18px; border-radius: 20px; text-decoration: none;">
+        E-Commerce
+    </a>
+<?php else: ?>
+    <!-- Belum login -->
+    <a href="../../../sghwebv2/ec/login.php" 
+        style="color: #2d6a4f; font-weight: 600; font-size: 0.88rem; text-decoration: none;">
         Login
-</a>
-
-<!-- Daftar -->
-<a href="../../../sghwebv2/ec/registrasi.php"   
-    style="background: #2d6a4f; color: #fff; font-weight: 600; font-size: 0.88rem;
-            padding: 6px 18px; border-radius: 20px; text-decoration: none;">
+    </a>
+    <a href="../../../sghwebv2/ec/registrasi.php"   
+        style="background: #2d6a4f; color: #fff; font-weight: 600; font-size: 0.88rem;
+                padding: 6px 18px; border-radius: 20px; text-decoration: none;">
         Daftar
-</a>
+    </a>
+<?php endif; ?>
 
     </div>
 </nav>

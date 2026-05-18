@@ -1,41 +1,42 @@
 ﻿<?php
 
-session_start();
+session_name('sghwebv2_session');
+                              session_start();
 require_once __DIR__ . '/../../config/connection.php';
 
 $db = new Database();
 $conn = $db->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../../index.php');
+    header('Location: /sghwebv2/ec/index.php?page=password');
     exit();
 }
 
 if (!isset($_SESSION['id'])) {
-    header('Location: ../../index.php');
+    header('Location: /sghwebv2/ec/index.php');
     exit();
 }
 
-$userId = $_SESSION['id'];
-$oldPassword = trim($_POST['old_password'] ?? '');
-$newPassword = trim($_POST['new_password'] ?? '');
+$userId          = $_SESSION['id'];
+$oldPassword     = trim($_POST['old_password'] ?? '');
+$newPassword     = trim($_POST['new_password'] ?? '');
 $confirmPassword = trim($_POST['confirm_password'] ?? '');
 
 if ($oldPassword === '' || $newPassword === '' || $confirmPassword === '') {
     $_SESSION['error'] = 'Semua field harus diisi.';
-    header('Location: ../../index.php');
+    header('Location: /sghwebv2/ec/index.php?page=password');
     exit();
 }
 
 if ($newPassword !== $confirmPassword) {
     $_SESSION['error'] = 'Password baru dan konfirmasi tidak cocok.';
-    header('Location: ../../index.php');
+    header('Location: /sghwebv2/ec/index.php?page=password');
     exit();
 }
 
 if (strlen($newPassword) < 8) {
     $_SESSION['error'] = 'Password baru minimal 8 karakter.';
-    header('Location: ../../index.php');
+    header('Location: /sghwebv2/ec/index.php?page=password');
     exit();
 }
 
@@ -61,7 +62,7 @@ $stmt->close();
 
 if (!$user || !password_verify($oldPassword, $user['password'])) {
     $_SESSION['error'] = 'Password lama tidak sesuai.';
-    header('Location: ../../index.php');
+    header('Location: /sghwebv2/ec/index.php?page=password');
     exit();
 }
 
@@ -93,5 +94,5 @@ if ($stmt->affected_rows === 0) {
 $stmt->close();
 
 $_SESSION['success'] = 'Password berhasil diperbarui.';
-header('Location: ../../index.php');
+header('Location: /sghwebv2/ec/index.php?page=password');
 exit();

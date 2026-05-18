@@ -76,7 +76,7 @@ if (!isset($_GET['code']) && !isset($_POST['provider'])) {
 }
 
 require 'vendor/autoload.php';
-
+session_name('sghwebv2_session');
 session_start();
 
 $providerName = '';

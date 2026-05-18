@@ -1,6 +1,8 @@
 <?php
 ob_start();
-if (session_status() === PHP_SESSION_NONE) session_start();
+if (session_status() === PHP_SESSION_NONE) 
+    session_name('sghwebv2_session');
+    session_start();
 
 require_once __DIR__ . '/../../config/connection.php';
 require_once __DIR__ . '/../../logic/costumer/Apipesanan.php';

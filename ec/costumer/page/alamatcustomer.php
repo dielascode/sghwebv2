@@ -1,7 +1,9 @@
 <?php
-session_start();
-require '../../config/connection.php';
-
+error_reporting(0);      // tambah ini
+ini_set('display_errors', 0);  // dan ini
+session_name('sghwebv2_session');
+                              session_start();
+require_once __DIR__ . '/../../config/connection.php';
 $db          = (new Database())->getConnection();
 $id_costumer = $_SESSION['id'];
 
@@ -16,21 +18,11 @@ foreach ($alamat_list as &$row) {
 }
 unset($row);
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alamat Saya</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-</head>
 <body>
 
 <div class="container-pesanan d-flex">
     <!-- SIDEBAR -->
-    <?php include "../elemen/sidebar_profil.php"; ?>
+    <?php include __DIR__ . "/../elemen/sidebar_profil.php"; ?>
 
     <main class="content-area flex-grow-1">
         <div class="address-card bg-white border rounded-1 shadow-sm">
@@ -82,7 +74,7 @@ unset($row);
 
                         <!-- Hapus hanya muncul untuk alamat bukan utama -->
                         <?php if ($alamat['status'] !== 'utama'): ?>
-                        <a href="/sghwebv2/ec/costumer/page/proses_alamat.php?action=hapus&id=<?= $alamat['id'] ?>"
+                        <a href="/sghwebv2/ec/logic/costumer/alamatApi.php?action=hapus&id=<?= $alamat['id'] ?>"
                            class="hapus"
                            onclick="return confirm('Yakin ingin menghapus alamat ini?')">
                             <i class="fa-solid fa-trash"></i> Hapus
@@ -111,7 +103,7 @@ unset($row);
                         </span>
                     <?php else: ?>
                         <button class="btn-outline"
-                                onclick="window.location.href='/sghwebv2/ec/costumer/page/proses_alamat.php?action=set_utama&id=<?= $alamat['id'] ?>'">
+                                onclick="window.location.href='/sghwebv2/ec/logic/costumer/alamatApi.php?action=set_utama&id=<?= $alamat['id'] ?>'">
                             Atur Sebagai Utama
                         </button>
                     <?php endif; ?>
@@ -129,7 +121,7 @@ unset($row);
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formAlamat" action="/sghwebv2/ec/costumer/page/proses_alamat.php?action=simpan" method="POST">
+                            <form id="formAlamat" action="/sghwebv2/ec/logic/costumer/alamatApi.php?action=simpan" method="POST">
 
                                 <!-- Hidden: id untuk mode ubah -->
                                 <input type="hidden" name="id" id="inputId">

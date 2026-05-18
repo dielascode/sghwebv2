@@ -1,6 +1,7 @@
-
-
-
+<?php
+session_name('sghwebv2_session');
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,11 +45,21 @@
         include "costumer/elemen/navbar.php"
     ?>
     <main class="main">
-        <div id="conten" >
-            <?php 
-                include "costumer/page/katalog.php"
-            ?>
-        </div>
+        <div id="conten">
+    <?php 
+        $page = $_GET['page'] ?? 'katalog';
+
+        if ($page == 'profile') {
+            include "costumer/page/profile.php";
+        } elseif ($page == 'alamat') {
+            include "costumer/page/alamatcustomer.php";
+        } elseif ($page == 'password') {
+            include "costumer/page/ubahPassword.php";
+        } else {
+            include "costumer/page/katalog.php";
+        }
+    ?>
+</div>
         
     </main>
     <?php 

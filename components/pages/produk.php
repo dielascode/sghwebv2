@@ -38,7 +38,7 @@
                     Deskripsi produk akan muncul di sini.
                 </p>
                 <button class="btn-pesan">
-                    <a href="https://wa.me/6281357026595?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20anda.%20Mohon%20info%20lebih%20lanjut.">Pesan Sekarang</a>
+                    <a href="../../../sghwebv2/ec/login.php">Pesan Sekarang</a>
                 </button>
             </div>
         </div>

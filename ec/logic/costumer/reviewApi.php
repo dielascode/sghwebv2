@@ -72,6 +72,7 @@ class Review
 
 try {
 
+    session_name('sghwebv2_session');
     session_start();
 
     require_once __DIR__ . '/../../config/connection.php';

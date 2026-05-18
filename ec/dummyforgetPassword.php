@@ -1,5 +1,6 @@
 <?php 
 
+session_name('sghwebv2_session');
 session_start();
 
 // Clear success message setelah ditampilkan
