@@ -416,7 +416,7 @@
 }
 .nilai-input-group textarea:focus {
   outline: none;
-  border-color: #6BBF5E;
+  border-color: #21472b;
 }
 
 /* ===================== UPLOAD ===================== */
@@ -528,7 +528,7 @@
   transition: background 0.15s;
 }
 .nilai-btn-ok:hover {
-  background: linear-gradient(135deg, #21543c 0%, #3d8c62 100%);
+  background: linear-gradient(135deg, #1a4631 0%, #40a871 100%);
 }
 
 /* ===================== TOAST ===================== */

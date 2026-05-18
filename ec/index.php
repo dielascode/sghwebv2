@@ -61,6 +61,22 @@ if (!isset($_SESSION['id'])) {
             include "costumer/page/alamatcustomer.php";
         } elseif ($page == 'password') {
             include "costumer/page/ubahPassword.php";
+        } elseif ($page == 'pesanan') {
+            include "costumer/page/pesanan.php";
+        } elseif ($page == 'pengaduan') {
+            include "costumer/page/pengaduan.php";
+        } elseif ($page == 'p.diproses') {
+            include "costumer/page/p.diproses.php";
+        } elseif ($page == 'p.dikirim') {
+            include "costumer/page/p.dikirim.php";
+        } elseif ($page == 'p.selesai') {
+            include "costumer/page/p.selesai.php";
+        } elseif ($page == 'p.dibatal') {
+            include "costumer/page/p.dibatal.php";
+        } elseif ($page == 'detailOrder') {
+            include "costumer/page/detailorder.php";
+        } elseif ($page == 'keranjang') {
+            include "costumer/page/keranjang.php";
         } else {
             include "costumer/page/katalog.php";
         }

@@ -1,8 +1,8 @@
 <?php
 
-require_once '../../config/connection.php';
-require_once '../../logic/costumer/produkApi.php';
-require_once '../../costumer/controller/keranjangController.php';
+require_once __DIR__ .'/../../config/connection.php';
+require_once __DIR__ .'/../../logic/costumer/produkApi.php';
+require_once __DIR__ .'/../../costumer/controller/keranjangController.php';
 
 $db = new Database();
 

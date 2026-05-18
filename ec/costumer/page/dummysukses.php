@@ -15,11 +15,11 @@
         Terima kasih sudah berbelanja di <strong class="brand-dummysukses">Smart Green House</strong>.
       </p>
 
-      <button class="btn-dummysukses" onclick="loadPage('/sghwebv2/ec/costumer/page/pesanan.php')">
+      <button class="btn-dummysukses" onclick="loadPage('/sghwebv2/ec/index.php?page=pesanan')">
         Pesanan Saya
       </button>
 
-      <button class="btn-ghost-dummysukses" onclick="loadPage('/sghwebv2/ec/costumer/page/beranda.php')">
+      <button class="btn-ghost-dummysukses" onclick="loadPage('/sghwebv2/ec/index.php?page=katalog')">
         Kembali ke Beranda
       </button>
 
