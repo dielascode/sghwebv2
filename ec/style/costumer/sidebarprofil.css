@@ -1,11 +1,13 @@
 .sidebar-profil {
     width: 220px;
-  height: 100%; /* biar ga full nutup */
+ 
   position: fixed;
   left: 0;
   top: 50px; /* geser ke bawah navbar */
   background: #ffffff;
   border-right: 1px solid #ddd;
+  height: calc(100vh - 50px); /* 50px = tinggi navbar */
+    overflow-y: auto;      
   
 }
 
