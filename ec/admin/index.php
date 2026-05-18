@@ -1,6 +1,5 @@
 <?php
-session_name('sghwebv2_session');
-session_save_path('C:/laragon/www/sghwebv2/sessions');
+
 session_start();
 if (!isset($_SESSION['login'])) {
     header("Location: ../loginAdmin.php");

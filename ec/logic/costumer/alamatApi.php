@@ -1,6 +1,7 @@
 <?php
+
 session_name('sghwebv2_session');
-                              session_start();
+session_start();
 require '../../config/connection.php';
 
 $db          = (new Database())->getConnection();
