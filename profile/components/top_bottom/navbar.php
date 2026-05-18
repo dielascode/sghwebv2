@@ -2,10 +2,9 @@
 session_name('sghwebv2_session');
 session_start();
 
-
 $sudah_login = isset($_SESSION['id']);
 // // DEBUG sementara
-// var_dump($sudah_login);
+// var_dump($sudah_login);  
 // var_dump($_SESSION);
 ?>
 <nav class="navbar navbar-expand-lg navbar-custom">

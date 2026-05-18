@@ -1,7 +1,13 @@
 <?php
 session_name('sghwebv2_session');
 session_start();
+
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

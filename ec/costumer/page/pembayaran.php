@@ -26,8 +26,9 @@
    
 
     <div class="grid-py">
-       <?php if (session_status() === PHP_SESSION_NONE) session_name('sghwebv2_session');
-                              session_start();
+       <?php if (session_status() === PHP_SESSION_NONE)
+        session_name('sghwebv2_session');
+        session_start();
 $total_bayar = $_SESSION['total_bayar'] ?? 0;
 ?>
 

@@ -1,6 +1,6 @@
 <?php
 session_name('sghwebv2_session');
-                              session_start();
+session_start();
 
 if (!isset($_SESSION['id'])) {
     die("Anda belum login");

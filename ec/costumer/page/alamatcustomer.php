@@ -2,7 +2,7 @@
 error_reporting(0);      // tambah ini
 ini_set('display_errors', 0);  // dan ini
 session_name('sghwebv2_session');
-                              session_start();
+session_start();
 require_once __DIR__ . '/../../config/connection.php';
 $db          = (new Database())->getConnection();
 $id_costumer = $_SESSION['id'];
