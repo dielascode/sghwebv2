@@ -21,6 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    if (strlen($password) < 8) {
+        $_SESSION['error'] = "Password minimal 8 karakter.";
+        header("Location: ../../resetPassword.php?token=" . urlencode($token));
+        exit();
+    }
+
     if ($password !== $confirm_password) {
         $_SESSION['error'] = "Kata sandi tidak cocok.";
         header("Location: ../../resetPassword.php?token=" . urlencode($token));

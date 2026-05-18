@@ -12,6 +12,18 @@
             <p>Pastikan password Anda kuat dan aman</p>
         </div>
 
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger" style="margin-bottom: 1rem; padding: 0.75rem 1rem; border: 1px solid #e3342f; color: #e3342f; background: #fcebea; border-radius: 0.5rem;">
+                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success" style="margin-bottom: 1rem; padding: 0.75rem 1rem; border: 1px solid #38c172; color: #38c172; background: #e3fcec; border-radius: 0.5rem;">
+                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+        <?php endif; ?>
+
         <form action="/sghwebv2/ec/logic/costumer/handleubahPassword.php" method="POST">
 
             <div class="form-group-pw">
