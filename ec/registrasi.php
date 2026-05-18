@@ -24,8 +24,8 @@ if (isset($_POST['register'])) {
 				<input type="text" name="nama" placeholder="Nama" required />
 				<input type="email" name="email" placeholder="Email" required />
 				<input type="text" name="nomor_telepon" placeholder="Nomor Telepon" required />
-				<input type="password" name="password" placeholder="Password" required />
-				<input type="password" name="confirm_password" placeholder="Konfirmasi Password" required />
+				<input type="password" name="password" placeholder="Password" minlength="8" required />
+				<input type="password" name="confirm_password" placeholder="Konfirmasi Password" minlength="8" required />
 
 				<button type="submit" name="register">Buat Akun</button>
 			</form>
