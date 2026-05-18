@@ -57,14 +57,14 @@ class KeranjangApi
         );
     }
 
-    public function getProduk(string $id_produk)
-    {
-        return $this->query(
-            "SELECT id FROM produk WHERE id = ?",
-            's',
-            [$id_produk]
-        );
-    }
+  public function getProduk(string $id_produk)
+{
+    return $this->query(
+        "SELECT id, stok FROM produk WHERE id = ?", // tambah stok
+        's',
+        [$id_produk]
+    );
+}
 
     public function getTotalCart(string $id_costumer)
     {

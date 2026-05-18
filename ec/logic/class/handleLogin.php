@@ -12,8 +12,14 @@ class LoginHandler {
 
     public function handleLogin($email, $password) {
         if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+                session_name('sghwebv2_session');
+                session_start();
+}
+
+// DEBUG sementara
+var_dump(session_name());
+var_dump(session_save_path());
+var_dump(session_id());
 
         // QUERY LOGIN berdasarkan email saja, lalu verify password hashed
         $query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
