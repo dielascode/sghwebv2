@@ -3,8 +3,9 @@ class session {
     public function __construct()
     {
         if (session_status() == PHP_SESSION_NONE){
-            session_start();
-        }
+                session_name('sghwebv2_session');
+                session_start();
+            }
     }
     public function set($key, $value){
         $_SESSION[$key]= $value;

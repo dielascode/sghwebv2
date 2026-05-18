@@ -1,4 +1,5 @@
 <?php 
+session_name('sghwebv2_session');
 session_start();
 
 // Jika tidak ada success message, redirect ke login

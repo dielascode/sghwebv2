@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+session_name('sghwebv2_session');
+                              session_start();
 include __DIR__ . '/../../config/connection.php';
 
 require __DIR__ . '/../../vendor/autoload.php';

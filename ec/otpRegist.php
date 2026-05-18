@@ -1,4 +1,5 @@
 <?php
+session_name('sghwebv2_session');
 session_start();
 include 'logic/class/handleOtp.php';
 

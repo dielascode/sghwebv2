@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php 
+session_name('sghwebv2_session');
+session_start(); ?>
 
 <!DOCTYPE html>
 <html>
