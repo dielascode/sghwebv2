@@ -65,6 +65,8 @@
             include "costumer/page/p.dibatal.php";
         } elseif ($page == 'detailOrder') {
             include "costumer/page/detailorder.php";
+        } elseif ($page == 'keranjang') {
+            include "costumer/page/keranjang.php";
         } else {
             include "costumer/page/katalog.php";
         }
