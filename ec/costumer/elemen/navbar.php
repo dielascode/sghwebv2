@@ -410,7 +410,7 @@ header a {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  updateCartBadge();
+  // updateCartBadge();
 
   /* ---- Profile dropdown (desktop) ---- */
   const profileBtn  = document.getElementById('profileBtn');
