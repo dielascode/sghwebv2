@@ -141,23 +141,23 @@
 
 <script>
     let chartInstance = null;
-    document.addEventListener("DOMContentLoaded", async function() {
+    document.addEventListener("DOMContentLoaded", async function() { //document objek model untuk meload js pas udh jalan
 
         try {
-            const res = await fetch('/sghwebv2/ec/admin/crud/dashboardController.php');
-            const data = await res.json();
+            const res = await fetch('/sghwebv2/ec/admin/crud/dashboardController.php'); //mengambil data dari api menggunakan controller
+            const data = await res.json(); //mengubah jadi json
 
             console.log("DATA:", data);
 
             // stats
-            document.querySelector('[data-users]').innerText = data.users;
+            document.querySelector('[data-users]').innerText = data.users; //query selector untuk menempatkan data di situ
             document.querySelector('[data-orders]').innerText = data.orders;
 
             // recent orders
-            const table = document.getElementById('recent-orders-table');
-            table.innerHTML = '';
+            const table = document.getElementById('recent-orders-table'); //ngambil elemen
+            table.innerHTML = ''; //ngosongin
 
-            data.recentOrders.forEach(order => {
+            data.recentOrders.forEach(order => { //foreach kyk di php
                 table.innerHTML += `
                 <tr>
                     <td>${order.nomor_pesanan}</td>
@@ -168,29 +168,29 @@
             `;
             });
 
-            const ctx = document.getElementById('PemesananSeminggu').getContext('2d');
+            const ctx = document.getElementById('PemesananSeminggu').getContext('2d'); //ngambil chart
 
             if (chartInstance) {
                 chartInstance.destroy();
             }
 
-            chartInstance = new Chart(ctx, {
-                type: 'line',
+            chartInstance = new Chart(ctx, { //isiniasi chart nya ini
+                type: 'line', //tipe chartnya
                 data: {
-                    labels: data.chart.labels,
+                    labels: data.chart.labels, //x
                     datasets: [{
-                        label: 'Jumlah Pesanan',
-                        data: data.chart.data,
+                        label: 'Jumlah Pesanan', //nama
+                        data: data.chart.data, //data di y
                         borderColor: '#21543C',
                         backgroundColor: 'rgba(33,84,60,0.15)',
-                        fill: true,
-                        tension: 0.4
+                        fill: true, //custom isi
+                        tension: 0.4 //lengkungan
                     }]
                 }
             });
 
         } catch (err) {
-            console.error("ERROR:", err);
+            console.error("ERROR:", err); //kalo eror nanti muncul ini di console
         }
 
     });

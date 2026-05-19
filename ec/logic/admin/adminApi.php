@@ -41,10 +41,11 @@ class Admin
     {
         $role = 'admin';
         $status = 'aktif';
-        $tanggal_daftar = date('Y-m-d H:i:s');
+        $tanggal_daftar = date('Y-m-d H:i:s'); //isinisasi awal
         $id = $this->generateId();
         $password = password_hash($data['password'], PASSWORD_DEFAULT);
 
+        //filter
         $cek = $this->conn->prepare("SELECT id FROM users WHERE username=?");
         $cek->bind_param("s", $data['username']);
         $cek->execute();
@@ -66,11 +67,11 @@ class Admin
 
         $query = "INSERT INTO users 
         (id, nama, username, email, password, nomor_telepon, role, status, tanggal_daftar) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"; //iinsert ke admin data data yyg tadi tu
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param(
+        $stmt->bind_param( //ngisi parameteer
             "sssssssss",
             $id,
             $data['nama'],
@@ -100,7 +101,7 @@ class Admin
         $role = 'admin';
         $status = 'aktif';
 
-        if (!empty($data['password'])) {
+        if (!empty($data['password'])) { //klao password kosong baru dijalanin
 
             $password = password_hash($data['password'], PASSWORD_DEFAULT);
 
@@ -153,7 +154,7 @@ class Admin
         }
     }
 
-    public function toggleStatus($id, $currentStatus)
+    public function toggleStatus($id, $currentStatus) //set status
     {
         $newStatus = ($currentStatus === 'aktif') ? 'nonaktif' : 'aktif';
 

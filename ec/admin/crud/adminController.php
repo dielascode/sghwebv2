@@ -6,8 +6,8 @@ include __DIR__ . "/../../config/connection.php";
 include __DIR__ . "/../../logic/admin/adminApi.php";
 
 $db = new Database();
-$conn = $db->getConnection();
-$admin = new Admin($conn);
+$conn = $db->getConnection(); //ngambil koneksi
+$admin = new Admin($conn); //create objek
 
 $action = $_GET['action'] ?? 'tidak ada action';
 
@@ -21,7 +21,7 @@ if ($action === 'tambah') {
         !empty($_POST['nomor_telepon'])
     ) {
 
-        $result = $admin->store($_POST);
+        $result = $admin->store($_POST); //kirim ke api function store
         echo json_encode($result);
     } else {
         echo json_encode([

@@ -32,6 +32,12 @@ class LoginHandler {
             return;
         }
 
+        // Cek status akun customer
+        if (isset($user['status']) && $user['status'] !== 'aktif') {
+            echo "<script>alert('Login gagal: status akun Anda dinonaktifkan. Hubungi admin.');</script>";
+            return;
+        }
+
         // Hanya role costumer yang bisa login
         if ($user['role'] !== 'costumer') {
             echo "<script>alert('Hanya costumer yang bisa login di sini');</script>";
