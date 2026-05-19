@@ -29,7 +29,10 @@ if (isset($_POST['register'])) {
 				<input type="password" name="password" placeholder="Password" minlength="8" required />
 				<input type="password" name="confirm_password" placeholder="Konfirmasi Password" minlength="8" required />
 
-				<button type="submit" name="register">Buat Akun</button>
+				<div class="button-row">
+					<button type="submit" name="register">Buat Akun</button>
+					<button type="button" class="ghost switch-page" data-target="login.php" data-mode="sign-in">Masuk Sekarang</button>
+				</div>
 			</form>
 		</div>
 

@@ -376,7 +376,6 @@ if (!$result) {
             <div class="row g-2 mb-2">
 
                 <div class="col-md-5">
-                // ketika milih buah panggil update item
                     <select class="form-select" 
                         onchange="updateItem(${index}, 'buah', this.value)">
                         <option value="">Pilih Buah</option>
@@ -397,7 +396,7 @@ if (!$result) {
                     </select>
                 </div>
 
-                <div class="col-md-2"> //kondisional ketiika bundling atau satuan
+                <div class="col-md-2"> 
                     ${(items.length > 1 && tipe === 'bundling') 
                         ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
                         : ''}
@@ -510,7 +509,7 @@ if (!$result) {
                     class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
                 <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeImage(${index})">×</button> //sm kyk yg atas
+                    onclick="removeImage(${index})">×</button> 
             </div>`;
         });
     }
