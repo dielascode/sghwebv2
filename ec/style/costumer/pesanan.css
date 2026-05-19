@@ -546,3 +546,159 @@
   z-index: 9999;
   white-space: nowrap;
 }
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px){
+
+  .oh-wrap{
+    margin-left: 0;
+    padding: 80px 16px 20px;
+    max-width: 100%;
+  }
+
+  .oh-card,
+  .oh-card-cancel{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .card-inner{
+    flex-direction: column;
+  }
+
+  .product-box{
+    max-width: 100%;
+    margin: 0 12px;
+  }
+
+  .btn-box{
+    width: 100%;
+    padding: 0 12px 12px;
+  }
+
+}
+
+/* MOBILE */
+@media (max-width: 768px){
+
+  .container-pesanan{
+    padding-top: 0;
+  }
+
+  .oh-wrap{
+    padding: 75px 12px 20px;
+  }
+
+  .oh-title{
+    font-size: 18px;
+  }
+
+  .oh-count{
+    font-size: 12px;
+  }
+
+  .card-status-bar{
+    padding: 10px 12px 8px;
+  }
+
+  .product-box{
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    margin: 0 10px 10px;
+  }
+
+  .melon-thumb{
+    width: 58px;
+    height: 58px;
+  }
+
+  .product-name{
+    font-size: 13px;
+  }
+
+  .meta-lbl,
+  .meta-val,
+  .meta-val.muted{
+    font-size: 11px;
+  }
+
+  .btn-box{
+    gap: 6px;
+    padding: 0 10px 10px;
+  }
+
+  .btn-detail,
+  .btn-struk,
+  .btn-selesai,
+  .btn-nilai{
+    width: 100%;
+    font-size: 12px;
+    padding: 9px 0;
+  }
+
+  .modal-nilai{
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .nilai-product-row{
+    align-items: flex-start;
+  }
+
+  .nilai-rating-row{
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .nilai-rating-desc{
+    min-width: unset;
+  }
+
+  .nilai-modal-footer{
+    flex-direction: column;
+  }
+
+  .nilai-btn-cancel,
+  .nilai-btn-ok{
+    width: 100%;
+  }
+
+}
+
+/* HP KECIL */
+@media (max-width: 480px){
+
+  .oh-wrap{
+    padding: 72px 10px 20px;
+  }
+
+  .product-box{
+    flex-direction: column;
+  }
+
+  .melon-thumb{
+    width: 100%;
+    height: 180px;
+  }
+
+  .melon-thumb img{
+    border-radius: 8px;
+  }
+
+  .meta-row{
+    gap: 10px;
+  }
+
+  .nilai-star{
+    font-size: 22px;
+  }
+
+  .nilai-thumb{
+    width: 64px;
+    height: 64px;
+  }
+
+}
