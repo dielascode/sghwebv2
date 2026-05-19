@@ -40,7 +40,9 @@ body {
     display: grid;
     grid-template-columns: 350px 1fr;
     gap: 25px;
+    align-items: stretch;
 }
+
 
 .card-profil {
     background: white;
@@ -48,6 +50,9 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .photo-card {
@@ -136,12 +141,13 @@ body {
 .btn-save:hover { 
     background: linear-gradient(135deg, #368a62, #114029); 
 }
+
 .ps-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 28px 32px 32px;
- 
-  min-width: 600px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px 32px 32px;
+    min-width: 600px;
+    height: 100%;
 }
 
 /* =====================
@@ -416,23 +422,33 @@ body {
 }
 @media (max-width: 768px) {
     .content-profil {
-        margin-left: 15px;
-        margin-right: 15px;
-        padding: 10px;
+        display: block !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-top: 0 !important;
+        width: 100% !important;
+        padding: 10px 15px !important;
+    }
+
+    .header-content {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
     .profile-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .ps-card {
-        min-width: unset;
-        padding: 20px;
+        grid-template-columns: 1fr !important;
+        align-items: unset;
     }
 
     .card-profil {
         padding: 20px;
         min-height: unset;
+    }
+
+    .ps-card {
+        min-width: unset !important;
+        padding: 20px;
+        height: auto;
     }
 
     .photo-container {

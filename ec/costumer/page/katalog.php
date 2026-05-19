@@ -198,7 +198,6 @@
                   fill="#f5a623" />
               </svg>
             </div>
-            <span class="modal-review-count">9 ulasan</span>
           </div>
 
           <div class="modal-divider"></div>
