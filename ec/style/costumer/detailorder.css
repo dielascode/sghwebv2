@@ -315,3 +315,81 @@
     padding: 12px 14px;
   }
 }
+
+/* ================= RESPONSIVE ================= */
+
+/* TABLET & MOBILE (SIDEBAR ADA DI KIRI) */
+@media (max-width: 1024px){
+
+  /* matikan margin sidebar */
+  .container-detailorder{
+    margin-left: 0;
+    padding: 90px 16px 40px; /* ruang untuk navbar + sidebar include */
+    max-width: 100%;
+  }
+
+  /* grid jadi 1 kolom */
+  .grid-detailorder{
+    grid-template-columns: 1fr;
+  }
+
+  /* table biar tidak overflow */
+  .table-detailorder{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .th-detailorder,
+  .td-detailorder{
+    padding: 12px 14px;
+  }
+
+  /* product row lebih fleksibel */
+  .product-row-detailorder{
+    gap: 10px;
+  }
+
+  .product-img-wrap-detailorder{
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px){
+
+  .container-detailorder{
+    padding: 85px 12px 30px;
+  }
+
+  .title-detailorder{
+    font-size: 1.25rem;
+  }
+
+  .btn-back{
+    width: 100%;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .card-detailorder{
+    border-radius: 10px;
+  }
+
+  .product-name-detailorder{
+    font-size: 0.88rem;
+  }
+
+  .product-qty-detailorder{
+    font-size: 0.78rem;
+  }
+
+  .info-card-detailorder{
+    padding: 14px;
+  }
+
+  .proof-image-detailorder{
+    max-height: 180px;
+  }
+}

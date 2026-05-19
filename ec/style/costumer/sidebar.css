@@ -1,13 +1,16 @@
 .sidebar {
   width: 220px;
-  height: calc(100vh - 50px); /* 50px = tinggi navbar */
-    overflow-y: auto;      
+  height: calc(100vh - 50px);
+  /* 50px = tinggi navbar */
+  overflow-y: auto;
   position: fixed;
   left: 0;
-  top: 50px; /* geser ke bawah navbar */
+  top: 50px;
+  /* geser ke bawah navbar */
   background: #ffffff;
   border-right: 1px solid #ddd;
 }
+
 .menu-custom {
   list-style: none;
   padding: 20px 0;
@@ -40,11 +43,105 @@
 /* HOVER */
 .menu-custom li a:hover {
   background: #e8f0e6;
-  color: #2e7d32;
+  color: #4c4d4b;
 }
 
 /* ACTIVE (kalau mau ditandain) */
 .menu-custom li.active a {
-  background: #3b6d11;
+  background: #4c4d4b;
   color: white;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px){
+
+  .sidebar{
+    width: 100%;
+    height: auto;
+
+    position: fixed;
+    top: 50px;
+    left: 0;
+
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+
+    z-index: 1000;
+    background: #fff;
+  }
+
+  .menu-custom{
+    display: flex;
+    align-items: center;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    padding: 8px;
+    gap: 8px;
+
+    scrollbar-width: none;
+  }
+
+  .menu-custom::-webkit-scrollbar{
+    display: none;
+  }
+
+  .menu-custom li{
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .menu-custom li a{
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  /* CONTENT */
+  .oh-wrap{
+    margin-left: 0;
+
+    max-width: 100%;
+
+    padding-top: 150px; /* INI YANG PENTING */
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+}
+/* MOBILE */
+@media (max-width: 768px){
+
+  .container-pesanan{
+    padding-top: 145px;
+  }
+
+  .oh-wrap {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .product-box {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .melon-thumb {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+  }
+
+  .btn-detail,
+  .btn-struk,
+  .btn-selesai,
+  .btn-nilai {
+    width: 100%;
+  }
+
 }
