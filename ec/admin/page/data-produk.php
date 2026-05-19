@@ -321,15 +321,15 @@ if (!$result) {
     let oldImages = [];
     let editId = null;
 
-    const semuaVarietas = <?= json_encode($varietas); ?>;
+    const semuaVarietas = <?= json_encode($varietas); ?>; //ngambil varietas
     console.log(semuaVarietas);
 
-    async function deleteProduk(id) {
+    async function deleteProduk(id) { //delete
         if (!confirm("Yakin mau hapus produk ini?")) return;
 
         const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
-        let res = await fetch(`${baseUrl}?action=delete&id=${id}`);
+        let res = await fetch(`${baseUrl}?action=delete&id=${id}`); //aksinya
         let result = await res.json();
 
         if (result.status) {
@@ -343,7 +343,7 @@ if (!$result) {
     async function openEdit(id) {
         editId = id;
 
-        const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+        const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`); // ngambil detail dulu
         const data = await res.json();
 
         document.getElementById('nama_produk').value = data.nama_produk;
@@ -371,11 +371,12 @@ if (!$result) {
         const tipe = document.getElementById('tipe').value;
         container.innerHTML = '';
 
-        items.forEach((item, index) => {
+        items.forEach((item, index) => { //lopung
             container.innerHTML += `
             <div class="row g-2 mb-2">
 
                 <div class="col-md-5">
+                // ketika milih buah panggil update item
                     <select class="form-select" 
                         onchange="updateItem(${index}, 'buah', this.value)">
                         <option value="">Pilih Buah</option>
@@ -396,7 +397,7 @@ if (!$result) {
                     </select>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-2"> //kondisional ketiika bundling atau satuan
                     ${(items.length > 1 && tipe === 'bundling') 
                         ? `<button class="btn btn-danger w-100" onclick="removeItem(${index})">Hapus</button>` 
                         : ''}
@@ -406,14 +407,14 @@ if (!$result) {
             `;
 
             if (item.id_buah) {
-                loadVarietas(index, item.id_buah, item.id_varietas);
+                loadVarietas(index, item.id_buah, item.id_varietas); //varietas tergantung dengn buah yang dipilih
             }
         });
     }
 
     function updateItem(index, field, value) {
         if (field === 'buah') {
-            items[index].id_buah = value;
+            items[index].id_buah = value; //ketika update bbuah load varietas lagi
             items[index].id_varietas = '';
             loadVarietas(index, value);
         } else {
@@ -421,12 +422,12 @@ if (!$result) {
         }
     }
 
-    function loadVarietas(index, id_buah, selectedVarietas = null) {
+    function loadVarietas(index, id_buah, selectedVarietas = null) { //mengisi dropdown varietas berdasrkan buah yg diipilih
         const select = document.getElementById(`varietas-${index}`);
 
         select.innerHTML = `<option value="">Pilih Varietas</option>`;
 
-        const filtered = semuaVarietas.filter(v => v.id_buah == id_buah);
+        const filtered = semuaVarietas.filter(v => v.id_buah == id_buah); //di filtr berdasrkan id buah
 
         filtered.forEach(v => {
             select.innerHTML += `
@@ -479,9 +480,9 @@ if (!$result) {
         btn.style.display = (tipe === 'satuan') ? 'none' : 'inline-block';
     }
 
-    function handleFiles(event) {
-        const newFiles = Array.from(event.target.files);
-        images = [...images, ...newFiles];
+    function handleFiles(event) { //menangkap file yang dipilih user
+        const newFiles = Array.from(event.target.files); //trus jadi array
+        images = [...images, ...newFiles]; //gabung sama yang lama
         renderImages();
     }
 
@@ -489,19 +490,19 @@ if (!$result) {
         const preview = document.getElementById('previewContainer');
         preview.innerHTML = '';
 
-        oldImages.forEach((img, index) => {
+        oldImages.forEach((img, index) => { //nampilin gambar lama dulu
             preview.innerHTML += `
             <div class="position-relative">
                 <img src="../../asset/image/produk/${img.gambar}" 
                     class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
                 <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeOldImage(${index})">×</button>
+                    onclick="removeOldImage(${index})">×</button> //buat ngehapus yg lama
             </div>`;
         });
 
-        images.forEach((file, index) => {
-            const url = URL.createObjectURL(file);
+        images.forEach((file, index) => { //gambar baru
+            const url = URL.createObjectURL(file); // ursl sementara biar tampil
 
             preview.innerHTML += `
             <div class="position-relative">
@@ -509,7 +510,7 @@ if (!$result) {
                     class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
                 <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeImage(${index})">×</button>
+                    onclick="removeImage(${index})">×</button> //sm kyk yg atas
             </div>`;
         });
     }
@@ -534,16 +535,16 @@ if (!$result) {
         data.append('deskripsi', deskripsi.value);
         data.append('komposisi', JSON.stringify(items));
 
-        images.forEach((file, i) => data.append(`images[${i}]`, file));
+        images.forEach((file, i) => data.append(`images[${i}]`, file)); //gambar lama kalo masi di pake, yang di hapus ya dihapsu
         data.append('oldImages', JSON.stringify(oldImages));
 
-        if (editId) data.append('id', editId);
+        if (editId) data.append('id', editId); //ngambil edit id
 
-        let action = editId ? 'update' : 'tambah';
+        let action = editId ? 'update' : 'tambah'; //nentuin aksinya
 
         const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
 
-        let res = await fetch(`${baseUrl}?action=${action}`, {
+        let res = await fetch(`${baseUrl}?action=${action}`, { //sesuai aksi nya
             method: 'POST',
             body: data
         });
