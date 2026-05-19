@@ -23,20 +23,20 @@ if ($action === 'tambah') {
 
     $komposisi = json_decode($_POST['komposisi']);
 
-    $targetDir = __DIR__ . "/../../../asset/image/produk/";
+    $targetDir = __DIR__ . "/../../../asset/image/produk/"; //disimpen disini
 
     if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0777, true);
+        mkdir($targetDir, 0777, true); //buat kalau belum ada
     }
 
     $uploadedImages = [];
     if (!empty($_FILES['images'])) {
         foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
-            $cleanFileName = time() . "_" . str_replace(' ', '_', $_FILES['images']['name'][$key]);
+            $cleanFileName = time() . "_" . str_replace(' ', '_', $_FILES['images']['name'][$key]); //diset namanya berdasarkan waktu
             $targetFile = $targetDir . $cleanFileName;
 
             if (move_uploaded_file($tmp_name, $targetFile)) {
-                $uploadedImages[] = $cleanFileName;
+                $uploadedImages[] = $cleanFileName; //trus ditaro di sini pake array
             }
         }
     }
@@ -44,7 +44,7 @@ if ($action === 'tambah') {
     $produk = new Produk($conn);
     error_log("Jumlah gambar terupload: " . count($uploadedImages));
 
-    $result = $produk->storeComplex($dataProduk, $komposisi, $uploadedImages);
+    $result = $produk->storeComplex($dataProduk, $komposisi, $uploadedImages); //srote
 
     echo json_encode($result);
 } else if ($action === 'update') {

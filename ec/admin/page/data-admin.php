@@ -1,14 +1,14 @@
 <?php
-include __DIR__ . "/../../config/connection.php";
-include __DIR__ . "/../../logic/admin/adminApi.php";
+include __DIR__ . "/../../config/connection.php"; //conection
+include __DIR__ . "/../../logic/admin/adminApi.php"; //apinya
 
 
-$db = new Database();
-$conn = $db->getConnection();
-$admin = new Admin($conn);
-$result = $admin->getAdmin();
+$db = new Database(); //reate oblej dari class database
+$conn = $db->getConnection(); //trus ambil koneksi
+$admin = new Admin($conn); //create objek admin
+$result = $admin->getAdmin(); //manggil function ngambil data
 if (!$result) {
-    die("ERROR: " . $conn->error);
+    die("ERROR: " . $conn->error); //kalo ga ada eror
 }
 ?>
 
@@ -21,10 +21,8 @@ if (!$result) {
             <p class="text-muted mb-0">Manajemen pengelola anda</p>
         </div>
         <div class="d-flex gap-4">
-            <button type="button" class="btn btn-outline-secondary" @click="exportOrders()">
-                <i class="bi bi-download me-2"></i>Export
-            </button>
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "superadmin"): ?>
+            <!-- kalo sesionya superadmin tombolnya ga tampil -->
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "superadmin"): ?> 
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
                     <i class="bi bi-plus-lg me-2"></i>Tambah Admin
                 </button>
@@ -56,7 +54,9 @@ if (!$result) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1; ?>
+                            <!-- isisiani no 1 -->
+                            <?php $no = 1; ?> 
+                            <!-- di forearch di ulang ulang alias a -->
                             <?php foreach ($result as $a): ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
@@ -76,10 +76,12 @@ if (!$result) {
                                     <td style="display: flex; gap: 10px;">
                                         <button
                                             class="btn btn-sm btn-primary"
-                                            onclick="openEditModal(<?= $a['id']; ?>, '')">
+                                            onclick="openEditModal(<?= $a['id']; ?>, '')"> 
+                                            <!-- pake js -->
                                             Lihat Detail
                                         </button>
                                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === "superadmin"): ?>
+                                            <!-- pake js ngirim parameter ke jsnya -->
                                             <button
                                                 class="btn btn-sm btn-warning"
                                                 onclick="openEditModal(
@@ -195,17 +197,17 @@ if (!$result) {
 </div>
 
 <script>
-    function openEditModal(id, nama, username, email, nomor_telepon) {
-
+    function openEditModal(id, nama, username, email, nomor_telepon) { 
+        // fungsi edit modal
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_nama').value = nama;
         document.getElementById('edit_username').value = username;
         document.getElementById('edit_email').value = email;
-        document.getElementById('edit_nomor_telepon').value = nomor_telepon;
+        document.getElementById('edit_nomor_telepon').value = nomor_telepon; //nempatin vlue
 
         document.getElementById('edit_password').value = '';
 
-        const modal = new bootstrap.Modal(document.getElementById('editModal'));
+        const modal = new bootstrap.Modal(document.getElementById('editModal')); //nembuka (menampilkan) modal dengan ID editModal
         modal.show();
     }
 
@@ -218,9 +220,9 @@ if (!$result) {
         if (!confirm(confirmText)) return;
 
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/adminController.php';
+            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/adminController.php'; //ke controller
 
-            let res = await fetch(`${baseUrl}?action=toggle_status&id=${id}&status=${currentStatus}`);
+            let res = await fetch(`${baseUrl}?action=toggle_status&id=${id}&status=${currentStatus}`); //ke action di controller
 
             let result = await res.json();
 
@@ -239,11 +241,11 @@ if (!$result) {
 </script>
 <script>
     document.getElementById('formTambahAdmin').addEventListener('submit', function(e) {
-        e.preventDefault();
+        e.preventDefault(); //ngambil form, klik submit scriptnya jalan
 
-        const formData = new FormData(this);
+        const formData = new FormData(this); //ngambil yang diinputkan
 
-        fetch('../../../../sghwebv2/ec/admin/crud/adminController.php?action=tambah', {
+        fetch('../../../../sghwebv2/ec/admin/crud/adminController.php?action=tambah', { //request server ke controller
                 method: 'POST',
                 body: formData
             })
