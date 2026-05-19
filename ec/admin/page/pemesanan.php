@@ -541,13 +541,33 @@ if (!$result) {
         }
     }
 </script>
+<!-- buat ngeprin struk -->
 <script>
     async function printInvoice(nomor_pesanan) {
         try {
             const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
 
-            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`);
+            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`); //ngambil data dulu
             let data = await res.json();
+
+            let alamatText = '-';
+        try {
+            let alamatObj = JSON.parse(data.alamat);
+            alamatText =
+                `${alamatObj.jalan}, ` +
+                `${alamatObj.kelurahan}, ` +
+                `${alamatObj.kecamatan}, ` +
+                `${alamatObj.kota}, ` +
+                `${alamatObj.provinsi}`;
+            if (alamatObj.detail) {
+                alamatText =
+                    `${alamatObj.jalan}, ${alamatObj.detail}, ` +
+                    `${alamatObj.kelurahan}, ${alamatObj.kecamatan}, ` +
+                    `${alamatObj.kota}, ${alamatObj.provinsi}`;
+            }
+        } catch (e) {
+            alamatText = data.alamat ?? '-';
+        }
 
             let itemsHTML = '';
             let total = 0;
@@ -565,7 +585,7 @@ if (!$result) {
                 </tr>
             `;
             });
-
+            //generate html invoice
             let html = `
         <html>
         <head>
@@ -638,8 +658,7 @@ if (!$result) {
             <div class="box">
                 <strong>Dikirim ke:</strong><br>
                 ${data.nama}<br>
-                ${data.nomor_telepon}<br>
-                ${data.alamat ?? '-'}
+                ${alamatText}
             </div>
 
             <table>
@@ -669,6 +688,7 @@ if (!$result) {
 
             <script>
                 window.print();
+                // auto print kalo dh ditutup
                 window.onafterprint = () => window.close();
             <\/script>
 
@@ -676,7 +696,7 @@ if (!$result) {
         </html>
         `;
 
-            let printWindow = window.open('', '', 'width=900,height=700');
+            let printWindow = window.open('', '', 'width=900,height=700'); //bukak tab baru
             printWindow.document.write(html);
             printWindow.document.close();
 
@@ -752,11 +772,12 @@ if (!$result) {
     }
 </script>
 <script>
+    //ngeeksport ke orderan
     async function exportOrders() {
         try {
             const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
 
-            let res = await fetch(`${baseUrl}?action=get_all_detail`);
+            let res = await fetch(`${baseUrl}?action=get_all_detail`); //ngambil data bari bakend
             let orders = await res.json();
 
             let html = `
@@ -765,7 +786,7 @@ if (!$result) {
             <hr>
         `;
 
-            orders.forEach(order => {
+            orders.forEach(order => { //looop pesanan
 
                 html += `
             <div style="margin-bottom:20px;">
@@ -815,24 +836,24 @@ if (!$result) {
 
             html += `</div>`;
 
-            let element = document.createElement('div');
+            let element = document.createElement('div'); //konvert e dom
             element.innerHTML = html;
 
-            html2pdf()
+            html2pdf() //pake library di index
                 .from(element)
-                .set({
+                .set({ //confignya
                     margin: 10,
                     filename: 'laporan_pesanan.pdf',
                     html2canvas: {
                         scale: 2
                     },
-                    jsPDF: {
+                    jsPDF: { //ukuran
                         unit: 'mm',
                         format: 'a4',
                         orientation: 'portrait'
                     }
                 })
-                .save();
+                .save(); //biar langsong kedonlot
 
         } catch (error) {
             console.error("Error export:", error);
