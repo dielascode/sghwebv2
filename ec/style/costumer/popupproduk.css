@@ -287,7 +287,7 @@
   padding: 0 16px;
   height: 36px;
   border-radius: 8px;
-  background: #2d8c62;
+  background: linear-gradient(90deg, #21543C 0%, #49BA85 100%);
   color: #fff;
   font-size: 13px;
   font-weight: 500;
@@ -298,7 +298,7 @@
 }
 
 .modal-btn-buy:hover {
-  background: #236e4d;
+ background: linear-gradient(90deg, #1b4632 0%, #3fa874 100%);
 }
 
 .modal-btn-cart {

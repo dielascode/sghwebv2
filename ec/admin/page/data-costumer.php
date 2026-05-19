@@ -139,7 +139,7 @@ if (!$result) {
                                             Lihat Detail
                                         </button>
 
-                                        <?php if ($_SESSION['role'] === "admin"): ?>
+                                        <?php if ($_SESSION['role'] === "admin" && $c['status'] === 'aktif'): ?>
                                             <button
                                                 class="btn btn-sm btn-danger"
                                                 onclick="nonaktifkanCustomer('<?= $c['id']; ?>')">

@@ -9,7 +9,7 @@
 .content-area {
     flex: 1;
     padding: 85px 20px;
-    margin-left: 100px;
+    margin-left: 250px;
     background: var(--bg-soft);
 }
 
@@ -108,4 +108,50 @@
     height: 200px;
     border-radius: 10px;
     border: 1px solid #ddd;
+}
+@media (max-width: 768px) {
+    .content-area {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .address-card {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .alamat-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .aksi {
+        display: flex;
+        gap: 10px;
+    }
+
+    .aksi a {
+        margin-left: 0;
+    }
+
+    .alamat-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-sgh-primary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .pw-header {
+        margin-bottom: 10px;
+    }
+
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 10px;
+    }
 }

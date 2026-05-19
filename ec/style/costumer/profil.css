@@ -20,7 +20,7 @@ body {
 
 .content-profil { 
     flex: 1; 
-    margin-left: 100px;
+    margin-left: 250px;
     padding: 10px;
     margin-right: 100px;
 }
@@ -413,4 +413,66 @@ body {
 
 .ps-btn--primary:hover {
   background: #236e4d;
+}
+@media (max-width: 768px) {
+    .content-profil {
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 10px;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ps-card {
+        min-width: unset;
+        padding: 20px;
+    }
+
+    .card-profil {
+        padding: 20px;
+        min-height: unset;
+    }
+
+    .photo-container {
+        width: 130px;
+        height: 130px;
+    }
+
+    .ps-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .ps-row__label {
+        width: 100%;
+    }
+
+    .ps-edit-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ps-edit-row__label {
+        width: 100%;
+    }
+
+    .ps-input {
+        width: 100%;
+    }
+
+    .ps-gender-wrap {
+        width: 100%;
+    }
+
+    .ps-actions {
+        flex-direction: column;
+    }
+
+    .ps-btn {
+        width: 100%;
+        text-align: center;
+    }
 }

@@ -248,7 +248,7 @@
   width:100%;
   margin-top:10px;
   border:none;
-  background:linear-gradient(135deg,var(--green),var(--green-dark));
+ background: linear-gradient(90deg, #21543C 0%, #49BA85 100%);
   color:#fff;
   padding:15px;
   border-radius:16px;
@@ -265,6 +265,7 @@
 .btn-next-keranjang:hover{
   transform:translateY(-1px);
   opacity:.95;
+   background: linear-gradient(90deg, #1b4632 0%, #3fa874 100%);
 }
 
 .btn-next-keranjang:active {

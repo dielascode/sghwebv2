@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ .'/../../config/connection.php';
-require_once __DIR__ .'/../../logic/costumer/pesananApi.php';
+require_once __DIR__ . '/../../config/connection.php';
+require_once __DIR__ . '/../../logic/costumer/pesananApi.php';
 
 $db = new Database();
 $conn = $db->getConnection();
@@ -28,7 +28,7 @@ foreach ($data as $item) {
 <!-- ================= UI ================= -->
 <div class="container-pesanan d-flex">
 
-    <?php include __DIR__ ."/../elemen/sidebar_pesanan.php"; ?>
+    <?php include __DIR__ . "/../elemen/sidebar_pesanan.php"; ?>
 
     <div class="konten flex-grow-1 p-3">
 

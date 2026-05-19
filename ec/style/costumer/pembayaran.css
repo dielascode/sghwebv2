@@ -370,7 +370,7 @@
   .confirm-btn {
     width: 100%;
     padding: 13px;
-    background: var(--green-dark);
+    background: linear-gradient(90deg, #21543C 0%, #49BA85 100%);
     color: #fff;
     border: none;
     border-radius: var(--radius-sm);
@@ -383,7 +383,7 @@
   }
 
   .confirm-btn:hover:not(:disabled) {
-    background: var(--green-mid);
+     background: linear-gradient(90deg, #1b4632 0%, #3fa874 100%);
   }
 
   .confirm-btn:active:not(:disabled) {
@@ -391,7 +391,7 @@
   }
 
   .confirm-btn:disabled {
-    background: #a5c9a0;
+    background: linear-gradient(90deg, #1b4632 0%, #3fa874 100%);
     cursor: not-allowed;
   }
 
