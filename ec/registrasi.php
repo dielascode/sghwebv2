@@ -11,9 +11,11 @@ if (isset($_POST['register'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<link rel="stylesheet" href="style/costumer/loginRegist.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/costumer/loginRegist.css">
 </head>
 <body>
 	<div class="container right-panel-active" id="container">

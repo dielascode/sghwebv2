@@ -13,9 +13,11 @@ unset($_SESSION['success']);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/costumer/loginRegist.css">
     <title>Reset Password Berhasil</title>
     <style>
@@ -82,6 +84,26 @@ unset($_SESSION['success']);
             color: #999;
             font-size: 14px;
             margin-top: 20px;
+        }
+
+        @media (max-width: 660px) {
+            .success-card {
+                width: min(100%, 90vw);
+                padding: 32px 20px;
+            }
+
+            .success-card h1 {
+                font-size: 26px;
+            }
+
+            .success-card p {
+                font-size: 15px;
+            }
+
+            .success-btn {
+                width: 100%;
+                padding: 14px 18px;
+            }
         }
     </style>
 </head>

@@ -261,3 +261,69 @@ footer a {
     color: #3c97bf;
     text-decoration: none;
 }
+
+@media (max-width: 900px) {
+    body {
+        min-height: 100%;
+        overflow-x: hidden;
+        padding: 24px 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        min-height: auto;
+        height: auto;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .form-container,
+    .sign-in-container,
+    .sign-up-container,
+    .overlay-container,
+    .overlay {
+        position: relative;
+        width: 100%;
+        height: auto;
+        top: 0;
+        left: 0;
+        transform: none;
+    }
+
+    .sign-in-container,
+    .sign-up-container {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    .container.right-panel-active .sign-in-container,
+    .container.right-panel-active .sign-up-container {
+        transform: none;
+    }
+
+    .overlay-container {
+        display: none;
+    }
+
+    form {
+        padding: 30px 24px;
+    }
+
+    input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    button,
+    .ghost {
+        width: 100%;
+        padding: 14px 18px;
+    }
+
+    .forget-password {
+        width: 100%;
+        text-align: left;
+        margin-top: 10px;
+    }
+}

@@ -109,3 +109,40 @@ p {
     color: red;
     font-weight: bold;
 }
+
+@media (max-width: 660px) {
+    body {
+        padding: 24px;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: min(100%, 92vw);
+        padding: 24px;
+    }
+
+    .container img {
+        width: 180px;
+    }
+
+    .email {
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+
+    .otp-input {
+        gap: 8px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+
+    .otp-input input {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
