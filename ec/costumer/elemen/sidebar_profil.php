@@ -1,19 +1,16 @@
- <?php
-
+<?php
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 if (session_status() == PHP_SESSION_NONE) {
-    session_name('sghwebv2_session');
-    session_start();
+session_name('sghwebv2_session');
+session_start();
 }
 
 require_once __DIR__ . '/../../config/connection.php';
 
 $db = new Database();
 $conn = $db->getConnection();
-
-echo "CONNECTION JALAN <br>";
 
 if (!isset($_SESSION['id'])) {
     exit("User tidak login atau session id tidak tersedia");
