@@ -53,7 +53,7 @@ if (reviews.length > 0) {
 
     const fotoHtml = r.file
         ? `<img src="/sghwebv2/asset/image/review/${r.file}" 
-               style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid #e0e0e0;">`
+            style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid #e0e0e0;">`
         : '';
 
     grid.innerHTML += `
