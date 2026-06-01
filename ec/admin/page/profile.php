@@ -105,16 +105,16 @@ $user = $_SESSION['user'];
 
         const formData = new FormData(this);
 
-        fetch('/sghwebv2/ec/admin/crud/profileController.php?action=update', {
+        fetch('crud/profileController.php?action=update', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text()) // ⬅️ ganti
+            .then(response => response.text()) 
             .then(text => {
-                console.log("RESPON ASLI:", text); // 🔥 LIHAT INI DI CONSOLE
+                console.log("RESPON ASLI:", text); 
 
                 try {
-                    const data = JSON.parse(text); // ⬅️ parse manual
+                    const data = JSON.parse(text); 
 
                     if (data.status) {
                         alert("Berhasil update!");

@@ -177,9 +177,10 @@ if (!$result) {
     </div>
 </div>
 <script>
+    const BASE = window.location.origin;
 async function openDetail(id) {
     try {
-        const res = await fetch(`/sghwebv2/ec/admin/crud/costumerController.php?action=detail&id=${id}`);
+        const res = await fetch(`crud/costumerController.php?action=detail&id=${id}`);
         const data = await res.json();
 
         document.getElementById('d_nama').innerText = data.nama;
@@ -204,7 +205,7 @@ async function nonaktifkanCustomer(id) {
     if (!konfirmasi) return;
 
     try {
-        const res = await fetch(`/sghwebv2/ec/admin/crud/costumerController.php?action=nonaktifkan`, {
+        const res = await fetch(`crud/costumerController.php?action=nonaktifkan`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

@@ -187,7 +187,7 @@ if (!$result) {
 
         const formData = new FormData(this);
 
-        fetch('../../../../sghwebv2/ec/admin/crud/varietasController.php?action=tambah', {
+        fetch('crud/varietasController.php?action=tambah', {
                 method: 'POST',
                 body: formData
             })
@@ -217,7 +217,7 @@ if (!$result) {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('../../../../sghwebv2/ec/admin/crud/varietasController.php?action=update', {
+            const response = await fetch('crud/varietasController.php?action=update', {
                 method: 'POST',
                 body: formData
             });
@@ -248,7 +248,7 @@ if (!$result) {
             const formData = new FormData();
             formData.append('id', id);
 
-            const response = await fetch('../../../../sghwebv2/ec/admin/crud/varietasController.php?action=delete', {
+            const response = await fetch('crud/varietasController.php?action=delete', {
                 method: 'POST',
                 body: formData
             });

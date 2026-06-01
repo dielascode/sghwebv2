@@ -327,9 +327,9 @@ if (!$result) {
     async function deleteProduk(id) { //delete
         if (!confirm("Yakin mau hapus produk ini?")) return;
 
-        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+        const baseUrl = window.location.origin + 'crud/produkController.php';
 
-        let res = await fetch(`${baseUrl}?action=delete&id=${id}`); //aksinya
+        let res = await fetch(`crud/produkController.php?action=delete&id=${id}`); //aksinya
         let result = await res.json();
 
         if (result.status) {
@@ -343,7 +343,7 @@ if (!$result) {
     async function openEdit(id) {
         editId = id;
 
-        const res = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`); // ngambil detail dulu
+        const res = await fetch(`crud/produkController.php?action=get_detail&id=${id}`); // ngambil detail dulu
         const data = await res.json();
 
         document.getElementById('nama_produk').value = data.nama_produk;
@@ -541,9 +541,9 @@ if (!$result) {
 
         let action = editId ? 'update' : 'tambah'; //nentuin aksinya
 
-        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/produkController.php';
+        const baseUrl = window.location.origin + 'crud/produkController.php';
 
-        let res = await fetch(`${baseUrl}?action=${action}`, { //sesuai aksi nya
+        let res = await fetch(`crud/produkController.php?action=${action}`, { //sesuai aksi nya
             method: 'POST',
             body: data
         });
@@ -566,7 +566,7 @@ if (!$result) {
 <script>
     async function openDetail(id) {
         try {
-            const response = await fetch(`/sghwebv2/ec/admin/crud/produkController.php?action=get_detail&id=${id}`);
+            const response = await fetch(`crud/produkController.php?action=get_detail&id=${id}`);
             const data = await response.json();
 
             document.getElementById('detailNama').innerText = data.nama_produk;

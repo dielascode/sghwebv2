@@ -144,7 +144,7 @@
     document.addEventListener("DOMContentLoaded", async function() { //document objek model untuk meload js pas udh jalan
 
         try {
-            const res = await fetch('/sghwebv2/ec/admin/crud/dashboardController.php'); //mengambil data dari api menggunakan controller
+            const res = await fetch('crud/dashboardController.php'); //mengambil data dari api menggunakan controller
             const data = await res.json(); //mengubah jadi json
 
             console.log("DATA:", data);

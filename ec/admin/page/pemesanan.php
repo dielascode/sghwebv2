@@ -487,9 +487,9 @@ if (!$result) {
 <script>
     async function viewOrder(nomor_pesanan) {
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+            const baseUrl = window.location.origin + 'crud/pesananController.php';
 
-            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`);
+            let res = await fetch(`crud/pesananController.php?action=get_detail&nomor_pesanan=${nomor_pesanan}`);
             let data = await res.json();
 
             document.getElementById('nomor_pesanan').innerText = data.nomor_pesanan;
@@ -545,9 +545,9 @@ if (!$result) {
 <script>
     async function printInvoice(nomor_pesanan) {
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+            const baseUrl = window.location.origin + 'crud/pesananController.php';
 
-            let res = await fetch(`${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`); //ngambil data dulu
+            let res = await fetch(`crud/pesananController.php?action=get_detail&nomor_pesanan=${nomor_pesanan}`); //ngambil data dulu
             let data = await res.json();
 
             let alamatText = '-';
@@ -720,9 +720,9 @@ if (!$result) {
         let status = document.getElementById('new_status').value;
 
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+            const baseUrl = window.location.origin + 'crud/pesananController.php';
 
-            let response = await fetch(`${baseUrl}?action=update_status`, {
+            let response = await fetch(`crud/pesananController.php?action=update_status`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -752,9 +752,9 @@ if (!$result) {
         if (!confirm(confirmText)) return;
 
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+            const baseUrl = window.location.origin + 'crud/pesananController.php';
 
-            let res = await fetch(`${baseUrl}?action=cancel_status&nomor_pesanan=${nomor_pesanan}`);
+            let res = await fetch(`crud/pesananController.php?action=cancel_status&nomor_pesanan=${nomor_pesanan}`);
 
             let result = await res.json();
 
@@ -775,9 +775,9 @@ if (!$result) {
     //ngeeksport ke orderan
     async function exportOrders() {
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+            const baseUrl = window.location.origin + 'crud/pesananController.php';
 
-            let res = await fetch(`${baseUrl}?action=get_all_detail`); //ngambil data bari bakend
+            let res = await fetch(`crud/pesananController.php?action=get_all_detail`); //ngambil data bari bakend
             let orders = await res.json();
 
             let html = `

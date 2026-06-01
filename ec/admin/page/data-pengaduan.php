@@ -150,7 +150,7 @@ if (!$result) {
 <script>
     async function openDetail(id) {
         try {
-            const response = await fetch(`/sghwebv2/ec/admin/crud/pengaduanController.php?action=get_detail&id=${id}`);
+            const response = await fetch(`crud/pengaduanController.php?action=get_detail&id=${id}`);
             const data = await response.json();
 
             document.getElementById('detailSubjek').innerText = data.subjek;
@@ -176,9 +176,9 @@ if (!$result) {
         if (!konfirmasi) return;
 
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pengaduanController.php';
+            const baseUrl = window.location.origin + 'crud/pengaduanController.php';
 
-            let res = await fetch(`${baseUrl}?action=update_status`, {
+            let res = await fetch(`crud/pengaduanController.php?action=update_status`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

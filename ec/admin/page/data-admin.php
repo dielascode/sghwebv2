@@ -220,9 +220,9 @@ if (!$result) {
         if (!confirm(confirmText)) return;
 
         try {
-            const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/adminController.php'; //ke controller
+            const baseUrl = window.location.origin + 'crud/adminController.php'; //ke controller
 
-            let res = await fetch(`${baseUrl}?action=toggle_status&id=${id}&status=${currentStatus}`); //ke action di controller
+            let res = await fetch(`crud/adminController.php?action=toggle_status&id=${id}&status=${currentStatus}`); //ke action di controller
 
             let result = await res.json();
 
@@ -245,7 +245,7 @@ if (!$result) {
 
         const formData = new FormData(this); //ngambil yang diinputkan
 
-        fetch('../../../../sghwebv2/ec/admin/crud/adminController.php?action=tambah', { //request server ke controller
+        fetch('crud/adminController.php?action=tambah', { //request server ke controller
                 method: 'POST',
                 body: formData
             })
@@ -276,7 +276,7 @@ if (!$result) {
 
             const formData = new FormData(this);
 
-            fetch('../../../../sghwebv2/ec/admin/crud/adminController.php?action=update', {
+            fetch('crud/adminController.php?action=update', {
                     method: 'POST',
                     body: formData
                 })
