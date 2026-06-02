@@ -29,21 +29,21 @@ if (!isset($_SESSION['id'])) {
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <?php $b = __DIR__ . '/style/costumer/'; ?>
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/katalog.css?v=<?= filemtime($b.'katalog.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/sidebar.css?v=<?= filemtime($b.'sidebar.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pesanan.css?v=<?= filemtime($b.'pesanan.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pembayaran.css?v=<?= filemtime($b.'pembayaran.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pemesanan.css?v=<?= filemtime($b.'pemesanan.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/ubahpassword.css?v=<?= filemtime($b.'ubahpassword.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/alamatcustomer.css?v=<?= filemtime($b.'alamatcustomer.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/keranjangStyles.css?v=<?= filemtime($b.'keranjangStyles.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/profil.css?v=<?= filemtime($b.'profil.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/sidebarprofil.css?v=<?= filemtime($b.'sidebarprofil.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/popupproduk.css?v=<?= filemtime($b.'popupproduk.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/detailorder.css?v=<?= filemtime($b.'detailorder.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/pengaduanStyles.css?v=<?= filemtime($b.'pengaduanStyles.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/dummysukses.css?v=<?= filemtime($b.'dummysukses.css') ?>">
-    <link rel="stylesheet" href="/sghwebv2/ec/style/costumer/footer.css?v=<?= filemtime($b.'footer.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/katalog.css?v=<?= filemtime($b.'katalog.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/sidebar.css?v=<?= filemtime($b.'sidebar.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/pesanan.css?v=<?= filemtime($b.'pesanan.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/pembayaran.css?v=<?= filemtime($b.'pembayaran.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/pemesanan.css?v=<?= filemtime($b.'pemesanan.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/ubahpassword.css?v=<?= filemtime($b.'ubahpassword.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/alamatcustomer.css?v=<?= filemtime($b.'alamatcustomer.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/keranjangStyles.css?v=<?= filemtime($b.'keranjangStyles.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/profil.css?v=<?= filemtime($b.'profil.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/sidebarprofil.css?v=<?= filemtime($b.'sidebarprofil.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/popupproduk.css?v=<?= filemtime($b.'popupproduk.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/detailorder.css?v=<?= filemtime($b.'detailorder.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/pengaduanStyles.css?v=<?= filemtime($b.'pengaduanStyles.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/dummysukses.css?v=<?= filemtime($b.'dummysukses.css') ?>">
+    <link rel="stylesheet" href="./style/costumer/footer.css?v=<?= filemtime($b.'footer.css') ?>">
 </head>
 <body class="m-0">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -87,10 +87,10 @@ if (!isset($_SESSION['id'])) {
     <?php 
         include "costumer/elemen/footer.php"
     ?>
-    <script src="/sghwebv2/ec/js/loadnavbar.js"></script>
-    <script src="/sghwebv2/ec/js/keranjang.js"></script>
-    <script src="/sghwebv2/ec/js/katalog.js"></script>
-    <script src="/sghwebv2/ec/js/profile.js"></script>
-    <script src="/sghwebv2/ec/js/pesanan-nilai-invoice.js"></script>
+    <script src="./js/loadnavbar.js"></script>
+    <script src="./js/keranjang.js"></script>
+    <script src="./js/katalog.js"></script>
+    <script src="./js/profile.js"></script>
+    <script src="./js/pesanan-nilai-invoice.js"></script>
 </body>
 </html>

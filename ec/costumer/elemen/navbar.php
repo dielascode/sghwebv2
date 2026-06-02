@@ -41,21 +41,21 @@ if ($id_costumer) {
 
       <!-- LOGO -->
       <div>
-        <img src="/sghwebv2/ec/images/logosghputih.png" class="h-14 w-auto object-contain">
+        <img src="images/logosghputih.png" class="h-14 w-auto object-contain">
       </div>
 
       <!-- NAV DESKTOP -->
       <nav class="hidden absolute left-1/2 -translate-x-1/2 md:flex items-center h-16">
         <ul class="flex items-center gap-3 text-sm h-full">
           <li>
-            <a class="nav-link" href="/sghwebv2/index.php">Beranda</a>
+            <a class="nav-link" href="./../index.php">Beranda</a>
           </li>
           <li>
-            <a class="nav-link" href="/sghwebv2/ec/index.php?page=katalog" onclick="loadPage('costumer/page/katalog.php')">Produk</a>
+            <a class="nav-link" href="index.php?page=katalog" onclick="loadPage('costumer/page/katalog.php')">Produk</a>
           </li>
           <li>
             <a class="cart-nav-icon flex items-center gap-2 no-underline text-[#C8D8A8] opacity-70 hover:opacity-100 transition-opacity duration-200"
-              href="/sghwebv2/ec/index.php?page=keranjang" onclick="loadPage('costumer/page/keranjang.php')">
+              href="index.php?page=keranjang" onclick="loadPage('costumer/page/keranjang.php')">
               <div class="cart-icon-wrapper">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -78,7 +78,7 @@ if ($id_costumer) {
           <button id="profileBtn" class="flex items-center justify-start w-52 px-3 py-2 rounded-lg">
             <div class="flex items-center gap-3">
               <div class="rounded-full overflow-hidden w-8 h-8 bg-gray-200">
-                <img src="/sghwebv2/asset/image/profile/<?= $user['foto_profil'] ?? 'Anonim.jpg' ?>" class="w-full h-full object-cover">
+                <img src="../asset/image/profile/<?= $user['foto_profil'] ?? 'Anonim.jpg' ?>" class="w-full h-full object-cover">
               </div>
               <span class="text-[#C8D8A8] font-medium text-base">
                 <?= $user['username'] ?? 'User'; ?>
@@ -92,7 +92,7 @@ if ($id_costumer) {
           <!-- DROPDOWN DESKTOP -->
           <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-md">
             <div class="py-2 text-black">
-              <a href="/sghwebv2/ec/index.php?page=profile" onclick="loadPage('/sghwebv2/ec/costumer/page/profile.php')"
+              <a href="index.php?page=profile" onclick="loadPage('costumer/page/profile.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline text-black">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="8" r="4" stroke-width="1.8" />
@@ -100,7 +100,7 @@ if ($id_costumer) {
                 </svg>
                 Profil
               </a>
-              <a href="/sghwebv2/ec/index.php?page=pesanan" onclick="loadPage('/sghwebv2/ec/costumer/page/pesanan.php')"
+              <a href="index.php?page=pesanan" onclick="loadPage('costumer/page/pesanan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline text-black">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round"
@@ -110,7 +110,7 @@ if ($id_costumer) {
                 </svg>
                 Pesanan
               </a>
-              <a href="/sghwebv2/ec/index.php?page=pengaduan" onclick="loadPage('/sghwebv2/ec/costumer/page/pengaduan.php')"
+              <a href="index.php?page=pengaduan" onclick="loadPage('costumer/page/pengaduan.php')"
                 class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100 no-underline text-black">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round"
@@ -118,7 +118,7 @@ if ($id_costumer) {
                 </svg>
                 Pengaduan
               </a>
-              <a href="../../sghwebv2/ec/logoutCostumer.php"
+              <a href="logoutCostumer.php"
                 class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 no-underline">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-width="1.8" stroke-linecap="round" d="M17 16l4-4m0 0l-4-4m4 4H7" />
@@ -132,7 +132,7 @@ if ($id_costumer) {
 
         <!-- CART MOBILE (tampil di mobile saja) -->
         <a class="md:hidden relative text-[#C8D8A8] opacity-80"
-          href="/sghwebv2/ec/index.php?page=keranjang" onclick="loadPage('costumer/page/keranjang.php')">
+          href="index.php?page=keranjang" onclick="loadPage('costumer/page/keranjang.php')">
           <div class="cart-icon-wrapper">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -162,7 +162,7 @@ if ($id_costumer) {
       <!-- Info user -->
       <div class="mobile-user-info">
         <div class="rounded-full overflow-hidden w-10 h-10 bg-gray-200 flex-shrink-0">
-          <img src="/sghwebv2/asset/image/profile/<?= $user['foto_profil'] ?? 'Anonim.jpg' ?>" class="w-full h-full object-cover">
+          <img src="../asset/image/profile/<?= $user['foto_profil'] ?? 'Anonim.jpg' ?>" class="w-full h-full object-cover">
         </div>
         <div>
           <p class="text-[#C8D8A8] font-semibold text-sm"><?= $user['username'] ?? 'User' ?></p>
@@ -174,26 +174,26 @@ if ($id_costumer) {
 
       <!-- Nav links -->
       <nav class="mobile-nav">
-        <a href="../../sghwebv2/ec/logoutCostumer.php" class="mobile-nav-link">
+        <a href="./../index.php" class="mobile-nav-link">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-width="1.8" stroke-linecap="round" d="M3 12h18M3 6h18M3 18h18"/>
           </svg>
           Beranda
         </a>
-        <a href="/sghwebv2/ec/index.php?page=katalog" onclick="loadPage('costumer/page/katalog.php'); closeMobileMenu()" class="mobile-nav-link">
+        <a href="index.php?page=katalog" onclick="loadPage('costumer/page/katalog.php'); closeMobileMenu()" class="mobile-nav-link">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-width="1.8" stroke-linecap="round" d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1zM16 3H8l-1 4h10l-1-4z"/>
           </svg>
           Produk
         </a>
-        <a href="/sghwebv2/ec/index.php?page=profile" onclick="loadPage('/sghwebv2/ec/costumer/page/profile.php'); closeMobileMenu()" class="mobile-nav-link">
+        <a href="index.php?page=profile" onclick="loadPage('costumer/page/profile.php'); closeMobileMenu()" class="mobile-nav-link">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <circle cx="12" cy="8" r="4" stroke-width="1.8"/>
             <path stroke-width="1.8" stroke-linecap="round" d="M4 20c0-3.314 3.582-6 8-6s8 2.686 8 6"/>
           </svg>
           Profil
         </a>
-        <a href="/sghwebv2/ec/index.php?page=pesanan" onclick="loadPage('/sghwebv2/ec/costumer/page/pesanan.php'); closeMobileMenu()" class="mobile-nav-link">
+        <a href="index.php?page=pesanan" onclick="loadPage('costumer/page/pesanan.php'); closeMobileMenu()" class="mobile-nav-link">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-width="1.8" stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
             <rect x="9" y="3" width="6" height="4" rx="1" stroke-width="1.8"/>
@@ -201,7 +201,7 @@ if ($id_costumer) {
           </svg>
           Pesanan
         </a>
-        <a href="/sghwebv2/ec/index.php?page=pengaduan" onclick="loadPage('/sghwebv2/ec/costumer/page/pengaduan.php'); closeMobileMenu()" class="mobile-nav-link">
+        <a href="index.php?page=pengaduan" onclick="loadPage('costumer/page/pengaduan.php'); closeMobileMenu()" class="mobile-nav-link">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-width="1.8" stroke-linecap="round"
               d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
@@ -213,7 +213,7 @@ if ($id_costumer) {
       <div class="mobile-menu-divider"></div>
 
       <!-- Logout -->
-      <a href="../../sghwebv2/ec/logoutCostumer.php" class="mobile-logout">
+      <a href="../logoutCostumer.php" class="mobile-logout">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-width="1.8" stroke-linecap="round" d="M17 16l4-4m0 0l-4-4m4 4H7"/>
           <path stroke-width="1.8" stroke-linecap="round" d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
