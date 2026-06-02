@@ -44,7 +44,7 @@ $total_bayar = $_SESSION['total_bayar'] ?? 0;
                     <div class="qr-col">
                         <div class="qr-frame">
                             <!-- Ganti src dengan path gambar QRIS asli Anda -->
-                            <img src="/sghwebv2/ec/images/qr.jpg" alt="QR Code">
+                            <img src="images/qr.jpg" alt="QR Code">
                         </div>
                         <span class="qr-label">SCAN QR CODE</span>
                     </div>
@@ -181,7 +181,7 @@ $total_bayar = $_SESSION['total_bayar'] ?? 0;
         formData.append('action', 'konfirmasi');
         formData.append('bukti_bayar', file);
 
-        fetch('/sghwebv2/ec/costumer/controller/pesananController.php', {
+        fetch('costumer/controller/pesananController.php', {
             method: 'POST',
             credentials: 'include',
             body: formData
