@@ -52,7 +52,7 @@ if (reviews.length > 0) {
     });
 
     const fotoHtml = r.file
-        ? `<img src="../asset/image/review/${r.file}" 
+        ? `<img src="./../../asset/image/review/${r.file}" 
             style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid #e0e0e0;">`
         : '';
 
@@ -94,7 +94,7 @@ window.addToCart = function () {
         return;
     }
 
-    fetch('costumer/controller/keranjangController.php', {
+    fetch('./../costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -120,7 +120,7 @@ window.buyNow = function () {
         return;
     }
 
-    fetch('costumer/controller/keranjangController.php', {
+    fetch('./../costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -130,7 +130,7 @@ window.buyNow = function () {
     .then(res => {
         if (res.trim() === 'success') {
             window.closeModal();
-            loadPage('costumer/page/pemesanan.php');
+            loadPage('./../costumer/page/pemesanan.php');
         }
     });
 };

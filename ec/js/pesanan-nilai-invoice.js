@@ -151,7 +151,7 @@ function nilaiSubmit() {
 
     }
     console.log(photoInput.files);
-    fetch('logic/costumer/reviewApi.php', {
+    fetch('./../logic/costumer/reviewApi.php', {
         method: 'POST',
         body: formData
     })
@@ -528,7 +528,7 @@ async function selesaikanPesanan(nomor_pesanan) {
     try {
 
         const response = await fetch(
-            `/costumer/controller/pesananSelesaiController.php?action=selesai&nomor_pesanan=${nomor_pesanan}`
+            `./../costumer/controller/pesananSelesaiController.php?action=selesai&nomor_pesanan=${nomor_pesanan}`
         );
 
         const text = await response.text();

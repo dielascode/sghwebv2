@@ -43,7 +43,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <!-- Arahkan ke file logout yang menghapus session -->
-                        <li><a class="dropdown-item text-danger" href="../../../sghwebv2/ec/logoutAdmin.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="./../logoutAdmin.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>

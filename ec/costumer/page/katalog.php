@@ -50,7 +50,7 @@
 <section class="bg-[#FAFDF8]">
   <?php
   require_once __DIR__ . "/../../config/connection.php"; // Menghubungkan ke database
-  require_once __DIR__ . "/../../logic/costumer/produkApi.php";
+  require_once __DIR__ . "/../../logic/costumer/produkAPI.php";
 
   // bikin object database
   $db = new Database();
