@@ -4,15 +4,15 @@
     <div class="carousel-inner">
 
       <div class="carousel-item active">
-        <img src="/sghwebv2/ec/images/banner2.png" class="d-block w-100">
+        <img src="images/banner2.png" class="d-block w-100">
       </div>
 
       <div class="carousel-item">
-        <img src="/sghwebv2/ec/images/banner2.png" class="d-block w-100">
+        <img src="images/banner2.png" class="d-block w-100">
       </div>
 
       <div class="carousel-item">
-        <img src="/sghwebv2/ec/images/banner2.png" class="d-block w-100">
+        <img src="images/banner2.png" class="d-block w-100">
       </div>
 
     </div>
@@ -75,7 +75,7 @@
           $gambar = getGambarProduk($conn, $p['id_produk']);
           ?>
 
-          <img src="/sghwebv2/asset/image/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
+          <img src="../asset/image/produk/<?= $gambar[0] ?>" width="200" alt="Melon"
             class="product1-img">
         </div>
 

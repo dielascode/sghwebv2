@@ -171,7 +171,7 @@ class Produk
                 $this->conn->query("DELETE FROM gambar_produk 
                                 WHERE id_produk='$id' AND gambar='{$img['gambar']}'");
 
-                $path = __DIR__ . "/../../admin/assets/images/produk/" . $img['gambar'];
+                $path = __DIR__ . "/../../../asset/image/produk/" . $img['gambar'];
                 if (file_exists($path)) {
                     unlink($path);
                 }
@@ -186,7 +186,7 @@ class Produk
 
                 $newName = time() . "_" . $name;
 
-                move_uploaded_file($tmp, __DIR__ . "/../../admin/assets/images/produk/" . $newName);
+                move_uploaded_file($tmp, __DIR__ . "/../../../asset/image/produk/" . $newName);
 
                 $this->conn->query("INSERT INTO gambar_produk (id_produk, gambar) 
                                 VALUES ('$id', '$newName')");
