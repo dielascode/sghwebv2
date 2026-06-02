@@ -74,7 +74,7 @@ unset($row);
 
                         <!-- Hapus hanya muncul untuk alamat bukan utama -->
                         <?php if ($alamat['status'] !== 'utama'): ?>
-                        <a href="/sghwebv2/ec/logic/costumer/alamatApi.php?action=hapus&id=<?= $alamat['id'] ?>"
+                        <a href="logic/costumer/alamatApi.php?action=hapus&id=<?= $alamat['id'] ?>"
                            class="hapus"
                            onclick="return confirm('Yakin ingin menghapus alamat ini?')">
                             <i class="fa-solid fa-trash"></i> Hapus
@@ -103,7 +103,7 @@ unset($row);
                         </span>
                     <?php else: ?>
                         <button class="btn-outline"
-                                onclick="window.location.href='/sghwebv2/ec/logic/costumer/alamatApi.php?action=set_utama&id=<?= $alamat['id'] ?>'">
+                                onclick="window.location.href='logic/costumer/alamatApi.php?action=set_utama&id=<?= $alamat['id'] ?>'">
                             Atur Sebagai Utama
                         </button>
                     <?php endif; ?>
@@ -121,7 +121,7 @@ unset($row);
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formAlamat" action="/sghwebv2/ec/logic/costumer/alamatApi.php?action=simpan" method="POST">
+                            <form id="formAlamat" action="logic/costumer/alamatApi.php?action=simpan" method="POST">
 
                                 <!-- Hidden: id untuk mode ubah -->
                                 <input type="hidden" name="id" id="inputId">
