@@ -41,7 +41,7 @@ if (!$data) {
  <aside class="sidebar-profil">
  
     <div class="sidebar-profil__header">
-      <img class="sidebar-profil__avatar" src="/sghwebv2/asset/image/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>" alt="Avatar" />
+      <img class="sidebar-profil__avatar" src="../asset/image/profile/<?= $data['foto_profil'] ?? 'Anonim.jpg' ?>" alt="Avatar" />
       <div class="sidebar-profil__info">
         <p class="sidebar-profil__name"><?= $data['username'] ?></p>
         <p class="sidebar-profil__sub">Jember, East Java</p>
