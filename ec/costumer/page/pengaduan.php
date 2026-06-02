@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../logic/costumer/pesananApi.php';
     <!-- Card -->
     <div class="form-card-pengaduan">
 
-        <form action="/sghwebv2/ec/logic/costumer/pengaduanApi.php" method="POST">
+        <form action="logic/costumer/pengaduanApi.php" method="POST">
 
             <!-- Subjek -->
             <div class="field-group-pengaduan">

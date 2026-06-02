@@ -24,7 +24,7 @@
             </div>
         <?php endif; ?>
 
-        <form action="/sghwebv2/ec/logic/costumer/handleubahPassword.php" method="POST">
+        <form action="logic/costumer/handleubahPassword.php" method="POST">
 
             <div class="form-group-pw">
                 <label>Password Lama</label>

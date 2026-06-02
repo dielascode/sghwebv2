@@ -65,15 +65,15 @@ if (!$data) {
                 <!-- =====================================
                      FORM UPLOAD FOTO
                      ===================================== -->
-                <form action="http://localhost/sghwebv2/ec/logic/costumer/fotoProfileApi.php" method="POST"
+                <form action="logic/costumer/fotoProfileApi.php" method="POST"
                     enctype="multipart/form-data" class="card-profil photo-card" id="uploadFotoForm">
 
                     <div class="photo-container">
 
                         <?php
                         $foto = !empty($data['foto_profil'])
-                            ? "/sghwebv2/asset/image/profile/" . $data['foto_profil']
-                            : "/sghwebv2/asset/image/Anonim.jpg";
+                            ? "../asset/image/profile/" . $data['foto_profil']
+                            : "../asset/image/Anonim.jpg";
                         ?>
 
                         <img src="<?= $foto ?>" alt="Foto Profil">
@@ -102,7 +102,7 @@ if (!$data) {
                 <!-- =====================================
                      FORM EDIT PROFILE
                      ===================================== -->
-                <form action="/sghwebv2/ec/logic/costumer/profileApi.php" method="POST">
+                <form action="logic/costumer/profileApi.php" method="POST">
 
                     <div class="ps-card">
 
