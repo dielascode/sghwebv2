@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../../config/connection.php';
-require_once __DIR__ . '/../../logic/costumer/keranjangApi.php';
+require_once __DIR__ . '/../../logic/costumer/keranjangAPI.php';
 
 class KeranjangController
 {
