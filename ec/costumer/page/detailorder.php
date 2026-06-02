@@ -108,7 +108,7 @@ $total = 0;
 
                                     <div class="product-img-wrap-detailorder">
 
-                                        <img src="/sghwebv2/asset/image/produk/<?= $item['gambar'] ?? 'melon1.jpg' ?>"
+                                        <img src="../asset/image/produk/<?= $item['gambar'] ?? 'melon1.jpg' ?>"
                                             width="70" style="border-radius:7px;">
 
                                     </div>
@@ -347,7 +347,7 @@ $total = 0;
 
                 <div class="proof-img-detailorder">
 
-                    <img src="/sghwebv2/asset/image/bukti_bayar/<?= $header['bukti_bayar'] ?>" alt="Bukti Pembayaran"
+                    <img src="../asset/image/bukti_bayar/<?= $header['bukti_bayar'] ?>" alt="Bukti Pembayaran"
                         class="proof-image-detailorder" />
 
                 </div>
