@@ -60,6 +60,7 @@
 
   // ambil data
   $produk = getProduk($conn);
+  // var_dump($produk);
   ?>
 
 
