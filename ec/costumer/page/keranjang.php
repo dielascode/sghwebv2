@@ -97,7 +97,7 @@ $totalQty = $data['totalItem'];
                                 $img = $gambar[0] ?? 'default.png';
                                 ?>
 
-                                <img src='/sghwebv2/asset/image/produk/<?= $img ?>'>
+                                <img src='../asset/image/produk/<?= $img ?>'>
 
                             </div>
 
