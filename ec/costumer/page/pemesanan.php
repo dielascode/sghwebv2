@@ -87,7 +87,7 @@ $_SESSION['id_alamat'] = $alamatUtama['id'] ?? null;
             $img    = $gambar[0] ?? 'default.png';
           ?>
           <div class="item-card-pemesanan">
-            <img src="/sghwebv2/asset/image/produk/<?= $img ?>" class="item-img-pemesanan" />
+            <img src="../asset/image/produk/<?= $img ?>" class="item-img-pemesanan" />
             <div class="item-body-pemesanan">
               <p class="item-name-pemesanan"><?= htmlspecialchars($item['nama_produk']) ?></p>
               <p class="variety-label"><?= htmlspecialchars($item['nama_varietas']) ?></p>
@@ -146,7 +146,7 @@ $_SESSION['id_alamat'] = $alamatUtama['id'] ?? null;
                 <circle cx="12" cy="10" r="3"/>
               </svg>
               <p>Belum ada alamat utama.</p>
-              <a href="#" onclick="loadPage('/sghwebv2/ec/costumer/page/profile.php')" class="alamat-link-tambah">
+              <a href="#" onclick="loadPage('costumer/page/profile.php')" class="alamat-link-tambah">
                 + Tambah alamat di Profil
               </a>
             </div>
