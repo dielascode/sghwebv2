@@ -496,7 +496,7 @@ if (!$result) {
                     class="img-thumbnail"
                     style="width:80px;height:80px;object-fit:cover;">
                 <button class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                    onclick="removeOldImage(${index})">×</button> //buat ngehapus yg lama
+                    onclick="removeOldImage(${index})">×</button> 
             </div>`;
         });
 
