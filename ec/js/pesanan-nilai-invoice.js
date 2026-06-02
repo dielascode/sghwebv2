@@ -1,7 +1,4 @@
-// nilai-produk.js
-// Taruh di: /sghwebv2/ec/js/nilai-produk.js
-// Load di index.php dengan 1 baris:
-// <script src="/sghwebv2/ec/js/nilai-produk.js"></script>
+
 
 var nilaiRating = 0;
 
@@ -154,7 +151,7 @@ function nilaiSubmit() {
 
     }
     console.log(photoInput.files);
-    fetch('/sghwebv2/ec/logic/costumer/reviewApi.php', {
+    fetch('logic/costumer/reviewApi.php', {
         method: 'POST',
         body: formData
     })
@@ -212,7 +209,7 @@ async function printInvoice(nomor_pesanan) {
 
     try {
 
-        const baseUrl = window.location.origin + '/sghwebv2/ec/admin/crud/pesananController.php';
+        const baseUrl = window.location.origin + '/admin/crud/pesananController.php';
 
         let res = await fetch(
             `${baseUrl}?action=get_detail&nomor_pesanan=${nomor_pesanan}`
@@ -531,7 +528,7 @@ async function selesaikanPesanan(nomor_pesanan) {
     try {
 
         const response = await fetch(
-            `/sghwebv2/ec/costumer/controller/pesananSelesaiController.php?action=selesai&nomor_pesanan=${nomor_pesanan}`
+            `/costumer/controller/pesananSelesaiController.php?action=selesai&nomor_pesanan=${nomor_pesanan}`
         );
 
         const text = await response.text();

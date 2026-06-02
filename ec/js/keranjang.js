@@ -2,7 +2,7 @@
 //  keranjang.js
 // ============================================================
 
-const CART_URL = '/sghwebv2/ec/costumer/controller/keranjangController.php';
+const CART_URL = 'costumer/controller/keranjangController.php';
 
 // ── Helper: fetch POST ke controller ────────────────────────
 function postData(body) {
@@ -18,7 +18,7 @@ function postData(body) {
 function updateQty(id, delta, event) {
     if (event) event.preventDefault();
 
-    fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
+    fetch('costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -129,7 +129,7 @@ window.lanjutPemesanan = function () {
     postData(`action=set_selected&ids=${JSON.stringify(selected)}`).then(res => {
         if (res.trim() === 'success') {
             // Hapus buynow session sebelum ke pemesanan
-            fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
+            fetch('costumer/controller/keranjangController.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

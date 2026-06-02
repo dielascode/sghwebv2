@@ -12,7 +12,7 @@ window.openModal = function (data) {
     document.getElementById("modalDesc").innerText = data.desc;
     document.getElementById("modalPrice").innerText = "Rp " + data.price;
     document.getElementById("modalStock").innerText = data.stock;
-    const basePath = "/sghwebv2/asset/image/produk/";
+    const basePath = "../asset/image/produk/";
     const mainImg = document.getElementById("modalImg");
     if (images.length > 0) {
         mainImg.src = basePath + images[0];
@@ -52,7 +52,7 @@ if (reviews.length > 0) {
     });
 
     const fotoHtml = r.file
-        ? `<img src="/sghwebv2/asset/image/review/${r.file}" 
+        ? `<img src="../asset/image/review/${r.file}" 
             style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid #e0e0e0;">`
         : '';
 
@@ -94,7 +94,7 @@ window.addToCart = function () {
         return;
     }
 
-    fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
+    fetch('costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -120,7 +120,7 @@ window.buyNow = function () {
         return;
     }
 
-    fetch('/sghwebv2/ec/costumer/controller/keranjangController.php', {
+    fetch('costumer/controller/keranjangController.php', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
